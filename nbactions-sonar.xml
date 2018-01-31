@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Sonar</actionName>
+            <displayName>Sonar</displayName>
+            <goals>
+                <goal>install</goal>
+                <goal>verify</goal>
+                <goal>sonar:sonar</goal>
+            </goals>
+            <properties>
+                <sonar.host.url>http://thomatod-devicecontrolvislab.uials.no:9000</sonar.host.url>
+                <sonar.login>638e31f1cdf1e87d33bad4e43ccdbf69172a603c</sonar.login>
+            </properties>
+        </action>
+    </actions>
