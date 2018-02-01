@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.uials.vislab.vislabcontroller;
+package no.ntnu.vislab.vislabcontroller;
 
-import no.uials.vislab.barkoF22.CommunicationProtocol;
+import no.ntnu.vislab.barkoF22.CommunicationProtocol;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
