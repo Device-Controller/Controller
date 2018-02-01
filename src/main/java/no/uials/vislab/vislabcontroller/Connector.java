@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package som.vislabcontroller;
+package no.uials.vislab.vislabcontroller;
 
+import no.uials.vislab.barkoF22.CommunicationProtocol;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,11 +21,37 @@ import java.util.logging.Logger;
  * @author Kristoffer
  */
 public class Connector {
-    private final static String HEADER = ":";
-    private final static String TERMINATOR = "CR";
+    private final String HEADER = ":";
+    private final String TERMINATOR = "CR";
 
-    public static void powerON(String address, int port, int powerSetting){
+    private final String address;
+    private final int port;
+
+    public Connector(String address, int port) {
+        this.address = address;
+        this.port = port;
+    }
+
+    
+    public void powerON(int powerSetting){
         if(powerSetting == 1 || powerSetting == 0){
+            String cmd = HEADER + "POWR" + powerSetting + TERMINATOR;
+            sendCommand(cmd);
+        } else {
+            System.out.println("FEIL SETTING DIN TAPER");
+        }
+        
+    }
+    public void muteImage(int muteSetting){
+        if(muteSetting == 1 || muteSetting == 0){
+            String cmd = HEADER + "PMUT" + muteSetting + TERMINATOR;
+            sendCommand(cmd);
+        } else {
+            System.out.println("FEIL SETTING DIN TAPER");
+        }
+    }
+    
+    public void sendCommand(String command){
         Socket socket;
         try {
             PrintWriter pw = null;
@@ -34,7 +61,7 @@ public class Connector {
                 socket = new Socket(host, port);
                 pw = new PrintWriter(socket.getOutputStream());
                 br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                pw.println(HEADER + "POWR" + powerSetting + TERMINATOR);
+                pw.println(command);
                 pw.flush();
                 System.out.println(br.readLine());
             } catch (IOException ex) {
@@ -50,9 +77,5 @@ public class Connector {
         } catch (UnknownHostException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
-        } else {
-            System.out.println("FEIL SETTING DIN TAPER");
-        }
-        
     }
 }
