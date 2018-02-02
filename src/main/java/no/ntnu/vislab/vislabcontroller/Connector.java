@@ -26,6 +26,9 @@ public class Connector {
 
     private final String address;
     private final int port;
+    
+    private Long timeSinceOn;
+    private Long currentRunTime;
 
     public Connector(String address, int port) {
         this.address = address;
@@ -36,6 +39,7 @@ public class Connector {
     public void powerON(int powerSetting){
         if(powerSetting == 1 || powerSetting == 0){
             String cmd = HEADER + "POWR" + powerSetting + TERMINATOR;
+            timeSinceOn = System.currentTimeMillis();
             sendCommand(cmd);
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
@@ -49,6 +53,13 @@ public class Connector {
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
+    }
+    
+    public void retrieveSettings() {
+        String cmd = HEADER + "LTR1?" + TERMINATOR;
+        currentRunTime = System.currentTimeMillis() - timeSinceOn;
+        System.out.println(currentRunTime);
+        sendCommand(cmd);
     }
     
     public void sendCommand(String command){
