@@ -31,6 +31,13 @@ public class Main {
                     System.out.println("SETTINGS");
                     c.retrieveSettings();
                     break;
+                case "mute":
+                    c.muteImage(1);
+                    System.out.println("MUTED");
+                    break;
+                case "unmute":
+                    c.muteImage(0);
+                    break;
                 case "quit":
                     System.out.println("HADE");
                     return;
