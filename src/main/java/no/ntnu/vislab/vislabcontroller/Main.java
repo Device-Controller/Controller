@@ -18,18 +18,24 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()) {
             String input = sc.nextLine();
-            if (input.equals("poweron")) {
-                c.powerON(1);
-                System.out.println("PÅ");
-            } else if (input.equals("poweroff")) {
-                c.powerON(0);
-                System.out.println("AV");
-            } else if (input.equals("settings")) {
-                System.out.println("SETTINGS");
-                c.retrieveSettings();
-            } else if (input.equals("quit")) {
-                System.out.println("HADE");
-                return;
+            switch (input) {
+                case "poweron":
+                    c.powerON(1);
+                    System.out.println("PÅ");
+                    break;
+                case "poweroff":
+                    c.powerON(0);
+                    System.out.println("AV");
+                    break;
+                case "settings":
+                    System.out.println("SETTINGS");
+                    c.retrieveSettings();
+                    break;
+                case "quit":
+                    System.out.println("HADE");
+                    return;
+                default:
+                    break;
             }
             sc = new Scanner(System.in);
         }
