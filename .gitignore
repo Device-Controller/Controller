@@ -2,3 +2,5 @@
 /build/
 /dist/
 nbactions-sonar.xml
+/target/
+nbactions.xml

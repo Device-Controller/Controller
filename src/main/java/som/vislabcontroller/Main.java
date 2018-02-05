@@ -12,5 +12,8 @@ package som.vislabcontroller;
 public class Main {
     public static void main(String[] args) {
         System.out.println("hello");
+        while(true) {
+            System.out.println("Thomas e kul");
+        }
     }
 }
