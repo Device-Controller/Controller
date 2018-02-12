@@ -24,7 +24,7 @@ public class Connector {
     private Long timeSinceOn;
     private Long currentRunTime;
 
-    public Connector(String address, int port) {
+    public Connector(String address, int port){
         this.address = address;
         this.port = port;
     }
@@ -32,9 +32,8 @@ public class Connector {
     
     public void powerON(int powerSetting){
         if(powerSetting == 1 || powerSetting == 0){
-            String cmd = CP.getPOWER(powerSetting);
             timeSinceOn = System.currentTimeMillis();
-            sendCommand(cmd);
+            sendCommand(CP.getPOWER(powerSetting));
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
@@ -42,25 +41,22 @@ public class Connector {
     }
     public void muteImage(int muteSetting){
         if(muteSetting == 1 || muteSetting == 0){
-            String cmd = CP.getMUTE(muteSetting);
-            sendCommand(cmd);
+            sendCommand(CP.getMUTE(muteSetting));
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
     }
     
     public void retrieveSettings() {
-        String cmd = CP.getLAMP_RUNTIME(1);
         currentRunTime = System.currentTimeMillis() - timeSinceOn;
         System.out.println(currentRunTime);
-        sendCommand(cmd);
+        sendCommand(CP.getLAMP_RUNTIME(1));
     }
     
     public void lampTime(int lampNumber)
     {
         if(lampNumber == 1 || lampNumber == 2){
-            String cmd = CP.getLAMP_RUNTIME(lampNumber);
-            sendCommand(cmd);
+            sendCommand(CP.getLAMP_RUNTIME(lampNumber));
         } else {
             System.out.println("WRONG!");
         }

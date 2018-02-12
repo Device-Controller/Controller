@@ -1,6 +1,8 @@
 package no.ntnu.vislab.barkoF22;
 
 /**
+ * This class contains all of the commands that the application uses to
+ * communicate with the projectors.
  *
  * @author Thomas
  */
