@@ -22,62 +22,62 @@ public class CommunicationProtocol {
     private static final String UNIT_TOT_TIME = "UTOT?";
     private static final String THERMAL =  "THRM?";
 
-    public static String getPOWER(int pwrState)
+    public static String getPower(int pwrState)
     {
         return HEADER + POWER + pwrState + TERMINATOR;
     }
 
-    public static String getPOWER_STATE()
+    public static String getPowerState()
     {
         return HEADER + POWER_STATE + TERMINATOR;
     }
 
-    public static String getMUTE(int muteState)
+    public static String getMute(int muteState)
     {
         return HEADER + MUTE + muteState + TERMINATOR;
     }
 
-    public static String getBRIGHTNESS_GET()
+    public static String getBrightnessGet()
     {
         return HEADER + BRIGHTNESS_GET + TERMINATOR;
     }
 
-    public static String getBRIGHTNESS_SET(int brightnessVal)
+    public static String getBrightnessSet(int brightnessVal)
     {
         return HEADER + BRIGHTNESS_SET + brightnessVal + TERMINATOR;
     }
 
-    public static String getCONTRAST_GET()
+    public static String getContrastGet()
     {
         return HEADER + CONTRAST_GET + TERMINATOR;
     }
 
-    public static String getCONTRAST_SET(int contrastVal)
+    public static String getContrastSet(int contrastVal)
     {
         return HEADER + CONTRAST_SET + contrastVal + TERMINATOR;
     }
 
-    public static String getLAMP_RUNTIME(int lampNo)
+    public static String getLampRuntime(int lampNo)
     {
         return HEADER + LAMP_RUNTIME + lampNo + "?" + TERMINATOR;
     }
 
-    public static String getLAMP_EST_TIME_REMAINING(int lampNo)
+    public static String getLampEstTimeRemaining(int lampNo)
     {
         return HEADER + LAMP_EST_TIME_REMAINING + lampNo + "?" + TERMINATOR;
     }
 
-    public static String getLAMP_STATUS(int lampNo)
+    public static String getLampStatus(int lampNo)
     {
         return HEADER + LAMP_STATUS + lampNo + "?" + TERMINATOR;
     }
 
-    public static String getUNIT_TOT_TIME()
+    public static String getUnitTotTime()
     {
         return HEADER + UNIT_TOT_TIME + TERMINATOR;
     }
 
-    public static String getTHERMAL()
+    public static String getThermal()
     {
         return HEADER + THERMAL + TERMINATOR;
     }

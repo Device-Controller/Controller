@@ -33,7 +33,7 @@ public class Connector {
     public void powerON(int powerSetting){
         if(powerSetting == 1 || powerSetting == 0){
             timeSinceOn = System.currentTimeMillis();
-            sendCommand(CP.getPOWER(powerSetting));
+            sendCommand(CP.getPower(powerSetting));
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
@@ -42,12 +42,12 @@ public class Connector {
     
     public void powerState()
     {
-        sendCommand(CP.getPOWER_STATE());
+        sendCommand(CP.getPowerState());
     }
     
     public void muteImage(int muteSetting){
         if(muteSetting == 1 || muteSetting == 0){
-            sendCommand(CP.getMUTE(muteSetting));
+            sendCommand(CP.getMute(muteSetting));
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
@@ -56,13 +56,13 @@ public class Connector {
     public void retrieveSettings() {
         currentRunTime = System.currentTimeMillis() - timeSinceOn;
         System.out.println(currentRunTime);
-        sendCommand(CP.getLAMP_RUNTIME(1));
+        sendCommand(CP.getLampRuntime(1));
     }
     
     public void lampTime(int lampNumber)
     {
         if(lampNumber == 1 || lampNumber == 2){
-            sendCommand(CP.getLAMP_RUNTIME(lampNumber));
+            sendCommand(CP.getLampRuntime(lampNumber));
         } else {
             System.out.println("WRONG!");
         }
@@ -71,7 +71,7 @@ public class Connector {
     public void lampStatus(int lampNumber)
     {
         if(lampNumber == 1 || lampNumber == 2){
-            sendCommand(CP.getLAMP_STATUS(lampNumber));
+            sendCommand(CP.getLampStatus(lampNumber));
         } else {
             System.out.println("WRONG!");
         }
