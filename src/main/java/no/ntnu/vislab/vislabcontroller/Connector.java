@@ -39,6 +39,12 @@ public class Connector {
         }
         
     }
+    
+    public void powerState()
+    {
+        sendCommand(CP.getPOWER_STATE());
+    }
+    
     public void muteImage(int muteSetting){
         if(muteSetting == 1 || muteSetting == 0){
             sendCommand(CP.getMUTE(muteSetting));
@@ -57,6 +63,15 @@ public class Connector {
     {
         if(lampNumber == 1 || lampNumber == 2){
             sendCommand(CP.getLAMP_RUNTIME(lampNumber));
+        } else {
+            System.out.println("WRONG!");
+        }
+    }
+    
+    public void lampStatus(int lampNumber)
+    {
+        if(lampNumber == 1 || lampNumber == 2){
+            sendCommand(CP.getLAMP_STATUS(lampNumber));
         } else {
             System.out.println("WRONG!");
         }

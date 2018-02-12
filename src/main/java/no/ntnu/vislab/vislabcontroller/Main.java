@@ -22,6 +22,9 @@ public class Main {
                     c.powerON(0);
                     System.out.println("AV");
                     break;
+                case "powerstate":
+                    c.powerState();
+                    break;
                 case "settings":
                     System.out.println("SETTINGS");
                     c.retrieveSettings();
@@ -38,6 +41,12 @@ public class Main {
                     break;
                 case "lamptime2":
                     c.lampTime(2);
+                    break;
+                case "lampstatus1":
+                    c.lampStatus(1);
+                    break;
+                case "lampstatus2":
+                    c.lampStatus(2);
                     break;
                 case "quit":
                     System.out.println("HADE");
