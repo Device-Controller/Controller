@@ -16,8 +16,7 @@ import java.util.logging.Logger;
  * @author Kristoffer
  */
 public class Connector {
-    private static final String HEADER = ":";
-    private static final String TERMINATOR = "CR";
+    private static final CommunicationProtocol CP = new CommunicationProtocol();
 
     private final String address;
     private final int port;
@@ -33,7 +32,7 @@ public class Connector {
     
     public void powerON(int powerSetting){
         if(powerSetting == 1 || powerSetting == 0){
-            String cmd = HEADER + "POWR" + powerSetting + TERMINATOR;
+            String cmd = CP.getPOWER(powerSetting);
             timeSinceOn = System.currentTimeMillis();
             sendCommand(cmd);
         } else {
@@ -43,7 +42,7 @@ public class Connector {
     }
     public void muteImage(int muteSetting){
         if(muteSetting == 1 || muteSetting == 0){
-            String cmd = HEADER + "PMUT" + muteSetting + TERMINATOR;
+            String cmd = CP.getMUTE(muteSetting);
             sendCommand(cmd);
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
@@ -51,7 +50,7 @@ public class Connector {
     }
     
     public void retrieveSettings() {
-        String cmd = HEADER + "LTR1?" + TERMINATOR;
+        String cmd = CP.getLAMP_RUNTIME(1);
         currentRunTime = System.currentTimeMillis() - timeSinceOn;
         System.out.println(currentRunTime);
         sendCommand(cmd);
@@ -60,7 +59,7 @@ public class Connector {
     public void lampTime(int lampNumber)
     {
         if(lampNumber == 1 || lampNumber == 2){
-            String cmd = HEADER + "LST" + Integer.toString(lampNumber) + TERMINATOR;
+            String cmd = CP.getLAMP_RUNTIME(lampNumber);
             sendCommand(cmd);
         } else {
             System.out.println("WRONG!");
