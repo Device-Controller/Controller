@@ -33,6 +33,12 @@ public class Main {
                 case "unmute":
                     c.muteImage(0);
                     break;
+                case "lamptime1":
+                    c.lampTime(1);
+                    break;
+                case "lamptime2":
+                    c.lampTime(2);
+                    break;
                 case "quit":
                     System.out.println("HADE");
                     return;

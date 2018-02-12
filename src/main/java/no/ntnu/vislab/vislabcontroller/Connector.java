@@ -16,8 +16,8 @@ import java.util.logging.Logger;
  * @author Kristoffer
  */
 public class Connector {
-    private final String HEADER = ":";
-    private final String TERMINATOR = "CR";
+    private static final String HEADER = ":";
+    private static final String TERMINATOR = "CR";
 
     private final String address;
     private final int port;
@@ -55,6 +55,16 @@ public class Connector {
         currentRunTime = System.currentTimeMillis() - timeSinceOn;
         System.out.println(currentRunTime);
         sendCommand(cmd);
+    }
+    
+    public void lampTime(int lampNumber)
+    {
+        if(lampNumber == 1 || lampNumber == 2){
+            String cmd = HEADER + "LST" + Integer.toString(lampNumber) + TERMINATOR;
+            sendCommand(cmd);
+        } else {
+            System.out.println("WRONG!");
+        }
     }
     
     public void sendCommand(String command){
