@@ -1,6 +1,5 @@
 package no.ntnu.vislab.vislabcontroller;
 
-import no.ntnu.vislab.barkoF22.CommunicationProtocol;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
