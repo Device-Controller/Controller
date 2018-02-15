@@ -21,65 +21,70 @@ public class CommunicationProtocol {
     private static final String LAMP_STATUS = "LST";
     private static final String UNIT_TOT_TIME = "UTOT?";
     private static final String THERMAL =  "THRM?";
+    
+    private static String assembleCommand(String cmd)
+    {
+        return HEADER + cmd + TERMINATOR;
+    }
 
     public static String getPower(int pwrState)
     {
-        return HEADER + POWER + pwrState + TERMINATOR;
+        return assembleCommand(POWER + pwrState);
     }
 
     public static String getPowerState()
     {
-        return HEADER + POWER_STATE + TERMINATOR;
+        return assembleCommand(POWER_STATE);
     }
 
     public static String getMute(int muteState)
     {
-        return HEADER + MUTE + muteState + TERMINATOR;
+        return assembleCommand(MUTE + muteState);
     }
 
     public static String getBrightnessGet()
     {
-        return HEADER + BRIGHTNESS_GET + TERMINATOR;
+        return assembleCommand(BRIGHTNESS_GET);
     }
 
     public static String getBrightnessSet(int brightnessVal)
     {
-        return HEADER + BRIGHTNESS_SET + brightnessVal + TERMINATOR;
+        return assembleCommand(BRIGHTNESS_SET + brightnessVal);
     }
 
     public static String getContrastGet()
     {
-        return HEADER + CONTRAST_GET + TERMINATOR;
+        return assembleCommand(CONTRAST_GET + TERMINATOR);
     }
 
     public static String getContrastSet(int contrastVal)
     {
-        return HEADER + CONTRAST_SET + contrastVal + TERMINATOR;
+        return assembleCommand(CONTRAST_SET + contrastVal);
     }
 
     public static String getLampRuntime(int lampNo)
     {
-        return HEADER + LAMP_RUNTIME + lampNo + "?" + TERMINATOR;
+        return assembleCommand(LAMP_RUNTIME + lampNo + "?");
     }
 
     public static String getLampEstTimeRemaining(int lampNo)
     {
-        return HEADER + LAMP_EST_TIME_REMAINING + lampNo + "?" + TERMINATOR;
+        return assembleCommand(LAMP_EST_TIME_REMAINING + lampNo + "?");
     }
 
     public static String getLampStatus(int lampNo)
     {
-        return HEADER + LAMP_STATUS + lampNo + "?" + TERMINATOR;
+        return assembleCommand(LAMP_STATUS + lampNo + "?");
     }
 
     public static String getUnitTotTime()
     {
-        return HEADER + UNIT_TOT_TIME + TERMINATOR;
+        return assembleCommand(UNIT_TOT_TIME);
     }
 
     public static String getThermal()
     {
-        return HEADER + THERMAL + TERMINATOR;
+        return assembleCommand(THERMAL);
     }
     
     
