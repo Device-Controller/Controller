@@ -30,7 +30,6 @@ public class CommunicationRunnable implements Runnable {
     private long lastCommandSent = 0;
     private long acknowledgeTime = -1;
     private boolean lastCommandWasPowerOn = false;
-    private boolean readyToSend = false;
     private boolean running = false;
     private Socket socket;
     private Timer timer;
@@ -62,7 +61,7 @@ public class CommunicationRunnable implements Runnable {
 
     private synchronized void commandSent(String command) {
         lastCommandSent = System.currentTimeMillis();
-        lastCommandWasPowerOn = command.isEmpty();
+        lastCommandWasPowerOn = command.isEmpty();      //TODO: Fix command power on check instead of isEmpty();
         commands.remove(command);
         commandsSent++;
         acknowledgeTime = -1;
