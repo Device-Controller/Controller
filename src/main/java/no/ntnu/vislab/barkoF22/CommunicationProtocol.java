@@ -7,8 +7,6 @@ package no.ntnu.vislab.barkoF22;
  * @author Thomas
  */
 public class CommunicationProtocol {
-    private static final String HEADER = ":";
-    private static final String TERMINATOR = "CR";
     private static final String POWER = "POWR";
     private static final String POWER_STATE = "POST?";
     private static final String MUTE = "PMUT";
@@ -21,70 +19,83 @@ public class CommunicationProtocol {
     private static final String LAMP_STATUS = "LST";
     private static final String UNIT_TOT_TIME = "UTOT?";
     private static final String THERMAL =  "THRM?";
-    
-    private static String assembleCommand(String cmd)
-    {
-        return HEADER + cmd + TERMINATOR;
-    }
 
     public static String getPower(int pwrState)
     {
-        return assembleCommand(POWER + pwrState);
+        BarkoF22Command power = new BarkoF22Command(POWER + pwrState);
+        return power.toString();
     }
 
     public static String getPowerState()
     {
-        return assembleCommand(POWER_STATE);
+        BarkoF22Command powerState = new BarkoF22Command(POWER_STATE);
+        return powerState.toString();
     }
 
     public static String getMute(int muteState)
     {
-        return assembleCommand(MUTE + muteState);
+        BarkoF22Command mute = new BarkoF22Command(MUTE + muteState);
+        return mute.toString();
     }
 
     public static String getBrightnessGet()
     {
-        return assembleCommand(BRIGHTNESS_GET);
+        BarkoF22Command brightnessGet = new BarkoF22Command(BRIGHTNESS_GET);
+        return brightnessGet.toString();
     }
 
     public static String getBrightnessSet(int brightnessVal)
     {
-        return assembleCommand(BRIGHTNESS_SET + brightnessVal);
+        BarkoF22Command brightnessSet;
+        brightnessSet = new BarkoF22Command(BRIGHTNESS_SET + brightnessVal);
+        return brightnessSet.toString();
     }
 
     public static String getContrastGet()
     {
-        return assembleCommand(CONTRAST_GET + TERMINATOR);
+        BarkoF22Command contrastGet = new BarkoF22Command(CONTRAST_GET);
+        return contrastGet.toString();
     }
 
     public static String getContrastSet(int contrastVal)
     {
-        return assembleCommand(CONTRAST_SET + contrastVal);
+        BarkoF22Command contrastSet;
+        contrastSet = new BarkoF22Command(CONTRAST_SET + contrastVal);
+        return contrastSet.toString();
     }
 
     public static String getLampRuntime(int lampNo)
     {
-        return assembleCommand(LAMP_RUNTIME + lampNo + "?");
+        BarkoF22Command lampRuntime;
+        lampRuntime = new BarkoF22Command(LAMP_RUNTIME + lampNo + "?");
+        return lampRuntime.toString();
     }
 
     public static String getLampEstTimeRemaining(int lampNo)
     {
-        return assembleCommand(LAMP_EST_TIME_REMAINING + lampNo + "?");
+        BarkoF22Command lampTimeRemaining;
+        lampTimeRemaining = new BarkoF22Command(LAMP_EST_TIME_REMAINING
+                + lampNo + "?");
+        return lampTimeRemaining.toString();
     }
 
     public static String getLampStatus(int lampNo)
     {
-        return assembleCommand(LAMP_STATUS + lampNo + "?");
+        BarkoF22Command lampStatus;
+        lampStatus = new BarkoF22Command(LAMP_STATUS + lampNo + "?");
+        return lampStatus.toString();
     }
 
     public static String getUnitTotTime()
     {
-        return assembleCommand(UNIT_TOT_TIME);
+        BarkoF22Command unitTotTime = new BarkoF22Command(UNIT_TOT_TIME);
+        return unitTotTime.toString();
     }
 
     public static String getThermal()
     {
-        return assembleCommand(THERMAL);
+        BarkoF22Command thermal = new BarkoF22Command(THERMAL);
+        return thermal.toString();
     }
     
     
