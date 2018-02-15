@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import no.ntnu.vislab.barkoF22.BarkoF22Command;
 
 /**
  *
@@ -30,10 +31,12 @@ public class Connector {
     }
 
     
-    public void powerON(int powerSetting){
-        if(powerSetting == 1 || powerSetting == 0){
+    public void power(int powerSetting){
+        if(powerSetting == 1){
             timeSinceOn = System.currentTimeMillis();
-            sendCommand(CP.getPower(powerSetting));
+            sendCommand(BarkoF22Command.powerOn().toString());
+        } else if(powerSetting == 0){
+            sendCommand(BarkoF22Command.powerOff().toString());
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
@@ -42,7 +45,7 @@ public class Connector {
     
     public void powerState()
     {
-        sendCommand(CP.getPowerState());
+        sendCommand(BarkoF22Command.powerState().toString());
     }
     
     public void muteImage(int muteSetting){

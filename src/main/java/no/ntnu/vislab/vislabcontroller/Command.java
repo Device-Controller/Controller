@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.ntnu.vislab.vislabcontroller;
 
 /**
@@ -11,15 +6,35 @@ package no.ntnu.vislab.vislabcontroller;
  */
 public class Command
 {
-    protected final String header;
-    protected final String terminator;
+    private final  String prefix;
+    private final  String suffix;
     
-    protected String command;
+    private String command;
     
     public Command(String header, String terminator)
     {
-        this.header = header;
-        this.terminator = terminator;
+        this.prefix = header;
+        this.suffix = terminator;
+    }
+
+    protected String getPrefix()
+    {
+        return prefix;
+    }
+
+    protected String getSuffix()
+    {
+        return suffix;
+    }
+
+    protected String getCommand()
+    {
+        return command;
+    }
+
+    protected void setCommand(String command)
+    {
+        this.command = command;
     }
     
     @Override

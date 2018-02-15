@@ -15,11 +15,11 @@ public class Main {
             String input = sc.nextLine();
             switch (input) {
                 case "poweron":
-                    c.powerON(1);
+                    c.power(1);
                     System.out.println("PÅ");
                     break;
                 case "poweroff":
-                    c.powerON(0);
+                    c.power(0);
                     System.out.println("AV");
                     break;
                 case "powerstate":
@@ -57,7 +57,7 @@ public class Main {
             sc = new Scanner(System.in);
         }
 
-        //c.powerON(1);
+        //c.power(1);
         //c.retrieveSettings();
     }
 }
