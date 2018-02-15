@@ -1,6 +1,10 @@
 package no.ntnu.vislab.vislabcontroller;
 
+import java.net.UnknownHostException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import no.ntnu.vislab.barkoF22.CommunicationRunnable;
 
 /**
  *
@@ -56,8 +60,5 @@ public class Main {
             }
             sc = new Scanner(System.in);
         }
-
-        //c.power(1);
-        //c.retrieveSettings();
     }
 }
