@@ -1,19 +1,86 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.ntnu.vislab.barkoF22;
 
 /**
+ * This class contains all of the commands that the application uses to
+ * communicate with the projectors.
  *
- * @author Kristoffer
+ * @author Thomas
  */
 public class CommunicationProtocol {
-    private final String HEADER = ":";
-    private final String TERMINATOR = "CR";
-    private final String POWER = "POWR";
-    private final String BRIGHTNESS = "BRIG";
+    private static final String HEADER = ":";
+    private static final String TERMINATOR = "CR";
+    private static final String POWER = "POWR";
+    private static final String POWER_STATE = "POST?";
+    private static final String MUTE = "PMUT";
+    private static final String BRIGHTNESS_GET = "BRIG?";
+    private static final String BRIGHTNESS_SET = "BRIG";
+    private static final String CONTRAST_GET = "CNTR?";
+    private static final String CONTRAST_SET = "CNTR";
+    private static final String LAMP_RUNTIME = "LTR";
+    private static final String LAMP_EST_TIME_REMAINING = "LRM";
+    private static final String LAMP_STATUS = "LST";
+    private static final String UNIT_TOT_TIME = "UTOT?";
+    private static final String THERMAL =  "THRM?";
+
+    public static String getPower(int pwrState)
+    {
+        return HEADER + POWER + pwrState + TERMINATOR;
+    }
+
+    public static String getPowerState()
+    {
+        return HEADER + POWER_STATE + TERMINATOR;
+    }
+
+    public static String getMute(int muteState)
+    {
+        return HEADER + MUTE + muteState + TERMINATOR;
+    }
+
+    public static String getBrightnessGet()
+    {
+        return HEADER + BRIGHTNESS_GET + TERMINATOR;
+    }
+
+    public static String getBrightnessSet(int brightnessVal)
+    {
+        return HEADER + BRIGHTNESS_SET + brightnessVal + TERMINATOR;
+    }
+
+    public static String getContrastGet()
+    {
+        return HEADER + CONTRAST_GET + TERMINATOR;
+    }
+
+    public static String getContrastSet(int contrastVal)
+    {
+        return HEADER + CONTRAST_SET + contrastVal + TERMINATOR;
+    }
+
+    public static String getLampRuntime(int lampNo)
+    {
+        return HEADER + LAMP_RUNTIME + lampNo + "?" + TERMINATOR;
+    }
+
+    public static String getLampEstTimeRemaining(int lampNo)
+    {
+        return HEADER + LAMP_EST_TIME_REMAINING + lampNo + "?" + TERMINATOR;
+    }
+
+    public static String getLampStatus(int lampNo)
+    {
+        return HEADER + LAMP_STATUS + lampNo + "?" + TERMINATOR;
+    }
+
+    public static String getUnitTotTime()
+    {
+        return HEADER + UNIT_TOT_TIME + TERMINATOR;
+    }
+
+    public static String getThermal()
+    {
+        return HEADER + THERMAL + TERMINATOR;
+    }
     
     
 }

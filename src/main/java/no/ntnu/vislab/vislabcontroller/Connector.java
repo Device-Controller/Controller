@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.ntnu.vislab.vislabcontroller;
 
 import no.ntnu.vislab.barkoF22.CommunicationProtocol;
@@ -21,8 +16,7 @@ import java.util.logging.Logger;
  * @author Kristoffer
  */
 public class Connector {
-    private final String HEADER = ":";
-    private final String TERMINATOR = "CR";
+    private static final CommunicationProtocol CP = new CommunicationProtocol();
 
     private final String address;
     private final int port;
@@ -30,7 +24,7 @@ public class Connector {
     private Long timeSinceOn;
     private Long currentRunTime;
 
-    public Connector(String address, int port) {
+    public Connector(String address, int port){
         this.address = address;
         this.port = port;
     }
@@ -38,28 +32,49 @@ public class Connector {
     
     public void powerON(int powerSetting){
         if(powerSetting == 1 || powerSetting == 0){
-            String cmd = HEADER + "POWR" + powerSetting + TERMINATOR;
             timeSinceOn = System.currentTimeMillis();
-            sendCommand(cmd);
+            sendCommand(CP.getPower(powerSetting));
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
         
     }
+    
+    public void powerState()
+    {
+        sendCommand(CP.getPowerState());
+    }
+    
     public void muteImage(int muteSetting){
         if(muteSetting == 1 || muteSetting == 0){
-            String cmd = HEADER + "PMUT" + muteSetting + TERMINATOR;
-            sendCommand(cmd);
+            sendCommand(CP.getMute(muteSetting));
         } else {
             System.out.println("FEIL SETTING DIN TAPER");
         }
     }
     
     public void retrieveSettings() {
-        String cmd = HEADER + "LTR1?" + TERMINATOR;
         currentRunTime = System.currentTimeMillis() - timeSinceOn;
         System.out.println(currentRunTime);
-        sendCommand(cmd);
+        sendCommand(CP.getLampRuntime(1));
+    }
+    
+    public void lampTime(int lampNumber)
+    {
+        if(lampNumber == 1 || lampNumber == 2){
+            sendCommand(CP.getLampRuntime(lampNumber));
+        } else {
+            System.out.println("WRONG!");
+        }
+    }
+    
+    public void lampStatus(int lampNumber)
+    {
+        if(lampNumber == 1 || lampNumber == 2){
+            sendCommand(CP.getLampStatus(lampNumber));
+        } else {
+            System.out.println("WRONG!");
+        }
     }
     
     public void sendCommand(String command){
