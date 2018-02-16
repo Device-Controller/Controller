@@ -26,7 +26,7 @@ public class CommunicationRunnable implements Runnable {
     private static final int TWENTY_COMMNADS_SENT_DELAY = 5000;
     private int commandsSent = 0;
     private long lastCommandSent = 0;
-    private long acknowledgeTime = -1;
+    private volatile long acknowledgeTime = -1;
     private boolean lastCommandWasPowerOn = false;
     private boolean running = false;
     private Socket socket;
@@ -68,7 +68,8 @@ public class CommunicationRunnable implements Runnable {
     public void acknowledgeRecieved(String ack) {
         acknowledgeTime = System.currentTimeMillis();
         acknowledgeses.add(ack);
-        System.out.println(ack);
+        System.out.println(new Acknowledge(ack).getExplaination());
+        System.out.println(System.currentTimeMillis());
     }
 
     public synchronized void sendCommand(String command) {
@@ -105,7 +106,7 @@ public class CommunicationRunnable implements Runnable {
         }
     }
 
-    private boolean readyToSend() {
+    private synchronized boolean readyToSend() {
         boolean power = false;
         boolean twentyCommands = false;
         boolean minDelay = false;
