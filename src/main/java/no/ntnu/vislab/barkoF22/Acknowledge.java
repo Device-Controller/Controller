@@ -17,6 +17,7 @@ public class Acknowledge {
     private static final String SEPERATOR = " ";
     private static final HashMap<String, String> translateMap = new HashMap<>();
     private static final HashMap<String, HashMap<Integer, String>> valueMap = new HashMap<>();
+    private static final HashMap<String, String> multiMap = new HashMap<>();
 
     static {
         generateTranslationMap();
@@ -25,6 +26,7 @@ public class Acknowledge {
         generateMuteTable();
         generateLampStateTable();
     }
+
     private final String clearText;
 
     public Acknowledge(String acknowledge) {
@@ -45,6 +47,9 @@ public class Acknowledge {
             if (value.equals("e00001")) {
                 extra = str[3];
             }
+            String[] subCommand = processCommand(command);
+            command = subCommand[0];
+            String commandValue = subCommand[1];
             StringBuilder strb = new StringBuilder();
             if (translateMap.get(command) != null) {
                 strb.append(translateMap.get(command));
@@ -52,6 +57,7 @@ public class Acknowledge {
             } else {
                 return acknowledge;
             }
+            strb.append(commandValue);
             if (valueMap.get(command) != null) {
                 strb.append(valueMap.get(command).get(Integer.parseInt(value)));
             } else {
@@ -65,6 +71,19 @@ public class Acknowledge {
 
         }
         return acknowledge;
+    }
+
+    private String[] processCommand(String command) {
+        
+        String[] part = command.split("(?<=\\D)(?=\\d)");
+        if(part.length == 1){
+            part = new String[2];
+            part[0] = command;
+            part[1] = "";
+        } else {
+            part[1] = part[1] + " ";
+        }
+        return part;
     }
 
     private static void generateTranslationMap() {
@@ -105,7 +124,7 @@ public class Acknowledge {
         map.put(1, "Unmuted");
         valueMap.put("PMUT", map);
     }
-
+    
     private static void generateLampStateTable() {
         HashMap<Integer, String> map = new HashMap<>();
         map.put(0, "Broken");
