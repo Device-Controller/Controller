@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import no.ntnu.vislab.vislabcontroller.Command;
 
 /**
  *
@@ -32,7 +33,7 @@ public class CommunicationRunnable implements Runnable {
     private Socket socket;
     private Timer timer;
 
-    private volatile ArrayList<String> commands;
+    private volatile ArrayList<Command> commands;
     private ArrayList<String> acknowledgeses;
 
     public CommunicationRunnable(String address, int port) throws UnknownHostException {
@@ -57,22 +58,22 @@ public class CommunicationRunnable implements Runnable {
         }
     }
 
-    private synchronized void commandSent(String command) {
+    private synchronized void commandSent(Command command) {
         lastCommandSent = System.currentTimeMillis();
-        lastCommandWasPowerOn = command.isEmpty();      //TODO: Fix command power on check instead of isEmpty();
+        lastCommandWasPowerOn = command.isPowerOnCommand();      //TODO: Fix command power on check instead of isEmpty();
         commands.remove(command);
         commandsSent++;
         acknowledgeTime = -1;
     }
 
-    public void acknowledgeRecieved(String ack) {
+    private void acknowledgeRecieved(String ack) {
         acknowledgeTime = System.currentTimeMillis();
         acknowledgeses.add(ack);
         System.out.println(new Acknowledge(ack).getExplaination());
         System.out.println(System.currentTimeMillis());
     }
 
-    public synchronized void sendCommand(String command) {
+    public synchronized void sendCommand(Command command) {
         commands.add(command);
         notifyAll();
     }
@@ -90,8 +91,8 @@ public class CommunicationRunnable implements Runnable {
                     Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            String command = commands.get(0);
-            CommunicationTask com = new CommunicationTask(command, socket);
+            Command command = commands.get(0);
+            CommunicationTask com = new CommunicationTask(command.toString(), socket);
             com.setOnAcknowledge(ack -> acknowledgeRecieved(ack));
             timer.schedule(com, 0);
             lastCommandSent = System.currentTimeMillis();

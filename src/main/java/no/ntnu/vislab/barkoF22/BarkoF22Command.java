@@ -46,7 +46,7 @@ public class BarkoF22Command extends Command
     {
         return new BarkoF22Command(MUTE + 1);
     }
-    public static Command unmute()
+    public static Command unMute()
     {
         return new BarkoF22Command(MUTE + 0);
     }
@@ -109,5 +109,9 @@ public class BarkoF22Command extends Command
     public static Command thermalStatus()
     {
         return new BarkoF22Command(THERMAL + GET);
+    }
+
+    public boolean isPowerOnCommand() {
+        return this.equals(BarkoF22Command.powerOn());
     }
 }
