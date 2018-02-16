@@ -6,10 +6,10 @@ import no.ntnu.vislab.vislabcontroller.Command;
  *
  * @author ThomasSTodal
  */
-public class BarkoF22Command extends Command
-{
-    private static final String GET =  "?";
-    
+public class BarkoF22Command extends Command {
+
+    private static final String GET = "?";
+
     private static final String POWER = "POWR";
     private static final String POWER_STATE = "POST";
     private static final String MUTE = "PMUT";
@@ -19,95 +19,78 @@ public class BarkoF22Command extends Command
     private static final String LAMP_EST_TIME_REMAINING = "LRM";
     private static final String LAMP_STATUS = "LST";
     private static final String UNIT_TOT_TIME = "UTOT";
-    private static final String THERMAL =  "THRM";
-    
-    public BarkoF22Command(String command)
-    {
+    private static final String THERMAL = "THRM";
+
+    public BarkoF22Command(String command) {
         super(":", "CR");
         setCommand(getPrefix() + command + getSuffix());
     }
-    
-    public static Command powerOn()
-    {
+
+    public static Command powerOn() {
         return new BarkoF22Command(POWER + 1);
     }
-    
-    public static Command powerOff()
-    {
+
+    public static Command powerOff() {
         return new BarkoF22Command(POWER + 0);
     }
-    
-    public static Command powerState()
-    {
+
+    public static Command powerState() {
         return new BarkoF22Command(POWER_STATE + GET);
     }
-    
-    public static Command mute()
-    {
+
+    public static Command mute() {
         return new BarkoF22Command(MUTE + 1);
     }
-    public static Command unmute()
-    {
+
+    public static Command unmute() {
         return new BarkoF22Command(MUTE + 0);
     }
-    
-    public static Command getBrightness()
-    {
+
+    public static Command getBrightness() {
         return new BarkoF22Command(BRIGHTNESS + GET);
     }
-    
-    public static Command setBrightness(int value)
-    {
+
+    public static Command setBrightness(int value) {
         return new BarkoF22Command(BRIGHTNESS + value);
     }
-    
-    public static Command getContrast()
-    {
+
+    public static Command getContrast() {
         return new BarkoF22Command(CONTRAST + GET);
     }
-    
-    public static Command setContrast(int value)
-    {
+
+    public static Command setContrast(int value) {
         return new BarkoF22Command(CONTRAST + value);
     }
-    
-    public static Command lamp1Runtime()
-    {
+
+    public static Command lamp1Runtime() {
         return new BarkoF22Command(LAMP_RUNTIME + 1 + GET);
     }
-    
-    public static Command lamp1EstTimeRemaining()
-    {
+
+    public static Command lamp1EstTimeRemaining() {
         return new BarkoF22Command(LAMP_EST_TIME_REMAINING + 1 + GET);
     }
-    
-    public static Command lamp1Status()
-    {
+
+    public static Command lamp1Status() {
         return new BarkoF22Command(LAMP_STATUS + 1 + GET);
     }
-    
-    public static Command lamp2Runtime()
-    {
+
+    public static Command lamp2Runtime() {
         return new BarkoF22Command(LAMP_RUNTIME + 2 + GET);
     }
-    
-    public static Command lamp2EstTimeRemaining()
-    {
+
+    public static Command lamp2EstTimeRemaining() {
         return new BarkoF22Command(LAMP_EST_TIME_REMAINING + 2 + GET);
     }
-    
-    public static Command lamp2Status()
-    {
+
+    public static Command lamp2Status() {
         return new BarkoF22Command(LAMP_STATUS + 2 + GET);
     }
-    
-    public static Command totalUnitTime()
-    {
+
+    public static Command totalUnitTime() {
         return new BarkoF22Command(UNIT_TOT_TIME + GET);
     }
-    
-    public static Command thermalStatus()
-    {
+
+    public static Command thermalStatus() {
         return new BarkoF22Command(THERMAL + GET);
     }
 }

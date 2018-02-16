@@ -14,7 +14,7 @@ import no.ntnu.vislab.barkoF22.CommunicationRunnable;
 public class Main {
 
     public static void main(String[] args) {
-        
+
         CommunicationRunnable cr = null;
         try {
             cr = new CommunicationRunnable("158.38.65.45", 1025);
