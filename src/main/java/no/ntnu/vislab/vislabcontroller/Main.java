@@ -17,7 +17,7 @@ public class Main {
             CommunicationRunnable cr = new CommunicationRunnable("158.38.65.45", 1025);
             Thread t1 = new Thread(cr);
             t1.start();
-            cr.sendCommand(":POST?");
+            cr.sendCommand(":LTR1?");
         } catch (UnknownHostException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
