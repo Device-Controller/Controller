@@ -8,7 +8,7 @@ package no.ntnu.vislab.barkoF22;
  */
 public class CommunicationProtocol {
     private static final String HEADER = ":";
-    private static final String TERMINATOR = "CR";
+    private static final String TERMINATOR = "";
     private static final String POWER = "POWR";
     private static final String POWER_STATE = "POST?";
     private static final String MUTE = "PMUT";

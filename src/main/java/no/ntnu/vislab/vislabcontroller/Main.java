@@ -14,6 +14,15 @@ import no.ntnu.vislab.barkoF22.CommunicationRunnable;
 public class Main {
 
     public static void main(String[] args) {
+        try {
+            CommunicationRunnable cr = new CommunicationRunnable("158.38.65.45", 1025);
+            Thread t1 = new Thread(cr);
+            t1.start();
+            cr.sendCommand(":POST?");
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         Connector c = new Connector("158.38.65." + 45, 1025);
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()) {
