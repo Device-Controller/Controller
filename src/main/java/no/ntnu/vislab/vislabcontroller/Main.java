@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.ntnu.vislab.barkof22.BarkoF22Command;
+import no.ntnu.vislab.barkof22.BarkoF22Projector;
 import no.ntnu.vislab.barkof22.CommunicationRunnable;
 
 /**
@@ -21,46 +22,41 @@ public class Main {
             int seq3 = 65;
             int seq4 = 45;
 
-            CommunicationRunnable cr = new CommunicationRunnable(InetAddress.getByName(seq1 + "." + seq2 + "." + seq3 + "." + seq4), 1025);
-            Thread t1 = new Thread(cr);
-            t1.start();
+            Projector f22 = new BarkoF22Projector(InetAddress.getByName(seq1 + "." + seq2 + "." + seq3 + "." + seq4), 1025);
             Scanner sc = new Scanner(System.in);
             while (sc.hasNext()) {
                 String input = sc.nextLine();
                 switch (input) {
                     case "poweron":
-                        cr.sendCommand(BarkoF22Command.powerOn());
-                        System.out.println("PÅ");
+                        f22.powerOn();
                         break;
                     case "poweroff":
-                        cr.sendCommand(BarkoF22Command.powerOff());
-                        System.out.println("AV");
+                        f22.powerOff();
                         break;
                     case "powerstate":
-                        cr.sendCommand(BarkoF22Command.powerState());
+                        f22.getPowerState();
                         break;
                     case "settings":
                         System.out.println("RIGHTY-O");
                         //c.retrieveSettings();
                         break;
                     case "mute":
-                        cr.sendCommand(BarkoF22Command.mute());
-                        System.out.println("MUTED");
+                        f22.mute();
                         break;
                     case "unmute":
-                        cr.sendCommand(BarkoF22Command.unMute());
+                        f22.unMute();
                         break;
                     case "lamptime1":
-                        cr.sendCommand(BarkoF22Command.lamp1Runtime());
+                        f22.getLampRuntime(1);
                         break;
                     case "lamptime2":
-                        cr.sendCommand(BarkoF22Command.lamp2Runtime());
+                        f22.getLampRuntime(2);
                         break;
                     case "lampstatus1":
-                        cr.sendCommand(BarkoF22Command.lamp1Status());
+                        f22.getLampStatus(1);
                         break;
                     case "lampstatus2":
-                        cr.sendCommand(BarkoF22Command.lamp2Status());
+                        f22.getLampStatus(2);
                         break;
                     case "quit":
                         System.out.println("HADE");

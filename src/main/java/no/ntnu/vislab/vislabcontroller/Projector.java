@@ -5,6 +5,9 @@
  */
 package no.ntnu.vislab.vislabcontroller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  *
  * @author Kristoffer
@@ -12,10 +15,10 @@ package no.ntnu.vislab.vislabcontroller;
 public abstract class Projector {
     private final String projectorName;
     private final String id;
-    private final String hostAddress;
+    private final InetAddress hostAddress;
     private final int portNumber;
 
-    public Projector(String projectorName, String id, String hostAddress, int portNumber) {
+    public Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException{
         this.projectorName = projectorName;
         this.id = id;
         this.hostAddress = hostAddress;
@@ -44,7 +47,7 @@ public abstract class Projector {
         return id;
     }
 
-    public String getHostAddress() {
+    public InetAddress getHostAddress() {
         return hostAddress;
     }
 
