@@ -6,10 +6,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.ntnu.vislab.barkof22.BarkoF22Command;
-<<<<<<< HEAD
-=======
 import no.ntnu.vislab.barkof22.BarkoF22Projector;
->>>>>>> master
 import no.ntnu.vislab.barkof22.CommunicationRunnable;
 
 /**
