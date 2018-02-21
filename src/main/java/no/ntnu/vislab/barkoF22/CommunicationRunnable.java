@@ -59,11 +59,14 @@ public class CommunicationRunnable implements Runnable {
     }
 
     private synchronized void commandSent(Command command) {
-        lastCommandSent = System.currentTimeMillis();
-        lastCommandWasPowerOn = command.isPowerOnCommand();      //TODO: Fix command power on check instead of isEmpty();
-        commands.remove(command);
-        commandsSent++;
-        acknowledgeTime = -1;
+        if (command instanceof BarkoF22Command) {
+            BarkoF22Command barkoCommand = (BarkoF22Command) command;
+            lastCommandSent = System.currentTimeMillis();
+            lastCommandWasPowerOn = barkoCommand.isPowerOnCommand();      //TODO: Fix command power on check instead of isEmpty();
+            commands.remove(command);
+            commandsSent++;
+            acknowledgeTime = -1;
+        }
     }
 
     private void acknowledgeRecieved(String ack) {
@@ -89,6 +92,7 @@ public class CommunicationRunnable implements Runnable {
                     wait();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
+                   String heh = ex.getMessage();
                 }
             }
             Command command = commands.get(0);
