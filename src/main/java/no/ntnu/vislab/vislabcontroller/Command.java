@@ -11,7 +11,7 @@ public class Command {
     private final String prefix;
     private final String suffix;
 
-    private String command;
+    private String cmd;
 
     public Command(String header, String terminator) {
         this.prefix = header;
@@ -26,23 +26,23 @@ public class Command {
         return suffix;
     }
 
-    protected String getCommand() {
-        return command;
+    protected String getCmd() {
+        return cmd;
     }
 
-    protected void setCommand(String command) {
-        this.command = command;
+    protected void setCmd(String cmd) {
+        this.cmd = cmd;
     }
 
     @Override
     public String toString() {
-        return command;
+        return cmd;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.command);
+        hash = 37 * hash + Objects.hashCode(this.cmd);
         return hash;
     }
 
@@ -58,7 +58,7 @@ public class Command {
             return false;
         }
         final Command other = (Command) obj;
-        if (!Objects.equals(this.command, other.command)) {
+        if (!Objects.equals(this.cmd, other.cmd)) {
             return false;
         }
         return true;
