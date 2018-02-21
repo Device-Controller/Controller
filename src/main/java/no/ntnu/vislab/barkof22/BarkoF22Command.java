@@ -23,7 +23,7 @@ public class BarkoF22Command extends Command {
 
     public BarkoF22Command(String command) {
         super(":", "CR");
-        setCommand(getPrefix() + command + getSuffix());
+        setCmd(getPrefix() + command + getSuffix());
     }
 
     public static Command powerOn() {
