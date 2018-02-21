@@ -68,20 +68,6 @@ public class Acknowledge {
         }
         return acknowledge;
     }
-
-    private String[] processCommand(String command) {
-        
-        String[] part = command.split("(?<=\\D)(?=\\d)");
-        if(part.length == 1){
-            part = new String[2];
-            part[0] = command;
-            part[1] = "";
-        } else {
-            part[1] = part[1] + " ";
-        }
-        return part;
-    }
-
     private static void generateTranslationMap() {
         translateMap.put("POWR", "POWER");
         translateMap.put("BRIG", "BRIGHTNESS");
