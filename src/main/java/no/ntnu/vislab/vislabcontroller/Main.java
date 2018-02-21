@@ -29,38 +29,38 @@ public class Main {
             String input = sc.nextLine();
             switch (input) {
                 case "poweron":
-                    cr.sendCommand(BarkoF22Command.powerOn().toString());
+                    cr.sendCommand(BarkoF22Command.powerOn());
                     System.out.println("PÅ");
                     break;
                 case "poweroff":
-                    cr.sendCommand(BarkoF22Command.powerOff().toString());
+                    cr.sendCommand(BarkoF22Command.powerOff());
                     System.out.println("AV");
                     break;
                 case "powerstate":
-                    cr.sendCommand(BarkoF22Command.powerState().toString());
+                    cr.sendCommand(BarkoF22Command.powerState());
                     break;
                 case "settings":
                     System.out.println("RIGHTY-O");
                     //c.retrieveSettings();
                     break;
                 case "mute":
-                    cr.sendCommand(BarkoF22Command.mute().toString());
+                    cr.sendCommand(BarkoF22Command.mute());
                     System.out.println("MUTED");
                     break;
                 case "unmute":
-                    cr.sendCommand(BarkoF22Command.unmute().toString());
+                    cr.sendCommand(BarkoF22Command.unMute());
                     break;
                 case "lamptime1":
-                    cr.sendCommand(BarkoF22Command.lamp1Runtime().toString());
+                    cr.sendCommand(BarkoF22Command.lamp1Runtime());
                     break;
                 case "lamptime2":
-                    cr.sendCommand(BarkoF22Command.lamp2Runtime().toString());
+                    cr.sendCommand(BarkoF22Command.lamp2Runtime());
                     break;
                 case "lampstatus1":
-                    cr.sendCommand(BarkoF22Command.lamp1Status().toString());
+                    cr.sendCommand(BarkoF22Command.lamp1Status());
                     break;
                 case "lampstatus2":
-                    cr.sendCommand(BarkoF22Command.lamp2Status().toString());
+                    cr.sendCommand(BarkoF22Command.lamp2Status());
                     break;
                 case "quit":
                     System.out.println("HADE");
