@@ -36,10 +36,10 @@ public class CommunicationRunnable implements Runnable {
     private volatile ArrayList<Command> commands;
     private ArrayList<String> acknowledgeses;
 
-    public CommunicationRunnable(String address, int port) throws UnknownHostException {
+    public CommunicationRunnable(InetAddress address, int port) throws UnknownHostException {
         timer = new Timer();
         try {
-            socket = new Socket(InetAddress.getByName(address), port);
+            socket = new Socket(address, port);
         } catch (IOException ex) {
             Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,5 +1,6 @@
 package no.ntnu.vislab.vislabcontroller;
 
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -17,7 +18,7 @@ public class Main {
 
         CommunicationRunnable cr = null;
         try {
-            cr = new CommunicationRunnable("158.38.65.45", 1025);
+            cr = new CommunicationRunnable(InetAddress.getByName("158.38.65.45"), 1025);
             Thread t1 = new Thread(cr);
             t1.start();
         } catch (UnknownHostException ex) {
