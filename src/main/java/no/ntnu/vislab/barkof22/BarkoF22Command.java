@@ -1,4 +1,4 @@
-package no.ntnu.vislab.barkoF22;
+package no.ntnu.vislab.barkof22;
 
 import no.ntnu.vislab.vislabcontroller.Command;
 
@@ -96,5 +96,9 @@ public class BarkoF22Command extends Command {
 
     public boolean isPowerOnCommand() {
         return this.equals(BarkoF22Command.powerOn());
+    }
+    
+    public String whoIsAwesome() {
+        return "Thomas is awesome!";
     }
 }

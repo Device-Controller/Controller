@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.ntnu.vislab.barkoF22;
+package no.ntnu.vislab.barkof22;
 
 import java.util.HashMap;
 
@@ -47,9 +47,6 @@ public class Acknowledge {
             if (value.equals("e00001")) {
                 extra = str[3];
             }
-            String[] subCommand = processCommand(command);
-            command = subCommand[0];
-            String commandValue = subCommand[1];
             StringBuilder strb = new StringBuilder();
             if (translateMap.get(command) != null) {
                 strb.append(translateMap.get(command));
@@ -57,7 +54,6 @@ public class Acknowledge {
             } else {
                 return acknowledge;
             }
-            strb.append(commandValue);
             if (valueMap.get(command) != null) {
                 strb.append(valueMap.get(command).get(Integer.parseInt(value)));
             } else {
@@ -72,29 +68,18 @@ public class Acknowledge {
         }
         return acknowledge;
     }
-
-    private String[] processCommand(String command) {
-        
-        String[] part = command.split("(?<=\\D)(?=\\d)");
-        if(part.length == 1){
-            part = new String[2];
-            part[0] = command;
-            part[1] = "";
-        } else {
-            part[1] = part[1] + " ";
-        }
-        return part;
-    }
-
     private static void generateTranslationMap() {
         translateMap.put("POWR", "POWER");
         translateMap.put("BRIG", "BRIGHTNESS");
         translateMap.put("PMUT", "MUTE");
         translateMap.put("POST", "POWER-STATE");
         translateMap.put("CNTR", "CONTRAST");
-        translateMap.put("LTR", "LAMP RUNTIME");
-        translateMap.put("LRM", "LAMP REMAINING TIME");
-        translateMap.put("LST", "LAMP STATUS");
+        translateMap.put("LTR1", "LAMP 1 RUNTIME");
+        translateMap.put("LRM1", "LAMP 1 REMAINING TIME");
+        translateMap.put("LST1", "LAMP 1 STATUS");
+        translateMap.put("LTR2", "LAMP 2 RUNTIME");
+        translateMap.put("LRM2", "LAMP 2 REMAINING TIME");
+        translateMap.put("LST2", "LAMP 2 STATUS");
         translateMap.put("UTOT", "UNIT TOTAL TIME");
         translateMap.put("THRM", "TEMPERATURE");
     }
