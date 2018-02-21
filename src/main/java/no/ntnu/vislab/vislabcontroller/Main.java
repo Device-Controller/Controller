@@ -16,7 +16,12 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            CommunicationRunnable cr = new CommunicationRunnable(InetAddress.getByName("158.38.65.45"), 1025);
+            int seq1 = 158;
+            int seq2 = 38;
+            int seq3 = 65;
+            int seq4 = 45;
+
+            CommunicationRunnable cr = new CommunicationRunnable(InetAddress.getByName(seq1 + "." + seq2 + "." + seq3 + "." + seq4), 1025);
             Thread t1 = new Thread(cr);
             t1.start();
             Scanner sc = new Scanner(System.in);
