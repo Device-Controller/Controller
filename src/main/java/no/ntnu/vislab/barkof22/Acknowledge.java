@@ -17,7 +17,6 @@ public class Acknowledge {
     private static final String SEPERATOR = " ";
     private static final HashMap<String, String> translateMap = new HashMap<>();
     private static final HashMap<String, HashMap<Integer, String>> valueMap = new HashMap<>();
-    private static final HashMap<String, String> multiMap = new HashMap<>();
 
     static {
         generateTranslationMap();
@@ -40,7 +39,6 @@ public class Acknowledge {
     private String process(String acknowledge) {
         if (acknowledge.contains(HEADER)) {
             String[] str = acknowledge.split(SEPERATOR);
-            String header = str[0];
             String command = str[1];
             String value = str[2];
             String extra = null;
