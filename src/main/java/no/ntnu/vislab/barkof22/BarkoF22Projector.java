@@ -5,6 +5,7 @@
  */
 package no.ntnu.vislab.barkof22;
 
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,17 +18,18 @@ import no.ntnu.vislab.vislabcontroller.Projector;
 public class BarkoF22Projector extends Projector {
 
     private CommunicationRunnable driver;
+    private Thread t1;
 
-    public BarkoF22Projector(String projectorName, String id, String hostAddress, int portNumber) {
+    public BarkoF22Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException{
         super(projectorName, id, hostAddress, portNumber);
         driver = null;
-        try {
-            driver = new CommunicationRunnable(hostAddress, portNumber);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(BarkoF22Projector.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        driver = new CommunicationRunnable(hostAddress, portNumber);
+        startDriver();
     }
 
+    public BarkoF22Projector(InetAddress hostAddress, int portNumber)throws UnknownHostException{
+        this("Barko F22", "f22", hostAddress, portNumber);
+    }
     @Override
     public String powerOn() {
         driver.sendCommand(BarkoF22Command.powerOn());
@@ -122,6 +124,11 @@ public class BarkoF22Projector extends Projector {
     public String getTemperature() {
         driver.sendCommand(BarkoF22Command.thermalStatus());
         return null;
+    }
+
+    private void startDriver() {
+        t1 = new Thread(driver);
+        t1.start();
     }
 
 }
