@@ -23,19 +23,21 @@ public class Acknowledge {
         generateTranslationMap();
         generatePowerStateTable();
         generatePowerTable();
+        generateMuteTable();
+        generateLampStateTable();
     }
 
     private final String clearText;
 
     public Acknowledge(String acknowledge) {
-        this.clearText = proccess(acknowledge);
+        this.clearText = process(acknowledge);
     }
 
     public String getExplaination() {
         return clearText;
     }
 
-    private String proccess(String acknowledge) {
+    private String process(String acknowledge) {
         if (acknowledge.contains(HEADER)) {
             String[] str = acknowledge.split(SEPERATOR);
             String header = str[0];
@@ -65,6 +67,19 @@ public class Acknowledge {
 
         }
         return acknowledge;
+    }
+
+    private String[] processCommand(String command) {
+        
+        String[] part = command.split("(?<=\\D)(?=\\d)");
+        if(part.length == 1){
+            part = new String[2];
+            part[0] = command;
+            part[1] = "";
+        } else {
+            part[1] = part[1] + " ";
+        }
+        return part;
     }
 
     private static void generateTranslationMap() {
@@ -107,5 +122,18 @@ public class Acknowledge {
         map.put(0, "Muted");
         map.put(1, "Unmuted");
         valueMap.put("PMUT", map);
+    }
+    
+    private static void generateLampStateTable() {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(0, "Broken");
+        map.put(1, "Warming up");
+        map.put(2, "Lamp is on");
+        map.put(3, "Lamp is off");
+        map.put(4, "Lamp is cooling down");
+        map.put(5, "Lamp is not present");
+        valueMap.put("LST", map);
+        valueMap.put("LST1", map);
+        valueMap.put("LST2", map);
     }
 }
