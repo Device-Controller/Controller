@@ -97,4 +97,8 @@ public class BarkoF22Command extends Command {
     public boolean isPowerOnCommand() {
         return this.equals(BarkoF22Command.powerOn());
     }
+    
+    public String whoIsAwesome() {
+        return "Thomas is awesome!";
+    }
 }
