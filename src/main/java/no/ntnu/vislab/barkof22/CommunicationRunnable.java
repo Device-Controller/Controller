@@ -92,7 +92,7 @@ public class CommunicationRunnable implements Runnable {
                     wait();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
-                   String heh = ex.getMessage();
+                    Thread.currentThread().interrupt();
                 }
             }
             Command command = commands.get(0);
