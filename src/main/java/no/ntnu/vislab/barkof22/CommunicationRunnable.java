@@ -115,12 +115,12 @@ public class CommunicationRunnable implements Runnable {
                         acknowledged = true;
                     }
                 }
-            }
-            else {
+            } else {
                 try {
                     wait();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -146,6 +146,7 @@ public class CommunicationRunnable implements Runnable {
                 wait();
             } catch (InterruptedException ex) {
                 Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
+                Thread.currentThread().interrupt();
             }
         }
         return acknowledgeses.remove(0).getExplaination();

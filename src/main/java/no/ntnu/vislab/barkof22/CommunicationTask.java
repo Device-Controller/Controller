@@ -34,7 +34,7 @@ public class CommunicationTask extends TimerTask {
         this.receiver = receiver;
     }
 
-    private OnAcknowledge callback; // asda s
+    private OnAcknowledge callback;
 
     public void setOnAcknowledge(OnAcknowledge callback) {
         this.callback = callback;
