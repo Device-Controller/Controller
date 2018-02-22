@@ -5,36 +5,41 @@
  */
 class doStuff {
     constructor() {
-        this.status = document.querySelector("#neger");
+        this.status = document.querySelectorAll("li");
+        var i;
+        for (i = 0; i < this.status.length; i++) {
+            console.log(this.status[i]);
+            this.status[i].onclick = event => {
+                fetch('controller/lampStatus?lampNumber=1')
+                        .then(response => {
+                            if (response.ok) {
+                                return response.text();
+                            }
 
-        this.status.onclick = event => {
-            console.log("clicked")
-            fetch('controller/lampStatus?lampNumber=1')
-                    .then(response => {
-                        if (response.ok) {
-                            console.log(response.body);
-                            return response.body();
-                        }
-
-                        throw new Error("Failed");
-                    });
-        };
-
-    }
-}
-function getLampStatus() {
-        fetch('controller/lampStatus?lampNumber=1')
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-
-                    throw new Error("Failed");
-                }).then(data => {
+                            throw new Error("Failed");
+                        }).then(data => {
                     console.log(data);
                 })
-                .catch(e => console.log("Error: " + e.message));
+                        .catch(e => console.log("Error: " + e.message));
+            };
+
+        }
     }
+}
+let script = new doStuff();
+function getLampStatus() {
+    fetch('controller/lampStatus?lampNumber=1')
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+
+                throw new Error("Failed");
+            }).then(data => {
+        console.log(data);
+    })
+            .catch(e => console.log("Error: " + e.message));
+}
 function clickStuff() {
     getLampStatus();
 }
