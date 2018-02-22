@@ -34,7 +34,8 @@ public class CommunicationRunnable implements Runnable {
     private Timer timer;
 
     private volatile ArrayList<Command> commands;
-    private ArrayList<String> acknowledgeses;
+    private volatile ArrayList<Command> currentlySending;
+    private volatile ArrayList<Acknowledge> acknowledgeses;
 
     public CommunicationRunnable(InetAddress address, int port) throws UnknownHostException {
         timer = new Timer();
@@ -44,6 +45,7 @@ public class CommunicationRunnable implements Runnable {
             Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.commands = new ArrayList<>();
+        this.currentlySending = new ArrayList<>();
         this.acknowledgeses = new ArrayList<>();
         this.running = true;
     }
@@ -71,7 +73,8 @@ public class CommunicationRunnable implements Runnable {
 
     private synchronized void acknowledgeReceived(String ack) {
         acknowledgeTime = System.currentTimeMillis();
-        acknowledgeses.add(ack);
+        Acknowledge acknowledge = new Acknowledge(ack);
+        acknowledgeses.add(acknowledge);
         System.out.println(new Acknowledge(ack).getExplaination());
         System.out.println(System.currentTimeMillis());
         notifyAll();
@@ -98,16 +101,26 @@ public class CommunicationRunnable implements Runnable {
                 }
             }
             Command command = commands.get(0);
-            CommunicationTask com = new CommunicationTask(command.toString(), socket);
-            com.setOnAcknowledge(ack -> acknowledgeReceived(ack));
-            timer.schedule(com, 0);
-            lastCommandSent = System.currentTimeMillis();
-            boolean acknowledged = false;
-            while (!acknowledged && RESEND_DELAY + lastCommandSent > System.currentTimeMillis()) {
-                if (acknowledgeTime != -1) {
-                    resend = false;
-                    commandSent(command);
-                    acknowledged = true;
+            if (!currentlySending.contains(command)) {
+                currentlySending.add(command);
+                CommunicationTask com = new CommunicationTask(command.toString(), socket);
+                com.setOnAcknowledge(ack -> acknowledgeReceived(ack));
+                timer.schedule(com, 0);
+                lastCommandSent = System.currentTimeMillis();
+                boolean acknowledged = false;
+                while (!acknowledged && RESEND_DELAY + lastCommandSent > System.currentTimeMillis()) {
+                    if (acknowledgeTime != -1) {
+                        resend = false;
+                        commandSent(command);
+                        acknowledged = true;
+                    }
+                }
+            } else {
+                try {
+                    wait();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -128,13 +141,14 @@ public class CommunicationRunnable implements Runnable {
     }
 
     public synchronized String getResponse() {
-        while(acknowledgeses.isEmpty()){
+        while (acknowledgeses.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException ex) {
                 Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
+                Thread.currentThread().interrupt();
             }
         }
-        return acknowledgeses.remove(0);
+        return acknowledgeses.remove(0).getExplaination();
     }
 }
