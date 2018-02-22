@@ -33,55 +33,55 @@ public class BarkoF22Projector extends Projector {
     @Override
     public String powerOn() {
         driver.sendCommand(BarkoF22Command.powerOn());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String powerOff() {
         driver.sendCommand(BarkoF22Command.powerOff());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String mute() {
         driver.sendCommand(BarkoF22Command.mute());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String unMute() {
         driver.sendCommand(BarkoF22Command.unMute());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String getBrightness() {
         driver.sendCommand(BarkoF22Command.getBrightness());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String setBrightness(int value) {
         driver.sendCommand(BarkoF22Command.setBrightness(value));
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String getContrast() {
         driver.sendCommand(BarkoF22Command.getContrast());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String setConstrast(int value) {
         driver.sendCommand(BarkoF22Command.setContrast(value));
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String getPowerState() {
         driver.sendCommand(BarkoF22Command.powerState());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class BarkoF22Projector extends Projector {
         } else if (lampNum == 2) {
             driver.sendCommand(BarkoF22Command.lamp2Runtime());
         }
-        return null;
+        return driver.getResponse();
     }
 
     @Override
@@ -101,13 +101,13 @@ public class BarkoF22Projector extends Projector {
         } else if (lampNum == 2) {
             driver.sendCommand(BarkoF22Command.lamp2EstTimeRemaining());
         }
-        return null;
+        return driver.getResponse();
     }
 
     @Override
     public String getTotalRuntime() {
         driver.sendCommand(BarkoF22Command.totalUnitTime());
-        return null;
+        return driver.getResponse();
     }
 
     @Override
@@ -123,7 +123,7 @@ public class BarkoF22Projector extends Projector {
     @Override
     public String getTemperature() {
         driver.sendCommand(BarkoF22Command.thermalStatus());
-        return null;
+        return driver.getResponse();
     }
 
     private void startDriver() {

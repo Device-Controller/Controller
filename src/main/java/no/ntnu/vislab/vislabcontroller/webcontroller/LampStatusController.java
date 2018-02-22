@@ -24,11 +24,11 @@ public class LampStatusController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @RequestMapping("/lampRuntime")
-    public String runtime(@RequestParam(value = "lampNumber", required = false, defaultValue = "World") int lampNumber, Model model) throws UnknownHostException {
+    public ResponseEntity<String> runtime(@RequestParam(value = "lampNumber", required = false, defaultValue = "World") int lampNumber, Model model) throws UnknownHostException {
         model.addAttribute("lampNumber", lampNumber);
         Projector f22 = new BarkoF22Projector(InetAddress.getByName("158.38.65.45"), 1025);
-        f22.getLampRuntime(lampNumber);
-        return "power";
+        String response=f22.getLampRuntime(lampNumber);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 public class CommunicationTask extends TimerTask {
 
     private final String msg;
+    private boolean testing = false;
     private final Socket receiver;
 
     interface OnAcknowledge {
@@ -41,21 +42,25 @@ public class CommunicationTask extends TimerTask {
 
     @Override
     public void run() {
-
         if (!(msg == null || callback == null)) {
             try {
-                PrintWriter pw = new PrintWriter(receiver.getOutputStream());
-                BufferedReader br = new BufferedReader(new InputStreamReader(receiver.getInputStream()));
-                pw.println(msg);
-                pw.flush();
-                String response = br.readLine();
+
+                if (testing) {
+                    callback.OnAcknowledgeReceived("TEST");
+                } else {
+                    PrintWriter pw = new PrintWriter(receiver.getOutputStream());
+                    BufferedReader br = new BufferedReader(new InputStreamReader(receiver.getInputStream()));
+                    pw.println(msg);
+                    pw.flush();
+                    String response = br.readLine();
                 callback.OnAcknowledgeReceived(response);
+                }
+
             } catch (IOException ex) {
                 Logger.getLogger(CommunicationTask.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             throw new IllegalStateException("Incorrectly setup of Communication Task");
-//            callback.OnAcknowledgeReceived("TEST");
         }
     }
 }
