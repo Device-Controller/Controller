@@ -26,14 +26,12 @@ function getLampStatus() {
         fetch('controller/lampStatus?lampNumber=1')
                 .then(response => {
                     if (response.ok) {
-                        console.log(response.text);
-                        console.log(response.body);
-                        console.log(response.body.json);
-                        console.log(response.html);
-                        return response.body;
+                        return response.text();
                     }
 
                     throw new Error("Failed");
+                }).then(data => {
+                    console.log(data);
                 })
                 .catch(e => console.log("Error: " + e.message));
     }
