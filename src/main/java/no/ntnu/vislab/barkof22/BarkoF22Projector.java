@@ -117,7 +117,7 @@ public class BarkoF22Projector extends Projector {
         } else if (lampNum == 2) {
             driver.sendCommand(BarkoF22Command.lamp2Status());
         }
-        return null;
+        return driver.getResponse();
     }
 
     @Override

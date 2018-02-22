@@ -69,11 +69,13 @@ public class CommunicationRunnable implements Runnable {
         }
     }
 
-    private void acknowledgeRecieved(String ack) {
+    private synchronized void acknowledgeReceived(String ack) {
         acknowledgeTime = System.currentTimeMillis();
         acknowledgeses.add(ack);
         System.out.println(new Acknowledge(ack).getExplaination());
         System.out.println(System.currentTimeMillis());
+        notifyAll();
+        System.out.println(Thread.currentThread().getId());
     }
 
     public synchronized void sendCommand(Command command) {
@@ -97,7 +99,7 @@ public class CommunicationRunnable implements Runnable {
             }
             Command command = commands.get(0);
             CommunicationTask com = new CommunicationTask(command.toString(), socket);
-            com.setOnAcknowledge(ack -> acknowledgeRecieved(ack));
+            com.setOnAcknowledge(ack -> acknowledgeReceived(ack));
             timer.schedule(com, 0);
             lastCommandSent = System.currentTimeMillis();
             boolean acknowledged = false;
@@ -123,5 +125,16 @@ public class CommunicationRunnable implements Runnable {
         }
         minDelay = MIN_DELAY + lastCommandSent < System.currentTimeMillis();
         return power && twentyCommands && minDelay;
+    }
+
+    public synchronized String getResponse() {
+        while(acknowledgeses.isEmpty()){
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return acknowledgeses.remove(0);
     }
 }
