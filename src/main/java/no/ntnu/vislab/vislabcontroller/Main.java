@@ -58,6 +58,12 @@ public class Main {
                     case "lampstatus2":
                         f22.getLampStatus(2);
                         break;
+                    case "teston":
+                        f22.testImageOn();
+                        break;
+                    case "testoff":
+                        f22.testImageOff();
+                        break;
                     case "quit":
                         System.out.println("HADE");
                         return;

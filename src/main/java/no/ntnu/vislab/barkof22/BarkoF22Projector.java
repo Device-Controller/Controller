@@ -125,6 +125,18 @@ public class BarkoF22Projector extends Projector {
         driver.sendCommand(BarkoF22Command.thermalStatus());
         return driver.getResponse();
     }
+    
+    @Override
+    public String testImageOn() {
+        driver.sendCommand(BarkoF22Command.testImageOn());
+        return driver.getResponse();
+    }
+    
+    @Override
+    public String testImageOff() {
+        driver.sendCommand(BarkoF22Command.testImageOff());
+        return driver.getResponse();
+    }
 
     private void startDriver() {
         t1 = new Thread(driver);
