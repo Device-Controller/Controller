@@ -20,6 +20,7 @@ public class BarkoF22Command extends Command {
     private static final String LAMP_STATUS = "LST";
     private static final String UNIT_TOT_TIME = "UTOT";
     private static final String THERMAL = "THRM";
+    private static final String TEST = "TEST";
 
     public BarkoF22Command(String command) {
         super(":", "CR");
@@ -92,6 +93,14 @@ public class BarkoF22Command extends Command {
 
     public static Command thermalStatus() {
         return new BarkoF22Command(THERMAL + GET);
+    }
+    
+    public static Command testImageOn() {
+        return new BarkoF22Command(TEST + 2);
+    }
+    
+    public static Command testImageOff() {
+        return new BarkoF22Command(TEST + 0);
     }
 
     public boolean isPowerOnCommand() {

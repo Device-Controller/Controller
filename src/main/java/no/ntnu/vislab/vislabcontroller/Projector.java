@@ -38,6 +38,8 @@ public abstract class Projector {
     public abstract String getTotalRuntime();
     public abstract String getLampStatus(int lampNum);
     public abstract String getTemperature();
+    public abstract String testImageOn();
+    public abstract String testImageOff();
 
     public String getProjectorName() {
         return projectorName;
