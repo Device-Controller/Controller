@@ -34,7 +34,7 @@ public class CommunicationRunnable implements Runnable {
     private Timer timer;
 
     private volatile ArrayList<Command> commands;
-    private volatile ArrayList<Command> currentlySending;
+    private volatile boolean sending = false;
     private volatile ArrayList<Acknowledge> acknowledgeses;
 
     public CommunicationRunnable(InetAddress address, int port) throws UnknownHostException {
@@ -45,7 +45,6 @@ public class CommunicationRunnable implements Runnable {
             Logger.getLogger(CommunicationRunnable.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.commands = new ArrayList<>();
-        this.currentlySending = new ArrayList<>();
         this.acknowledgeses = new ArrayList<>();
         this.running = true;
     }
@@ -77,6 +76,7 @@ public class CommunicationRunnable implements Runnable {
         acknowledgeses.add(acknowledge);
         System.out.println(new Acknowledge(ack).getExplaination());
         System.out.println(System.currentTimeMillis());
+        sending = false;
         notifyAll();
         System.out.println(Thread.currentThread().getId());
     }
@@ -101,8 +101,8 @@ public class CommunicationRunnable implements Runnable {
                 }
             }
             Command command = commands.get(0);
-            if (!currentlySending.contains(command)) {
-                currentlySending.add(command);
+            if (!sending) {
+                sending = true;
                 CommunicationTask com = new CommunicationTask(command.toString(), socket);
                 com.setOnAcknowledge(ack -> acknowledgeReceived(ack));
                 timer.schedule(com, 0);
