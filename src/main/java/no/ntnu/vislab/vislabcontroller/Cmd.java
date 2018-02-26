@@ -6,14 +6,16 @@ import java.util.Objects;
  *
  * @author ThomasSTodal
  */
-public class Command {
+public class Cmd {
 
-    private final String prefix;
-    private final String suffix;
+    protected final String prefix;
+    protected final String suffix;
 
-    private String cmd;
+    protected String cmd;
+    
+    private String response;
 
-    public Command(String header, String terminator) {
+    public Cmd(String header, String terminator) {
         this.prefix = header;
         this.suffix = terminator;
     }
@@ -26,7 +28,7 @@ public class Command {
         return suffix;
     }
 
-    protected String getCmd() {
+    public String getCmd() {
         return cmd;
     }
 
@@ -34,9 +36,17 @@ public class Command {
         this.cmd = cmd;
     }
 
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
     @Override
     public String toString() {
-        return cmd;
+        return cmd; //TODO should not be the same as getCmd()
     }
 
     @Override
@@ -57,7 +67,7 @@ public class Command {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Command other = (Command) obj;
+        final Cmd other = (Cmd) obj;
         if (!Objects.equals(this.cmd, other.cmd)) {
             return false;
         }

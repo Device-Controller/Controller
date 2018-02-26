@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import no.ntnu.vislab.barkof22.BarkoF22Command;
+import no.ntnu.vislab.barkof22.BarkoF22Cmd;
 import no.ntnu.vislab.barkof22.BarkoF22Projector;
 import no.ntnu.vislab.barkof22.CommunicationRunnable;
 
