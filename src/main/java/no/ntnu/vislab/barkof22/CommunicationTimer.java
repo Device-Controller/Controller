@@ -12,31 +12,22 @@ import java.util.logging.Logger;
  *
  * @author Kristoffer
  */
-public class CommunicationTimer extends Thread {
+public class CommunicationTimer extends CustomTimer {
 
     private static final int POWER_ON_DELAY = 30000;
     private static final int MIN_DELAY = 500;
     private static final int RESEND_DELAY = 2000;
     private static final int TWENTY_COMMNADS_SENT_DELAY = 5000;
-    private long lastReset = 0;
 
     private boolean ready = false;
-    private boolean running;
     int numberOfResets = 0;
     private boolean powerOnCommand = false;
     private boolean acknowledged = false;
     private boolean canReset;
-
-    public interface OnReady {
-
-        void onReady(boolean ready);
-    }
-    private OnReady listener;
-
     public CommunicationTimer() {
+        super();
         this.running = true;
         this.canReset = true;
-        lastReset = System.currentTimeMillis();
     }
 
     @Override
@@ -51,13 +42,8 @@ public class CommunicationTimer extends Thread {
                 }
             } else {
                 canReset = true;
+                onReady();
                 try {
-                    if (listener != null) {
-                        OnReady tempListener = listener;
-                        listener = null;
-                        tempListener.onReady(ready);
-                        ready = false;
-                    }
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CommunicationTimer.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,20 +52,53 @@ public class CommunicationTimer extends Thread {
         }
     }
 
+    /**
+     * Checks all timing related to the communication protocol for the barkoF22
+     * projector and a configurable one.
+     *
+     * @return true if the timing rules for the communication protocol and the
+     * configurable timing has passed
+     */
     private boolean checkTimings() {
-        boolean power = !(lastReset + POWER_ON_DELAY > System.currentTimeMillis() && powerOnCommand);
-        boolean command = numberOfResets < 20 && !(numberOfResets == 19 && lastReset + TWENTY_COMMNADS_SENT_DELAY > System.currentTimeMillis());
-        boolean minDelay = (lastReset + MIN_DELAY < System.currentTimeMillis() && acknowledged);
-        boolean maxDelay = (lastReset + RESEND_DELAY < System.currentTimeMillis() && !acknowledged);
+        boolean power = !(getTime() + POWER_ON_DELAY > System.currentTimeMillis() && powerOnCommand);
+        boolean command = numberOfResets < 20 && !(numberOfResets == 19 && getTime() + TWENTY_COMMNADS_SENT_DELAY > System.currentTimeMillis());
+        boolean minDelay = (getTime() + MIN_DELAY < System.currentTimeMillis() && acknowledged);
+        boolean maxDelay = (getTime() + RESEND_DELAY < System.currentTimeMillis() && !acknowledged);
         return power && command && (minDelay || maxDelay);
     }
 
+    /**
+     * Called when the timings has passed. If no observer is present it will
+     * remain in a ready state.
+     */
+    private void onReady() {
+        if (listener != null) {
+            OnReady tempListener = listener;
+            tempListener.onReady();
+            reset();
+        }
+
+    }
+
+    /**
+     * Returns true if the timer can be reset. Can only be reset if the timings
+     * has passed.
+     *
+     * @param isPowerOn a flag to indicate that the command sent was the powerOn
+     * command (Requires longer timeout).
+     * @return true if the timer was reset.
+     */
     public boolean reset(boolean isPowerOn) {
+        this.powerOnCommand = isPowerOn;
+        return reset();
+    }
+
+    @Override
+    public boolean reset() {
         if (canReset) {
-            this.lastReset = System.currentTimeMillis();
+            resetTimer();
             this.numberOfResets = (numberOfResets + 1) % 20;
             System.out.println(numberOfResets);
-            this.powerOnCommand = isPowerOn;
             this.acknowledged = false;
             this.canReset = false;
             return true;
@@ -88,21 +107,22 @@ public class CommunicationTimer extends Thread {
         }
     }
 
+    /**
+     * Tells the timer that a condition was met and the maximum delay is not
+     * necessary.
+     */
     public void stopTimer() {
         this.acknowledged = true;
     }
 
+    /**
+     * Tags the thread to finish execution. it will complete its current
+     * executions then stop.
+     *
+     * @return true
+     */
     public boolean stopThread() {
         running = false;
         return true;
-    }
-
-    public boolean setOnReadyListener(OnReady listener) {
-        if (this.listener == null) {
-            this.listener = listener;
-            return true;
-        } else {
-            return false;
-        }
     }
 }
