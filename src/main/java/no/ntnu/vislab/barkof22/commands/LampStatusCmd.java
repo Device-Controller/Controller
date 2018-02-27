@@ -17,7 +17,7 @@ public class LampStatusCmd extends BarkoF22Cmd {
     
     public LampStatusCmd(int lampNum) throws Exception {
         if (lampNum >= 1 && lampNum <= 2) {
-            this.setCmd(getPrefix() + LAMP_STATUS + lampNum + getSuffix());
+            this.setCmd(getPrefix() + this.LAMP_STATUS + lampNum + this.GET_CURRENT + getSuffix());
             this.lampNo = lampNum;
         } else {
             throw new Exception("YOU MESSED UP");

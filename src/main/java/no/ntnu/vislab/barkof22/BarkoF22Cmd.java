@@ -8,13 +8,13 @@ import no.ntnu.vislab.vislabcontroller.Command;
  */
 public class BarkoF22Cmd extends Command {
     
-    private static final String RELATIVE_VALUE = "R";
+    protected static final String RELATIVE_VALUE = "R";
 
-    private static final String GET_CURRENT = "?";
-    private static final String GET_MAX = "?M";
-    private static final String GET_MIN = "?N";
-    private static final String GET_DEFAULT = "?D";
-    private static final String GET_DEFAULT_STEP = "?S";
+    protected static final String GET_CURRENT = "?";
+    protected static final String GET_MAX = "?M";
+    protected static final String GET_MIN = "?N";
+    protected static final String GET_DEFAULT = "?D";
+    protected static final String GET_DEFAULT_STEP = "?S";
 
     private static final String POWER = "POWR";
     private static final String POWER_STATE = "POST";
