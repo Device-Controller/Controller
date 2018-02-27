@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.ntnu.vislab.vislabcontroller.Projector;
+import no.ntnu.vislab.barkof22.commands.PowerOnCmd;
 
 /**
  *
@@ -32,7 +33,7 @@ public class BarkoF22Projector extends Projector {
     }
     @Override
     public String powerOn() {
-        driver.sendCommand(BarkoF22Cmd.powerOn());
+        driver.sendCommand(new PowerOnCmd());
         return driver.getResponse();
     }
 
