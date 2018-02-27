@@ -16,17 +16,13 @@ public class PowerOnCmd extends BarkoF22Cmd {
     private static final String POWER_ON = "POWR1";
 
     public PowerOnCmd() {
-        setCmd(getPrefix() + this.POWER_ON + getSuffix());
+        setCmd(getPrefix() + PowerOnCmd.POWER_ON + getSuffix());
     }
 
     public boolean checkAck() {
         String[] ackArray = getResponse().split(" ");
         int value = Integer.parseInt(ackArray[2]);
-        if(ackArray[1] == "POWR" && value == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return ackArray[1] == "POWR" && value == 1;
     }
     
     public void setAck(String ack) {

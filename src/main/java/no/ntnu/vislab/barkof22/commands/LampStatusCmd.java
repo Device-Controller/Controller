@@ -17,7 +17,8 @@ public class LampStatusCmd extends BarkoF22Cmd {
     
     public LampStatusCmd(int lampNum) throws Exception {
         if (lampNum >= 1 && lampNum <= 2) {
-            this.setCmd(getPrefix() + this.LAMP_STATUS + lampNum + this.GET_CURRENT + getSuffix());
+            this.setCmd(getPrefix() + LampStatusCmd.LAMP_STATUS
+                    + lampNum + this.GET_CURRENT + getSuffix());
             this.lampNo = lampNum;
         } else {
             throw new Exception("YOU MESSED UP");
@@ -27,11 +28,7 @@ public class LampStatusCmd extends BarkoF22Cmd {
     public boolean checkAck() {
         String[] ackArray = getResponse().split(" ");
         int value = Integer.parseInt(ackArray[2]);
-        if(ackArray[1] == ("LST" + lampNo) && value >= 0 && value <= 5) {
-            return true;
-        } else {
-            return false;
-        }
+        return ackArray[1] == ("LST" + lampNo) && value >= 0 && value <= 5;
     }
     
     public void setAck(String ack) {
