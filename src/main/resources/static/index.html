@@ -1,44 +1,58 @@
 <!DOCTYPE HTML>
 <html>
-<head> 
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="shortcut icon" href="images/favicon.ico" />
-</head>
- <body>
+    <head> 
+        <title>Getting Started: Serving Web Content</title> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+
+        </header>
+        <div class="navigation-menu">
+            <img src="logo_ntnu.png" alt="NTNU" id="ntnu-logo">
+            <nav>
+                <ul>
+                    <li>Brukerside</li>
+                    <li>Enheter</li>
+                    <li id="logout">Logg ut</li>
+                </ul>
+            </nav>
+        </div>
         <div class="main-container">
-            <section class="main-section">
-                <div class="individual-methods">
-                    <p>masse fuckings stuff</p>
+            <div class="main-container2">
+                <div class="main-container3">
+                    <div class="selected-container">
+                        <h3>Projectors</h3>
+                        <ul id="selected-list">
+                            <li>Projector 1</li>
+                            <li>Projector 2</li>
+                            <li>Projector 3</li>
+                            <li>Projector 4</li>
+                            <li>Projector 5</li>
+                            <li>Projector 6</li>
+                            <li>Projector 1</li>
+                            <li>Projector 2</li>
+                            <li>Projector 3</li>
+                            <li>Projector 4</li>
+                            <li>Projector 5</li>
+                            <li>Projector 6</li>
+                        </ul>
+                        <button onclick="getLampStatus()" id="dropdown-group">DROPDOWN SELECT GROUP</button>
+                        <button id="button-savegroup">Save as group</button>
+                        <script src="script.js"></script>
+                    </div>
+                    <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" />
+                    <div class="generic-buttons">
+                        <button id="buttonPower">On/Off</button>
+                        <button id="buttonMute">Mute/Unmute</button>
+                        <button id="button1">PH1</button>
+                        <button id="button2">PH2</button>
+                    </div>
                 </div>
-                <div class="unselected-container">
-                    <h3>Connected projectors</h3>
-                    <ul id="unselected-list">
-                        <li >Projector 1</li>
-                        <li>Projector 2</li>
-                        <li>Projector 3</li>
-                        <li>Projector 4</li>
-                        <li>Projector 5</li>
-                        <li>Projector 6</li>
-                    </ul>
-                </div>
-                <div class="selected-container">
-                    <h3>Selected projectors</h3>
-                    <ul id="selected-list">
-                        <li>lol</li>
-                    </ul>
-                    <button onclick="getLampStatus()">DROPDOWN SELECT GROUP</button>
-                    <button id="button-savegroup" onclick="wtfXd()">Save as group</button>
-                    <script>
-                        function wtfXd() {
-                            console.log("FUCK OFF");
-                        }
-                    </script>
-                    
-                    <script src="script.js"></script>
-                        
-                </div>
-            </section>
+            </div>
         </div>
     </body>
 </html>
