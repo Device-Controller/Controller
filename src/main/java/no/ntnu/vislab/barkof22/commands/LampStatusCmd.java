@@ -11,18 +11,23 @@ import no.ntnu.vislab.barkof22.BarkoF22Cmd;
  *
  * @author ThomasSTodal
  */
-public class PowerOnCmd extends BarkoF22Cmd {
-
-    private static final String POWER_ON = "POWR1";
-
-    public PowerOnCmd() {
-        setCmd(getPrefix() + this.POWER_ON + getSuffix());
+public class LampStatusCmd extends BarkoF22Cmd {
+    private static final String LAMP_STATUS = "LST";
+    private final int lampNo;
+    
+    public LampStatusCmd(int lampNum) throws Exception {
+        if (lampNum >= 1 && lampNum <= 2) {
+            this.setCmd(getPrefix() + LAMP_STATUS + lampNum + getSuffix());
+            this.lampNo = lampNum;
+        } else {
+            throw new Exception("YOU MESSED UP");
+        }
     }
 
     public boolean checkAck() {
         String[] ackArray = getResponse().split(" ");
         int value = Integer.parseInt(ackArray[2]);
-        if(ackArray[1] == "POWR" && value == 1) {
+        if(ackArray[1] == ("LST" + lampNo) && value >= 0 && value <= 5) {
             return true;
         } else {
             return false;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import no.ntnu.vislab.vislabcontroller.Cmd;
+import no.ntnu.vislab.vislabcontroller.Command;
 
 /**
  *
@@ -33,7 +33,7 @@ public class CommunicationRunnable implements Runnable {
     private Socket socket;
     private Timer timer;
 
-    private volatile ArrayList<Cmd> commands;
+    private volatile ArrayList<Command> commands;
     private volatile boolean sending = false;
     private volatile ArrayList<Acknowledge> acknowledgeses;
 
@@ -59,7 +59,7 @@ public class CommunicationRunnable implements Runnable {
         }
     }
 
-    private synchronized void commandSent(Cmd command) {
+    private synchronized void commandSent(Command command) {
         if (command instanceof BarkoF22Cmd) {
             BarkoF22Cmd barkoCommand = (BarkoF22Cmd) command;
             lastCommandSent = System.currentTimeMillis();
@@ -81,7 +81,7 @@ public class CommunicationRunnable implements Runnable {
         System.out.println(Thread.currentThread().getId());
     }
 
-    public synchronized void sendCommand(Cmd command) {
+    public synchronized void sendCommand(Command command) {
         commands.add(command);
         notifyAll();
     }
@@ -100,7 +100,7 @@ public class CommunicationRunnable implements Runnable {
                     Thread.currentThread().interrupt();
                 }
             }
-            Cmd command = commands.get(0);
+            Command command = commands.get(0);
             if (!sending) {
                 sending = true;
                 CommunicationTask com = new CommunicationTask(command.toString(), socket);

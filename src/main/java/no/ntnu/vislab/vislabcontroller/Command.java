@@ -6,16 +6,16 @@ import java.util.Objects;
  *
  * @author ThomasSTodal
  */
-public class Cmd {
+public class Command {
 
-    protected final String prefix;
-    protected final String suffix;
+    private  final String prefix;
+    private  final String suffix;
 
-    protected String cmd;
+    private  String cmd;
     
     private String response;
 
-    public Cmd(String header, String terminator) {
+    public Command(String header, String terminator) {
         this.prefix = header;
         this.suffix = terminator;
     }
@@ -67,7 +67,7 @@ public class Cmd {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Cmd other = (Cmd) obj;
+        final Command other = (Command) obj;
         if (!Objects.equals(this.cmd, other.cmd)) {
             return false;
         }
