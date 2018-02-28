@@ -28,7 +28,9 @@ public abstract class CustomTimer extends Thread {
     public long getTime() {
         return time;
     }
-    
+
+    @Override
+    public abstract void run();
     public abstract boolean reset();
     
     public final void resetTimer(){
