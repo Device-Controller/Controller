@@ -72,7 +72,7 @@ public class CommunicationTimerTest {
             runResult = false;
             instance.reset();
             instance.stopTimer();
-            assertEquals(true, runResult); //TODO is supposed to be false
+            assertEquals(false, runResult);
             sleep(550);
             assertEquals(true, runResult);
             instance.stopThread();
