@@ -5,3 +5,5 @@ nbactions-sonar.xml
 /target/
 nbactions.xml
 /nbproject/
+/.idea/
+VislabController.iml
