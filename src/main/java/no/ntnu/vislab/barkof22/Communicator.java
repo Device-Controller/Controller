@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.ntnu.vislab.vislabcontroller.Command;
@@ -21,7 +21,7 @@ import no.ntnu.vislab.vislabcontroller.Command;
  */
 public class Communicator extends Thread {
 
-    private PrintWriter out;
+    private PrintStream out;
     private BufferedReader in;
     private boolean running = false;
     private boolean commandSent;
@@ -29,7 +29,7 @@ public class Communicator extends Thread {
 
     public Communicator(OutputStream out, InputStream in) {
         this.in = new BufferedReader(new InputStreamReader(in));
-        this.out = new PrintWriter(out);
+        this.out = new PrintStream(out);
         this.running = true;
         reset();
     }
@@ -40,6 +40,7 @@ public class Communicator extends Thread {
             if (command != null) {
                 if (!commandSent) {
                     out.println(command.toString());
+                    System.out.println(command.toString());
                     commandSent = true;
                 }
                 try {

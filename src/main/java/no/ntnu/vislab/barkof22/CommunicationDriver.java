@@ -6,6 +6,8 @@
 package no.ntnu.vislab.barkof22;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,22 +30,26 @@ public final class CommunicationDriver extends Thread {
     private IdleTimer idleTimer;
     private boolean running;
 
-    public CommunicationDriver(Socket host, List<Command> idleBuffer) {
+    public CommunicationDriver(Socket host, List<Command> idleBuffer) throws IOException {
+        this(host.getOutputStream(),host.getInputStream(), idleBuffer);
+    }
+
+    public CommunicationDriver(OutputStream out, InputStream in, List<Command> idleBuffer) {
         this.timer = new CommunicationTimer();
         this.outgoingBuffer = new ArrayList<>();
         this.idleBuffer = new ArrayList<>(idleBuffer);
         this.idleTimer = new IdleTimer(1000);
         this.running = true;
         this.idleIndex = 0;
-        try {
-            this.comm = new Communicator(host.getOutputStream(), host.getInputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(CommunicationDriver.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.comm = new Communicator(out, in);
     }
 
-    public CommunicationDriver(Socket host, Command... cmds) {
+    public CommunicationDriver(Socket host, Command... cmds) throws IOException {
         this(host, new ArrayList<>(Arrays.asList(cmds)));
+    }
+
+    public CommunicationDriver(OutputStream out, InputStream in, Command... cmds){
+        this(out, in, new ArrayList<>(Arrays.asList(cmds)));
     }
 
     @Override

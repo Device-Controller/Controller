@@ -8,10 +8,12 @@ import java.util.Objects;
  */
 public class Command {
 
-    private final String prefix;
-    private final String suffix;
+    private  final String prefix;
+    private  final String suffix;
 
-    private String cmd;
+    private  String cmd;
+    
+    private String response;
 
     public Command(String header, String terminator) {
         this.prefix = header;
@@ -26,7 +28,7 @@ public class Command {
         return suffix;
     }
 
-    protected String getCmd() {
+    public String getCmd() {
         return cmd;
     }
 
@@ -34,9 +36,17 @@ public class Command {
         this.cmd = cmd;
     }
 
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
     @Override
     public String toString() {
-        return cmd;
+        return cmd; //TODO should not be the same as getCmd()
     }
 
     @Override

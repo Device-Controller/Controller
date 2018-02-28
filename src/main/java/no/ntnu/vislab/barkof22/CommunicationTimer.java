@@ -24,6 +24,7 @@ public class CommunicationTimer extends CustomTimer {
     private boolean powerOnCommand = false;
     private boolean acknowledged = false;
     private boolean canReset;
+
     public CommunicationTimer() {
         super();
         this.running = true;
@@ -89,16 +90,17 @@ public class CommunicationTimer extends CustomTimer {
      * @return true if the timer was reset.
      */
     public boolean reset(boolean isPowerOn) {
+        boolean result = reset();
         this.powerOnCommand = isPowerOn;
-        return reset();
+        return result;
     }
 
     @Override
     public boolean reset() {
         if (canReset) {
             resetTimer();
+            this.powerOnCommand = false;
             this.numberOfResets = (numberOfResets + 1) % 20;
-            System.out.println(numberOfResets);
             this.acknowledged = false;
             this.canReset = false;
             return true;

@@ -42,11 +42,6 @@ class IdleTimer extends CustomTimer{
         }
 
     }
-
-    public void setTiming(int timing) {
-        this.timing = timing;
-    }
-
     
     public void stopThread() {
         this.running = false;
@@ -55,6 +50,7 @@ class IdleTimer extends CustomTimer{
     @Override
     public boolean reset() {
         resetTimer();
+        listener = null;
         return true;
     }
 }
