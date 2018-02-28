@@ -90,6 +90,9 @@ public class CustomTimerTest {
 
     public class CustomTimerImpl extends CustomTimer {
 
+        @Override
+        public void run() {}
+
         public boolean reset() {
             return false;
         }
