@@ -7,10 +7,9 @@ package no.ntnu.vislab.barkof22;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import no.ntnu.vislab.vislabcontroller.Projector;
-import no.ntnu.vislab.barkof22.commands.PowerOnCmd;
+import no.ntnu.vislab.barkof22.commands.PowerOn;
 
 /**
  *
@@ -33,64 +32,64 @@ public class BarkoF22Projector extends Projector {
     }
     @Override
     public String powerOn() {
-        driver.sendCommand(new PowerOnCmd());
+        driver.sendCommand(new PowerOn());
         return driver.getResponse();
     }
 
     @Override
     public String powerOff() {
-        driver.sendCommand(BarkoF22Cmd.powerOff());
+        driver.sendCommand(BarkoF22Command.powerOff());
         return driver.getResponse();
     }
 
     @Override
     public String mute() {
-        driver.sendCommand(BarkoF22Cmd.mute());
+        driver.sendCommand(BarkoF22Command.mute());
         return driver.getResponse();
     }
 
     @Override
     public String unMute() {
-        driver.sendCommand(BarkoF22Cmd.unMute());
+        driver.sendCommand(BarkoF22Command.unMute());
         return driver.getResponse();
     }
 
     @Override
     public String getBrightness() {
-        driver.sendCommand(BarkoF22Cmd.getBrightness());
+        driver.sendCommand(BarkoF22Command.getBrightness());
         return driver.getResponse();
     }
 
     @Override
     public String setBrightness(int value) {
-        driver.sendCommand(BarkoF22Cmd.setBrightness(value));
+        driver.sendCommand(BarkoF22Command.setBrightness(value));
         return driver.getResponse();
     }
 
     @Override
     public String getContrast() {
-        driver.sendCommand(BarkoF22Cmd.getContrast());
+        driver.sendCommand(BarkoF22Command.getContrast());
         return driver.getResponse();
     }
 
     @Override
     public String setConstrast(int value) {
-        driver.sendCommand(BarkoF22Cmd.setContrast(value));
+        driver.sendCommand(BarkoF22Command.setContrast(value));
         return driver.getResponse();
     }
 
     @Override
     public String getPowerState() {
-        driver.sendCommand(BarkoF22Cmd.powerState());
+        driver.sendCommand(BarkoF22Command.powerState());
         return driver.getResponse();
     }
 
     @Override
     public String getLampRuntime(int lampNum) {
         if (lampNum == 1) {
-            driver.sendCommand(BarkoF22Cmd.lamp1Runtime());
+            driver.sendCommand(BarkoF22Command.lamp1Runtime());
         } else if (lampNum == 2) {
-            driver.sendCommand(BarkoF22Cmd.lamp2Runtime());
+            driver.sendCommand(BarkoF22Command.lamp2Runtime());
         }
         return driver.getResponse();
     }
@@ -98,44 +97,44 @@ public class BarkoF22Projector extends Projector {
     @Override
     public String getLampRemaining(int lampNum) {
         if (lampNum == 1) {
-            driver.sendCommand(BarkoF22Cmd.lamp1EstTimeRemaining());
+            driver.sendCommand(BarkoF22Command.lamp1EstTimeRemaining());
         } else if (lampNum == 2) {
-            driver.sendCommand(BarkoF22Cmd.lamp2EstTimeRemaining());
+            driver.sendCommand(BarkoF22Command.lamp2EstTimeRemaining());
         }
         return driver.getResponse();
     }
 
     @Override
     public String getTotalRuntime() {
-        driver.sendCommand(BarkoF22Cmd.totalUnitTime());
+        driver.sendCommand(BarkoF22Command.totalUnitTime());
         return driver.getResponse();
     }
 
     @Override
     public String getLampStatus(int lampNum) {
         if (lampNum == 1) {
-            driver.sendCommand(BarkoF22Cmd.lamp1Status());
+            driver.sendCommand(BarkoF22Command.lamp1Status());
         } else if (lampNum == 2) {
-            driver.sendCommand(BarkoF22Cmd.lamp2Status());
+            driver.sendCommand(BarkoF22Command.lamp2Status());
         }
         return driver.getResponse();
     }
 
     @Override
     public String getTemperature() {
-        driver.sendCommand(BarkoF22Cmd.thermalStatus());
+        driver.sendCommand(BarkoF22Command.thermalStatus());
         return driver.getResponse();
     }
     
     @Override
     public String testImageOn() {
-        driver.sendCommand(BarkoF22Cmd.testImageOn());
+        driver.sendCommand(BarkoF22Command.testImageOn());
         return driver.getResponse();
     }
     
     @Override
     public String testImageOff() {
-        driver.sendCommand(BarkoF22Cmd.testImageOff());
+        driver.sendCommand(BarkoF22Command.testImageOff());
         return driver.getResponse();
     }
 
