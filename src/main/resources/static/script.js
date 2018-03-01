@@ -9,8 +9,10 @@ class doStuff {
         var i;
         for (i = 0; i < this.status.length; i++) {
             console.log(this.status[i]);
+            var currentLi = this.status[i];
             this.status[i].onclick = event => {
-                fetch('controller/lampStatus?lampNumber=1')
+                event.target.style.backgroundColor = "red";
+                fetch(/*'controller/lampStatus?lampNumber=1'*/'controller/testDummy')
                         .then(response => {
                             if (response.ok) {
                                 return response.text();
@@ -24,10 +26,31 @@ class doStuff {
             };
 
         }
+        function handleWorkerMessage(msg) {
+            console.log("Message received: " + msg);
+            this.projector = document.getElementById("pro1");
+            switch (msg) {
+                case 'red':
+                    this.projector.style.backgroundColor = "red"
+                    break;
+                case 'blue':
+                    this.projector.style.backgroundColor = "blue"
+                    break;
+            }
+        }
+
+        this.worker = new Worker("worker.js");
+        this.worker.postMessage("rofl");
+
+        this.worker.addEventListener('message', function(e) {
+            console.log('MAIN THREAD' + e.data);
+            document.getElementById('pro1').style.backgroundColor = e.data;
+        }, false);
+
     }
 }
 let script = new doStuff();
-function getLampStatus() {
+/*function getLampStatus() {
     fetch('controller/lampStatus?lampNumber=1')
             .then(response => {
                 if (response.ok) {
@@ -42,6 +65,6 @@ function getLampStatus() {
 }
 function clickStuff() {
     getLampStatus();
-}
+}*/
 
 

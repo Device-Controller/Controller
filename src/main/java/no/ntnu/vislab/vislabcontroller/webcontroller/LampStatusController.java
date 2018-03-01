@@ -31,4 +31,16 @@ public class LampStatusController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @RequestMapping("/testDummy")
+    public ResponseEntity<String> dummy() {
+        long time = System.currentTimeMillis();
+        String response = "blue";
+        if (time % 2 == 0) {
+            response = "red";
+        } else {
+            response = "blue";
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
