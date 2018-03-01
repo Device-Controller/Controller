@@ -13,7 +13,6 @@ public class PowerState extends BarkoF22Command {
      *
      */
     public PowerState() {
-        this.setCmd(this.getPrefix() + PowerState.POWER_STATE + this.GET_CURRENT + this.getSuffix());
     }
 
     /**
@@ -25,5 +24,10 @@ public class PowerState extends BarkoF22Command {
         String[] ackArray = this.getResponse().split(" ");
         int value = Integer.parseInt(ackArray[2]);
         return ackArray[1] == "POST" && value >= 0 && value <= 6;
+    }
+
+    @Override
+    public String getCmd() {
+        return this.getPrefix() + PowerState.POWER_STATE + this.GET_CURRENT + this.getSuffix();
     }
 }

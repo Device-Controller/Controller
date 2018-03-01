@@ -3,7 +3,6 @@ package no.ntnu.vislab.barkof22.commands;
 import no.ntnu.vislab.barkof22.BarkoF22Command;
 
 /**
- *
  * @author ThomasSTodal
  */
 public class PowerOff extends BarkoF22Command {
@@ -13,7 +12,6 @@ public class PowerOff extends BarkoF22Command {
      *
      */
     public PowerOff() {
-        this.setCmd(getPrefix() + PowerOff.POWER_OFF + this.getSuffix());
     }
 
     /**
@@ -24,5 +22,13 @@ public class PowerOff extends BarkoF22Command {
         String[] ackArray = getResponse().split(" ");
         int value = Integer.parseInt(ackArray[2]);
         return ackArray[1] == "POWR" && value == 0;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public String getCmd() {
+        return getPrefix() + PowerOff.POWER_OFF + this.getSuffix();
     }
 }

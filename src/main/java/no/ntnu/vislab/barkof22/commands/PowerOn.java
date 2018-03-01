@@ -13,9 +13,7 @@ public class PowerOn extends BarkoF22Command {
     /**
      *
      */
-    public PowerOn() {
-        this.setCmd(getPrefix() + PowerOn.POWER_ON + this.getSuffix());
-    }
+    public PowerOn() {  }
 
     /**
      *
@@ -26,5 +24,14 @@ public class PowerOn extends BarkoF22Command {
         String[] ackArray = getResponse().split(" ");
         int value = Integer.parseInt(ackArray[2]);
         return ackArray[1] == "POWR" && value == 1;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String getCmd() {
+        return getPrefix() + PowerOn.POWER_ON + this.getSuffix();
     }
 }

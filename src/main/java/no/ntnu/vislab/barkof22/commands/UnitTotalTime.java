@@ -3,16 +3,15 @@ package no.ntnu.vislab.barkof22.commands;
 import no.ntnu.vislab.barkof22.BarkoF22Command;
 
 /**
- *
  * @author ThomasSTodal
  */
-public class Mute extends BarkoF22Command {
-    private static final String MUTE = "PMUT1";
+public class UnitTotalTime extends BarkoF22Command {
+    private static final String TOTAL_TIME = "UTOT";
 
     /**
      *
      */
-    public Mute() {
+    public UnitTotalTime() {
     }
 
     /**
@@ -22,16 +21,12 @@ public class Mute extends BarkoF22Command {
     @Override
     public boolean checkAck() {
         String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "PMUT" && value == 1;
+        return ackArray[1] == "UTOT";
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String getCmd() {
-        return getPrefix() + Mute.MUTE + this.getSuffix();
+        return this.getPrefix() + UnitTotalTime.TOTAL_TIME + this.GET_CURRENT
+                + this.getSuffix();
     }
 }

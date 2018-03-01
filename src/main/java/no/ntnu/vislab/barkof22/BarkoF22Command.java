@@ -113,7 +113,7 @@ public class BarkoF22Command extends Command {
     }
     
     public static Command testImageOn() {
-        return new BarkoF22Command(TEST + 2);
+        return new BarkoF22Command(TEST + 2); // 0-7
     }
     
     public static Command testImageOff() { return new BarkoF22Command(TEST + 0); }

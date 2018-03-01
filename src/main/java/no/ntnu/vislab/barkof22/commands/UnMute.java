@@ -12,9 +12,7 @@ public class UnMute extends BarkoF22Command {
     /**
      *
      */
-    public UnMute() {
-        this.setCmd(getPrefix() + UnMute.UNMUTE + this.getSuffix());
-    }
+    public UnMute() {  }
 
     /**
      *
@@ -25,5 +23,14 @@ public class UnMute extends BarkoF22Command {
         String[] ackArray = getResponse().split(" ");
         int value = Integer.parseInt(ackArray[2]);
         return ackArray[1] == "PMUT" && value == 0;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String getCmd() {
+        return this.getPrefix() + UnMute.UNMUTE + this.getSuffix();
     }
 }

@@ -3,29 +3,27 @@ package no.ntnu.vislab.barkof22.commands;
 import no.ntnu.vislab.barkof22.BarkoF22Command;
 
 /**
- *
  * @author ThomasSTodal
  */
-public class LampStatus extends BarkoF22Command {
-    private static final String LAMP_STATUS = "LST";
+public class LampTimeRemaining extends BarkoF22Command {
+    private static final String LAMP_TIME_REMAINING = "LRM";
     private int lampNum;
 
     /**
      *
      */
-    public LampStatus() {
+    public LampTimeRemaining() {
     }
 
     /**
      *
      * @param lampNum
-     * @throws Exception
      */
-    public LampStatus(int lampNum) throws Exception {
-        if (lampNum >= 1 && lampNum <= 2) {
+    public LampTimeRemaining(int lampNum) throws Exception {
+        if(lampNum >= 1 && lampNum <= 2) {
             this.lampNum = lampNum;
         } else {
-            throw new Exception("YOU MESSED UP");
+            throw new Exception("A MISTAKE HAS BEEN MADE");
         }
     }
 
@@ -36,8 +34,7 @@ public class LampStatus extends BarkoF22Command {
     @Override
     public boolean checkAck() {
         String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == ("LST" + this.lampNum) && value >= 0 && value <= 5;
+        return ackArray[1] == ("LRM" + lampNum);
     }
 
     /**
@@ -46,8 +43,8 @@ public class LampStatus extends BarkoF22Command {
      */
     @Override
     public String getCmd() {
-        return this.getPrefix() + LampStatus.LAMP_STATUS + this.lampNum
-                + this.GET_CURRENT + this.getSuffix();
+        return this.getPrefix() + LampTimeRemaining.LAMP_TIME_REMAINING
+                + this.lampNum + this.GET_CURRENT + this.getSuffix();
     }
 
     /**
