@@ -9,31 +9,43 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Kristoffer
  */
 public class CommunicationTimer extends CustomTimer {
 
+    public interface OnTimeOut {
+        void onTimeOut();
+    }
+
+    private OnTimeOut onTimeOutCallback;
     private static final int POWER_ON_DELAY = 30000;
     private static final int MIN_DELAY = 500;
     private static final int RESEND_DELAY = 2000;
-    private static final int TWENTY_COMMNADS_SENT_DELAY = 5000;
+    private static final int TWENTY_COMMANDS_SENT_DELAY = 5000;
 
     private boolean ready = false;
-    int numberOfResets = 0;
+    private int numberOfResets = 0;
+    private final int resetLimit;
     private boolean powerOnCommand = false;
-    private boolean acknowledged = false;
+    private boolean acknowledged = true;
     private boolean canReset;
 
-    public CommunicationTimer() {
+    public CommunicationTimer(int... time) {
         super();
-        this.running = true;
+        setName("CommunicationTimer Thread");
+        if (time.length == 0) {
+            this.resetLimit = 20;
+        } else if (time.length == 1) {
+            this.resetLimit = time[0];
+        } else {
+            throw new UnsupportedOperationException("Can only have 0 or 1 input parameter");
+        }
         this.canReset = true;
     }
 
     @Override
     public void run() {
-        while (running) {
+        while (getRunning()) {
             if (!ready) {
                 ready = checkTimings();
                 try {
@@ -62,7 +74,7 @@ public class CommunicationTimer extends CustomTimer {
      */
     private boolean checkTimings() {
         boolean power = !(getTime() + POWER_ON_DELAY > System.currentTimeMillis() && powerOnCommand);
-        boolean command = numberOfResets < 20 && !(numberOfResets == 19 && getTime() + TWENTY_COMMNADS_SENT_DELAY > System.currentTimeMillis());
+        boolean command = numberOfResets < 20 && !(numberOfResets == 19 && getTime() + TWENTY_COMMANDS_SENT_DELAY > System.currentTimeMillis());
         boolean minDelay = (getTime() + MIN_DELAY < System.currentTimeMillis() && acknowledged);
         boolean maxDelay = (getTime() + RESEND_DELAY < System.currentTimeMillis() && !acknowledged);
         return power && command && (minDelay || maxDelay);
@@ -73,12 +85,26 @@ public class CommunicationTimer extends CustomTimer {
      * remain in a ready state.
      */
     private void onReady() {
-        if (listener != null) {
-            OnReady tempListener = listener;
-            tempListener.onReady();
+        if (!acknowledged && onTimeOutCallback != null) {
+            onTimeOutCallback.onTimeOut();
+            onTimeOutCallback = null;
+            listener = null;
             reset();
+        } else if (listener != null) {
+            listener.onReady();
+            onTimeOutCallback = null;
+            reset();
+            listener = null;
         }
 
+    }
+
+    public boolean setOnTimeOutListener(OnTimeOut listener) {
+        if (onTimeOutCallback == null) {
+            onTimeOutCallback = listener;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -86,7 +112,7 @@ public class CommunicationTimer extends CustomTimer {
      * has passed.
      *
      * @param isPowerOn a flag to indicate that the command sent was the powerOn
-     * command (Requires longer timeout).
+     *                  command (Requires longer timeout).
      * @return true if the timer was reset.
      */
     public boolean reset(boolean isPowerOn) {
@@ -113,18 +139,7 @@ public class CommunicationTimer extends CustomTimer {
      * Tells the timer that a condition was met and the maximum delay is not
      * necessary.
      */
-    public void stopTimer() {
+    public void acknowledge() {
         this.acknowledged = true;
-    }
-
-    /**
-     * Tags the thread to finish execution. it will complete its current
-     * executions then stop.
-     *
-     * @return true
-     */
-    public boolean stopThread() {
-        running = false;
-        return true;
     }
 }

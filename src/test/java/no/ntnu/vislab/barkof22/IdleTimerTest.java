@@ -22,6 +22,7 @@ import org.junit.Test;
 public class IdleTimerTest {
 
     private static boolean result = false;
+    private IdleTimer timer;
 
     public IdleTimerTest() {
     }
@@ -36,10 +37,13 @@ public class IdleTimerTest {
 
     @Before
     public void setUp() {
+        timer = new IdleTimer(1000);
+        timer.start();
     }
 
     @After
     public void tearDown() {
+        timer.stopThread();
     }
 
     /**
@@ -48,10 +52,7 @@ public class IdleTimerTest {
     @Test
     public void testRun() {
         System.out.println("run");
-        IdleTimer timer = new IdleTimer(1000);
-        timer.start();
         assertEquals(Thread.currentThread().isAlive(), timer.isAlive());
-        timer.stopThread();
     }
     /**
      * Test of stopThread method, of class IdleTimer.
@@ -59,13 +60,10 @@ public class IdleTimerTest {
     @Test
     public void testReadyListener() {
         System.out.println("readyListener");
-        IdleTimer timer = new IdleTimer(1000);
-        timer.start();
         boolean result = timer.setOnReadyListener(() -> this.result = true);
         assertEquals(true, result);
         result = timer.setOnReadyListener(() -> this.result = true);
         assertEquals(false, result);
-        timer.stopThread();
     }
 
 
@@ -74,13 +72,10 @@ public class IdleTimerTest {
      */
     @Test
     public void testReady() throws InterruptedException {
-        IdleTimer timer = new IdleTimer(1000);
-        timer.start();
         timer.setOnReadyListener(() -> this.result = true);
         System.out.println("ready");
         sleep(1050);
         assertEquals(true, result);
-        timer.stopThread();
     }
 
 
@@ -89,30 +84,10 @@ public class IdleTimerTest {
      */
     @Test
     public void testReset() {
-        IdleTimer timer = new IdleTimer(1000);
-        timer.start();
         System.out.println("reset");
         boolean expResult = true;
         boolean result = timer.reset();
         assertEquals(expResult, result);
-        timer.stopThread();
-    }
-
-    /**
-     * Test of stopThread method, of class IdleTimer.
-     */
-    @Test
-    public void testStopThread() {
-        IdleTimer timer = new IdleTimer(1000);
-        timer.start();
-        System.out.println("stopThread");
-        timer.stopThread();
-        try {
-            sleep(50);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(IdleTimerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        assertEquals(false, timer.isAlive());
     }
 
 }
