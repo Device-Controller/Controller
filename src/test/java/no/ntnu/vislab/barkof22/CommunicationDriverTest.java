@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class CommunicationDriverTest {
     private CommunicationDriver driver;
     private String testString = "Response";
-    private String seperator = "\n%";
+    private String seperator = "\n";
     private String sendString;
 
     @Before

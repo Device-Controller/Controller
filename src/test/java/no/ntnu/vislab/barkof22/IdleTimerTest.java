@@ -60,9 +60,9 @@ public class IdleTimerTest {
     @Test
     public void testReadyListener() {
         System.out.println("readyListener");
-        boolean result = timer.setOnReadyListener(() -> this.result = true);
+        boolean result = timer.setOnReadyListener(() -> IdleTimerTest.result = true);
         assertEquals(true, result);
-        result = timer.setOnReadyListener(() -> this.result = true);
+        result = timer.setOnReadyListener(() -> IdleTimerTest.result = true);
         assertEquals(false, result);
     }
 
@@ -72,7 +72,7 @@ public class IdleTimerTest {
      */
     @Test
     public void testReady() throws InterruptedException {
-        timer.setOnReadyListener(() -> this.result = true);
+        timer.setOnReadyListener(() -> result = true);
         System.out.println("ready");
         sleep(1050);
         assertEquals(true, result);
