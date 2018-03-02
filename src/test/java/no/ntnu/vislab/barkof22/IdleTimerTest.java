@@ -72,9 +72,9 @@ public class IdleTimerTest {
      */
     @Test
     public void testReady() throws InterruptedException {
-        timer.setOnReadyListener(() -> result = true);
         System.out.println("ready");
-        sleep(1050);
+        timer.setOnReadyListener(() -> result = true);
+        sleep(1100);
         assertEquals(true, result);
     }
 
