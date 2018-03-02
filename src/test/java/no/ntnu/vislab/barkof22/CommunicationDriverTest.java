@@ -69,8 +69,18 @@ public class CommunicationDriverTest {
         }
 
         @Override
+        public String getCmd() {
+            return null;
+        }
+
+        @Override
         public void setResponse(String response) {
             super.setResponse(response);
+        }
+
+        @Override
+        public boolean checkAck() {
+            return false;
         }
     }
 

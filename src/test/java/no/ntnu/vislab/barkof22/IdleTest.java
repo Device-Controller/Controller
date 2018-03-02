@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 public class IdleTest {
     private CommunicationDriver driver;
-    private String host = "localhost";
+    private String host = "158.38.101.143";
     private int port = 1025;
     private Command idleCommand1;
     private Command idleCommand2;
@@ -51,8 +51,18 @@ public class IdleTest {
         }
 
         @Override
+        public String getCmd() {
+            return null;
+        }
+
+        @Override
         public void setResponse(String response) {
             super.setResponse(response);
+        }
+
+        @Override
+        public boolean checkAck() {
+            return false;
         }
     }
 

@@ -16,10 +16,14 @@ import no.ntnu.vislab.barkof22.commands.PowerOn;
  * @author Kristoffer
  */
 public class BarkoF22Projector extends Projector {
+
     public BarkoF22Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException {
         super(projectorName, id, hostAddress, portNumber);
     }
 
+    public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws UnknownHostException {
+        this("BarkoF22", "1",hostAddress,portNumber);
+    }
     @Override
     public String powerOn() {
         return null;
