@@ -19,7 +19,7 @@ public class CommunicationDriverTest {
 
     @Before
     public void setUp() throws Exception {
-        sendString = seperator + testString + seperator + testString + seperator + testString;
+        sendString = "%" + testString + seperator + testString + seperator + testString;
         driver = new CommunicationDriver(System.out, new ByteArrayInputStream(sendString.getBytes()));
         driver.start();
     }
