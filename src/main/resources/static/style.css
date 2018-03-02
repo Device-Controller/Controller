@@ -128,7 +128,6 @@ nav ul li:hover {
 
 #selected-list li:hover {
     background-color:#ebebeb;
-    text-color: #00509e;
     cursor: pointer;
 }
 

@@ -60,8 +60,8 @@ public class CommunicationRunnable implements Runnable {
     }
 
     private synchronized void commandSent(Command command) {
-        if (command instanceof BarkoF22Cmd) {
-            BarkoF22Cmd barkoCommand = (BarkoF22Cmd) command;
+        if (command instanceof BarkoF22Command) {
+            BarkoF22Command barkoCommand = (BarkoF22Command) command;
             lastCommandSent = System.currentTimeMillis();
             lastCommandWasPowerOn = barkoCommand.isPowerOnCommand();      //TODO: Fix command power on check instead of isEmpty();
             commands.remove(command);
