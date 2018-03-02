@@ -75,6 +75,7 @@ public class CommunicationTimerTest {
             assertEquals(true, runResult);
             runResult = false;
             instance.reset();
+            instance.setOnReadyListener(listener);
             instance.acknowledge();
             assertEquals(false, runResult);
             sleep(550);
