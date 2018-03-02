@@ -59,7 +59,7 @@ public abstract class Command {
      *
      * @param response
      */
-    protected void setResponse(String response) {
+    public void setResponse(String response) {
         this.response = response;
     }
 
@@ -85,13 +85,6 @@ public abstract class Command {
      * @return
      */
     public abstract boolean checkAck();
-
-    /**
-     *
-     * @param ack
-     */
-    public void setAck(String ack) { setResponse(ack); }
-
     /**
      *
      * @return
