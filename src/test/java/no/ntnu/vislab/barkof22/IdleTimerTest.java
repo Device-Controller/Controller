@@ -5,15 +5,14 @@
  */
 package no.ntnu.vislab.barkof22;
 
-import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static java.lang.Thread.sleep;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
