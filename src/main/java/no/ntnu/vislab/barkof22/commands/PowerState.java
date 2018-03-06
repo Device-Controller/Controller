@@ -27,7 +27,7 @@ public class PowerState extends BarkoF22Command {
     }
 
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + PowerState.POWER_STATE + this.GET_CURRENT + this.getSuffix();
     }
 }

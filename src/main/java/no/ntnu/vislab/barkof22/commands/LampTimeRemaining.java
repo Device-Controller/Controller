@@ -42,7 +42,7 @@ public class LampTimeRemaining extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + LampTimeRemaining.LAMP_TIME_REMAINING
                 + this.lampNum + this.GET_CURRENT + this.getSuffix();
     }

@@ -26,7 +26,7 @@ public class ThermalStatus extends BarkoF22Command {
     }
 
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + ThermalStatus.THERMAL + this.GET_CURRENT
                 + this.getSuffix();
     }

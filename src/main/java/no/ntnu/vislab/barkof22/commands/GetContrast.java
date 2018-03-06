@@ -25,7 +25,7 @@ public class GetContrast extends BarkoF22Command {
     }
 
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + GetContrast.CONTRAST + this.GET_CURRENT + this.getSuffix();
     }
 }

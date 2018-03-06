@@ -3,6 +3,7 @@ package no.ntnu.vislab.vislabcontroller;
 import java.util.Objects;
 
 /**
+ * This is a superclass for all commands
  *
  * @author ThomasSTodal
  */
@@ -16,18 +17,19 @@ public abstract class Command {
     private String response;
 
     /**
+     * The prefix and suffix needs to be set by the subclass.
      *
-     * @param header
-     * @param terminator
+     * @param prefix represents the beginning of each command
+     * @param suffix represents the end of each command
      */
-    public Command(String header, String terminator) {
-        this.prefix = header;
-        this.suffix = terminator;
+    public Command(String prefix, String suffix) {
+        this.prefix = prefix;
+        this.suffix = suffix;
     }
 
     /**
      *
-     * @return
+     * @return The prefix that was set upon instancing this class.
      */
     protected String getPrefix() {
         return prefix;
@@ -35,7 +37,7 @@ public abstract class Command {
 
     /**
      *
-     * @return
+     * @return  The suffix that was set upon instancing this class.
      */
     protected String getSuffix() {
         return suffix;
@@ -43,21 +45,27 @@ public abstract class Command {
 
     /**
      *
+     *
      * @return
      */
-    public abstract String getCmd();
+    public String getCmd() {
+        return cmd;
+    }
 
     /**
+     * Stores the command String in the cmd field.
      *
-     * @param cmd
+     * @param cmd This should be the entire command, including prefix and suffix
      */
     protected void setCmd(String cmd) {
         this.cmd = cmd;
     }
 
     /**
+     * Upon receiving an response it should be stored in the response field
+     * to be manipulated later if needed.
      *
-     * @param response
+     * @param response this should be the response from the device
      */
     protected void setResponse(String response) {
         this.response = response;
@@ -65,7 +73,7 @@ public abstract class Command {
 
     /**
      *
-     * @return
+     * @return The previously stored response, null or empty String if no response is found.
      */
     public String getResponse() {
         return response;
@@ -76,9 +84,7 @@ public abstract class Command {
      * @return
      */
     @Override
-    public String toString() {
-        return cmd;
-    }
+    public abstract String toString();
 
     /**
      *

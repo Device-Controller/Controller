@@ -43,7 +43,7 @@ public class LampRuntime extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + LampRuntime.LAMP_RUNTIME + this.lampNum
                 + this.GET_CURRENT + this.getSuffix();
     }

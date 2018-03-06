@@ -26,7 +26,7 @@ public class SetContrast extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         } else {
             throw new Exception("WHOOOPSIE");
@@ -49,8 +49,8 @@ public class SetContrast extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
-        return this.toString();
+    public String toString() {
+        return this.getCmd();
     }
 
     /**
@@ -65,7 +65,7 @@ public class SetContrast extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         }
     }

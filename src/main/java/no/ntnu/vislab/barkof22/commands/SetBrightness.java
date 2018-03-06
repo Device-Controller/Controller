@@ -27,7 +27,7 @@ public class SetBrightness extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetBrightness.SET_BRIGHTNESS
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         } else {
             throw new Exception("THAT DIDN'T WORK");
@@ -50,8 +50,8 @@ public class SetBrightness extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
-        return this.toString();
+    public String toString() {
+        return this.getCmd();
     }
 
     /**
@@ -66,7 +66,7 @@ public class SetBrightness extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetBrightness.SET_BRIGHTNESS
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         }
     }

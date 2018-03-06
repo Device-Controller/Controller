@@ -25,7 +25,7 @@ public class UnitTotalTime extends BarkoF22Command {
     }
 
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + UnitTotalTime.TOTAL_TIME + this.GET_CURRENT
                 + this.getSuffix();
     }

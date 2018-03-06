@@ -45,7 +45,7 @@ public class LampStatus extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + LampStatus.LAMP_STATUS + this.lampNum
                 + this.GET_CURRENT + this.getSuffix();
     }

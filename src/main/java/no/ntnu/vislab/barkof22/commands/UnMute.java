@@ -30,7 +30,7 @@ public class UnMute extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + UnMute.UNMUTE + this.getSuffix();
     }
 }

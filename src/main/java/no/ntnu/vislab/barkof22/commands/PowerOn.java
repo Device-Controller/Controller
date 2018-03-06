@@ -31,7 +31,7 @@ public class PowerOn extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return getPrefix() + PowerOn.POWER_ON + this.getSuffix();
     }
 }

@@ -31,7 +31,7 @@ public class GetBrightness extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + GetBrightness.BRIGHTNESS + this.GET_CURRENT + this.getSuffix();
     }
 }

@@ -43,8 +43,9 @@ public class TestImage extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
-        return this.toString();
+    public String toString() {
+        return this.getPrefix() + TestImage.TEST_IMAGE + this.patternNum
+                + this.getSuffix();
     }
 
     /**
