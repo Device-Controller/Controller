@@ -35,7 +35,7 @@ public class LampStatus extends BarkoF22Command {
         try {
             String[] ackArray = getResponse().split(" ");
             int value = Integer.parseInt(ackArray[2]);
-            return (ackArray[1].equals("LST" + this.lampNum)) && (value >= 0 && value <= 5);
+            return ackArray[1].equals(LampStatus.LAMP_STATUS + this.lampNum) && (value >= 0) && (value <= 5);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
             return false;
         }
@@ -48,11 +48,6 @@ public class LampStatus extends BarkoF22Command {
     public String toString() {
         return this.getPrefix() + LampStatus.LAMP_STATUS + this.lampNum
                 + this.GET_CURRENT + this.getSuffix();
-    }
-
-    @Override
-    public String toString() {
-        return getCmd();
     }
 
     /**

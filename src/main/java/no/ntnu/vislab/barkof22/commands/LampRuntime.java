@@ -34,8 +34,12 @@ public class LampRuntime extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        return ackArray[1] == ("LTR" + this.lampNum);
+        try {
+            String[] ackArray = getResponse().split(" ");
+            return ackArray[1].equals(LampRuntime.LAMP_RUNTIME + this.lampNum);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**

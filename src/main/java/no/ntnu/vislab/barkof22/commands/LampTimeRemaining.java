@@ -33,8 +33,12 @@ public class LampTimeRemaining extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        return ackArray[1] == ("LRM" + lampNum);
+        try {
+            String[] ackArray = getResponse().split(" ");
+            return ackArray[1].equals(LampTimeRemaining.LAMP_TIME_REMAINING + this.lampNum);
+        } catch(ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**

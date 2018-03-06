@@ -19,9 +19,13 @@ public class GetContrast extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "CNTR" && value >= 0 && value <= 100;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(GetContrast.CONTRAST) && (value >= 0) && (value <= 100);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     @Override

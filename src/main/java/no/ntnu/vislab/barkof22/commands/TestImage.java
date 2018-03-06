@@ -33,9 +33,13 @@ public class TestImage extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "TEST" && value >= 0 && value <= 7;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(TestImage.TEST_IMAGE) && (value >= 0) && (value <= 7);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**

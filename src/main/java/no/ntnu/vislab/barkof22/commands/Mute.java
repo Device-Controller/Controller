@@ -21,9 +21,13 @@ public class Mute extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "PMUT" && value == 1;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(Mute.MUTE) && (value == 1);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**

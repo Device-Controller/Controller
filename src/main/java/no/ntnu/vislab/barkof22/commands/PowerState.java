@@ -21,9 +21,13 @@ public class PowerState extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = this.getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "POST" && value >= 0 && value <= 6;
+        try {
+            String[] ackArray = this.getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(PowerState.POWER_STATE) && (value >= 0) && (value <= 6);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     @Override
