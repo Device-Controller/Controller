@@ -3,12 +3,11 @@ package no.ntnu.vislab.barkof22.commands;
 import no.ntnu.vislab.barkof22.BarkoF22Command;
 
 /**
- *
  * @author ThomasSTodal
  */
 public class LampStatus extends BarkoF22Command {
     private static final String LAMP_STATUS = "LST";
-    private int lampNum;
+    private int lampNum = 1;
 
     /**
      *
@@ -17,7 +16,6 @@ public class LampStatus extends BarkoF22Command {
     }
 
     /**
-     *
      * @param lampNum
      * @throws Exception
      */
@@ -30,18 +28,20 @@ public class LampStatus extends BarkoF22Command {
     }
 
     /**
-     *
      * @return
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == ("LST" + this.lampNum) && value >= 0 && value <= 5;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return (ackArray[1].equals("LST" + this.lampNum)) && (value >= 0 && value <= 5);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -50,8 +50,12 @@ public class LampStatus extends BarkoF22Command {
                 + this.GET_CURRENT + this.getSuffix();
     }
 
+    @Override
+    public String toString() {
+        return getCmd();
+    }
+
     /**
-     *
      * @param lampNum
      */
     public void setLampNum(int lampNum) {
