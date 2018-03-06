@@ -42,7 +42,7 @@ public class AbstractThreadTest {
         try {
             sleep(50);
         } catch (InterruptedException ex) {
-            Logger.getLogger(IdleTimerTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractThread.class.getName()).log(Level.SEVERE, null, ex);
         }
         assertEquals(false, thread.isAlive());
     }
