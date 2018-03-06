@@ -20,7 +20,8 @@ import org.junit.Test;
  * @author Kristoffer
  */
 public class CustomTimerTest {
-    
+    CustomTimer instance;
+
     public CustomTimerTest() {
     }
     
@@ -34,6 +35,7 @@ public class CustomTimerTest {
     
     @Before
     public void setUp() {
+        instance = new CustomTimerImpl();
     }
     
     @After
@@ -46,7 +48,6 @@ public class CustomTimerTest {
     @Test
     public void testGetTime() {
         System.out.println("getTime");
-        CustomTimer instance = new CustomTimerImpl();
         long expResult = System.currentTimeMillis();
         long result = instance.getTime();
         assertEquals(expResult, result);
@@ -59,7 +60,6 @@ public class CustomTimerTest {
     @Test
     public void testResetTimer() {
         System.out.println("resetTimer");
-        CustomTimer instance = new CustomTimerImpl();
         long oldTime = instance.getTime();
         try {
             sleep(50);
@@ -78,8 +78,7 @@ public class CustomTimerTest {
     @Test
     public void testSetOnReadyListener() {
         System.out.println("setOnReadyListener");
-        CustomTimer.OnReady listener = ()->System.out.println("listener");;
-        CustomTimer instance = new CustomTimerImpl();
+        CustomTimer.OnReady listener = ()->{};
         boolean expResult = true;
         boolean result = instance.setOnReadyListener(listener);
         assertEquals(expResult, result);

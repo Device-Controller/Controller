@@ -19,34 +19,37 @@ import no.ntnu.vislab.vislabcontroller.Command;
  *
  * @author Kristoffer
  */
-public class Communicator extends Thread {
+public class Communicator extends AbstractThread {
 
+    public interface OnResponse{
+        void onResponse();
+    }
+    private OnResponse callback;
     private PrintStream out;
     private BufferedReader in;
-    private boolean running = false;
     private boolean commandSent;
     private Command command;
 
     public Communicator(OutputStream out, InputStream in) {
+        super();
         this.in = new BufferedReader(new InputStreamReader(in));
         this.out = new PrintStream(out);
-        this.running = true;
         reset();
     }
 
     @Override
     public void run() {
-        while (this.running) {
+        while (getRunning()) {
             if (command != null) {
                 if (!commandSent) {
                     out.println(command.toString());
-                    System.out.println(command.toString());
                     commandSent = true;
                 }
                 try {
-                    if (isMessageAvailable() && commandSent) {
-                        System.out.println(in.readLine());
-                        //command.setResponse(in.readLine());
+                    if (in.ready() && commandSent) {
+                        command.setResponse(in.readLine());
+                        System.out.println(command.getResponse());
+                        onResponse();
                         reset();
                     } else {
                         sleep(10);
@@ -70,17 +73,20 @@ public class Communicator extends Thread {
         }
     }
 
-    private boolean isMessageAvailable() throws IOException {
-        return in.read() == '%';
+    private void onResponse() {
+        if(callback != null){
+            callback.onResponse();
+            callback = null;
+        }
     }
 
-    /**
-     * Stops the outbound writer.
-     */
-    public void stopOutbound() {
-        this.running = false;
+    public boolean setCallback(OnResponse callback){
+        if(this.callback == null){
+            this.callback = callback;
+            return true;
+        }
+        return false;
     }
-
     /**
      * Submits the command to be sent out to the receiver. Returns true if the
      * command can be submitted.

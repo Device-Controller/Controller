@@ -12,29 +12,28 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import no.ntnu.vislab.vislabcontroller.Command;
 
 /**
- *
  * @author Kristoffer
  */
-public final class CommunicationDriver extends Thread {
+public final class CommunicationDriver extends AbstractThread {
 
     private CommunicationTimer timer;
     private Communicator comm;
-    private ArrayList<Command> outgoingBuffer;
-    private ArrayList<Command> idleBuffer;
+    private volatile ArrayList<Command> outgoingBuffer;
+    private volatile ArrayList<Command> idleBuffer;
     private int idleIndex;
     private IdleTimer idleTimer;
     private boolean running;
 
     public CommunicationDriver(Socket host, List<Command> idleBuffer) throws IOException {
-        this(host.getOutputStream(),host.getInputStream(), idleBuffer);
+        this(host.getOutputStream(), host.getInputStream(), idleBuffer);
     }
 
     public CommunicationDriver(OutputStream out, InputStream in, List<Command> idleBuffer) {
+        setName("CommunicationDriver Thread-" + getId());
         this.timer = new CommunicationTimer();
         this.outgoingBuffer = new ArrayList<>();
         this.idleBuffer = new ArrayList<>(idleBuffer);
@@ -48,7 +47,7 @@ public final class CommunicationDriver extends Thread {
         this(host, new ArrayList<>(Arrays.asList(cmds)));
     }
 
-    public CommunicationDriver(OutputStream out, InputStream in, Command... cmds){
+    public CommunicationDriver(OutputStream out, InputStream in, Command... cmds) {
         this(out, in, new ArrayList<>(Arrays.asList(cmds)));
     }
 
@@ -58,22 +57,43 @@ public final class CommunicationDriver extends Thread {
         this.comm.start();
         this.idleTimer.start();
         while (this.running) {
-            try {
-                if (isIdle()) {
-                    this.timer.setOnReadyListener(() -> sendCommand());
-                } else {
-                    this.idleTimer.setOnReadyListener(() -> sendIdleCommand());
+            if (isIdle()) {
+                if (!idleBuffer.isEmpty())
+                    idleTimer.setOnReadyListener(() -> {
+                        sendIdleCommand();
+                        idleTimer.reset();
+                    });
+            } else {
+                if (!outgoingBuffer.isEmpty()) {
+                    timer.setOnReadyListener(() -> {
+                        sendCommand();
+                        timer.reset();
+                    });
+                    timer.setOnTimeOutListener(() -> {
+                        retry();
+                        timer.reset();
+                    });
                 }
-                sleep(5);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(CommunicationDriver.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
     }
 
+    private void retry() {
+        System.out.println("retry");
+    }
+
     public synchronized boolean addAndSend(Command command) {
         return this.outgoingBuffer.add(command);
+    }
+
+    public int getCurrentQue() {
+        return outgoingBuffer.size();
     }
 
     private boolean isIdle() {
@@ -81,12 +101,28 @@ public final class CommunicationDriver extends Thread {
     }
 
     private void sendCommand() {
-        this.comm.sendCommand(this.outgoingBuffer.get(0));
-        this.outgoingBuffer.remove(0);
+        this.comm.sendCommand(outgoingBuffer.get(0));
+        this.comm.setCallback(() -> {
+            outgoingBuffer.remove(0);
+            timer.acknowledge();
+        });
     }
 
     private void sendIdleCommand() {
-        this.comm.sendCommand(this.idleBuffer.get(this.idleIndex));
-        this.idleIndex = this.idleIndex + 1 % this.idleBuffer.size();
+        this.comm.setCallback(() -> this.idleIndex = (this.idleIndex + 1) % this.idleBuffer.size());
+        this.comm.sendCommand(idleBuffer.get(idleIndex));
     }
+
+    /**
+     * Returns false if all threads were already stopped
+     *
+     * @return false if all threads were already stopped
+     */
+    @Override
+    public boolean stopThread() {
+        return super.stopThread() || timer.stopThread() || comm.stopThread() || idleTimer.stopThread();
+
+    }
+
+
 }

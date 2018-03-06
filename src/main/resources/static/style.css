@@ -110,12 +110,24 @@ nav ul li:hover {
     float: left;
     margin-top: 5%;
 }
-#buttonPower, #buttonMute, #button1, #button2 {
+#buttonMute, #button1, #button2 {
     display: block;
     padding: 20% 0 20% 0;
-    width: 200px;
     margin-top: 5%;
     margin-bottom: 5%;
+    width:200px;
+}
+#buttonPower {
+    background-color: limegreen;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 50%;
 }
 
 #selected-list li {
@@ -128,7 +140,6 @@ nav ul li:hover {
 
 #selected-list li:hover {
     background-color:#ebebeb;
-    text-color: #00509e;
     cursor: pointer;
 }
 

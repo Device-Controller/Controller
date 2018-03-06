@@ -9,9 +9,8 @@ package no.ntnu.vislab.barkof22;
  *
  * @author Kristoffer
  */
-public abstract class CustomTimer extends Thread {
-    
-    protected boolean running;
+public abstract class CustomTimer extends AbstractThread {
+
 
     public interface OnReady {
 
@@ -21,7 +20,7 @@ public abstract class CustomTimer extends Thread {
     private long time;
 
     public CustomTimer() {
-        this.running = true;
+        super();
         resetTimer();
     }
 

@@ -67,7 +67,7 @@ public abstract class Command {
      *
      * @param response this should be the response from the device
      */
-    protected void setResponse(String response) {
+    public void setResponse(String response) {
         this.response = response;
     }
 
@@ -91,13 +91,6 @@ public abstract class Command {
      * @return
      */
     public abstract boolean checkAck();
-
-    /**
-     *
-     * @param ack
-     */
-    public void setAck(String ack) { setResponse(ack); }
-
     /**
      *
      * @return

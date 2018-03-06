@@ -10,23 +10,37 @@ class doStuff {
         for (i = 0; i < this.status.length; i++) {
             console.log(this.status[i]);
             this.status[i].onclick = event => {
-                fetch('controller/lampStatus?lampNumber=1')
-                        .then(response => {
-                            if (response.ok) {
-                                return response.text();
-                            }
+                event.target.style.backgroundColor = "red";
+                fetch(/*'controller/lampStatus?lampNumber=1'*/'controller/testDummy')
+                    .then(response => {
+                        if (response.ok)
+                            return response.text();
+                        {
+                        }
 
-                            throw new Error("Failed");
-                        }).then(data => {
+                        throw new Error("Failed");
+                    }).then(data => {
                     console.log(data);
                 })
-                        .catch(e => console.log("Error: " + e.message));
+                    .catch(e => console.log("Error: " + e.message));
             };
+
+
+            this.worker = new Worker("worker.js");
+            this.worker.postMessage("rofl");
+
+            this.worker.addEventListener('message', function (e) {
+                console.log('MAIN THREAD' + e.data);
+                document.getElementById('pro1').style.backgroundColor = e.data;
+            }, false);
 
         }
     }
 }
 let script = new doStuff();
+
+
+
 function getLampStatus() {
     fetch('controller/lampStatus?lampNumber=1')
             .then(response => {
@@ -39,9 +53,6 @@ function getLampStatus() {
         console.log(data);
     })
             .catch(e => console.log("Error: " + e.message));
-}
-function clickStuff() {
-    getLampStatus();
 }
 
 

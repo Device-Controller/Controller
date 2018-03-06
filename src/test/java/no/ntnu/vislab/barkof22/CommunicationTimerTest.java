@@ -6,22 +6,24 @@
 package no.ntnu.vislab.barkof22;
 
 import static java.lang.Thread.sleep;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.junit.After;
 import org.junit.AfterClass;
+
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- *
  * @author Kristoffer
  */
 public class CommunicationTimerTest {
-
-    private boolean stopTimerResult;
+    private CommunicationTimer instance;
     private boolean runResult;
 
     public CommunicationTimerTest() {
@@ -37,10 +39,14 @@ public class CommunicationTimerTest {
 
     @Before
     public void setUp() {
+        instance = new CommunicationTimer();
+        instance.start();
+        this.runResult = false;
     }
 
     @After
     public void tearDown() {
+        instance.stopThread();
     }
 
     /**
@@ -50,15 +56,13 @@ public class CommunicationTimerTest {
     public void testRun() {
         try {
             System.out.println("run");
-            CommunicationTimer instance = new CommunicationTimer();
-            instance.start();
             try {
                 sleep(50);
             } catch (InterruptedException ex) {
                 Logger.getLogger(CommunicationTimerTest.class.getName()).log(Level.SEVERE, null, ex);
             }
             assertEquals(true, instance.isAlive());
-            CustomTimer.OnReady listener = ()-> runResult = true;
+            CustomTimer.OnReady listener = () -> runResult = true;
             instance.setOnReadyListener(listener);
             assertEquals(false, runResult);
             sleep(2050);
@@ -71,11 +75,11 @@ public class CommunicationTimerTest {
             assertEquals(true, runResult);
             runResult = false;
             instance.reset();
-            instance.stopTimer();
+            instance.setOnReadyListener(listener);
+            instance.acknowledge();
             assertEquals(false, runResult);
             sleep(550);
             assertEquals(true, runResult);
-            instance.stopThread();
         } catch (InterruptedException ex) {
             Logger.getLogger(CommunicationTimerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -86,9 +90,7 @@ public class CommunicationTimerTest {
      */
     @Test
     public void testReset_boolean() {
-        System.out.println("reset");
-        CommunicationTimer instance = new CommunicationTimer();
-        instance.start();
+        System.out.println("resetWithArgs");
         boolean result = instance.reset(true);
         assertEquals(true, result);
         result = instance.reset(true);
@@ -102,7 +104,6 @@ public class CommunicationTimerTest {
         assertEquals(true, result);
         result = instance.reset(false);
         assertEquals(false, result);
-        instance.stopThread();
     }
 
     /**
@@ -110,9 +111,7 @@ public class CommunicationTimerTest {
      */
     @Test
     public void testReset_0args() {
-        System.out.println("reset");
-        CommunicationTimer instance = new CommunicationTimer();
-        instance.start();
+        System.out.println("resetNoArgs");
         boolean result = instance.reset();
         assertEquals(true, result);
         result = instance.reset();
@@ -126,37 +125,29 @@ public class CommunicationTimerTest {
         assertEquals(true, result);
         result = instance.reset();
         assertEquals(false, result);
-        instance.stopThread();
     }
 
     /**
-     * Test of stopTimer method, of class CommunicationTimer.
+     * Test of acknowledge method, of class CommunicationTimer.
      */
     @Test
     public void testStopTimer() {
-        System.out.println("stopTimer");
-        CommunicationTimer instance = new CommunicationTimer();
-        instance.start();
-        instance.setOnReadyListener(()-> stopTimerResult = true);
-        instance.stopTimer();
+        System.out.println("acknowledge");
+        instance.setOnReadyListener(() -> runResult = true);
+        instance.acknowledge();
         try {
             sleep(550);
         } catch (InterruptedException ex) {
             Logger.getLogger(CommunicationTimerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        assertEquals(true,stopTimerResult);
-        instance.stopThread();
+        assertEquals(true, runResult);
     }
-
     /**
      * Test of stopThread method, of class CommunicationTimer.
      */
     @Test
     public void testStopThread() {
         System.out.println("stopThread");
-        CommunicationTimer instance = new CommunicationTimer();
-        
-        instance.start();
         boolean expResult = true;
         boolean result = instance.stopThread();
         assertEquals(expResult, result);

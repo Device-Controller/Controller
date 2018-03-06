@@ -17,13 +17,12 @@ class IdleTimer extends CustomTimer{
 
     public IdleTimer(int timing) {
         this.timing = timing;
-        this.running = true;
         reset();
     }
 
     @Override
     public void run() {
-        while (running) {
+        while (getRunning()) {
             if (getTime() + timing < System.currentTimeMillis()) {
                 onReady();
             }
@@ -36,17 +35,11 @@ class IdleTimer extends CustomTimer{
      */
     private void onReady() {
         if (listener != null) {
-            OnReady tempListener = listener;
-            tempListener.onReady();
+            listener.onReady();
             reset();
         }
 
     }
-    
-    public void stopThread() {
-        this.running = false;
-    }
-
     @Override
     public boolean reset() {
         resetTimer();
