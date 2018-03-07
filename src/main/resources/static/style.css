@@ -3,13 +3,13 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : Feb 12, 2018, 12:38:52 PM
     Author     : Erik
 */
 
 body {
-    font-family: "open sans",arial,sans-serif;
+    font-family: 'Open Sans','Arial',sans-serif;
     font-size: 14px;
 }
 
@@ -20,8 +20,8 @@ button {
 }
 
 button:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    background-color:#ebebeb;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,.24), 0 17px 50px 0 rgba(0,0,0,.19);
+    background-color: #ebebeb;
 }
 
 .main-container {
@@ -42,25 +42,26 @@ button:hover {
 }
 .main-container3 {
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
     width: 100%;
+}
+
+ul {
+    list-style-type: none;
 }
 /* ------------------------------------ NAV MENY -------------------------------*/
 #ntnu-logo {
     float: left;
 }
 
-.navigation-menu {
-}
 nav {
     width: 100%;
     border-bottom: 1px solid grey;
 }
 
 nav ul {
-    list-style-type: none;
     margin: 0;
-    padding: 0.5em;
+    padding: .5em;
     overflow: hidden;
     margin-left: 5%;
 }
@@ -97,9 +98,6 @@ nav ul li:hover {
     padding: 5% 0 5% 0;
 }
 
-#selected-list {
-    list-style-type: none;
-}
 #interactive-image {
     float: left;
     margin-right: 5%;
@@ -110,20 +108,19 @@ nav ul li:hover {
     float: left;
     margin-top: 5%;
 }
-#buttonMute, #button1, #button2 {
+#buttonmute, #button1, #button2 {
     display: block;
     padding: 20% 0 20% 0;
     margin-top: 5%;
     margin-bottom: 5%;
-    width:200px;
+    width: 200px;
 }
-#buttonPower {
+#buttonpower {
     background-color: limegreen;
     border: none;
     color: white;
     padding: 20px;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
@@ -139,7 +136,7 @@ nav ul li:hover {
 }
 
 #selected-list li:hover {
-    background-color:#ebebeb;
+    background-color: #ebebeb;
     cursor: pointer;
 }
 
