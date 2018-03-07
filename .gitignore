@@ -7,3 +7,5 @@ nbactions.xml
 /nbproject/
 /.idea/
 VislabController.iml
+classes/
+src/main/META-INF/MANIFEST.MF
