@@ -5,13 +5,12 @@
  */
 class doStuff {
     constructor() {
-        this.status = document.querySelectorAll("li");
+        //this.status = document.querySelectorAll("li");
+        this.status = document.getElementById("pro1")
         var i;
-        for (i = 0; i < this.status.length; i++) {
-            console.log(this.status[i]);
-            this.status[i].onclick = event => {
-                event.target.style.backgroundColor = "red";
-                fetch(/*'controller/lampStatus?lampNumber=1'*/'controller/testDummy')
+        //for (i = 0; i < this.status.length; i++) {
+            this.status.onclick = event => {
+                fetch('controller/lampStatus?lampNumber=1')
                     .then(response => {
                         if (response.ok)
                             return response.text();
@@ -26,15 +25,16 @@ class doStuff {
             };
 
 
-            this.worker = new Worker("worker.js");
-            this.worker.postMessage("rofl");
 
-            this.worker.addEventListener('message', function (e) {
-                console.log('MAIN THREAD' + e.data);
-                document.getElementById('pro1').style.backgroundColor = e.data;
-            }, false);
 
-        }
+        //}
+        // this.worker = new Worker("worker.js");
+        // this.worker.postMessage("rofl");
+        //
+        // this.worker.addEventListener('message', function (e) {
+        //     console.log('MAIN THREAD' + e.data);
+        //     document.getElementById('pro1').style.backgroundColor = e.data;
+        // }, false);
     }
 }
 let script = new doStuff();

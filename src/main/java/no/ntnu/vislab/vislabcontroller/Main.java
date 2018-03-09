@@ -20,17 +20,17 @@ public class Main {
         CommunicationDriver cd = new CommunicationDriver(host, new LampStatus(1), new PowerState());
         cd.start();
         Timer t = new Timer();
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
+        cd.queueCommand(new Mute());
+        cd.queueCommand(new Mute());
+        cd.queueCommand(new Mute());
+        cd.queueCommand(new Mute());
+        cd.queueCommand(new Mute());
+        cd.queueCommand(new Mute());
         while(!t.hasTimerPassed(20000)){
 
         }
         t.reset();
-        cd.queCommand(new UnMute());
+        cd.queueCommand(new UnMute());
         while(!t.hasTimerPassed(8000)){
 
         }
