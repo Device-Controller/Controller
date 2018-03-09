@@ -9,23 +9,21 @@ class doStuff {
         var i;
         for (i = 0; i < this.status.length; i++) {
             console.log(this.status[i]);
-            this.status[i].onclick = event =>
-            {
+            this.status[i].onclick = event => {
                 event.target.style.backgroundColor = "red";
                 fetch(/*'controller/lampStatus?lampNumber=1'*/'controller/testDummy')
                     .then(response => {
-                    if(response.ok)
-                return response.text();
-                {
-                }
+                        if (response.ok)
+                            return response.text();
+                        {
+                        }
 
-                throw new Error("Failed");
-            }).
-                then(data => {
+                        throw new Error("Failed");
+                    }).then(data => {
                     console.log(data);
-            })
-            .
-                catch(e => console.log("Error: " + e.message));};
+                })
+                    .catch(e => console.log("Error: " + e.message));
+            };
 
 
             this.worker = new Worker("worker.js");
@@ -39,7 +37,6 @@ class doStuff {
         }
     }
 }
-
 let script = new doStuff();
 
 

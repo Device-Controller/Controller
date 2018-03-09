@@ -21,9 +21,13 @@ public class GetBrightness extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == BRIGHTNESS && value >= 0 && value <= 100;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(GetBrightness.BRIGHTNESS) && (value >= 0) && (value <= 100);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**
@@ -31,7 +35,7 @@ public class GetBrightness extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + GetBrightness.BRIGHTNESS + this.GET_CURRENT + this.getSuffix();
     }
 }

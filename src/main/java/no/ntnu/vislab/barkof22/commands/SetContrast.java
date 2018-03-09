@@ -26,7 +26,7 @@ public class SetContrast extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         } else {
             throw new Exception("WHOOOPSIE");
@@ -39,9 +39,14 @@ public class SetContrast extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "CNTR" && value >= 0 && value <= 100;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(SetContrast.SET_CONTRAST.trim())
+                    && (value >= 0) && (value <= 100);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**
@@ -49,8 +54,8 @@ public class SetContrast extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
-        return this.toString();
+    public String toString() {
+        return this.getCmd();
     }
 
     /**
@@ -65,7 +70,7 @@ public class SetContrast extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         }
     }

@@ -8,7 +8,7 @@ import no.ntnu.vislab.vislabcontroller.Command;
  */
 public abstract class BarkoF22Command extends Command {
     
-    protected static final String RELATIVE_VALUE    = "R";
+    protected static final String RELATIVE_MODIFIER = "R";
 
     protected static final String GET_CURRENT       = "?";
     protected static final String GET_MAX           = "?M";

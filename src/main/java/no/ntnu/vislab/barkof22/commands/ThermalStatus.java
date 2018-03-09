@@ -20,13 +20,17 @@ public class ThermalStatus extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "THRM";
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(ThermalStatus.THERMAL);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     @Override
-    public String getCmd() {
+    public String toString() {
         return this.getPrefix() + ThermalStatus.THERMAL + this.GET_CURRENT
                 + this.getSuffix();
     }

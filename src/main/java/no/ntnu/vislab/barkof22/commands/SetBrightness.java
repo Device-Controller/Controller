@@ -27,7 +27,7 @@ public class SetBrightness extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetBrightness.SET_BRIGHTNESS
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         } else {
             throw new Exception("THAT DIDN'T WORK");
@@ -40,9 +40,14 @@ public class SetBrightness extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "BRIG" && value >= 0 && value <= 100;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(SetBrightness.SET_BRIGHTNESS.trim())
+                    && (value >= 0) && (value <= 100);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**
@@ -50,8 +55,8 @@ public class SetBrightness extends BarkoF22Command {
      * @return
      */
     @Override
-    public String getCmd() {
-        return this.toString();
+    public String toString() {
+        return this.getCmd();
     }
 
     /**
@@ -66,7 +71,7 @@ public class SetBrightness extends BarkoF22Command {
                         + value + this.getSuffix());
             } else {
                 setCmd(this.getPrefix() + SetBrightness.SET_BRIGHTNESS
-                        + this.RELATIVE_VALUE + value + this.getSuffix());
+                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
             }
         }
     }

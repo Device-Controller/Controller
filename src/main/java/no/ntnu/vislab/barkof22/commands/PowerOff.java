@@ -19,16 +19,20 @@ public class PowerOff extends BarkoF22Command {
      */
     @Override
     public boolean checkAck() {
-        String[] ackArray = getResponse().split(" ");
-        int value = Integer.parseInt(ackArray[2]);
-        return ackArray[1] == "POWR" && value == 0;
+        try {
+            String[] ackArray = getResponse().split(" ");
+            int value = Integer.parseInt(ackArray[2]);
+            return ackArray[1].equals(PowerOff.POWER_OFF) && (value == 0);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
+            return false;
+        }
     }
 
     /**
      * @return
      */
     @Override
-    public String getCmd() {
+    public String toString() {
         return getPrefix() + PowerOff.POWER_OFF + this.getSuffix();
     }
 }
