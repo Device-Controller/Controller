@@ -1,14 +1,23 @@
 package no.ntnu.vislab.vislabcontroller;
 
 
-import java.net.Socket;
+import java.util.ArrayList;
 
-import no.ntnu.vislab.barkof22.CommunicationDriver;
-import no.ntnu.vislab.barkof22.Timer;
+import no.ntnu.vislab.barkof22.commands.GetBrightness;
+import no.ntnu.vislab.barkof22.commands.GetContrast;
+import no.ntnu.vislab.barkof22.commands.LampRuntime;
 import no.ntnu.vislab.barkof22.commands.LampStatus;
+import no.ntnu.vislab.barkof22.commands.LampTimeRemaining;
 import no.ntnu.vislab.barkof22.commands.Mute;
+import no.ntnu.vislab.barkof22.commands.PowerOff;
+import no.ntnu.vislab.barkof22.commands.PowerOn;
 import no.ntnu.vislab.barkof22.commands.PowerState;
+import no.ntnu.vislab.barkof22.commands.SetBrightness;
+import no.ntnu.vislab.barkof22.commands.SetContrast;
+import no.ntnu.vislab.barkof22.commands.TestImage;
+import no.ntnu.vislab.barkof22.commands.ThermalStatus;
 import no.ntnu.vislab.barkof22.commands.UnMute;
+import no.ntnu.vislab.barkof22.commands.UnitTotalTime;
 
 /**
  * @author Kristoffer
@@ -16,24 +25,35 @@ import no.ntnu.vislab.barkof22.commands.UnMute;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Socket host = new Socket("158.38.101.110", 1025);
-        CommunicationDriver cd = new CommunicationDriver(host, new LampStatus(1), new PowerState());
-        cd.start();
-        Timer t = new Timer();
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        cd.queCommand(new Mute());
-        while(!t.hasTimerPassed(20000)){
-
-        }
-        t.reset();
-        cd.queCommand(new UnMute());
-        while(!t.hasTimerPassed(8000)){
-
-        }
-        cd.stopThread();
+        ArrayList<Command> cmds = new ArrayList<>();
+        cmds.add(new GetBrightness());
+        cmds.add(new GetContrast());
+        cmds.add(new LampRuntime(1));
+        cmds.add(new LampRuntime(2));
+        cmds.add(new LampStatus(1));
+        cmds.add(new LampStatus(2));
+        cmds.add(new LampTimeRemaining(1));
+        cmds.add(new LampTimeRemaining(2));
+        cmds.add(new Mute());
+        cmds.add(new UnMute());
+        cmds.add(new PowerOn());
+        cmds.add(new PowerOff());
+        cmds.add(new PowerState());
+        cmds.add(new SetBrightness(0,false));
+        cmds.add(new SetBrightness(100,false));
+        cmds.add(new SetBrightness(0,true));
+        cmds.add(new SetBrightness(100,true));
+        cmds.add(new SetContrast(-100,false));
+        cmds.add(new SetContrast(0,false));
+        cmds.add(new SetContrast(100,false));
+        cmds.add(new SetContrast(-100,true));
+        cmds.add(new SetContrast(0,true));
+        cmds.add(new SetContrast(100,true));
+        cmds.add(new TestImage(0));
+        cmds.add(new TestImage(7));
+        cmds.add(new ThermalStatus());
+        cmds.add(new UnitTotalTime());
+        cmds.forEach(e-> System.out.println(e.toString()));
     }
+
 }

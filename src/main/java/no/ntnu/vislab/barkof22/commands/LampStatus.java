@@ -7,12 +7,14 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
  */
 public class LampStatus extends BarkoF22Command {
     private static final String LAMP_STATUS = "LST";
-    private int lampNum = 1;
+    private static final int MAX_VALUE = 5;
+    private static final int MIN_VALUE = 0;
 
     /**
      *
      */
-    public LampStatus() {
+    private LampStatus(Integer integer) {
+        super(LAMP_STATUS + integer, MAX_VALUE, MIN_VALUE);
     }
 
     /**
@@ -20,42 +22,13 @@ public class LampStatus extends BarkoF22Command {
      * @throws Exception
      */
     public LampStatus(int lampNum) throws Exception {
-        if (lampNum >= 1 && lampNum <= 2) {
-            this.lampNum = lampNum;
+        this(new Integer(checkLampNum(lampNum)));
+    }
+    private static int checkLampNum(int lampNum) throws Exception {
+        if(lampNum >= 1 && lampNum <= 2) {
+            return lampNum;
         } else {
-            throw new Exception("YOU MESSED UP");
-        }
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public boolean checkAck() {
-        try {
-            String[] ackArray = getResponse().split(" ");
-            int value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(LampStatus.LAMP_STATUS + this.lampNum) && (value >= 0) && (value <= 5);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public String toString() {
-        return this.getPrefix() + LampStatus.LAMP_STATUS + this.lampNum
-                + this.GET_CURRENT + this.getSuffix();
-    }
-
-    /**
-     * @param lampNum
-     */
-    public void setLampNum(int lampNum) {
-        if (lampNum >= 1 && lampNum <= 2) {
-            this.lampNum = lampNum;
+            throw new Exception("YOU DID A WRONG");
         }
     }
 }

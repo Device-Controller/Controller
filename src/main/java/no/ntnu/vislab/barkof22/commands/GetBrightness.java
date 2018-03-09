@@ -8,34 +8,13 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
  */
 public class GetBrightness extends BarkoF22Command {
     private static final String BRIGHTNESS = "BRIG";
+    private static final int MAX_VALUE = 100;
+    private static final int MIN_VALUE = 0;
 
     /**
      *
      */
     public GetBrightness() {
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public boolean checkAck() {
-        try {
-            String[] ackArray = getResponse().split(" ");
-            int value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(GetBrightness.BRIGHTNESS) && (value >= 0) && (value <= 100);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String toString() {
-        return this.getPrefix() + GetBrightness.BRIGHTNESS + this.GET_CURRENT + this.getSuffix();
+        super(BRIGHTNESS, MAX_VALUE, MIN_VALUE);
     }
 }

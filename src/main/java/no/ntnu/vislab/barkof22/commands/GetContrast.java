@@ -7,29 +7,13 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
  */
 public class GetContrast extends BarkoF22Command {
     private static final String CONTRAST = "CNTR";
+    private static final int MAX_VALUE = 100;
+    private static final int MIN_VALUE = 0;
 
     /**
      *
      */
-    public GetContrast() {  }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public boolean checkAck() {
-        try {
-            String[] ackArray = getResponse().split(" ");
-            int value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(GetContrast.CONTRAST) && (value >= 0) && (value <= 100);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return this.getPrefix() + GetContrast.CONTRAST + this.GET_CURRENT + this.getSuffix();
+    public GetContrast() {
+        super(CONTRAST, MAX_VALUE, MIN_VALUE);
     }
 }

@@ -7,12 +7,14 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
  */
 public class TestImage extends BarkoF22Command {
     private static final String TEST_IMAGE = "TEST";
-    private int patternNum;
+    private static final int MAX_VALUE = 7;
+    private static final int MIN_VALUE = 0;
 
     /**
      *
      */
-    public TestImage() {
+    private TestImage(Integer integer) {
+        super(TEST_IMAGE, integer, MAX_VALUE, MIN_VALUE);
     }
 
     /**
@@ -20,45 +22,14 @@ public class TestImage extends BarkoF22Command {
      * @param patternNum
      */
     public TestImage(int patternNum) throws Exception {
-        if(patternNum >= 0 && patternNum <= 7) {
-            this.patternNum = patternNum;
+        this(new Integer(checkValue(patternNum)));
+    }
+
+    private static int checkValue(int value) throws Exception {
+        if (value >= MIN_VALUE && value <= MAX_VALUE) {
+            return value;
         } else {
-            throw new Exception("OUT OF BOUNDS!");
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public boolean checkAck() {
-        try {
-            String[] ackArray = getResponse().split(" ");
-            int value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(TestImage.TEST_IMAGE) && (value >= 0) && (value <= 7);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String toString() {
-        return this.getPrefix() + TestImage.TEST_IMAGE + this.patternNum
-                + this.getSuffix();
-    }
-
-    /**
-     *
-     * @param patternNum
-     */
-    public void setTestPattern(int patternNum) {
-        if(patternNum >= 0 && patternNum <= 7) {
-            this.patternNum = patternNum;
+            throw new Exception("THAT DIDN'T WORK");
         }
     }
 }
