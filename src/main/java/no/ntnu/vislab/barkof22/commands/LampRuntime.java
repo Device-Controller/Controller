@@ -1,6 +1,7 @@
 package no.ntnu.vislab.barkof22.commands;
 
 import no.ntnu.vislab.barkof22.BarkoF22Command;
+import no.ntnu.vislab.barkof22.BarkoF22Exception;
 
 /**
  * @author ThomasSTodal
@@ -18,16 +19,23 @@ public class LampRuntime extends BarkoF22Command {
     /**
      *
      * @param lampNum
-     * @throws Exception
+     * @throws BarkoF22Exception
      */
-    public LampRuntime(int lampNum) throws Exception {
+    public LampRuntime(int lampNum) throws BarkoF22Exception {
         this(new Integer(checkLampNum(lampNum)));
     }
-    private static int checkLampNum(int lampNum) throws Exception {
+
+    /**
+     *
+     * @param lampNum
+     * @return
+     * @throws BarkoF22Exception
+     */
+    private static int checkLampNum(int lampNum) throws BarkoF22Exception {
         if(lampNum >= 1 && lampNum <= 2) {
             return lampNum;
         } else {
-            throw new Exception("YOU DID A WRONG");
+            throw new BarkoF22Exception(LampRuntime.class, lampNum);
         }
     }
 }

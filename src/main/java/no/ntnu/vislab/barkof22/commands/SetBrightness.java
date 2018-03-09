@@ -1,6 +1,7 @@
 package no.ntnu.vislab.barkof22.commands;
 
 import no.ntnu.vislab.barkof22.BarkoF22Command;
+import no.ntnu.vislab.barkof22.BarkoF22Exception;
 
 /**
  *
@@ -15,7 +16,7 @@ public class SetBrightness extends BarkoF22Command {
      *
      */
     private SetBrightness(Integer integer, boolean isAbsoluteValue) {
-        super((isAbsoluteValue) ? BRIGHTNESS + RELATIVE_MODIFIER : BRIGHTNESS, integer);
+        super((!isAbsoluteValue) ? BRIGHTNESS + RELATIVE_MODIFIER : BRIGHTNESS, integer);
     }
 
     /**
@@ -23,14 +24,15 @@ public class SetBrightness extends BarkoF22Command {
      * @param value
      * @param isAbsoluteValue
      */
-    public SetBrightness(int value, boolean isAbsoluteValue) throws Exception {
+    public SetBrightness(int value, boolean isAbsoluteValue) throws BarkoF22Exception {
         this(new Integer(checkValue(value)), isAbsoluteValue);
     }
-    private static int checkValue(int value) throws Exception {
+
+    private static int checkValue(int value) throws BarkoF22Exception {
         if (value >= MIN_VALUE && value <= MAX_VALUE) {
             return value;
         } else {
-            throw new Exception("THAT DIDN'T WORK");
+            throw new BarkoF22Exception(SetBrightness.class, value);
         }
     }
 }

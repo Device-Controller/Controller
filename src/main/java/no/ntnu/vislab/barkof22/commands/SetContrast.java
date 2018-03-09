@@ -1,6 +1,7 @@
 package no.ntnu.vislab.barkof22.commands;
 
 import no.ntnu.vislab.barkof22.BarkoF22Command;
+import no.ntnu.vislab.barkof22.BarkoF22Exception;
 
 /**
  * @author ThomasSTodal
@@ -14,22 +15,22 @@ public class SetContrast extends BarkoF22Command {
      *
      */
     private SetContrast(Integer integer, boolean isAbsoluteValue) {
-        super((isAbsoluteValue) ? CONTRAST + RELATIVE_MODIFIER : CONTRAST, integer);
+        super((!isAbsoluteValue) ? CONTRAST + RELATIVE_MODIFIER : CONTRAST, integer);
     }
 
     /**
      * @param value
      * @param isAbsoluteValue
      */
-    public SetContrast(int value, boolean isAbsoluteValue) throws Exception {
+    public SetContrast(int value, boolean isAbsoluteValue) throws BarkoF22Exception {
         this(new Integer(checkValue(value)), isAbsoluteValue);
     }
 
-    private static int checkValue(int value) throws Exception {
+    private static int checkValue(int value) throws BarkoF22Exception {
         if (value >= MIN_VALUE && value <= MAX_VALUE) {
             return value;
         } else {
-            throw new Exception("THAT DIDN'T WORK");
+            throw new BarkoF22Exception(SetContrast.class, value);
         }
     }
 }

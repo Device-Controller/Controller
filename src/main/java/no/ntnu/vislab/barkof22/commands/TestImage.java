@@ -1,6 +1,7 @@
 package no.ntnu.vislab.barkof22.commands;
 
 import no.ntnu.vislab.barkof22.BarkoF22Command;
+import no.ntnu.vislab.barkof22.BarkoF22Exception;
 
 /**
  * @author ThomasSTodal
@@ -21,15 +22,15 @@ public class TestImage extends BarkoF22Command {
      *
      * @param patternNum
      */
-    public TestImage(int patternNum) throws Exception {
+    public TestImage(int patternNum) throws BarkoF22Exception {
         this(new Integer(checkValue(patternNum)));
     }
 
-    private static int checkValue(int value) throws Exception {
+    private static int checkValue(int value) throws BarkoF22Exception {
         if (value >= MIN_VALUE && value <= MAX_VALUE) {
             return value;
         } else {
-            throw new Exception("THAT DIDN'T WORK");
+            throw new BarkoF22Exception(TestImage.class, value);
         }
     }
 }
