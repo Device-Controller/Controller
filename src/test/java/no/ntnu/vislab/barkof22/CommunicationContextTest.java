@@ -4,10 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.Socket;
-
-import no.ntnu.vislab.barkof22.commands.LampStatus;
-
 public class CommunicationContextTest {
     private CommunicationContext context;
     @Before
@@ -21,7 +17,5 @@ public class CommunicationContextTest {
 
     @Test
     public void sendCommand() {
-        while(true) {
-        }
     }
 }

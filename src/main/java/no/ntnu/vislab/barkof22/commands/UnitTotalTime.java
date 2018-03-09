@@ -12,25 +12,6 @@ public class UnitTotalTime extends BarkoF22Command {
      *
      */
     public UnitTotalTime() {
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public boolean checkAck() {
-        try {
-            String[] ackArray = getResponse().split(" ");
-            return ackArray[1].equals(UnitTotalTime.TOTAL_TIME);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return this.getPrefix() + UnitTotalTime.TOTAL_TIME + this.GET_CURRENT
-                + this.getSuffix();
+        super(TOTAL_TIME);
     }
 }

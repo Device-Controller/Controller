@@ -6,72 +6,30 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
  * @author ThomasSTodal
  */
 public class SetContrast extends BarkoF22Command {
-    private static final String SET_CONTRAST = "CNTR ";
+    private static final String CONTRAST = "CNTR ";
+    private static final int MIN_VALUE = -100;
+    private static final int MAX_VALUE = 100;
 
     /**
      *
      */
-    public SetContrast() {
+    private SetContrast(Integer integer, boolean isAbsoluteValue) {
+        super((isAbsoluteValue) ? CONTRAST + RELATIVE_MODIFIER : CONTRAST, integer);
     }
 
     /**
-     *
      * @param value
      * @param isAbsoluteValue
      */
     public SetContrast(int value, boolean isAbsoluteValue) throws Exception {
-        if (value >= -100 && value <= 100) {
-            if(isAbsoluteValue) {
-                setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + value + this.getSuffix());
-            } else {
-                setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
-            }
+        this(new Integer(checkValue(value)), isAbsoluteValue);
+    }
+
+    private static int checkValue(int value) throws Exception {
+        if (value >= MIN_VALUE && value <= MAX_VALUE) {
+            return value;
         } else {
-            throw new Exception("WHOOOPSIE");
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public boolean checkAck() {
-        try {
-            String[] ackArray = getResponse().split(" ");
-            int value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(SetContrast.SET_CONTRAST.trim())
-                    && (value >= 0) && (value <= 100);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String toString() {
-        return this.getCmd();
-    }
-
-    /**
-     *
-     * @param value
-     * @param isAbsoluteValue
-     */
-    public void setContr(int value, boolean isAbsoluteValue) {
-        if (value >= -100 && value <= 100) {
-            if(isAbsoluteValue) {
-                setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + value + this.getSuffix());
-            } else {
-                setCmd(this.getPrefix() + SetContrast.SET_CONTRAST
-                        + this.RELATIVE_MODIFIER + value + this.getSuffix());
-            }
+            throw new Exception("THAT DIDN'T WORK");
         }
     }
 }
