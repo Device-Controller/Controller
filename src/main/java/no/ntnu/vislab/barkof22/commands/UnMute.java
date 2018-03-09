@@ -7,7 +7,8 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
  * @author ThomasSTodal
  */
 public class UnMute extends BarkoF22Command {
-    private static final String UNMUTE = "PMUT0";
+    private static final String UNMUTE = "PMUT";
+    private static final int UNMUTE_SETTING = 0;
 
     /**
      *
@@ -23,7 +24,7 @@ public class UnMute extends BarkoF22Command {
         try {
             String[] ackArray = getResponse().split(" ");
             int value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(UnMute.UNMUTE) && (value == 0);
+            return ackArray[1].equals(UNMUTE) && (value == 0);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
             return false;
         }
@@ -35,6 +36,6 @@ public class UnMute extends BarkoF22Command {
      */
     @Override
     public String toString() {
-        return this.getPrefix() + UnMute.UNMUTE + this.getSuffix();
+        return this.getPrefix() + UNMUTE  + UNMUTE_SETTING+ this.getSuffix();
     }
 }

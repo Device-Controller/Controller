@@ -15,6 +15,7 @@ public class Wait implements CommunicationState {
     public void execute(final CommunicationContext context, Command command) {
         if(context.hasTimerPassed(waitTime)){
             context.changeState(new ReceiveAcknowledge());
+            context.resetTimer();
         } else {
             try {
                 sleep(5);
@@ -22,5 +23,10 @@ public class Wait implements CommunicationState {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public Command getCommand() {
+        return null;
     }
 }

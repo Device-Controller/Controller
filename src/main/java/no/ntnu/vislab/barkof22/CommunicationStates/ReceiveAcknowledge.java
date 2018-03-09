@@ -19,12 +19,13 @@ public class ReceiveAcknowledge implements CommunicationState {
                 String line = in.readLine();
                 command.setResponse(line);
                 if(command.checkAck()){
-                    context.changeState(new AcknowledgeReceived());
+                    context.changeState(new AcknowledgeReceived(command));
                 } else {
                     context.changeState(new InvalidAcknowledge());
                 }
             } else if(context.hasTimerPassed(timeout)){
                 context.changeState(new Send());
+                context.resetTimer();
             } else {
                 sleep(5);
             }
@@ -33,5 +34,10 @@ public class ReceiveAcknowledge implements CommunicationState {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Command getCommand() {
+        return null;
     }
 }

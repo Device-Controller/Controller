@@ -15,9 +15,8 @@ public class Send implements CommunicationState {
     public void execute(final CommunicationContext context, Command command) {
         try {
             Socket host = context.getHost();
-            PrintWriter out = new PrintWriter(host.getOutputStream());
-            out.println(command.getCmd());
-            out.flush();
+            PrintWriter out = new PrintWriter(host.getOutputStream(), true);
+            out.println(command.toString());
             context.resetTimer();
             context.incrementSentCounter();
             context.incrementSendAttempts();
@@ -34,5 +33,10 @@ public class Send implements CommunicationState {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Command getCommand() {
+        return null;
     }
 }

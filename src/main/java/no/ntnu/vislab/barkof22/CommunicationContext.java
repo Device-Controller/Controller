@@ -28,10 +28,8 @@ public class CommunicationContext {
 
     public void changeState(final CommunicationState nextState) {
         if (nextState instanceof AcknowledgeReceived) {
-
-            //TODO: NOTIFY WATCHER
+            listener.onAcknowledge(true);
         }
-        System.out.println(nextState);
         currentState = nextState;
     }
     public void sendCommand(Command command) {

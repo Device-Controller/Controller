@@ -22,4 +22,9 @@ public class InvalidAcknowledge implements CommunicationState {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Command getCommand() {
+        return null;
+    }
 }

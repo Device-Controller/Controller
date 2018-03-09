@@ -8,4 +8,9 @@ public class Idle implements CommunicationState {
     public void execute(CommunicationContext context, Command command) {
         context.changeState(new Send());
     }
+
+    @Override
+    public Command getCommand() {
+        return null;
+    }
 }
