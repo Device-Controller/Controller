@@ -35,7 +35,7 @@ public class LampRuntime extends BarkoF22Command {
         if(lampNum >= 1 && lampNum <= 2) {
             return lampNum;
         } else {
-            throw new BarkoF22Exception(LampRuntime.class, lampNum);
+            throw new BarkoF22Exception("Value is out of bounds!");
         }
     }
 }

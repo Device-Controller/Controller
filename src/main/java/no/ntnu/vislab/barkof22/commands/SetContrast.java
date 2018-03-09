@@ -30,7 +30,7 @@ public class SetContrast extends BarkoF22Command {
         if (value >= MIN_VALUE && value <= MAX_VALUE) {
             return value;
         } else {
-            throw new BarkoF22Exception(SetContrast.class, value);
+            throw new BarkoF22Exception("Value is out of bounds!");
         }
     }
 }
