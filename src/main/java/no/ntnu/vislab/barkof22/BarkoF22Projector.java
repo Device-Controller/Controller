@@ -5,24 +5,30 @@
  */
 package no.ntnu.vislab.barkof22;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
+import no.ntnu.vislab.barkof22.commands.LampStatus;
 import no.ntnu.vislab.vislabcontroller.Projector;
-import no.ntnu.vislab.barkof22.commands.PowerOn;
 
 /**
  *
  * @author Kristoffer
  */
 public class BarkoF22Projector extends Projector {
+    CommunicationDriver cd;
 
     public BarkoF22Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException {
         super(projectorName, id, hostAddress, portNumber);
     }
 
-    public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws UnknownHostException {
+    public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws IOException {
         this("BarkoF22", "1",hostAddress,portNumber);
+        cd = new CommunicationDriver(new Socket(hostAddress, portNumber));
+        cd.start();
+
     }
     @Override
     public String powerOn() {
@@ -85,7 +91,13 @@ public class BarkoF22Projector extends Projector {
     }
 
     @Override
-    public String getLampStatus(int lampNum) {
+    public String getLampStatus(int lampNum)
+    {
+        try {
+            cd.queueCommand(new LampStatus(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

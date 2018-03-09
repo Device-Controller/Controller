@@ -1,5 +1,5 @@
 function getLampStatus() {
-    fetch('controller/testDummy').then(response => {
+    fetch().then(response => {
         if(response.ok
 )
     {

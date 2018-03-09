@@ -45,15 +45,16 @@ public class CommunicationDriver extends AbstractThread {
         while (getRunning()) {
             switch (state) {
                 case IDLE:
-                    if (timer.hasTimerPassed(1000)) {
+                    if (timer.hasTimerPassed(1000) &! idleCommands.isEmpty()) {
                         state = IDLE_COMMAND;
                     } else if (outgoingBuffer.size() > 0) {
                         state = SEND;
                     }
                     break;
                 case IDLE_COMMAND:
-                    outgoingBuffer.add(getIdleCommand());
-                    state = SEND;
+                        outgoingBuffer.add(getIdleCommand());
+                        state = SEND;
+
                     break;
                 case SEND:
                     communicator.sendCommand(outgoingBuffer.get(0));
@@ -62,7 +63,7 @@ public class CommunicationDriver extends AbstractThread {
         }
     }
 
-    public void queCommand(Command command) {
+    public void queueCommand(Command command) {
         outgoingBuffer.add(command);
     }
 
