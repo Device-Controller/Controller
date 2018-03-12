@@ -10,14 +10,15 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import no.ntnu.vislab.barkof22.commands.GetBrightness;
 import no.ntnu.vislab.barkof22.commands.LampStatus;
+import no.ntnu.vislab.barkof22.commands.SetBrightness;
 import no.ntnu.vislab.vislabcontroller.Projector;
 
 /**
- *
  * @author Kristoffer
  */
-public class BarkoF22Projector extends Projector {
+public class BarkoF22Projector extends Projector implements BarkoF22Interface {
     CommunicationDriver cd;
 
     public BarkoF22Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException {
@@ -25,94 +26,95 @@ public class BarkoF22Projector extends Projector {
     }
 
     public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws IOException {
-        this("BarkoF22", "1",hostAddress,portNumber);
+        this("BarkoF22", "1", hostAddress, portNumber);
         cd = new CommunicationDriver(new Socket(hostAddress, portNumber));
         cd.start();
 
     }
+
     @Override
-    public String powerOn() {
-        return null;
+    public int powerOn() {
+        return 0;
     }
 
     @Override
-    public String powerOff() {
-        return null;
+    public int powerOff() {
+        return 0;
     }
 
     @Override
-    public String mute() {
-        return null;
+    public int mute() {
+        return 0;
     }
 
     @Override
-    public String unMute() {
-        return null;
+    public int unMute() {
+        return 0;
     }
 
     @Override
-    public String getBrightness() {
-        return null;
+    public int getBrightness() {
+        return 0;
     }
 
     @Override
-    public String setBrightness(int value) {
-        return null;
+    public int setBrightness(int value) {
+        return 0;
     }
 
     @Override
-    public String getContrast() {
-        return null;
+    public int getContrast() {
+        return 0;
     }
 
     @Override
-    public String setConstrast(int value) {
-        return null;
+    public int setContrast(int value) {
+        return 0;
     }
 
     @Override
-    public String getPowerState() {
-        return null;
+    public int getPowerState() {
+        return 0;
     }
 
     @Override
-    public String getLampRuntime(int lampNum) {
-        return null;
+    public int getLampRuntime(int lampNum) {
+        return 0;
     }
 
     @Override
-    public String getLampRemaining(int lampNum) {
-        return null;
+    public int getLampRemaining(int lampNum) {
+        return 0;
     }
 
     @Override
-    public String getTotalRuntime() {
-        return null;
+    public int getTotalRuntime() {
+        return 0;
     }
 
     @Override
-    public String getLampStatus(int lampNum)
-    {
+    public int getLampStatus(int lampNum) {
         try {
             cd.queueCommand(new LampStatus(1));
+            cd.queueCommand(new SetBrightness(100, true));
+            cd.queueCommand(new GetBrightness());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return 0;
     }
 
     @Override
-    public String getTemperature() {
-        return null;
+    public int getTemperature() {
+        return 0;
     }
 
     @Override
-    public String testImageOn() {
-        return null;
+    public int testImageOn(int testImage) {
+        return 0;
     }
-
     @Override
-    public String testImageOff() {
-        return null;
+    public int testImageOff() {
+        return 0;
     }
 }

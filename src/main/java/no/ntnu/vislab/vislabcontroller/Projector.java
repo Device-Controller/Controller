@@ -24,22 +24,12 @@ public abstract class Projector {
         this.hostAddress = hostAddress;
         this.portNumber = portNumber;
     }
-    public abstract String powerOn();
-    public abstract String powerOff();
-    public abstract String mute();
-    public abstract String unMute();
-    public abstract String getBrightness();
-    public abstract String setBrightness(int value);
-    public abstract String getContrast();
-    public abstract String setConstrast(int value);
-    public abstract String getPowerState();
-    public abstract String getLampRuntime(int lampNum);
-    public abstract String getLampRemaining(int lampNum);
-    public abstract String getTotalRuntime();
-    public abstract String getLampStatus(int lampNum);
-    public abstract String getTemperature();
-    public abstract String testImageOn();
-    public abstract String testImageOff();
+    public abstract int powerOn();
+    public abstract int powerOff();
+    public abstract int mute();
+    public abstract int unMute();
+    public abstract int getPowerState();
+    public abstract int getLampStatus(int lampNum);
 
     public String getProjectorName() {
         return projectorName;
