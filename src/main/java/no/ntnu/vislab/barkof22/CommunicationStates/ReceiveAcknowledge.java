@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import no.ntnu.vislab.barkof22.CommunicationContext;
 import no.ntnu.vislab.vislabcontroller.Command;
 
-import static java.lang.Thread.sleep;
-
 public class ReceiveAcknowledge implements CommunicationState {
     private long timeout = 1500;
     @Override
@@ -27,12 +25,8 @@ public class ReceiveAcknowledge implements CommunicationState {
                 }
             } else if(context.hasTimerPassed(timeout)){
                 context.changeState(new NoAcknowledge());
-            } else {
-                sleep(5);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
