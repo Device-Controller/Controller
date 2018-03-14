@@ -24,14 +24,14 @@ public class LampStatusController {
 
            projector = new BarkoF22Projector(InetAddress.getByName("158.38.101.110"), 1025);
         }
-        String response = projector.getLampStatus(lampNumber);
+        String response = "MONGO";
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @RequestMapping("/lampRuntime")
     public ResponseEntity<String> runtime(@RequestParam(value = "lampNumber", required = false, defaultValue = "World") int lampNumber, Model model) throws Exception {
         model.addAttribute("lampNumber", lampNumber);
         Projector f22 = new BarkoF22Projector(InetAddress.getByName("158.38.101.110"), 1025);
-        String response=f22.getLampRuntime(lampNumber);
+        String response= "MONGO";
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -12,12 +12,12 @@ public class Send implements CommunicationState {
 
 
     @Override
-    public void execute(final CommunicationContext context, Command command) {
+    public void execute(final CommunicationContext context) {
         try {
+            Command command = context.getCommand();
             Socket host = context.getHost();
             PrintWriter out = new PrintWriter(host.getOutputStream(), true);
             out.println(command.toString());
-            context.resetTimer();
             context.incrementSentCounter();
             context.incrementSendAttempts();
             if(context.getSentCount()< 20 &! (command instanceof PowerOn)){
@@ -33,10 +33,5 @@ public class Send implements CommunicationState {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Command getCommand() {
-        return null;
     }
 }

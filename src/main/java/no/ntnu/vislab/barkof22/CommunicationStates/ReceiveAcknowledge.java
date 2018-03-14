@@ -10,22 +10,23 @@ import no.ntnu.vislab.vislabcontroller.Command;
 import static java.lang.Thread.sleep;
 
 public class ReceiveAcknowledge implements CommunicationState {
-    private long timeout = 2000;
+    private long timeout = 1500;
     @Override
-    public void execute(final CommunicationContext context, Command command) {
+    public void execute(final CommunicationContext context) {
         try {
+            Command command = context.getCommand();
             BufferedReader in = new BufferedReader(new InputStreamReader(context.getHost().getInputStream()));
             if(in.ready()){
                 String line = in.readLine();
+                System.out.println(line);
                 command.setResponse(line);
                 if(command.checkAck()){
-                    context.changeState(new AcknowledgeReceived(command));
+                    context.changeState(new AcknowledgeReceived());
                 } else {
                     context.changeState(new InvalidAcknowledge());
                 }
             } else if(context.hasTimerPassed(timeout)){
-                context.changeState(new Send());
-                context.resetTimer();
+                context.changeState(new NoAcknowledge());
             } else {
                 sleep(5);
             }
@@ -34,10 +35,5 @@ public class ReceiveAcknowledge implements CommunicationState {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Command getCommand() {
-        return null;
     }
 }
