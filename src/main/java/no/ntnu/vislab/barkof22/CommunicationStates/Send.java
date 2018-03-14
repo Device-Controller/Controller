@@ -20,14 +20,14 @@ public class Send implements CommunicationState {
             out.println(command.toString());
             context.incrementSentCounter();
             context.incrementSendAttempts();
-            if(context.getSentCount()< 20 &! (command instanceof PowerOn)){
+            if(context.getSendAttempts()< 20 &! (command instanceof PowerOn)){
                 context.changeState(new Wait(500));
-            } else if(context.getSentCount() == 20 &! (command instanceof PowerOn)){
+            } else if(context.getSendAttempts() == 20 &! (command instanceof PowerOn)){
                 context.changeState(new Wait(5000));
                 context.resetSentCounter();
-            } else if(context.getSentCount()< 20 && (command instanceof PowerOn)){
+            } else if(context.getSendAttempts()< 20 && (command instanceof PowerOn)){
                 context.changeState(new Wait(30000));
-            } else if(context.getSentCount() == 20 && (command instanceof PowerOn)){
+            } else if(context.getSendAttempts() == 20 && (command instanceof PowerOn)){
                 context.changeState(new Wait(35000));
             }
         } catch (IOException e) {
