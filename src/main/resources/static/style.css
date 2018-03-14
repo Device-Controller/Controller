@@ -8,21 +8,7 @@ and open the template in the editor.
     Author     : Erik
 */
 
-body {
-    font-family: 'Open Sans','Arial',sans-serif;
-    font-size: 14px;
-}
 
-button {
-    cursor: wait;
-    background-color: lightgray;
-    border-radius: 0px;
-}
-
-button:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,.24), 0 17px 50px 0 rgba(0,0,0,.19);
-    background-color: #ebebeb;
-}
 
 .main-container {
     /* position: absolute;
