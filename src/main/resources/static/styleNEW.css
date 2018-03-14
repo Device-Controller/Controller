@@ -8,7 +8,13 @@ and open the template in the editor.
     Author     : Erik
 */
 
+* {
+    margin: 0;
+}
 
+.row {
+    margin: 1%;
+}
 .column {
     float: left;
     border: solid black 1px;
@@ -68,17 +74,19 @@ button:hover {
     cursor: pointer;
 }
 /* NAVIGATION MENU ++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+.navigation-menu {
+    background-color: #999999;
+    border-bottom: black;
+}
 #ntnu-logo {
     float: left;
+    width: 5%;
 }
 
 nav ul {
     margin: 0;
-    padding: .5em;
+    padding: .6em;
     overflow: hidden;
-    border: solid #262626 1px;
-    border-bottom: solid black 1px;
-    background-color: #999999;
 }
 
 nav ul li {
@@ -107,9 +115,9 @@ nav ul li:hover {
     margin-bottom: 10%;
 }
 
-#powerimg {
+/*#powerimg {
     filter: invert(1);
-}
+}*/
 
 /* PROJECTOR LIST ------------------ */
 
@@ -153,20 +161,21 @@ label:hover {
 }
 .check-label {
     float: right;
-    
+    height: 100%; 
 }
 input[type=checkbox]:checked + .check-label{
     float: right;
-    background: url('power.png') 0 0px no-repeat;
-    background-size: 30px;
+    background: url('check-icon.png');
+    background-size: 125%;
 }
 .selected-container button {
     width: 5em;
     height: 5em;
     margin: 2%;
 }
-#settings-group {
+#settings-group, #button-savegroup {
     margin-left: 10%;
+    border-radius: 10%;
 }
 
 
