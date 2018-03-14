@@ -60,10 +60,6 @@ public class CommunicationContext {
         sentCount++;
     }
 
-    public int getSentCount() {
-        return sentCount;
-    }
-
     public void resetSentCounter() {
         sentCount = 0;
     }
