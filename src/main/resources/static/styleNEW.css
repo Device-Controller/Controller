@@ -1,0 +1,169 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 12, 2018, 11:32:21 AM
+    Author     : Erik
+*/
+
+body {
+    font-family: 'Open Sans','Arial',sans-serif;
+    font-size: 14px;
+}
+
+
+ul {
+    list-style: none;
+}
+
+.column {
+    float: left;
+    border: solid black 1px;
+    padding: 15px;
+    width: 100%;
+}
+
+.middle-c {
+    display: none;
+}
+
+@media only screen and (min-width: 600px) {
+    /* TABLET */
+    .side-c {
+        width: 25%;
+    }
+
+    .middle-c {
+        width: 37%;
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    /* DESKTOP */
+    .side-c {
+        width: 25%;
+    }
+
+    .middle-c {
+        display: block;
+        width: 37%;
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    /* DESKTOP */
+    .side-c {
+        width: 25%;
+    }
+
+    .middle-c {
+        display: block;
+        width: 37%;
+        text-align: center;
+    }
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: left;
+}
+
+button:hover {
+    cursor: pointer;
+}
+/* NAVIGATION MENU ++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#ntnu-logo {
+    float: left;
+}
+
+nav ul {
+    margin: 0;
+    padding: .5em;
+    overflow: hidden;
+    border: solid white 1px;
+    border-bottom: solid black 1px;
+}
+
+nav ul li {
+    display: inline;
+    margin-left: 5%;
+    padding: 1.5em;
+
+}
+nav ul li:hover {
+    background-color: #ebebeb;
+    cursor: pointer;
+
+}
+
+/* GENERIC BUTTONS ----------------- */
+.generic-buttons {
+    width: 25%;
+    margin: auto;
+    margin-top: 20%;
+}
+
+#buttonpower, #buttonmute, #button1, #button2 {
+    display: block;
+    width: 8em;
+    height: 8em;
+}
+
+/* PROJECTOR LIST ------------------ */
+
+.selected-container {
+    text-align: center;
+    display:block;
+}
+#group-select {
+    border-radius: 20px;
+    padding: 1%;
+}
+select:hover {
+    cursor: pointer;
+}
+.selected-container li {
+    border: 1px solid black;
+    margin: auto;
+    width: 25%;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin: 0;
+    padding: 15%;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+input:checked + label{
+    background: #00509e;
+}
+label:hover {
+    cursor: pointer;
+}
+.selected-container button {
+    width: 5em;
+    height: 5em;
+    margin: 2%;
+}
+#settings-group {
+    margin-left: 10%;
+}
+
+
+/* INTERACTIVE APPLICATION MIDDLE IMAGE THINGY ------------------ */
+
+#interactive-image {
+    margin: auto;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
