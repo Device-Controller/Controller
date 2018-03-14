@@ -2,11 +2,11 @@ package no.ntnu.vislab.barkof22.CommunicationStates;
 
 import no.ntnu.vislab.barkof22.CommunicationContext;
 
-public class AcknowledgeReceived implements CommunicationState {
+public class SendFailed implements CommunicationState {
     @Override
     public void execute(CommunicationContext context) {
-        context.resetSentCounter();
         context.getListener().onAcknowledge(context.getAndRemove());
+        context.resetSentCounter();
         context.changeState(new Idle());
     }
 }

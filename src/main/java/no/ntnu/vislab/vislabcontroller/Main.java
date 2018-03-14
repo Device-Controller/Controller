@@ -6,9 +6,7 @@ import java.net.Socket;
 import no.ntnu.vislab.barkof22.CommunicationDriver;
 import no.ntnu.vislab.barkof22.Timer;
 import no.ntnu.vislab.barkof22.commands.LampStatus;
-import no.ntnu.vislab.barkof22.commands.Mute;
 import no.ntnu.vislab.barkof22.commands.PowerState;
-import no.ntnu.vislab.barkof22.commands.UnMute;
 
 /**
  * @author Kristoffer
@@ -20,19 +18,7 @@ public class Main {
         CommunicationDriver cd = new CommunicationDriver(host, new LampStatus(1), new PowerState());
         cd.start();
         Timer t = new Timer();
-        cd.queueCommand(new Mute());
-        cd.queueCommand(new Mute());
-        cd.queueCommand(new Mute());
-        cd.queueCommand(new Mute());
-        cd.queueCommand(new Mute());
-        cd.queueCommand(new Mute());
-        while(!t.hasTimerPassed(20000)){
-
-        }
-        t.reset();
-        cd.queueCommand(new UnMute());
-        while(!t.hasTimerPassed(8000)){
-
+        while(!t.hasTimerPassed(35000)){
         }
         cd.stopThread();
     }
