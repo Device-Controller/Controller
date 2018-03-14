@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html>
     <head> 
-        <title>Getting Started: Serving Web Content</title> 
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Projectors n shiet</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="images/favicon.ico" />
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="styleNEW.css">
     </head>
 
     <body>
@@ -21,40 +21,124 @@
                 </ul>
             </nav>
         </div>
-        <div class="main-container">
-            <div class="main-container2">
-                <div class="main-container3">
-                    <div class="selected-container">
-                        <h3>Projectors</h3>
-                        <ul id="selected-list">
-                            <li id="pro1">Projector 1</li>
-                            <li>Projector 2</li>
-                            <li>Projector 3</li>
-                            <li>Projector 4</li>
-                            <li>Projector 5</li>
-                            <li>Projector 6</li>
-                            <li>Projector 1</li>
-                            <li>Projector 2</li>
-                            <li>Projector 3</li>
-                            <li>Projector 4</li>
-                            <li>Projector 5</li>
-                            <li>Projector 6</li>
-                        </ul>
-                        <button id="dropdown-group">DROPDOWN SELECT GROUP</button>
-                        <button id="button-savegroup">Save as group</button>
-                        <script src="script.js"></script>
-                    </div>
-                    <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" />
-                    <div class="generic-buttons">
-                        <button id="buttonpower">
-                            <img src="power.png" id="powerImg" width="40px" height="40px">
-                        </button>
-                        <button id="buttonmute">Mute/Unmute</button>
-                        <button id="button1">PH1</button>
-                        <button id="button2">PH2</button>
-                    </div>
+        <div class="row">
+            <div class="column side-c"> <!-- KOLONNE VENSTRE -->
+                <div class="selected-container">
+                    <select id="group-select">
+                        <option value="" selected disabled hidden>Choose projector group</option>
+                        <option>ProjectorGroup1</option>
+                        <option>ProjectorGroup2</option>
+                        <option>ProjectorGroup3</option>
+                        <option>ProjectorGroup4</option>
+                        <option>ProjectorGroup5</option>
+                        <option>ProjectorGroup6</option>
+                    </select>
+                    <h3>Projectors</h3>
+                    <ul id="selected-list">
+                        <li>
+                            <input id="pro1" type="checkbox">
+                            <label for="pro1">Projector 1</label>
+                        </li>
+                        <li>
+                            <input id="pro2" type="checkbox">
+                            <label for="pro2">Projector 2</label>
+                        </li>
+                        <li>
+                            <input id="pro3" type="checkbox">
+                            <label for="pro3">Projector 3</label>
+                        </li>
+                        <li>
+                            <input id="pro4" type="checkbox">
+                            <label for="pro4">Projector 4</label>
+                        </li>
+                        <li>
+                            <input id="pro5" type="checkbox">
+                            <label for="pro5">Projector 5</label>
+                        </li>
+                        <li>
+                            <input id="pro6" type="checkbox">
+                            <label for="pro6">Projector 6</label>
+                        </li>
+                        <li>
+                            <input id="pro1" type="checkbox">
+                            <label for="pro1">Projector 1</label>
+                        </li>
+                        <li>
+                            <input id="pro2" type="checkbox">
+                            <label for="pro2">Projector 2</label>
+                        </li>
+                        <li>
+                            <input id="pro3" type="checkbox">
+                            <label for="pro3">Projector 3</label>
+                        </li>
+                        <li>
+                            <input id="pro4" type="checkbox">
+                            <label for="pro4">Projector 4</label>
+                        </li>
+                        <li>
+                            <input id="pro5" type="checkbox">
+                            <label for="pro5">Projector 5</label>
+                        </li>
+                        <li>
+                            <input id="pro6" type="checkbox">
+                            <label for="pro6">Projector 6</label>
+                        </li>
+                    </ul>
+                    <button id="settings-group">Group settings</button>
+                    <button id="button-savegroup">Save as group</button>
+                    <script src="script.js"></script>
                 </div>
             </div>
+            <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
+                <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" /> 
+            </div>
+            <div class="column side-c"> <!-- KOLONNE HØYRE -->
+                <div class="generic-buttons">
+                    <button id="buttonpower">
+                        <img src="power.png" id="powerImg" width="40px" height="40px">
+                    </button>
+                    <button id="buttonmute">Mute/Unmute</button>
+                    <button id="button1">PH1</button>
+                    <button id="button2">PH2</button>
+                </div>
+            </div>
+
         </div>
+
+        <!--      <div class="main-container">
+                  <div class="main-container2">
+                      <div class="main-container3">
+                          <div class="selected-container">
+                              <h3>Projectors</h3>
+                              <ul id="selected-list">
+                                  <li id="pro1">Projector 1</li>
+                                  <li>Projector 2</li>
+                                  <li>Projector 3</li>
+                                  <li>Projector 4</li>
+                                  <li>Projector 5</li>
+                                  <li>Projector 6</li>
+                                  <li>Projector 1</li>
+                                  <li>Projector 2</li>
+                                  <li>Projector 3</li>
+                                  <li>Projector 4</li>
+                                  <li>Projector 5</li>
+                                  <li>Projector 6</li>
+                              </ul>
+                              <button id="dropdown-group">DROPDOWN SELECT GROUP</button>
+                              <button id="button-savegroup">Save as group</button>
+                              <script src="script.js"></script>
+                          </div>
+                          <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" />
+                          <div class="generic-buttons">
+                              <button id="buttonpower">
+                                  <img src="power.png" id="powerImg" width="40px" height="40px">
+                              </button>
+                              <button id="buttonmute">Mute/Unmute</button>
+                              <button id="button1">PH1</button>
+                              <button id="button2">PH2</button>
+                          </div>
+                      </div>
+                  </div>
+              </div> -->
     </body>
 </html>
