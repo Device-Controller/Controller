@@ -1,9 +1,6 @@
-myCanvas.onclick = event => {
+document.getElementById('projector-layout').onclick = event => {
     var x = event.offsetX;
     var y = event.offsetY;
-    console.log(x);
-    console.log(y);
-    console.log(event);
     drawProjector(x,y,new Date() % 360);
 }
 
