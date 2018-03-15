@@ -9,29 +9,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.InetAddress;
 
-import no.ntnu.vislab.barkof22.BarkoF22Projector;
-import no.ntnu.vislab.vislabcontroller.Projector;
+import no.ntnu.vislab.barkof22.BarkoF22Interface;
+import no.ntnu.vislab.barkof22.BarkoF22InterfaceImpl;
 
 @Controller
 @RequestMapping("/controller")
 public class LampStatusController {
-    private static BarkoF22Projector projector;
+    private static BarkoF22Interface projector;
 
     @RequestMapping("/lampStatus")
-    public ResponseEntity<String> status(@RequestParam(value = "lampNumber", required = false, defaultValue = "1") int lampNumber, Model model) throws Exception {
+    public ResponseEntity<Integer> status(@RequestParam(value = "lampNumber", required = false, defaultValue = "1") int lampNumber, Model model) throws Exception {
         model.addAttribute("lampNumber", lampNumber);
         if(projector == null){
-
-           projector = new BarkoF22Projector(InetAddress.getByName("158.38.101.110"), 1025);
+            projector = new BarkoF22InterfaceImpl("MONG Ltd", "ERIK", InetAddress.getByName("158.38.101.110"), 1025);
         }
-        String response = "MONGO";
+        Integer response = projector.getLampStatus(1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @RequestMapping("/lampRuntime")
-    public ResponseEntity<String> runtime(@RequestParam(value = "lampNumber", required = false, defaultValue = "World") int lampNumber, Model model) throws Exception {
+    public ResponseEntity<Integer> runtime(@RequestParam(value = "lampNumber", required = false, defaultValue = "World") int lampNumber, Model model) throws Exception {
         model.addAttribute("lampNumber", lampNumber);
-        Projector f22 = new BarkoF22Projector(InetAddress.getByName("158.38.101.110"), 1025);
-        String response= "MONGO";
+        if(projector == null){
+            projector = new BarkoF22InterfaceImpl("MONG Ltd", "ERIK", InetAddress.getByName("158.38.101.110"), 1025);
+        }
+        int response= projector.getLampRuntime(1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
