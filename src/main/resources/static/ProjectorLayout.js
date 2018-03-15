@@ -1,7 +1,35 @@
+let i;
+let list = ["", "", "", "", ""];
+for (i = 0; i < 5; i++) {
+    list[i] = {
+        'id': 'd', 'x': 50 * (i + 1), 'y': 70 * (i + 2), 'rot': 270 - i * 30, 'draw': function () {
+            drawProjector(this.x, this.y, this.rot);
+        }
+    };
+}
+for (i = 0; i < list.length; i++) {
+    list[i].draw();
+}
+
+let width = 64;
+
+function isWithin(x, y, xOrg, yOrg) {
+    let upperBound = width / 2;
+    if (Math.abs(x - xOrg) < upperBound && Math.abs(y - yOrg) < upperBound) {
+        return true
+    }
+    return false;
+}
+
 document.getElementById('projector-layout').onclick = event => {
     var x = event.offsetX;
     var y = event.offsetY;
-    drawProjector(x, y, new Date() % 360);
+
+    for (i = 0; i < list.length; i++) {
+        if (isWithin(x, y, list[i].x, list[i].y)) {
+            window.location.href = "http://www.google.com";
+        }
+    }
 }
 
 function drawProjector(x, y, rot) {
@@ -9,14 +37,13 @@ function drawProjector(x, y, rot) {
     let ctx = canvas.getContext('2d');
     let img = new Image;
     img.onload = function () {
-        let width = 64;
         let w = img.naturalWidth;
         let h = img.naturalHeight;
         console.log(w);
         console.log(h);
-        let ratio = w/h;
+        let ratio = w / h;
         console.log(ratio);
-        let height = width/ratio;
+        let height = width / ratio;
         console.log(height);
         ctx.save();
         ctx.translate(x, y);
