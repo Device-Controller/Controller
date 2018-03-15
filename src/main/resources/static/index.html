@@ -104,8 +104,7 @@
                             <img src="groupsettings.png" id="settingsimg" width="40px" height="40px">
                         </button>
                     </div>
-
-
+                </div>
                     <div class="tooltip">
                         <button id="button-savegroup">
                             <span class="tooltiptext">Save the current selected devices as a group.</span>
@@ -113,31 +112,29 @@
                     </div>
                     <script src="script.js"></script>
                 </div>
-            </div>
-            </div>
-            <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
-                <canvas width="400px" height="400px" id="projector-layout" ></canvas>
-                <script src="ProjectorLayout.js"></script>
-            </div>
-            <div class="column side-c"> <!-- KOLONNE HØYRE -->
-                <div class="generic-buttons">
-                    <div class="tooltip">
-                        <span class="tooltiptext">Turns the selected devices on/off.</span>
-                        <button id="buttonpower">
-                            <img src="power.png" id="powerimg" width="40px" height="40px">
-                        </button>
                     </div>
-                    <div class="tooltip">
-                        <span class="tooltiptext">Turns the projector image on/off.</span>
-                        <button id="buttonmute">
-                            <img src="mute.png" id="muteimg" width="40px" height="40px">
-                        </button>
-                    </div>
-                    <button id="button1">PH1</button>
-                    <button id="button2">PH2</button>
+                <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
+                    <canvas width="400px" height="600px" id="projector-layout" style="background: #555555"></canvas>
+                    <script src="ProjectorLayout.js"></script>
                 </div>
-            </div>
-
+                <div class="column side-c"> <!-- KOLONNE HØYRE -->
+                    <div class="generic-buttons">
+                        <div class="tooltip">
+                            <span class="tooltiptext">Turns the selected devices on/off.</span>
+                            <button id="buttonpower">
+                                <img src="power.png" id="powerimg" width="40px" height="40px">
+                            </button>
+                        </div>
+                        <div class="tooltip">
+                            <span class="tooltiptext">Turns the projector image on/off.</span>
+                            <button id="buttonmute">
+                                <img src="mute.png" id="muteimg" width="40px" height="40px">
+                            </button>
+                        </div>
+                        <button id="button1">PH1</button>
+                        <button id="button2">PH2</button>
+                    </div>
+                </div>
         </div>
 
         <!--      <div class="main-container">
