@@ -17,5 +17,5 @@ function drawProjector(x, y, rot) {
         ctx.drawImage(img, -(width/2), -(height/2), width, height);
         ctx.restore();
     }
-    img.src = "power.png";
+    img.src = "projector-icon.png";
 }
