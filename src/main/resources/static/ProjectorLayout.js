@@ -1,17 +1,24 @@
-var myCanvas = document.getElementById('projector-layout');
-var ctx = myCanvas.getContext('2d');
-var tempCanvas = document.createElement('canvas')
-tempCanvas.style.width = "128px";
-tempCanvas.style.height = "128px";
-tempCanvas.style.background = "#FFFFFF";
-var tempCtx = tempCanvas.getContext('2d');
-var img = new Image;
-img.onload = function(){
-    tempCtx.save();
-    tempCtx.rotate(45*Math.PI/180);
-    tempCtx.drawImage(img, 64,0,128,128);
-    tempCtx.restore();
-    ctx.drawImage(tempCanvas,0,0); // Or at whatever offset you like
-};
-img.src = "power.png";
-img.style.transform = "rotate(90deg)";
+myCanvas.onclick = event => {
+    var x = event.offsetX;
+    var y = event.offsetY;
+    console.log(x);
+    console.log(y);
+    console.log(event);
+    drawProjector(x,y,new Date() % 360);
+}
+
+function drawProjector(x, y, rot) {
+    let myCanvas = document.getElementById('projector-layout');
+    let ctx = myCanvas.getContext('2d');
+    let img = new Image;
+    let width = 64;
+    let height = 64;
+    img.onload = function () {
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(rot*Math.PI/180);
+        ctx.drawImage(img, -(width/2), -(height/2), width, height);
+        ctx.restore();
+    }
+    img.src = "power.png";
+}
