@@ -37,9 +37,11 @@
                     <h3>Projectors</h3>
                     <ul id="selected-list">
                         <li>
+
                             <input id="pro1" type="checkbox">
                             <label for="pro1" class="check-label"></label>
                             <label for="pro1" class="text-label">Projector 1</label>
+
 
                         </li>
                         <li>
@@ -98,79 +100,83 @@
                             <label for="pro12" class="text-label">Projector 12</label>
                         </li>
                     </ul>
-                    <div class="tooltip">
-                        <button id="settings-group">
-                            <span class="tooltiptext">Save the current selected devices as a group.</span>
-                            <img src="groupsettings.png" id="settingsimg" width="40px" height="40px">
-                        </button>
+                    <div class="group-button">
+                        <div class="tooltip">
+                            <button id="settings-group">
+                                <span class="tooltiptext">See the settings of the currently selected group.</span>
+                                <img src="groupsettings.png" id="settingsimg" width="40px" height="40px">
+                            </button>
+                        </div>
                     </div>
-                    <div class="tooltip">
-                        <button id="button-savegroup">
-                            <span class="tooltiptext">See the settings of the currently selected group.</span>
-                            <img src="savegroup.png" id="saveimg" width="40px" height="40px"></button>
-                    </div>
-                    <script src="script.js"></script>
+                        <div class="group-button">
+                            <div class="tooltip">
+                                <button id="button-savegroup">
+                                    <span class="tooltiptext">Save the current selected devices as a group.</span>
+                                    <img src="savegroup.png" id="saveimg" width="40px" height="40px"></button>
+                            </div>
+                            <script src="script.js"></script>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
-            <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
-                <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" /> 
-            </div>
-            <div class="column side-c"> <!-- KOLONNE HØYRE -->
-                <div class="generic-buttons">
-                    <div class="tooltip">
-                        <span class="tooltiptext">Turns the selected devices on/off.</span>
-                        <button id="buttonpower">
-                            <img src="power.png" id="powerimg" width="40px" height="40px">
-                        </button>
-                    </div>
-                    <div class="tooltip">
-                        <span class="tooltiptext">Turns the projector image on/off.</span>
-                        <button id="buttonmute">
-                            <img src="mute.png" id="muteimg" width="40px" height="40px">
-                        </button>
-                    </div>
-                    <button id="button1">PH1</button>
-                    <button id="button2">PH2</button>
+                <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
+                    <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" /> 
                 </div>
+                <div class="column side-c"> <!-- KOLONNE HØYRE -->
+                    <div class="generic-buttons">
+                        <div class="tooltip">
+                            <span class="tooltiptext">Turns the selected devices on/off.</span>
+                            <button id="buttonpower">
+                                <img src="power.png" id="powerimg" width="40px" height="40px">
+                            </button>
+                        </div>
+                        <div class="tooltip">
+                            <span class="tooltiptext">Turns the projector image on/off.</span>
+                            <button id="buttonmute">
+                                <img src="mute.png" id="muteimg" width="40px" height="40px">
+                            </button>
+                        </div>
+                        <button id="button1">PH1</button>
+                        <button id="button2">PH2</button>
+                    </div>
+                </div>
+
             </div>
 
-        </div>
-
-        <!--      <div class="main-container">
-                  <div class="main-container2">
-                      <div class="main-container3">
-                          <div class="selected-container">
-                              <h3>Projectors</h3>
-                              <ul id="selected-list">
-                                  <li id="pro1">Projector 1</li>
-                                  <li>Projector 2</li>
-                                  <li>Projector 3</li>
-                                  <li>Projector 4</li>
-                                  <li>Projector 5</li>
-                                  <li>Projector 6</li>
-                                  <li>Projector 1</li>
-                                  <li>Projector 2</li>
-                                  <li>Projector 3</li>
-                                  <li>Projector 4</li>
-                                  <li>Projector 5</li>
-                                  <li>Projector 6</li>
-                              </ul>
-                              <button id="dropdown-group">DROPDOWN SELECT GROUP</button>
-                              <button id="button-savegroup">Save as group</button>
-                              <script src="script.js"></script>
-                          </div>
-                          <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" />
-                          <div class="generic-buttons">
-                              <button id="buttonpower">
-                                  <img src="power.png" id="powerImg" width="40px" height="40px">
-                              </button>
-                              <button id="buttonmute">Mute/Unmute</button>
-                              <button id="button1">PH1</button>
-                              <button id="button2">PH2</button>
+            <!--      <div class="main-container">
+                      <div class="main-container2">
+                          <div class="main-container3">
+                              <div class="selected-container">
+                                  <h3>Projectors</h3>
+                                  <ul id="selected-list">
+                                      <li id="pro1">Projector 1</li>
+                                      <li>Projector 2</li>
+                                      <li>Projector 3</li>
+                                      <li>Projector 4</li>
+                                      <li>Projector 5</li>
+                                      <li>Projector 6</li>
+                                      <li>Projector 1</li>
+                                      <li>Projector 2</li>
+                                      <li>Projector 3</li>
+                                      <li>Projector 4</li>
+                                      <li>Projector 5</li>
+                                      <li>Projector 6</li>
+                                  </ul>
+                                  <button id="dropdown-group">DROPDOWN SELECT GROUP</button>
+                                  <button id="button-savegroup">Save as group</button>
+                                  <script src="script.js"></script>
+                              </div>
+                              <img id="interactive-image" src="Autisme.png" alt="skikkelig kult" />
+                              <div class="generic-buttons">
+                                  <button id="buttonpower">
+                                      <img src="power.png" id="powerImg" width="40px" height="40px">
+                                  </button>
+                                  <button id="buttonmute">Mute/Unmute</button>
+                                  <button id="button1">PH1</button>
+                                  <button id="button2">PH2</button>
+                              </div>
                           </div>
                       </div>
-                  </div>
-              </div> -->
+                  </div> -->
     </body>
 </html>

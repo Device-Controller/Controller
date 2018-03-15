@@ -163,15 +163,21 @@ label:hover {
     float: right;
     height: 100%; 
 }
-input[type=checkbox]:checked + .check-label{
+
+input[type=checkbox]:checked + .check-label {
     float: right;
     background: url('check-icon.png');
-    background-size: 125%;
+    background-size: 100%;
 }
 .selected-container button {
     width: 5em;
     height: 5em;
     margin: 2%;
+}
+
+.group-button {
+    float: left;
+    margin-left: 26%;
 }
 #settings-group, #button-savegroup {
     margin-left: 10%;
