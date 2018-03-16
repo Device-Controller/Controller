@@ -10,9 +10,9 @@ public class LampTimeRemaining extends BarkoF22Command {
     private static final String LAMP_TIME_REMAINING = "LRM";
     private final int lampNum;
 
-
     /**
      *
+     * @param integer
      */
     private LampTimeRemaining(Integer integer) {
         super(LAMP_TIME_REMAINING + integer);
@@ -41,10 +41,18 @@ public class LampTimeRemaining extends BarkoF22Command {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLampTimeRemaining(){
         return getValue();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLampNum() {
         return lampNum;
     }

@@ -10,9 +10,9 @@ public class LampRuntime extends BarkoF22Command {
     private static final String LAMP_RUNTIME = "LTR";
     private final int lampNum;
 
-
     /**
      *
+     * @param integer
      */
     private LampRuntime(Integer integer) {
         super(LAMP_RUNTIME + integer);
@@ -42,10 +42,18 @@ public class LampRuntime extends BarkoF22Command {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLampNum() {
         return lampNum;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLampRuntime() {
         return getValue();
     }
