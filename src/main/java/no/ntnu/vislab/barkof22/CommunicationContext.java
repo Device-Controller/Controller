@@ -34,7 +34,7 @@ public class CommunicationContext {
         this.timer = new Timer();
         changeState(new Idle());
         this.in = new BufferedReader(new InputStreamReader(in_raw));
-        this.out = new PrintWriter(out_raw);
+        this.out = new PrintWriter(out_raw, true);
     }
 
     public void changeState(final CommunicationState nextState) {
