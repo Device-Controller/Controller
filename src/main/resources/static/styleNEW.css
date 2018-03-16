@@ -9,26 +9,32 @@ and open the template in the editor.
 */
 
 * {
-    margin: 0;
+    margin: auto;
+}
+
+canvas {
+    border: solid 1px black;
 }
 
 .row {
     margin: 1%;
+    height: 100%;
+    text-align: center;
 }
 
 .column {
     float: left;
     border: solid black 1px;
-    padding: 15px;
     width: 100%;
+    height: 100%;
 }
 
 .middle-c {
     display: none;
 }
 
-@media only screen and (min-width: 600px) {
-    /* TABLET */
+/*@media only screen and (min-width: 600px) {
+     TABLET 
     .side-c {
         width: 25%;
     }
@@ -37,7 +43,7 @@ and open the template in the editor.
         width: 37%;
         text-align: center;
     }
-}
+}*/
 
 @media only screen and (min-width: 768px) {
     /* DESKTOP */
@@ -51,6 +57,20 @@ and open the template in the editor.
         text-align: center;
     }
 }
+
+/*@media only screen and (min-width: 768px) {
+     DESKTOP 
+    .side-c {
+        width: 25%;
+    }
+
+    .middle-c {
+        display: block;
+        width: 37%;
+        text-align: center;
+    }
+}*/
+
 .row:after {
     content: "";
     display: table;
@@ -112,8 +132,8 @@ nav ul li:hover {
 /* PROJECTOR LIST ------------------ */
 
 .selected-container {
-    text-align: center;
-    display: block;
+    display:block;
+    width: 100%;
 }
 
 #group-select {
@@ -124,14 +144,25 @@ nav ul li:hover {
 select:hover {
     cursor: pointer;
 }
-
+.selected-container ul {
+    margin-top: 1%;
+    width: 100%;
+}
 .selected-container li {
-    border: 1px solid black;
-    margin: auto;
-    width: 30%;
-    text-align: left;
+    width: 35%;
+    min-width: 8em;
     background-color: #ff3300;
     margin-bottom: 1%;
+    display: block;
+}
+@media only screen and (min-width: 768px) {
+    .selected-container li {
+    width: 35%;
+    min-width: 8em;
+    background-color: #ff3300;
+    margin-bottom: 1%;
+    display: inline-table;
+}
 }
 
 .selected-container li:hover {
@@ -141,12 +172,12 @@ select:hover {
 
 label {
     display: block;
-    margin: 0;
-    padding: 13%;
+    padding: 15%;
 }
 
 .text-label {
-    white-space: nowrap;
+    white-space: pre-line;
+    border: solid 1px black;
 }
 
 input[type=checkbox] {
@@ -168,20 +199,15 @@ input[type=checkbox]:checked + .check-label {
     background-size: 100%;
 }
 
-.selected-container button {
-    width: 5em;
-    height: 5em;
-    margin: 2%;
-}
-
 .group-button {
-    float: left;
-    margin-left: 26%;
+    
+    
 }
 
 #settings-group, #button-savegroup {
-    margin-left: 10%;
-    border-radius: 10%;
+    border-radius: 30%;
+    width: 5em;
+    height: 5em;
 }
 
 /* INTERACTIVE APPLICATION MIDDLE IMAGE THINGY ------------------ */
