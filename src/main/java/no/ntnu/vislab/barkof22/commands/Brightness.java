@@ -20,6 +20,14 @@ public class Brightness extends BarkoF22Command {
         super(BRIGHTNESS, MAX_VALUE, MIN_VALUE);
     }
 
+<<<<<<< HEAD
+    /**
+     *
+     * @param integer
+     * @param isAbsoluteValue
+     */
+=======
+>>>>>>> d2d7bf2a4af8844dc917fd3ad1d15774f6084894
     private Brightness(Integer integer, boolean isAbsoluteValue) {
         super((!isAbsoluteValue) ? BRIGHTNESS + " " + RELATIVE_MODIFIER : BRIGHTNESS + " ", integer);
     }
@@ -32,6 +40,12 @@ public class Brightness extends BarkoF22Command {
         this(new Integer(checkValue(value)), isAbsoluteValue);
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     * @throws BarkoF22Exception
+     */
     private static int checkValue(int value) throws BarkoF22Exception {
         if (value >= MIN_VALUE && value <= MAX_VALUE) {
             return value;
@@ -40,10 +54,19 @@ public class Brightness extends BarkoF22Command {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getBrightness() {
         return getValue();
     }
 
+    /**
+     *
+     * @param brightness
+     * @throws BarkoF22Exception
+     */
     public void setBrightness(int brightness) throws BarkoF22Exception {
         setValue(checkValue(brightness));
     }

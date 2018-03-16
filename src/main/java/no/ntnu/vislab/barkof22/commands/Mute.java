@@ -19,19 +19,34 @@ public class Mute extends BarkoF22Command {
     public Mute(){
         super(MUTE);
     }
+
+    /**
+     *
+      * @param setting
+     * @throws BarkoF22Exception
+     */
     public Mute(int setting) throws BarkoF22Exception {
         super(MUTE, checkSetting(setting));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMuteSetting(){
         return getValue();
     }
 
+    /**
+     *
+     * @param setting
+     * @return
+     * @throws BarkoF22Exception
+     */
     private static int checkSetting(int setting) throws BarkoF22Exception {
         if(setting != ON && setting != OFF){
             throw new BarkoF22Exception("Power setting must be 0 or 1");
         }
         return setting;
     }
-
 }

@@ -15,6 +15,10 @@ public class ThermalStatus extends BarkoF22Command {
         super(THERMAL);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getThermal() {
         return getValue();
     }

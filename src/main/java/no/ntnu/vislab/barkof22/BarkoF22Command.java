@@ -6,19 +6,32 @@ import no.ntnu.vislab.vislabcontroller.Command;
  * @author ThomasSTodal
  */
 public abstract class BarkoF22Command extends Command {
-    private final String FIELD;
-    private final int MIN_VALUE;
-    private final int MAX_VALUE;
-    private int value;
-    private final boolean GETTER;
+
+    protected static final String PREFIX = ":";
+    protected static final String SUFFIX = "";
+    protected static final String RELATIVE_MODIFIER = "R";
     protected static final String GET_CURRENT = "?";
     protected static final String GET_MAX = "?M";
     protected static final String GET_MIN = "?N";
     protected static final String GET_DEFAULT = "?D";
     protected static final String GET_DEFAULT_STEP = "?S";
 
+    private final String FIELD;
+    private final int MIN_VALUE;
+    private final int MAX_VALUE;
+    private int value;
+    private final boolean GETTER;
+
+    /**
+     *
+     * @param command
+     * @param value
+     * @param maxValue
+     * @param minValue
+     * @param getter
+     */
     private BarkoF22Command(String command, int value, int maxValue, int minValue, boolean getter) {
-        super(":", "");
+        super(PREFIX, SUFFIX);
         this.FIELD = command;
         this.MAX_VALUE = maxValue;
         this.MIN_VALUE = minValue;
@@ -64,6 +77,10 @@ public abstract class BarkoF22Command extends Command {
         this(command, Integer.MAX_VALUE, Integer.MIN_VALUE);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public boolean checkAck() {
         try {
@@ -75,14 +92,27 @@ public abstract class BarkoF22Command extends Command {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return (GETTER) ? getPrefix() + FIELD + GET_CURRENT + getSuffix() : getPrefix() + FIELD + value + getSuffix();
     }
+
+    /**
+     *
+     * @return
+     */
     protected int getValue(){
         return value;
     }
 
+    /**
+     *
+     * @param value
+     */
     protected void setValue(int value) {
         this.value = value;
     }

@@ -17,6 +17,10 @@ public class PowerState extends BarkoF22Command {
         super(POWER_STATE, MAX_VALUE, MIN_VALUE);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPowerState() {
         return getValue();
     }
