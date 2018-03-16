@@ -19,15 +19,11 @@ public class Brightness extends BarkoF22Command {
     public Brightness() {
         super(BRIGHTNESS, MAX_VALUE, MIN_VALUE);
     }
-
-<<<<<<< HEAD
     /**
      *
      * @param integer
      * @param isAbsoluteValue
      */
-=======
->>>>>>> d2d7bf2a4af8844dc917fd3ad1d15774f6084894
     private Brightness(Integer integer, boolean isAbsoluteValue) {
         super((!isAbsoluteValue) ? BRIGHTNESS + " " + RELATIVE_MODIFIER : BRIGHTNESS + " ", integer);
     }
