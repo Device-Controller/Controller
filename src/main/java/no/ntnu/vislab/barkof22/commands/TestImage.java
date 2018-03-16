@@ -11,6 +11,9 @@ public class TestImage extends BarkoF22Command {
     private static final int MAX_VALUE = 7;
     private static final int MIN_VALUE = 0;
 
+    public TestImage(){
+        super(TEST_IMAGE, 0);
+    }
     /**
      *
      */

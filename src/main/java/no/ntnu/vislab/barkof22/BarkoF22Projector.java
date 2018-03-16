@@ -51,107 +51,195 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
     public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws IOException {
         this("BarkoF22", "1", hostAddress, portNumber);
         cd = new CommunicationDriver(new Socket(hostAddress, portNumber));
+        cd.setOnCommandReady(this::proccesCommand);
         cd.start();
 
     }
 
+    private synchronized void sendAndWait(Command command) {
+        cd.queueCommand(command);
+        while (command.getResponse() == null) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public int powerOn() {
-        return 0;
+        try {
+            Power power = new Power(Power.ON);
+            sendAndWait(power);
+            return power.getPowerSetting();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int powerOff() {
-        return 0;
+        try {
+            Power power = new Power(Power.OFF);
+            sendAndWait(power);
+            return power.getPowerSetting();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int mute() {
-        return 0;
+        try {
+            Mute mute = new Mute(Mute.ON);
+            sendAndWait(mute);
+            return mute.getMuteSetting();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int unMute() {
-        return 0;
+        try {
+            Mute mute = new Mute(Mute.OFF);
+            sendAndWait(mute);
+            return mute.getMuteSetting();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int getBrightness() {
-        return 0;
+        Brightness brightness = new Brightness();
+        sendAndWait(brightness);
+        return brightness.getBrightness();
     }
 
     @Override
     public int setBrightness(int value) {
-        return 0;
+        try {
+            Brightness brightness = new Brightness(value, true);
+            sendAndWait(brightness);
+            return brightness.getBrightness();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int getContrast() {
-        return 0;
+        Contrast contrast = new Contrast();
+        sendAndWait(contrast);
+        return contrast.getContrast();
     }
 
     @Override
     public int setContrast(int value) {
-        return 0;
+        try {
+            Contrast contrast = new Contrast(value, true);
+            sendAndWait(contrast);
+            return contrast.getContrast();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int getPowerState() {
-        return 0;
+        PowerState powerState = new PowerState();
+        sendAndWait(powerState);
+        return powerState.getPowerState();
     }
 
     @Override
     public int getLampRuntime(int lampNum) {
-        return 0;
+        try {
+            LampRuntime lampRuntime = new LampRuntime(lampNum);
+            sendAndWait(lampRuntime);
+            return lampRuntime.getLampRuntime();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int getLampRemaining(int lampNum) {
-        return 0;
+        try {
+            LampTimeRemaining lampTimeRemaining = new LampTimeRemaining(lampNum);
+            sendAndWait(lampTimeRemaining);
+            return lampTimeRemaining.getLampTimeRemaining();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int getTotalRuntime() {
-        return 0;
+        UnitTotalTime unitTotalTime = new UnitTotalTime();
+        sendAndWait(unitTotalTime);
+        return unitTotalTime.getTotalRuntime();
     }
 
     @Override
     public int getLampStatus(int lampNum) {
         try {
-            cd.queueCommand(new LampStatus(1));
-            cd.queueCommand(new Brightness(100, true));
-            cd.queueCommand(new Brightness());
-        } catch (Exception e) {
+            LampStatus lampStatus = new LampStatus(lampNum);
+            sendAndWait(lampStatus);
+            return lampStatus.getLampStatus();
+        } catch (BarkoF22Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
 
     @Override
     public int getTemperature() {
-        return 0;
+        ThermalStatus thermalStatus = new ThermalStatus();
+        sendAndWait(thermalStatus);
+        return thermalStatus.getThermal();
     }
 
     @Override
-    public int testImageOn(int testImage) {
-        return 0;
+    public int testImageOn(int testImageNum) {
+        try {
+            TestImage testImage = new TestImage(testImageNum);
+            sendAndWait(testImage);
+            return testImage.getTestImage();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int testImageOff() {
-        return 0;
+        TestImage testImage = new TestImage();
+        sendAndWait(testImage);
+        return testImage.getTestImage();
     }
 
-    public boolean proccesCommand(Command command) {
+    public synchronized boolean proccesCommand(Command command) {
         if (!(command instanceof BarkoF22Command)) {
             return false;
         }
         try {
             BarkoF22Command f22Command = (BarkoF22Command) command;
-            if (f22Command.getCmd().equals(new Contrast().getCmd())) {
+            notifyAll();
+            if (f22Command.getCmd().split(" ")[0].equals(new Contrast().getCmd())) {
                 contrast = ((Contrast) f22Command).getContrast();
                 return true;
-            } else if (f22Command.getCmd().equals(new Brightness().getCmd())) {
+            } else if (f22Command.getCmd().split(" ")[0].equals(new Brightness().getCmd())) {
                 brightness = ((Brightness) f22Command).getBrightness();
                 return true;
             } else if (f22Command.getCmd().equals(new LampRuntime(1).getCmd())) {
@@ -195,49 +283,5 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public int getPowerSetting() {
-        return powerSetting;
-    }
-
-    public int getMuteSetting() {
-        return muteSetting;
-    }
-
-    public int getRuntime() {
-        return runtime;
-    }
-
-    public int getLamp1Runtime() {
-        return lamp1Runtime;
-    }
-
-    public int getLamp2Runtime() {
-        return lamp2Runtime;
-    }
-
-    public int getLamp1TimeRemaining() {
-        return lamp1TimeRemaining;
-    }
-
-    public int getLamp2TimeRemaining() {
-        return lamp2TimeRemaining;
-    }
-
-    public int getLamp1Status() {
-        return lamp1Status;
-    }
-
-    public int getLamp2Status() {
-        return lamp2Status;
-    }
-
-    public int getThermal() {
-        return thermal;
-    }
-
-    public int getTestImage() {
-        return testImage;
     }
 }

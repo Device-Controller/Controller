@@ -14,6 +14,11 @@ public class CommunicationDriver extends AbstractThread {
     private ArrayList<Command> outgoingBuffer;
     private final CommunicationContext communicator;
 
+    public interface OnCommandReady{
+        void onCommandReady(Command command);
+    }
+    private OnCommandReady listener;
+
     public CommunicationDriver(Socket host, List<Command> idleCommands) throws IOException {
         this.host = host;
         this.idleCommands = new ArrayList<>(idleCommands);
@@ -23,10 +28,19 @@ public class CommunicationDriver extends AbstractThread {
     }
 
     private void handleCommand(Command command) {
+        if(listener != null){
+            listener.onCommandReady(command);
+        } else {
+            System.err.println("Listener was null, command not handled");
+        }
     }
 
     public CommunicationDriver(Socket host, Command... commands) throws IOException {
         this(host, Arrays.asList(commands));
+    }
+
+    public void setOnCommandReady(OnCommandReady listener) {
+        this.listener = listener;
     }
 
     @Override

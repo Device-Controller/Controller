@@ -12,9 +12,6 @@ public class Send implements CommunicationState {
         context.getOut().println(command.toString());
         context.incrementSentCounter();
         context.incrementSendAttempts();
-        System.out.println(command.toString());
-        System.out.println(context.getSentCount());
-        System.out.println(context.getSendAttempts());
         int waitTime = 0;
         if (context.getSentCount() >= 20) {
             waitTime += 5000;

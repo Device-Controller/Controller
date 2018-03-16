@@ -11,6 +11,8 @@ import no.ntnu.vislab.barkof22.CommunicationStates.CommunicationState;
 import no.ntnu.vislab.barkof22.CommunicationStates.Idle;
 import no.ntnu.vislab.vislabcontroller.Command;
 
+import static java.lang.Thread.sleep;
+
 public class CommunicationContext {
     private CommunicationState currentState;
 
@@ -39,7 +41,6 @@ public class CommunicationContext {
 
     public void changeState(final CommunicationState nextState) {
         resetTimer();
-        System.out.println(nextState);
         currentState = nextState;
     }
 
@@ -53,6 +54,11 @@ public class CommunicationContext {
     }
 
     public boolean hasTimerPassed(long timeout) {
+        try {
+            sleep(5);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         return timer.hasTimerPassed(timeout);
     }
 

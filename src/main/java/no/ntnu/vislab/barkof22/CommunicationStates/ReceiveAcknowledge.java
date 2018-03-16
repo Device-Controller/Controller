@@ -13,7 +13,6 @@ public class ReceiveAcknowledge implements CommunicationState {
             Command command = context.getCommand();
             if(context.getIn().ready()){
                 String line = context.getIn().readLine();
-                System.out.println(line);
                 command.setResponse(line);
                 if(command.checkAck()){
                     context.changeState(new AcknowledgeReceived());
