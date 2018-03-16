@@ -6,9 +6,6 @@ import no.ntnu.vislab.vislabcontroller.Command;
  * @author ThomasSTodal
  */
 public abstract class BarkoF22Command extends Command {
-
-    protected static final String RELATIVE_MODIFIER = "R";
-
     private final String FIELD;
     private final int MIN_VALUE;
     private final int MAX_VALUE;
@@ -72,7 +69,7 @@ public abstract class BarkoF22Command extends Command {
         try {
             String[] ackArray = getResponse().split(" ");
             value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(FIELD) && (value >= MIN_VALUE) && (value <= MAX_VALUE);
+            return FIELD.contains(ackArray[1]) && (value >= MIN_VALUE) && (value <= MAX_VALUE);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
             return false;
         }
@@ -88,5 +85,9 @@ public abstract class BarkoF22Command extends Command {
 
     protected void setValue(int value) {
         this.value = value;
+    }
+
+    public String getCmd(){
+        return FIELD;
     }
 }

@@ -1,5 +1,6 @@
 package no.ntnu.vislab.barkof22;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,18 +14,18 @@ public class CommunicationDriver extends AbstractThread {
     private ArrayList<Command> outgoingBuffer;
     private final CommunicationContext communicator;
 
-    public CommunicationDriver(Socket host, List<Command> idleCommands) {
+    public CommunicationDriver(Socket host, List<Command> idleCommands) throws IOException {
         this.host = host;
         this.idleCommands = new ArrayList<>(idleCommands);
         this.outgoingBuffer = new ArrayList<>();
-        this.communicator = new CommunicationContext(host, outgoingBuffer, idleCommands);
+        this.communicator = new CommunicationContext(host.getOutputStream(), host.getInputStream(), outgoingBuffer, idleCommands);
         this.communicator.setOnAcknowledgeReceivedListener(this::handleCommand);
     }
 
     private void handleCommand(Command command) {
     }
 
-    public CommunicationDriver(Socket host, Command... commands) {
+    public CommunicationDriver(Socket host, Command... commands) throws IOException {
         this(host, Arrays.asList(commands));
     }
 

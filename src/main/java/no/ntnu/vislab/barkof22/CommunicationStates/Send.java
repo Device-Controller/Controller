@@ -1,37 +1,30 @@
 package no.ntnu.vislab.barkof22.CommunicationStates;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-
 import no.ntnu.vislab.barkof22.CommunicationContext;
-import no.ntnu.vislab.barkof22.commands.PowerOn;
+import no.ntnu.vislab.barkof22.commands.Power;
 import no.ntnu.vislab.vislabcontroller.Command;
 
 public class Send implements CommunicationState {
 
-
     @Override
     public void execute(final CommunicationContext context) {
-        try {
-            Command command = context.getCommand();
-            Socket host = context.getHost();
-            PrintWriter out = new PrintWriter(host.getOutputStream(), true);
-            out.println(command.toString());
-            context.incrementSentCounter();
-            context.incrementSendAttempts();
-            if(context.getSendAttempts()< 20 &! (command instanceof PowerOn)){
-                context.changeState(new Wait(500));
-            } else if(context.getSendAttempts() == 20 &! (command instanceof PowerOn)){
-                context.changeState(new Wait(5000));
-                context.resetSentCounter();
-            } else if(context.getSendAttempts()< 20 && (command instanceof PowerOn)){
-                context.changeState(new Wait(30000));
-            } else if(context.getSendAttempts() == 20 && (command instanceof PowerOn)){
-                context.changeState(new Wait(35000));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        Command command = context.getCommand();
+        context.getOut().println(command.toString());
+        context.incrementSentCounter();
+        context.incrementSendAttempts();
+        System.out.println(command.toString());
+        System.out.println(context.getSentCount());
+        System.out.println(context.getSendAttempts());
+        int waitTime = 0;
+        if (context.getSentCount() >= 20) {
+            waitTime += 5000;
+            context.resetSentCounter();
         }
+        if (command instanceof Power && ((Power) command).getPowerSetting() == 1) {
+            waitTime += 30000;
+        } else {
+            waitTime += 500;
+        }
+        context.changeState(new Wait(waitTime));
     }
 }

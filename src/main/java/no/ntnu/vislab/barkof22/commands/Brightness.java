@@ -4,13 +4,14 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
 import no.ntnu.vislab.barkof22.BarkoF22Exception;
 
 /**
- *
  * @author ThomasSTodal
  */
 public class Brightness extends BarkoF22Command {
-    private static final String BRIGHTNESS = "BRIG ";
+    private static final String BRIGHTNESS = "BRIG";
     private static final int MAX_VALUE = 100;
     private static final int MIN_VALUE = -100;
+
+    private static final String RELATIVE_MODIFIER = "R";
 
     /**
      *
@@ -18,12 +19,12 @@ public class Brightness extends BarkoF22Command {
     public Brightness() {
         super(BRIGHTNESS, MAX_VALUE, MIN_VALUE);
     }
+
     private Brightness(Integer integer, boolean isAbsoluteValue) {
-        super((!isAbsoluteValue) ? BRIGHTNESS + RELATIVE_MODIFIER : BRIGHTNESS, integer);
+        super((!isAbsoluteValue) ? BRIGHTNESS + " " + RELATIVE_MODIFIER : BRIGHTNESS + " ", integer);
     }
 
     /**
-     *
      * @param value
      * @param isAbsoluteValue
      */
