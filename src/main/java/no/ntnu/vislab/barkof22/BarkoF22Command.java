@@ -6,7 +6,6 @@ import no.ntnu.vislab.vislabcontroller.Command;
  * @author ThomasSTodal
  */
 public abstract class BarkoF22Command extends Command {
-<<<<<<< HEAD
 
     protected static final String PREFIX = ":";
     protected static final String SUFFIX = "";
@@ -17,8 +16,6 @@ public abstract class BarkoF22Command extends Command {
     protected static final String GET_DEFAULT = "?D";
     protected static final String GET_DEFAULT_STEP = "?S";
 
-=======
->>>>>>> d2d7bf2a4af8844dc917fd3ad1d15774f6084894
     private final String FIELD;
     private final int MIN_VALUE;
     private final int MAX_VALUE;
