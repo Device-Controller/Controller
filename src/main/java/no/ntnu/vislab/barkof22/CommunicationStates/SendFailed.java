@@ -6,7 +6,7 @@ public class SendFailed implements CommunicationState {
     @Override
     public void execute(CommunicationContext context) {
         context.getListener().onAcknowledge(context.getAndRemove());
-        context.resetSentCounter();
+        context.resetSendAttempts();
         context.changeState(new Idle());
     }
 }

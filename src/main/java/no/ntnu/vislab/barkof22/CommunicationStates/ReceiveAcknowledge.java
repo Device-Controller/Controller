@@ -1,8 +1,6 @@
 package no.ntnu.vislab.barkof22.CommunicationStates;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import no.ntnu.vislab.barkof22.CommunicationContext;
 import no.ntnu.vislab.vislabcontroller.Command;
@@ -13,9 +11,8 @@ public class ReceiveAcknowledge implements CommunicationState {
     public void execute(final CommunicationContext context) {
         try {
             Command command = context.getCommand();
-            BufferedReader in = new BufferedReader(new InputStreamReader(context.getHost().getInputStream()));
-            if(in.ready()){
-                String line = in.readLine();
+            if(context.getIn().ready()){
+                String line = context.getIn().readLine();
                 System.out.println(line);
                 command.setResponse(line);
                 if(command.checkAck()){

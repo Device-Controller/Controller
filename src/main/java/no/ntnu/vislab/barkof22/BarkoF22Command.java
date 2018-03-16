@@ -6,6 +6,7 @@ import no.ntnu.vislab.vislabcontroller.Command;
  * @author ThomasSTodal
  */
 public abstract class BarkoF22Command extends Command {
+<<<<<<< HEAD
 
     protected static final String PREFIX = ":";
     protected static final String SUFFIX = "";
@@ -16,6 +17,8 @@ public abstract class BarkoF22Command extends Command {
     protected static final String GET_DEFAULT = "?D";
     protected static final String GET_DEFAULT_STEP = "?S";
 
+=======
+>>>>>>> d2d7bf2a4af8844dc917fd3ad1d15774f6084894
     private final String FIELD;
     private final int MIN_VALUE;
     private final int MAX_VALUE;
@@ -86,7 +89,7 @@ public abstract class BarkoF22Command extends Command {
         try {
             String[] ackArray = getResponse().split(" ");
             value = Integer.parseInt(ackArray[2]);
-            return ackArray[1].equals(FIELD) && (value >= MIN_VALUE) && (value <= MAX_VALUE);
+            return FIELD.contains(ackArray[1]) && (value >= MIN_VALUE) && (value <= MAX_VALUE);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
             return false;
         }
@@ -115,5 +118,9 @@ public abstract class BarkoF22Command extends Command {
      */
     protected void setValue(int value) {
         this.value = value;
+    }
+
+    public String getCmd(){
+        return FIELD;
     }
 }

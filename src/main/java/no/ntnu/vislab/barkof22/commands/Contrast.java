@@ -7,13 +7,19 @@ import no.ntnu.vislab.barkof22.BarkoF22Exception;
  * @author ThomasSTodal
  */
 public class Contrast extends BarkoF22Command {
-    private static final String CONTRAST = "CNTR ";
+    private static final String CONTRAST = "CNTR";
     private static final int MIN_VALUE = -100;
     private static final int MAX_VALUE = 100;
 
+<<<<<<< HEAD
     /**
      *
      */
+=======
+    private static final String RELATIVE_MODIFIER = "R";
+
+
+>>>>>>> d2d7bf2a4af8844dc917fd3ad1d15774f6084894
     public Contrast() {
         super(CONTRAST, MAX_VALUE, MIN_VALUE);
     }
@@ -24,7 +30,7 @@ public class Contrast extends BarkoF22Command {
      * @param isAbsoluteValue
      */
     private Contrast(Integer integer, boolean isAbsoluteValue) {
-        super((!isAbsoluteValue) ? CONTRAST + RELATIVE_MODIFIER : CONTRAST, integer);
+        super((!isAbsoluteValue) ? CONTRAST + " " + RELATIVE_MODIFIER : CONTRAST + " ", integer);
     }
 
     /**

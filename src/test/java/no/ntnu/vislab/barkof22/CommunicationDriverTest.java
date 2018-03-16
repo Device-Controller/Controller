@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.net.Socket;
 
 import no.ntnu.vislab.barkof22.commands.LampStatus;
-import no.ntnu.vislab.barkof22.commands.PowerOn;
+import no.ntnu.vislab.barkof22.commands.Power;
 import no.ntnu.vislab.barkof22.commands.PowerState;
 
 public class CommunicationDriverTest {
@@ -26,7 +26,7 @@ public class CommunicationDriverTest {
 
     @Test
     public void run() {
-        cd.queueCommand(new PowerOn());
+        cd.queueCommand(new Power());
     }
 
     @Test

@@ -4,27 +4,22 @@ import no.ntnu.vislab.barkof22.BarkoF22Command;
 import no.ntnu.vislab.barkof22.BarkoF22Exception;
 
 /**
- *
  * @author ThomasSTodal
  */
-public class Mute extends BarkoF22Command {
-    private static final String MUTE = "PMUT";
-    private static final int MUTE_SETTING = 1;
+public class Power extends BarkoF22Command {
+
+    private static final String POWER = "POWR";
     public static final int ON = 1;
     public static final int OFF = 0;
 
     /**
      *
      */
-    public Mute(){
-        super(MUTE);
+    public Power(){
+        super(POWER);
     }
-    public Mute(int setting) throws BarkoF22Exception {
-        super(MUTE, checkSetting(setting));
-    }
-
-    public int getMuteSetting(){
-        return getValue();
+    public Power(int setting) throws BarkoF22Exception {
+        super(POWER, checkSetting(setting));
     }
 
     private static int checkSetting(int setting) throws BarkoF22Exception {
@@ -34,4 +29,7 @@ public class Mute extends BarkoF22Command {
         return setting;
     }
 
+    public int getPowerSetting() {
+        return getValue();
+    }
 }
