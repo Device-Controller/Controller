@@ -33,4 +33,12 @@ public class TestImage extends BarkoF22Command {
             throw new BarkoF22Exception("Value is out of bounds!");
         }
     }
+
+    public int getTestImage() {
+        return getValue();
+    }
+
+    public void setTestImage(int num) throws BarkoF22Exception {
+        setValue(checkValue(num));
+    }
 }

@@ -15,4 +15,8 @@ public class PowerOff extends BarkoF22Command {
     public PowerOff() {
         super(POWER_OFF, POWER_SETTING);
     }
+
+    public int getPowerSetting() {
+        return getValue();
+    }
 }

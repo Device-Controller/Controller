@@ -3,7 +3,6 @@ package no.ntnu.vislab.barkof22.commands;
 import no.ntnu.vislab.barkof22.BarkoF22Command;
 
 /**
- *
  * @author ThomasSTodal
  */
 public class PowerOn extends BarkoF22Command {
@@ -16,5 +15,9 @@ public class PowerOn extends BarkoF22Command {
      */
     public PowerOn() {
         super(POWER_ON, POWER_SETTING);
+    }
+
+    public int getPowerSetting() {
+        return getValue();
     }
 }

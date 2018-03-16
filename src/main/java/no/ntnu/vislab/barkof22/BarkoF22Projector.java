@@ -10,9 +10,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import no.ntnu.vislab.barkof22.commands.GetBrightness;
 import no.ntnu.vislab.barkof22.commands.LampStatus;
-import no.ntnu.vislab.barkof22.commands.SetBrightness;
+import no.ntnu.vislab.barkof22.commands.Brightness;
 import no.ntnu.vislab.vislabcontroller.Projector;
 
 /**
@@ -96,8 +95,8 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
     public int getLampStatus(int lampNum) {
         try {
             cd.queueCommand(new LampStatus(1));
-            cd.queueCommand(new SetBrightness(100, true));
-            cd.queueCommand(new GetBrightness());
+            cd.queueCommand(new Brightness(100, true));
+            cd.queueCommand(new Brightness());
         } catch (Exception e) {
             e.printStackTrace();
         }

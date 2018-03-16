@@ -10,12 +10,14 @@ public class LampStatus extends BarkoF22Command {
     private static final String LAMP_STATUS = "LST";
     private static final int MAX_VALUE = 5;
     private static final int MIN_VALUE = 0;
+    private final int lampNum;
 
     /**
      *
      */
     private LampStatus(Integer integer) {
         super(LAMP_STATUS + integer, MAX_VALUE, MIN_VALUE);
+        lampNum = integer;
     }
 
     /**
@@ -34,9 +36,18 @@ public class LampStatus extends BarkoF22Command {
      */
     private static int checkLampNum(int lampNum) throws BarkoF22Exception {
         if(lampNum >= 1 && lampNum <= 2) {
+
             return lampNum;
         } else {
             throw new BarkoF22Exception("Value is out of bounds!");
         }
+    }
+
+    public int getLampStatus(){
+        return getValue();
+    }
+
+    public int getLampNum() {
+        return lampNum;
     }
 }

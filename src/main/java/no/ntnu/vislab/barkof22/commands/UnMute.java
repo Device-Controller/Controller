@@ -17,4 +17,8 @@ public class UnMute extends BarkoF22Command {
         super(UNMUTE, UNMUTE_SETTING);
     }
 
+    public int getMuteSetting() {
+        return getValue();
+    }
+
 }

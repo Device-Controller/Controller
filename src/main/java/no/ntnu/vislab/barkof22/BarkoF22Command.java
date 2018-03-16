@@ -12,7 +12,7 @@ public abstract class BarkoF22Command extends Command {
     private final String FIELD;
     private final int MIN_VALUE;
     private final int MAX_VALUE;
-    private final int FIELD_VALUE;
+    private int value;
     private final boolean GETTER;
     protected static final String GET_CURRENT = "?";
     protected static final String GET_MAX = "?M";
@@ -25,7 +25,7 @@ public abstract class BarkoF22Command extends Command {
         this.FIELD = command;
         this.MAX_VALUE = maxValue;
         this.MIN_VALUE = minValue;
-        this.FIELD_VALUE = value;
+        this.value = (value > Integer.MIN_VALUE) ? value : this.value;
         this.GETTER = getter;
     }
 
@@ -47,7 +47,7 @@ public abstract class BarkoF22Command extends Command {
      * @param minValue the commands min possible value
      */
     public BarkoF22Command(String command, int maxValue, int minValue) {
-        this(command, -1, maxValue, minValue, true);
+        this(command, Integer.MIN_VALUE, maxValue, minValue, true);
     }
 
     /**
@@ -71,7 +71,7 @@ public abstract class BarkoF22Command extends Command {
     public boolean checkAck() {
         try {
             String[] ackArray = getResponse().split(" ");
-            int value = Integer.parseInt(ackArray[2]);
+            value = Integer.parseInt(ackArray[2]);
             return ackArray[1].equals(FIELD) && (value >= MIN_VALUE) && (value <= MAX_VALUE);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
             return false;
@@ -80,7 +80,13 @@ public abstract class BarkoF22Command extends Command {
 
     @Override
     public String toString() {
-        return (GETTER) ? getPrefix() + FIELD + GET_CURRENT + getSuffix() : getPrefix() + FIELD + FIELD_VALUE + getSuffix();
+        return (GETTER) ? getPrefix() + FIELD + GET_CURRENT + getSuffix() : getPrefix() + FIELD + value + getSuffix();
+    }
+    protected int getValue(){
+        return value;
     }
 
+    protected void setValue(int value) {
+        this.value = value;
+    }
 }

@@ -17,4 +17,8 @@ public class Mute extends BarkoF22Command {
         super(MUTE, MUTE_SETTING);
     }
 
+    public int getMuteSetting(){
+        return getValue();
+    }
+
 }
