@@ -23,10 +23,6 @@ public class LampStatusController {
         if(projector == null){
             projector = new BarkoF22InterfaceImpl("MONG Ltd", "ERIK", InetAddress.getByName("158.38.101.110"), 1025);
         }
-        boolean boo = true;
-        while(boo){
-
-        }
         Integer response = projector.getLampStatus(1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
