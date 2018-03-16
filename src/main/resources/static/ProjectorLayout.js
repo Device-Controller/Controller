@@ -1,11 +1,11 @@
 let i;
-let list = ["", "", "", "", ""];
-for (i = 0; i < 5; i++) {
-    list[i] = {
-        'id': 'd', 'x': 50 * (i + 1), 'y': 70 * (i + 2), 'rot': 270 - i * 30, 'draw': function () {
+let list = [];
+for (i = 0; i < 12; i++) {
+    list.push({
+        'id': 'd', 'x': 70 + (i* 20), 'y': 70 + (((i-5.5)*3)*((i-5.5)*3)), 'rot': 270 + (i * 16.36), 'draw': function () {
             drawProjector(this.x, this.y, this.rot);
         }
-    };
+    });
 }
 for (i = 0; i < list.length; i++) {
     list[i].draw();
@@ -39,12 +39,8 @@ function drawProjector(x, y, rot) {
     img.onload = function () {
         let w = img.naturalWidth;
         let h = img.naturalHeight;
-        console.log(w);
-        console.log(h);
         let ratio = w / h;
-        console.log(ratio);
         let height = width / ratio;
-        console.log(height);
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(rot * Math.PI / 180);

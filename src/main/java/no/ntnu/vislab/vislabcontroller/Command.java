@@ -9,10 +9,10 @@ import java.util.Objects;
  */
 public abstract class Command {
 
-    private  final String prefix;
-    private  final String suffix;
+    private final String prefix;
+    private final String suffix;
 
-    private  String cmd;
+    private String cmd;
     
     private String response;
 
@@ -81,16 +81,15 @@ public abstract class Command {
 
     /**
      *
-     * @return
      */
     @Override
     public abstract String toString();
 
     /**
      *
-     * @return
      */
     public abstract boolean checkAck();
+
     /**
      *
      * @return

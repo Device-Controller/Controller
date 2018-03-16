@@ -14,4 +14,12 @@ public class UnitTotalTime extends BarkoF22Command {
     public UnitTotalTime() {
         super(TOTAL_TIME);
     }
+
+    /**
+     *
+     * @return
+     */
+    public int getTotalRuntime() {
+        return getValue();
+    }
 }

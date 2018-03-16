@@ -1,14 +1,21 @@
 package no.ntnu.vislab.barkof22;
 
-import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 import no.ntnu.vislab.barkof22.CommunicationStates.CommunicationState;
 import no.ntnu.vislab.barkof22.CommunicationStates.Idle;
 import no.ntnu.vislab.vislabcontroller.Command;
 
+import static java.lang.Thread.sleep;
+
 public class CommunicationContext {
     private CommunicationState currentState;
+
     public interface OnAcknowledge {
         void onAcknowledge(Command received);
     }
@@ -20,14 +27,16 @@ public class CommunicationContext {
     private final List<Command> idleBuffer;
     private int sentCount = 0;
     private int sendAttempts = 0;
-    private final Socket host;
+    private BufferedReader in;
+    private PrintWriter out;
 
-    public CommunicationContext(Socket host, List<Command> outgoingBuffer, List<Command> idleBuffer) {
-        this.host = host;
+    public CommunicationContext(OutputStream out_raw, InputStream in_raw, List<Command> outgoingBuffer, List<Command> idleBuffer) {
         this.outgoingBuffer = outgoingBuffer;
         this.idleBuffer = idleBuffer;
         this.timer = new Timer();
         changeState(new Idle());
+        this.in = new BufferedReader(new InputStreamReader(in_raw));
+        this.out = new PrintWriter(out_raw, true);
     }
 
     public void changeState(final CommunicationState nextState) {
@@ -45,20 +54,34 @@ public class CommunicationContext {
     }
 
     public boolean hasTimerPassed(long timeout) {
+        try {
+            sleep(5);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         return timer.hasTimerPassed(timeout);
     }
 
-    public void resetTimer() {
+    private void resetTimer() {
         timer.reset();
     }
 
-    public Socket getHost() {
-        return host;
+    public PrintWriter getOut(){
+        return out;
+    }
+
+    public BufferedReader getIn(){
+        return in;
     }
 
     public void incrementSentCounter() {
         sentCount++;
     }
+
+    public int getSentCount() {
+        return sentCount;
+    }
+
 
     public void resetSentCounter() {
         sentCount = 0;
@@ -72,13 +95,18 @@ public class CommunicationContext {
         return sendAttempts;
     }
 
-    public Command getCommand(){
-        if(!outgoingBuffer.isEmpty()){
+    public void resetSendAttempts() {
+        sendAttempts = 0;
+    }
+
+    public Command getCommand() {
+        if (!outgoingBuffer.isEmpty()) {
             return outgoingBuffer.get(0);
         }
         return null;
     }
-    public boolean hasIdleCommands(){
+
+    public boolean hasIdleCommands() {
         return !idleBuffer.isEmpty();
     }
 
@@ -91,10 +119,12 @@ public class CommunicationContext {
     public OnAcknowledge getListener() {
         return listener;
     }
+
     public Command getAndRemove() {
         Command removed = outgoingBuffer.remove(0);
         return removed;
     }
+
     public boolean addCommand(Command idleCommand) {
         return outgoingBuffer.add(idleCommand);
     }

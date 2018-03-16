@@ -8,12 +8,15 @@ import no.ntnu.vislab.barkof22.BarkoF22Exception;
  */
 public class LampTimeRemaining extends BarkoF22Command {
     private static final String LAMP_TIME_REMAINING = "LRM";
+    private final int lampNum;
 
     /**
      *
+     * @param integer
      */
     private LampTimeRemaining(Integer integer) {
         super(LAMP_TIME_REMAINING + integer);
+        this.lampNum = integer;
     }
 
     /**
@@ -36,5 +39,21 @@ public class LampTimeRemaining extends BarkoF22Command {
         } else {
             throw new BarkoF22Exception("Value is out of bounds!");
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getLampTimeRemaining(){
+        return getValue();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getLampNum() {
+        return lampNum;
     }
 }

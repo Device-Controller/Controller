@@ -11,8 +11,12 @@ public class TestImage extends BarkoF22Command {
     private static final int MAX_VALUE = 7;
     private static final int MIN_VALUE = 0;
 
+    public TestImage(){
+        super(TEST_IMAGE, 0);
+    }
     /**
      *
+     * @param integer
      */
     private TestImage(Integer integer) {
         super(TEST_IMAGE, integer, MAX_VALUE, MIN_VALUE);
@@ -21,16 +25,40 @@ public class TestImage extends BarkoF22Command {
     /**
      *
      * @param patternNum
+     * @throws BarkoF22Exception
      */
     public TestImage(int patternNum) throws BarkoF22Exception {
         this(new Integer(checkValue(patternNum)));
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     * @throws BarkoF22Exception
+     */
     private static int checkValue(int value) throws BarkoF22Exception {
         if (value >= MIN_VALUE && value <= MAX_VALUE) {
             return value;
         } else {
             throw new BarkoF22Exception("Value is out of bounds!");
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getTestImage() {
+        return getValue();
+    }
+
+    /**
+     *
+     * @param num
+     * @throws BarkoF22Exception
+     */
+    public void setTestImage(int num) throws BarkoF22Exception {
+        setValue(checkValue(num));
     }
 }
