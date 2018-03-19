@@ -1,5 +1,5 @@
 FROM java:8
-COPY vislab/ /vislab/VislabController-latest.jar
+COPY vislab/ /vislab/VislabController-${ver}.jar
 
 WORKDIR /
 
