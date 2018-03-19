@@ -60,7 +60,7 @@
                                 </tags>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <args>
-                                    <myArg>test</myArg>
+                                    <version>${project.version}</version>
                                 </args>
                             </build>
                             <run>

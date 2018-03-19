@@ -1,7 +1,7 @@
 FROM java:8
-ARG myArg
-ENV myArg ${myArg}
-COPY target/VislabController-$myArg.jar /vislab/VislabController.jar
+ARG version
+ENV version ${version}
+COPY target/VislabController-$version.jar /vislab/VislabController.jar
 
 WORKDIR /
 
