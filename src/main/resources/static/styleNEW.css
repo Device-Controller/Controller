@@ -167,9 +167,9 @@ input[type=checkbox]:checked + .check-label {
 }
 
 .group-button {
-    width: 26.7%;
+    width: 42.85%;
     float: left;
-    margin-left: 37.5%;
+    margin-left: 35%;
 }
 #settings-group, #button-savegroup {
     border-radius: 30%;
