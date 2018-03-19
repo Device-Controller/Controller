@@ -54,6 +54,9 @@
                             <name>controller:${project.version}</name>
                             <alias>controller</alias>
                             <build>
+                                <assembly>
+                                    <descriptorRef>artifact-with-dependencies</descriptorRef>
+                                </assembly>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>
                             <run>
