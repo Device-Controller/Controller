@@ -1,36 +1,31 @@
-let i;
 let list = [];
-for (i = 0; i < 12; i++) {
-    list.push({
-        'id': 'd', 'x': 70 + (i* 20), 'y': 70 + (((i-5.5)*3)*((i-5.5)*3)), 'rot': 270 + (i * 16.36), 'draw': function () {
-            drawProjector(this.x, this.y, this.rot);
-        }
-    });
-}
-for (i = 0; i < list.length; i++) {
-    list[i].draw();
-}
+let imgRatio = 1;
+fetch('controller/db').then(response => {
+    if (response.ok) {
+        response.json().then(e => {
+            list.push.apply(list, e);
 
-let width = 64;
-
-function isWithin(x, y, xOrg, yOrg) {
-    let upperBound = width / 2;
-    if (Math.abs(x - xOrg) < upperBound && Math.abs(y - yOrg) < upperBound) {
-        return true
+            list.forEach(p => {
+                let x = p.x;
+                let y = p.y;
+                let rot = p.rotDeg;
+                drawProjector(x, y, rot);
+            });
+        });
     }
-    return false;
-}
+
+});
 
 document.getElementById('projector-layout').onclick = event => {
     var x = event.offsetX;
     var y = event.offsetY;
-
+    let i;
     for (i = 0; i < list.length; i++) {
         if (isWithin(x, y, list[i].x, list[i].y)) {
-            window.location.href = "http://www.google.com";
+            window.location.href = "projector?id=" + list[i].id;
         }
     }
-}
+};
 
 function drawProjector(x, y, rot) {
     let canvas = document.getElementById('projector-layout');
@@ -40,6 +35,7 @@ function drawProjector(x, y, rot) {
         let w = img.naturalWidth;
         let h = img.naturalHeight;
         let ratio = w / h;
+        imgRatio = ratio;
         let height = width / ratio;
         ctx.save();
         ctx.translate(x, y);
@@ -49,3 +45,14 @@ function drawProjector(x, y, rot) {
     }
     img.src = "projector.png";
 }
+let width = 64;
+
+function isWithin(x, y, xOrg, yOrg) {
+    let xBound = (width) / 3.5;
+    let yBound = xBound * imgRatio;
+    if (Math.abs(x - xOrg) < xBound && Math.abs(y - yOrg) < yBound) {
+        return true
+    }
+    return false;
+}
+

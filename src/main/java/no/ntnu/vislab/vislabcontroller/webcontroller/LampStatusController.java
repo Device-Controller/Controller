@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.InetAddress;
+import java.util.List;
 
 import no.ntnu.vislab.barkof22.BarkoF22Interface;
 import no.ntnu.vislab.barkof22.BarkoF22InterfaceImpl;
+import no.ntnu.vislab.vislabcontroller.DummyBase.Device;
+import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 
 @Controller
 @RequestMapping("/controller")
@@ -47,5 +50,8 @@ public class LampStatusController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    @RequestMapping("/db")
+    public ResponseEntity<List<Device>> devices(){
+        return new ResponseEntity<>(new DummyBase().getList(), HttpStatus.OK);
+    }
 }
