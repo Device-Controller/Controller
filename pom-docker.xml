@@ -58,6 +58,9 @@
                                     <name>vislab</name>
                                     <descriptorRef>artifact-with-dependencies</descriptorRef>
                                 </assembly>
+                                <env>
+                                    <docker.buildArg.ver>${project.version}</docker.buildArg.ver>
+                                </env>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>
                             <run>
