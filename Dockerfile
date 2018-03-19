@@ -4,4 +4,4 @@ COPY maven/ /home/VislabController-latest.jar
 
 WORKDIR /
 
-CMD ["java", "-jar", "/home/VislabController-latest.jar"]
+CMD ["java", "-jar", "/tar/VislabController-latest.jar"]

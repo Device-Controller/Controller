@@ -57,7 +57,6 @@
                                 <assembly>
                                     <descriptorRef>artifact-with-dependencies</descriptorRef>
                                 </assembly>
-                                <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
