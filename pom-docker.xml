@@ -54,10 +54,6 @@
                             <name>controller:${project.version}</name>
                             <alias>controller</alias>
                             <build>
-                                <assembly>
-                                    <name>vislab</name>
-                                    <descriptorRef>artifact-with-dependencies</descriptorRef>
-                                </assembly>
                                 <env>
                                     <docker.buildArg.ver>test</docker.buildArg.ver>
                                 </env>
