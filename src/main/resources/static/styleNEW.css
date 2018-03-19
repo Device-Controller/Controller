@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 * {
-    margin: auto;
+    margin: 0;
 }
 
 canvas {
@@ -17,18 +17,21 @@ canvas {
 }
 
 .row {
-    margin: 1%;
     height: 100%;
     text-align: center;
+    margin-top: 1%;
+    margin-left: 15%;
 }
 
 .column {
     float: left;
-    border: solid black 1px;
-    width: 100%;
+    width: 70%;
     height: 100%;
 }
-
+.right-c {
+    float: right;
+    width: 25%;
+}
 .middle-c {
     display: none;
 }
@@ -48,14 +51,19 @@ canvas {
 @media only screen and (min-width: 768px) {
     /* DESKTOP */
     .side-c {
-        width: 25%;
+        width: 20%;
+        float: left;
+    }
+    .right-c {
+        width: 10%;
     }
 
     .middle-c {
         display: block;
-        width: 37%;
+        width: 30%;
         text-align: center;
     }
+
 }
 
 /*@media only screen and (min-width: 768px) {
@@ -80,59 +88,25 @@ canvas {
 button:hover {
     cursor: pointer;
 }
-
-/* NAVIGATION MENU ++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-.navigation-menu {
-    background-color: #999999;
-    border-bottom: black;
-}
-
-#ntnu-logo {
-    float: left;
-    width: 5%;
-}
-
-nav ul {
-    margin: 0;
-    padding: .6em;
-    overflow: hidden;
-}
-
-nav ul li {
-    display: inline;
-    margin-left: 5%;
-    padding: 1.5em;
-
-}
-
-nav ul li:hover {
-    background-color: #ebebeb;
-    cursor: pointer;
-
-}
-
 /* GENERIC BUTTONS ----------------- */
 .generic-buttons {
     width: 25%;
-    margin: auto;
     margin-top: 20%;
+    float: left;
 }
 
-#buttonpower, #buttonmute, #button1, #button2 {
+#buttonpower, #buttonmute {
     display: block;
     width: 100px;
     height: 100px;
     margin-bottom: 10%;
 }
 
-/*#powerimg {
-    filter: invert(1);
-}*/
+
 
 /* PROJECTOR LIST ------------------ */
 
 .selected-container {
-    display:block;
     width: 100%;
 }
 
@@ -146,7 +120,7 @@ select:hover {
 }
 .selected-container ul {
     margin-top: 1%;
-    width: 100%;
+    vertical-align: middle;
 }
 .selected-container li {
     width: 35%;
@@ -154,16 +128,9 @@ select:hover {
     background-color: #ff3300;
     margin-bottom: 1%;
     display: block;
+    margin-left: 29%;
 }
-@media only screen and (min-width: 768px) {
-    .selected-container li {
-    width: 35%;
-    min-width: 8em;
-    background-color: #ff3300;
-    margin-bottom: 1%;
-    display: inline-table;
-}
-}
+
 
 .selected-container li:hover {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
@@ -200,16 +167,36 @@ input[type=checkbox]:checked + .check-label {
 }
 
 .group-button {
-    
-    
+    width: 26.7%;
+    float: left;
+    margin-left: 37.5%;
 }
-
 #settings-group, #button-savegroup {
     border-radius: 30%;
+    float: left;
     width: 5em;
     height: 5em;
 }
 
+@media only screen and (min-width: 768px) {
+    .selected-container li {
+        width: 35%;
+        min-width: 8em;
+        background-color: #ff3300;
+        margin-bottom: 1%;
+        display: inline-table;
+        margin-right: 8.5%;
+        margin-left:0;
+    }
+    .group-button {
+        width: 100%;
+        margin: 0;
+    }
+    .generic-buttons {
+
+
+    }
+}
 /* INTERACTIVE APPLICATION MIDDLE IMAGE THINGY ------------------ */
 
 #interactive-image {
