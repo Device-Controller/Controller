@@ -55,11 +55,11 @@
                             <alias>controller</alias>
                             <build>
                                 <env>
-                                    <docker.buildArg.ver>test</docker.buildArg.ver>
+                                    <docker.buildArg.myArg>test</docker.buildArg.myArg>
                                 </env>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <env>
-                                    <docker.buildArg.ver>test</docker.buildArg.ver>
+                                    <docker.buildArg.myArg>test</docker.buildArg.myArg>
                                 </env>
                             </build>
                             <run>
