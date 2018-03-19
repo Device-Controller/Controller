@@ -54,13 +54,10 @@
                             <name>controller:${project.version}</name>
                             <alias>controller</alias>
                             <build>
-                                <env>
-                                    <docker.buildArg.myArg>test</docker.buildArg.myArg>
-                                </env>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
-                                <env>
-                                    <docker.buildArg.myArg>test</docker.buildArg.myArg>
-                                </env>
+                                <args>
+                                    <myArg>test</myArg>
+                                </args>
                             </build>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
