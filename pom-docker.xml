@@ -55,8 +55,10 @@
                             <alias>controller</alias>
                             <build>
                                 <assembly>
+                                    <name>vislab</name>
                                     <descriptorRef>artifact-with-dependencies</descriptorRef>
                                 </assembly>
+                                <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
