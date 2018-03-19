@@ -8,8 +8,10 @@ public class Device {
     private String name;
     private String model;
     private String make;
+    private String ip;
+    private int port;
 
-    public Device(int x, int y, int rotDeg, int id, String name, String model, String make) {
+    public Device(int x, int y, int rotDeg, int id, String name, String model, String make, String ip, int port) {
         this.x = x;
         this.y = y;
         this.rotDeg = rotDeg;

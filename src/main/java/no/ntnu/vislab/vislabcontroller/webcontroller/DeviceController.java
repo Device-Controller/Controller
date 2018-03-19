@@ -17,7 +17,7 @@ import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 
 @Controller
 @RequestMapping("/controller")
-public class LampStatusController {
+public class DeviceController {
     private static BarkoF22Interface projector;
 
     @RequestMapping("/lampStatus")
@@ -53,5 +53,12 @@ public class LampStatusController {
     @RequestMapping("/db")
     public ResponseEntity<List<Device>> devices(){
         return new ResponseEntity<>(new DummyBase().getList(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/getProjector")
+    public ResponseEntity<Device> getSingleProjector(@RequestParam (value = "id") int id){
+        Device d = new DummyBase().getSingle(id);
+        System.out.println(d);
+        return new ResponseEntity<>(d, HttpStatus.OK);
     }
 }
