@@ -54,6 +54,10 @@
                             <name>controller:${project.version}</name>
                             <alias>controller</alias>
                             <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${project.version}</tag>
+                                </tags>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <args>
                                     <myArg>test</myArg>
