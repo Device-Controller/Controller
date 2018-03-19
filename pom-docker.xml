@@ -62,7 +62,6 @@
                                     <ver>${project.version}</ver>
                                 </env>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
-                                <buildOptions>forcerm=1</buildOptions>
                             </build>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
