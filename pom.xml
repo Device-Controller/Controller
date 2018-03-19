@@ -51,21 +51,14 @@
                     <dockerHost>tcp://158.38.101.209:2375</dockerHost>
                     <images>
                         <image>
-                            <name>springboot-mongo-dockerimage:${project.version}</name>
-                            <alias>springboot-mongo-dockerimage</alias>
+                            <name>controller:${project.version}</name>
+                            <alias>controller</alias>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
 
                             </build>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
-                                <dependsOn>
-                                    <container>controller</container>
-                                </dependsOn>
-
-                                <links>
-                                    <link>mongo</link>
-                                </links>
                                 <ports>
                                     <port>8080:8080</port>
                                 </ports>
