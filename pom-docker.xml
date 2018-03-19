@@ -54,10 +54,10 @@
                             <name>controller:${project.version}</name>
                             <alias>controller</alias>
                             <build>
-                                <dockerFileDir>${project.basedir}</dockerFileDir>
-                                <cmd>
-                                    <shell>java -jar /target/${project.name}-${project.version}.jar</shell>
-                                </cmd>
+                                <docker.buildArg.myBuildArg>FROM java:8 /</docker.buildArg.myBuildArg>
+                                <docker.buildArg.myBuildArg>COPY ${project.name}-${project.version}.jar /home/${project.name}-${project.version}.jar</docker.buildArg.myBuildArg>
+                                <docker.buildArg.myBuildArg>WORKDIR /</docker.buildArg.myBuildArg>
+                                <docker.buildArg.myBuildArg>CMD ["java", "-jar", "/home/V${project.name}-${project.version}.jar"]</docker.buildArg.myBuildArg>
                             </build>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
