@@ -1,6 +1,8 @@
 package no.ntnu.vislab.barkof22.CommunicationStates;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import no.ntnu.vislab.barkof22.CommunicationContext;
 import no.ntnu.vislab.vislabcontroller.Command;
@@ -23,7 +25,7 @@ public class ReceiveAcknowledge implements CommunicationState {
                 context.changeState(new NoAcknowledge());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(ReceiveAcknowledge.class.getName()).log(Level.SEVERE,  e.getMessage(), e);
         }
     }
 }

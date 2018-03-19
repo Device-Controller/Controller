@@ -1,6 +1,9 @@
 package no.ntnu.vislab.barkof22.CommunicationStates;
 
+
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import no.ntnu.vislab.barkof22.CommunicationContext;
 
@@ -18,7 +21,7 @@ public class InvalidAcknowledge implements CommunicationState {
                 context.changeState(new SendFailed());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(InvalidAcknowledge.class.getName()).log(Level.SEVERE,  e.getMessage(), e);
         }
     }
 }
