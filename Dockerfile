@@ -1,6 +1,7 @@
 FROM java:8
-ARG ver
-COPY target/VislabController-${ver}.jar /vislab/VislabController.jar
+ARG myArg
+RUN echo 1 $myArg 2 ${myArg}
+COPY target/VislabController-${myArg}.jar /vislab/VislabController.jar
 
 WORKDIR /
 
