@@ -1,7 +1,7 @@
 package no.ntnu.vislab.vislabcontroller;
 
 
-import java.net.Socket;
+import java.net.InetAddress;
 
 import no.ntnu.vislab.barkof22.BarkoF22Projector;
 
@@ -11,8 +11,10 @@ import no.ntnu.vislab.barkof22.BarkoF22Projector;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Socket host = new Socket("158.38.101.110", 1025);
-        BarkoF22Projector f22 = new BarkoF22Projector(host.getInetAddress(), host.getPort());
+        int port = 1025;
+        String baseIp = "158.38.101.";
+        String endIp = "110";
+        BarkoF22Projector f22 = new BarkoF22Projector(InetAddress.getByName(baseIp+endIp), port);
         System.out.println(f22.unMute());
         System.out.println(f22.mute());
         System.out.println(f22.getLampRuntime(1));

@@ -6,19 +6,22 @@ public class DummyBase {
     ArrayList<Device> list;
 
     public DummyBase() {
+        int port = 1025;
+        String baseIp = "158.38.101.";
+        String endIp = "110";
         this.list = new ArrayList<>();
-        this.list.add(new Device(50,550,270,1,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(50,420,270,2,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(50,290,280,3,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(70,190,290,4,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(110,110,305,5,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(170,50,340,6,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(230,50,20,7,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(290,110,55,8,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(330,190,70,9,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(350,290,80,10,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(350,420,90,11,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
-        this.list.add(new Device(350,550,90,12,"Barko F22", "F22", "Barko", "158.38.101.110", 1025));
+        this.list.add(new Device(50,550,270,1,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(50,420,270,2,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(50,290,280,3,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(70,190,290,4,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(110,110,305,5,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(170,50,340,6,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(230,50,20,7,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(290,110,55,8,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(330,190,70,9,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(350,290,80,10,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(350,420,90,11,"Barko F22", "F22", "Barko", baseIp + endIp, port));
+        this.list.add(new Device(350,550,90,12,"Barko F22", "F22", "Barko", baseIp + endIp, port));
     }
 
     public ArrayList<Device> getList() {

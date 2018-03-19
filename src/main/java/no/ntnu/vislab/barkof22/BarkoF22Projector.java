@@ -62,7 +62,7 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
