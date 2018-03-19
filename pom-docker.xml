@@ -54,11 +54,8 @@
                             <name>controller:${project.version}</name>
                             <alias>controller</alias>
                             <build>
-                                <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <cmd>
-                                    <shell>java -jar
-                                        /target/${project.name}-${project.version}.jar
-                                    </shell>
+                                    <shell>java -jar /target/${project.name}-${project.version}.jar</shell>
                                 </cmd>
                             </build>
                             <run>
@@ -76,18 +73,6 @@
                         </image>
                     </images>
                 </configuration>
-
-                <executions>
-                    <execution>
-                        <id>start</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                            <goal>build</goal>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
