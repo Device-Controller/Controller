@@ -49,7 +49,6 @@ public class CommunicationDriver extends AbstractThread {
             communicator.execute();
         }
     }
-
     public void queueCommand(Command command) {
         outgoingBuffer.add(command);
     }
