@@ -1,7 +1,7 @@
 FROM java:8
 
-COPY VislabController-0.2.0.jar /home/VislabController-0.2.0.jar
+COPY maven/ /home/VislabController-latest.jar
 
 WORKDIR /
 
-CMD ["java", "-jar", "/home/VislabController-0.2.0.jar"]
+CMD ["java", "-jar", "/home/VislabController-latest.jar"]
