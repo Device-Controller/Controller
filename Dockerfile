@@ -1,7 +1,6 @@
 FROM java:8
-ARG ver
-COPY vislab/ /vislab/VislabController-${ver}.jar
+COPY vislab/ /vislab/VislabController.jar
 
 WORKDIR /
 
-CMD ["java", "-jar", "/vislab/VislabController-latest.jar"]
+CMD ["java", "-jar", "/vislab/VislabController.jar"]
