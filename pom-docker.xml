@@ -59,7 +59,7 @@
                                     <descriptorRef>artifact-with-dependencies</descriptorRef>
                                 </assembly>
                                 <env>
-                                    <ver>${project.version}</ver>
+                                    <docker.buildArg.ver>${project.version}</docker.buildArg.ver>
                                 </env>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>

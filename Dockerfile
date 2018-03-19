@@ -1,5 +1,5 @@
 FROM java:8
-ENV ver = latest
+ARG ver
 COPY vislab/ /vislab/VislabController-${ver}.jar
 
 WORKDIR /
