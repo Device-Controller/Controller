@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
     <artifactId>VislabController</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -36,10 +37,77 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.24.0</version>
+                <configuration>
+                    <dockerHost>tcp://158.38.101.209:2375</dockerHost>
+                    <images>
+                        <image>
+                            <name>springboot-mongo-dockerimage:${project.version}</name>
+                            <alias>springboot-mongo-dockerimage</alias>
+                            <build>
+                                <dockerFileDir>${project.basedir}</dockerFileDir>
+
+                            </build>
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+                                <dependsOn>
+                                    <container>controller</container>
+                                </dependsOn>
+
+                                <links>
+                                    <link>mongo</link>
+                                </links>
+                                <ports>
+                                    <port>8080:8080</port>
+                                </ports>
+                                <log>
+                                    <prefix>TC</prefix>
+                                    <date>default</date>
+                                    <color>cyan</color>
+                                </log>
+                            </run>
+
+                        </image>
+                    </images>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                            <goal>build</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <!-- Uncommment this execution phase if you wan to remove container after testing-->
+                    <!--<execution>
+                        <id>clean image</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>-->
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
+<!--
 
     <build>
         <plugins>
@@ -49,5 +117,6 @@
             </plugin>
         </plugins>
     </build>
+-->
 
 </project>
