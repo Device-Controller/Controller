@@ -29,7 +29,11 @@ import no.ntnu.vislab.vislabcontroller.Projector;
 /**
  * @author Kristoffer
  */
-public class BarkoF22Projector extends Projector implements BarkoF22Interface {
+public class BarkoF22Projector implements BarkoF22Interface, Projector  {
+    private final String projectorName;
+    private final String id;
+    private final InetAddress hostAddress;
+    private final int portNumber;
     private CommunicationDriver cd;
     private int powerState;
     private int powerSetting;
@@ -47,7 +51,11 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
     private int testImage;
 
     public BarkoF22Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException {
-        super(projectorName, id, hostAddress, portNumber);
+
+        this.projectorName = projectorName;
+        this.id = id;
+        this.hostAddress = hostAddress;
+        this.portNumber = portNumber;
     }
 
     public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws IOException {
@@ -262,6 +270,26 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
         TestImage testImage = new TestImage();
         sendAndWait(testImage);
         return testImage.getTestImage();
+    }
+
+    @Override
+    public String getProjectorName() {
+        return projectorName;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getHostAddress() {
+        return hostAddress.toString();
+    }
+
+    @Override
+    public int getPortNumber() {
+        return portNumber;
     }
 
     public synchronized boolean processCommand(Command command) {
