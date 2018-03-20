@@ -27,7 +27,7 @@ document.getElementById('projector-layout').onclick = event => {
     }
 };
 function drawProjector(x, y, rot) {
-    let canvas = document.getElementById('projector-layout');
+    let canvas = document.getElementById('projector-layout'); //asdadfdsagfsa
     let ctx = canvas.getContext('2d');
     let img = new Image;
     img.onload = function () {
