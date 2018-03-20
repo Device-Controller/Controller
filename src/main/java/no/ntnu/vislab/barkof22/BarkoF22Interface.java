@@ -1,5 +1,8 @@
 package no.ntnu.vislab.barkof22;
 
+/**
+ * Interface for a barko f22 projector.
+ */
 public interface BarkoF22Interface {
     int getBrightness();
 
@@ -8,8 +11,6 @@ public interface BarkoF22Interface {
     int getContrast();
 
     int setContrast(int value);
-
-    int getPowerState();
 
     int getLampRuntime(int lampNum);
 

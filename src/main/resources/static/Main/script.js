@@ -7,7 +7,6 @@ class doStuff {
     constructor() {
         //this.status = document.querySelectorAll("li");
         this.status = document.getElementById("pro1");
-        console.log(status);
         var i;
         //for (i = 0; i < this.status.length; i++) {
             this.status.onclick = event => {

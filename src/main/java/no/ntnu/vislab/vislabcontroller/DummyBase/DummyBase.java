@@ -2,6 +2,9 @@ package no.ntnu.vislab.vislabcontroller.DummyBase;
 
 import java.util.ArrayList;
 
+/**
+ * DUMMYBASE DO NOT USE FOR OTHER THAN TESTING.
+ */
 public class DummyBase {
     ArrayList<Device> list;
 
