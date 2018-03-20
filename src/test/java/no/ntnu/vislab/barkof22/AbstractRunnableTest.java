@@ -10,13 +10,13 @@ import java.util.logging.Logger;
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 
-public class AbstractThreadTest {
-    private AbstractThread thread;
+public class AbstractRunnableTest {
+    private AbstractRunnable thread;
 
     @Before
     public void setUp() throws Exception {
         thread = new AbstractThreadImpl();
-        thread.start();
+        new Thread(thread).start();
     }
 
     @After
@@ -29,7 +29,7 @@ public class AbstractThreadTest {
      */
     @Test
     public void testRun() {
-        assertEquals(true, thread.isAlive());
+        assertEquals(true, thread.getRunning());
     }
 
     /**
@@ -42,9 +42,9 @@ public class AbstractThreadTest {
         try {
             sleep(50);
         } catch (InterruptedException ex) {
-            Logger.getLogger(AbstractThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractRunnable.class.getName()).log(Level.SEVERE, null, ex);
         }
-        assertEquals(false, thread.isAlive());
+        assertEquals(false, thread.getRunning());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class AbstractThreadTest {
         assertEquals(false, thread.getRunning());
     }
 
-    class AbstractThreadImpl extends AbstractThread{
+    class AbstractThreadImpl extends AbstractRunnable {
 
         @Override
         public void run() {

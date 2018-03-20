@@ -62,11 +62,10 @@ public class BarkoF22Projector implements BarkoF22Interface, Projector  {
         this("BarkoF22", "1", hostAddress, portNumber);
         cd = new CommunicationDriver(new Socket(hostAddress, portNumber));
         cd.setOnCommandReady(this::processCommand);
-        cd.start();
+        Thread driver = new Thread(cd);
+        driver.start();
 
-    }
-
-    /**
+    }/**
      * Queues up a command and waits for the response. This method blocks.
      *
      * @param command the command to queue.
@@ -346,5 +345,61 @@ public class BarkoF22Projector implements BarkoF22Interface, Projector  {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int getPowerStateValue() {
+        return powerState;
+    }
+
+    public int getPowerSettingValue() {
+        return powerSetting;
+    }
+
+    public int getMuteSettingValue() {
+        return muteSetting;
+    }
+
+    public int getBrightnessValue() {
+        return brightness;
+    }
+
+    public int getContrastValue() {
+        return contrast;
+    }
+
+    public int getRuntimeValue() {
+        return runtime;
+    }
+
+    public int getLamp1RuntimeValue() {
+        return lamp1Runtime;
+    }
+
+    public int getLamp2RuntimeValue() {
+        return lamp2Runtime;
+    }
+
+    public int getLamp1TimeRemainingValue() {
+        return lamp1TimeRemaining;
+    }
+
+    public int getLamp2TimeRemainingValue() {
+        return lamp2TimeRemaining;
+    }
+
+    public int getLamp1StatusValue() {
+        return lamp1Status;
+    }
+
+    public int getLamp2StatusValue() {
+        return lamp2Status;
+    }
+
+    public int getThermalValue() {
+        return thermal;
+    }
+
+    public int getTestImageValue() {
+        return testImage;
     }
 }
