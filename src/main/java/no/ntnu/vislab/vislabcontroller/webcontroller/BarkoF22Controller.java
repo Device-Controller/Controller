@@ -17,7 +17,7 @@ import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 @Controller
 @RequestMapping("/BarkoF22")
 public class BarkoF22Controller {
-    private HashMap<Integer, BarkoF22Projector> activeProjectors;
+    private static HashMap<Integer, BarkoF22Projector> activeProjectors;
 
     @RequestMapping("/mute")
     public ResponseEntity<Integer> muteImage(@RequestParam(value = "id") int id) throws IOException {
@@ -42,6 +42,32 @@ public class BarkoF22Controller {
         BarkoF22Projector projector = getProjector(id);
         return new ResponseEntity<>(projector.getLampStatus(lampNum) + "", HttpStatus.OK);
     }
+    @RequestMapping("/lampRuntime")
+    public ResponseEntity<String> getLampRuntime(@RequestParam(value = "id") int id, @RequestParam(value = "lampNum") int lampNum) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.getLampRuntime(lampNum) + "", HttpStatus.OK);
+    }
+    
+    @RequestMapping("/getContrast")
+    public ResponseEntity<Integer> getContrast(@RequestParam(value = "id") int id) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.getContrast(), HttpStatus.OK);
+    }
+    @RequestMapping("/getBrightness")
+    public ResponseEntity<Integer> getBrightness(@RequestParam(value = "id") int id) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.getBrightness(), HttpStatus.OK);
+    }
+    @RequestMapping("/getThermal")
+    public ResponseEntity<Integer> getThermal(@RequestParam(value = "id") int id) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.getTemperature(), HttpStatus.OK);
+    }
+    @RequestMapping("/getProjectorRuntime")
+    public ResponseEntity<Integer> getProjectorRuntime(@RequestParam(value = "id") int id) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.getTotalRuntime(), HttpStatus.OK);
+    }
 
     /**
      * Returns an active projector. If the projector is not active it starts it and adds it to a list.
@@ -50,7 +76,7 @@ public class BarkoF22Controller {
      * @return the active projector, given by the id
      * @throws IOException if we dont have access to the port.
      */
-    private BarkoF22Projector getProjector(int id) throws IOException {
+    private synchronized BarkoF22Projector getProjector(int id) throws IOException {
         if (activeProjectors == null) {
             activeProjectors = new HashMap<>();
         }
