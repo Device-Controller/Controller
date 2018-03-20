@@ -42,7 +42,7 @@ function drawProjector(x, y, rot) {
         ctx.drawImage(img, -(width / 2), -(height / 2), width, height);
         ctx.restore();
     }
-    img.src = "/../Images/projector.png";
+    img.src = "/Images/projector.png";
 }
 
 let width = 64;
