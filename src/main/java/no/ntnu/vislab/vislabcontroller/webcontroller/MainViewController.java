@@ -8,7 +8,7 @@ public class MainViewController {
 
     @RequestMapping("/")
     public String index() {
-        return "forward:/main/main.html";
+        return "forward:/Main/main.html";
     }
 
     @RequestMapping("/user")
@@ -18,6 +18,6 @@ public class MainViewController {
 
     @RequestMapping("/projector")
     public String projector() {
-        return "forward:/projector/projector.html";
+        return "forward:/Projector/projector.html";
     }
 }

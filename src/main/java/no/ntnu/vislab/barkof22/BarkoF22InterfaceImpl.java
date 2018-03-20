@@ -6,6 +6,10 @@ import java.util.Random;
 
 import no.ntnu.vislab.vislabcontroller.Projector;
 
+/**
+ * Testing class that returns ints.
+ * Returns the ints in the valid ranges that could be expected from a projector.
+ */
 public class BarkoF22InterfaceImpl extends Projector implements BarkoF22Interface {
     public BarkoF22InterfaceImpl(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException {
         super(projectorName, id, hostAddress, portNumber);

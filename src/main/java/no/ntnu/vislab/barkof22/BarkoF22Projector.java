@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import no.ntnu.vislab.barkof22.commands.Brightness;
 import no.ntnu.vislab.barkof22.commands.Contrast;
@@ -51,11 +53,16 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
     public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws IOException {
         this("BarkoF22", "1", hostAddress, portNumber);
         cd = new CommunicationDriver(new Socket(hostAddress, portNumber));
-        cd.setOnCommandReady(this::proccesCommand);
+        cd.setOnCommandReady(this::processCommand);
         cd.start();
 
     }
 
+    /**
+     * Queues up a command and waits for the response. This method blocks.
+     *
+     * @param command the command to queue.
+     */
     private synchronized void sendAndWait(Command command) {
         cd.queueCommand(command);
         while (command.getResponse() == null) {
@@ -63,10 +70,16 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
                 wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                Logger.getLogger(BarkoF22Projector.class.getName()).log(Level.SEVERE, e.getMessage(), e);
             }
         }
     }
 
+    /**
+     * Powers on the barko f22 projector.
+     *
+     * @return returns 1 if everything went like it should.
+     */
     @Override
     public int powerOn() {
         try {
@@ -79,6 +92,11 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
         return -1;
     }
 
+    /**
+     * Powers off the barko f22 projector.
+     *
+     * @return returns 0 if everything went like it should.
+     */
     @Override
     public int powerOff() {
         try {
@@ -91,6 +109,10 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
         return -1;
     }
 
+    /**
+     * Mutes the image on the barko f22 projector.
+     * @return returns 1 if everything went like it should.
+     */
     @Override
     public int mute() {
         try {
@@ -103,6 +125,10 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
         return -1;
     }
 
+    /**
+     * UnMutes the image on the barko f22 projector.
+     * @return returns 0 if everything went like it should.
+     */
     @Override
     public int unMute() {
         try {
@@ -115,6 +141,10 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
         return -1;
     }
 
+    /**
+     * Gets the current brightness setting on the projector
+     * @return the current brightness setting on the projector
+     */
     @Override
     public int getBrightness() {
         Brightness brightness = new Brightness();
@@ -122,6 +152,11 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
         return brightness.getBrightness();
     }
 
+    /**
+     * Sets the brightness setting on the projector and returns it.
+     * @param value the brightness value to set.
+     * @return the brightness setting on the projector
+     */
     @Override
     public int setBrightness(int value) {
         try {
@@ -229,7 +264,7 @@ public class BarkoF22Projector extends Projector implements BarkoF22Interface {
         return testImage.getTestImage();
     }
 
-    public synchronized boolean proccesCommand(Command command) {
+    public synchronized boolean processCommand(Command command) {
         if (!(command instanceof BarkoF22Command)) {
             return false;
         }
