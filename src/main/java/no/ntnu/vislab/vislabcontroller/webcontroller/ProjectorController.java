@@ -31,8 +31,8 @@ public class ProjectorController {
     }
 
     @RequestMapping("/powerOn")
-    public ResponseEntity<String> powerOn(@RequestParam(value = "id") int id) throws IOException {
-        return new ResponseEntity<>("poweron rofl " + id, HttpStatus.OK);
+    public String powerOn(@RequestParam(value = "id") int id) throws IOException {
+        return "poweron rofl " + id;
     }
 
 }

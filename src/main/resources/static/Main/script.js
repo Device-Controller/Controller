@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var projectorList = [];
 class doStuff {
     constructor() {
         //this.status = document.querySelectorAll("li");
@@ -56,13 +57,12 @@ function getLampStatus() {
 }
 function testCheck() {
     var checkedList = document.getElementsByClassName('pro-checkbox');
-    var projectorList = [];
     for (var i = 0; i < checkedList.length; i++) {
         if (checkedList[i].checked) {
-            let id = i+1;
+            let id = i + 1;
             fetch('MainController/getProjector?id=' + id).then(response => {
                 if (response.ok) {
-                    console.log(id);
+                    powerOn(id);
                     projectorList.push(id);
                     response.json().then(p => console.log(p));
                 }
@@ -72,18 +72,15 @@ function testCheck() {
             console.log(checkedList[i] + 'is not checked.');
         }
     }
-    console.log(projectorList);
-    powerOn(projectorList);
+    powerOn();
 }
-function powerOn(ids) {
-    for (var i = 0; i < ids.length; i++) {
-        fetch('MainController/powerOn?id' + ids[i]).then(response => {
-            if (response.ok) {
-                console.log(response)
-                response.json().then(p => console.log(p));
-            }
-        })
-    }
-    
+function powerOn(id) {
+    fetch('MainController/powerOn?id=' + id).then(response => {
+        if (response.ok) {
+            console.log(response);
+            response.text().then(p => console.log(p));
+        }
+    });
 }
+
 
