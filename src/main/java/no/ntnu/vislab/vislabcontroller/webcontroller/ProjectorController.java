@@ -5,6 +5,8 @@
  */
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
+import java.io.IOException;
+import no.ntnu.vislab.barkof22.BarkoF22Projector;
 import no.ntnu.vislab.vislabcontroller.DummyBase.Device;
 import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 import org.springframework.http.HttpStatus;
@@ -20,12 +22,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/MainController")
 public class ProjectorController {
-    
-    
+
     @RequestMapping("/getProjector")
-    public ResponseEntity<Device> getSingleProjector(@RequestParam (value = "id") int id){
+    public ResponseEntity<Device> getSingleProjector(@RequestParam(value = "id") int id) {
         Device d = new DummyBase().getSingle(id);
         System.out.println(d);
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
+
+    @RequestMapping("/powerOn")
+    public ResponseEntity<Integer> powerOn(@RequestParam(value = "id") int id) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.powerOn(), HttpStatus.OK);
+    }
+
 }

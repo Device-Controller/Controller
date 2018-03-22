@@ -68,11 +68,6 @@ public class BarkoF22Controller {
         BarkoF22Projector projector = getProjector(id);
         return new ResponseEntity<>(projector.getTotalRuntime(), HttpStatus.OK);
     }
-    @RequestMapping("/powerOn")
-    public ResponseEntity<Integer> powerOn(@RequestParam(value = "id") int id) throws IOException {
-        BarkoF22Projector projector = getProjector(id);
-        return new ResponseEntity<>(projector.powerOn(), HttpStatus.OK);
-    }
 
     /**
      * Returns an active projector. If the projector is not active it starts it and adds it to a list.
