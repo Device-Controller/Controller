@@ -25,4 +25,31 @@ public class DGDJunction implements Serializable {
 
     @ManyToOne(optional = false)
     Device device;
+
+    public DGDJunction() {
+    }
+
+    public Integer getDgdJunctionID() {
+        return dgdJunctionID;
+    }
+
+    public void setDgdJunctionID(Integer dgdJunctionID) {
+        this.dgdJunctionID = dgdJunctionID;
+    }
+
+    public DeviceGroup getDeviceGroup() {
+        return deviceGroup;
+    }
+
+    public void setDeviceGroup(DeviceGroup deviceGroup) {
+        this.deviceGroup = deviceGroup;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
 }

@@ -26,4 +26,31 @@ public class DeviceGroup implements Serializable {
 
     @OneToMany(mappedBy = "deviceGroup")
     List<DGDJunction> dgdJunctions;
+
+    public DeviceGroup() {
+    }
+
+    public Integer getDeviceGroupID() {
+        return deviceGroupID;
+    }
+
+    public void setDeviceGroupID(Integer deviceGroupID) {
+        this.deviceGroupID = deviceGroupID;
+    }
+
+    public List<UDGJunction> getUdgJunctions() {
+        return udgJunctions;
+    }
+
+    public void setUdgJunctions(List<UDGJunction> udgJunctions) {
+        this.udgJunctions = udgJunctions;
+    }
+
+    public List<DGDJunction> getDgdJunctions() {
+        return dgdJunctions;
+    }
+
+    public void setDgdJunctions(List<DGDJunction> dgdJunctions) {
+        this.dgdJunctions = dgdJunctions;
+    }
 }

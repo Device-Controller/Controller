@@ -31,4 +31,55 @@ public class User implements Serializable {
     String password;
 
     String email;
+
+    public User() {
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public List<UDGJunction> getUdgJunctions() {
+        return udgJunctions;
+    }
+
+    public void setUdgJunctions(List<UDGJunction> udgJunctions) {
+        this.udgJunctions = udgJunctions;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

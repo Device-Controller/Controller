@@ -25,4 +25,31 @@ public class UDGJunction implements Serializable {
 
     @ManyToOne(optional = false)
     DeviceGroup deviceGroup;
+
+    public UDGJunction() {
+    }
+
+    public Integer getUdgJunctionID() {
+        return udgJunctionID;
+    }
+
+    public void setUdgJunctionID(Integer udgJunctionID) {
+        this.udgJunctionID = udgJunctionID;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public DeviceGroup getDeviceGroup() {
+        return deviceGroup;
+    }
+
+    public void setDeviceGroup(DeviceGroup deviceGroup) {
+        this.deviceGroup = deviceGroup;
+    }
 }
