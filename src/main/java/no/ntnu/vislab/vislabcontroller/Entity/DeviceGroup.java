@@ -3,11 +3,12 @@ package no.ntnu.vislab.vislabcontroller.Entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author ThomasSTodal
@@ -15,14 +16,14 @@ import java.io.Serializable;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class UDGJunction implements Serializable {
+public class DeviceGroup implements Serializable {
     @Id
     @GeneratedValue
-    Integer udgJunctionID;
+    Integer deviceGroupID;
 
-    @ManyToOne(optional = false)
-    User user;
+    @OneToMany(mappedBy = "deviceGroup")
+    List<UDGJunction> udgJunctions;
 
-    @ManyToOne(optional = false)
-    DeviceGroup deviceGroup;
+    @OneToMany(mappedBy = "deviceGroup")
+    List<DGDJunction> dgdJunctions;
 }

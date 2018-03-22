@@ -15,14 +15,14 @@ import java.io.Serializable;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class UDGJunction implements Serializable {
+public class DGDJunction implements Serializable {
     @Id
     @GeneratedValue
-    Integer udgJunctionID;
-
-    @ManyToOne(optional = false)
-    User user;
+    Integer dgdJunctionID;
 
     @ManyToOne(optional = false)
     DeviceGroup deviceGroup;
+
+    @ManyToOne(optional = false)
+    Device device;
 }

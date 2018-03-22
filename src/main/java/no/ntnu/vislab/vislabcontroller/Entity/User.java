@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,13 +14,13 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue
-    Integer user_ID;
+    Integer userID;
 
     @OneToMany(mappedBy = "user")
-    List<UDGJunction> udgJunction_ID;
+    List<UDGJunction> udgJunctions;
 
     @ManyToOne(optional = true)
     Role role;
