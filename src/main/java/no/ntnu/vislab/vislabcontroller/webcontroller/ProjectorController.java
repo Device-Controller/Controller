@@ -31,9 +31,8 @@ public class ProjectorController {
     }
 
     @RequestMapping("/powerOn")
-    public ResponseEntity<Integer> powerOn(@RequestParam(value = "id") int id) throws IOException {
-        BarkoF22Projector projector = getProjector(id);
-        return new ResponseEntity<>(projector.powerOn(), HttpStatus.OK);
+    public ResponseEntity<String> powerOn(@RequestParam(value = "id") int id) throws IOException {
+        return new ResponseEntity<>("poweron rofl " + id, HttpStatus.OK);
     }
 
 }

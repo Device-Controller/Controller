@@ -63,7 +63,6 @@ function testCheck() {
             fetch('MainController/getProjector?id=' + id).then(response => {
                 if (response.ok) {
                     console.log(id);
-                    console.log(response);
                     projectorList.push(id);
                     response.json().then(p => console.log(p));
                 }
@@ -74,5 +73,17 @@ function testCheck() {
         }
     }
     console.log(projectorList);
+    powerOn(projectorList);
+}
+function powerOn(ids) {
+    for (var i = 0; i < ids.length; i++) {
+        fetch('MainController/powerOn?id' + ids[i]).then(response => {
+            if (response.ok) {
+                console.log(response)
+                response.json().then(p => console.log(p));
+            }
+        })
+    }
+    
 }
 
