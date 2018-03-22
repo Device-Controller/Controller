@@ -1,6 +1,13 @@
 let list = [];
 let imgRatio = 1;
-fetch('controller/db').then(response => {
+
+let width = 64;
+let canvas = document.getElementById('projector-layout');
+let drawSurface = canvas.getContext('2d');
+var baseDrawing = document.createElement('canvas');
+baseDrawing.width = 500;
+baseDrawing.height = 700;
+fetch('test/db').then(response => {
     if (response.ok) {
         response.json().then(e => {
             list.push.apply(list, e);
@@ -13,10 +20,30 @@ fetch('controller/db').then(response => {
             });
         });
     }
-
 });
 
-document.getElementById('projector-layout').onclick = event => {
+function drawSelectorCircle(x, y) {
+    list.forEach(p=>{
+        if(isWithin(x,y,p.x,p.y)){
+            drawSurface.beginPath();
+            drawSurface.arc(p.x, p.y, width / 2, 0, 2 * Math.PI);
+            drawSurface.stroke();
+        }
+    });
+}
+
+canvas.onmousemove = event => {
+    if (isWithinAny(event.offsetX, event.offsetY)) {
+        canvas.style.cursor = "pointer";
+        drawSelectorCircle(event.offsetX, event.offsetY);
+    } else {
+        canvas.style.cursor = "auto";
+        drawSurface.clearRect(0, 0, 500, 700);
+        drawSurface.drawImage(baseDrawing, 0, 0);
+    }
+};
+
+canvas.onclick = event => {
     var x = event.offsetX;
     var y = event.offsetY;
     let i;
@@ -26,9 +53,19 @@ document.getElementById('projector-layout').onclick = event => {
         }
     }
 };
+
+
+function isWithinAny(x, y) {
+    let changed = false;
+    list.forEach(p => {
+        if (isWithin(x, y, p.x, p.y)) {
+            changed = true;
+        }
+    });
+    return changed;
+}
+
 function drawProjector(x, y, rot) {
-    let canvas = document.getElementById('projector-layout'); //asdadfdsagfsa
-    let ctx = canvas.getContext('2d');
     let img = new Image;
     img.onload = function () {
         let w = img.naturalWidth;
@@ -36,16 +73,16 @@ function drawProjector(x, y, rot) {
         let ratio = w / h;
         imgRatio = ratio;
         let height = width / ratio;
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(rot * Math.PI / 180);
-        ctx.drawImage(img, -(width / 2), -(height / 2), width, height);
-        ctx.restore();
+        drawSurface.save();
+        drawSurface.translate(x, y);
+        drawSurface.rotate(rot * Math.PI / 180);
+        drawSurface.drawImage(img, -(width / 2), -(height / 2), width, height);
+        drawSurface.restore();
+        baseDrawing.getContext('2d').drawImage(canvas, 0, 0);
     }
     img.src = "/Images/projector.png";
 }
 
-let width = 64;
 
 function isWithin(x, y, xOrg, yOrg) {
     let xBound = (width) / 3.5;
