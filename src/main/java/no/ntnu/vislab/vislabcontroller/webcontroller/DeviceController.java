@@ -12,7 +12,7 @@ import no.ntnu.vislab.vislabcontroller.DummyBase.Device;
 import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 
 @Controller
-@RequestMapping("/controller")
+@RequestMapping("/test")
 public class DeviceController {
     @RequestMapping("/testDummy")
     public ResponseEntity<String> dummy() {
@@ -30,10 +30,4 @@ public class DeviceController {
         return new ResponseEntity<>(new DummyBase().getList(), HttpStatus.OK);
     }
 
-    @RequestMapping("/getProjector")
-    public ResponseEntity<Device> getSingleProjector(@RequestParam (value = "id") int id){
-        Device d = new DummyBase().getSingle(id);
-        System.out.println(d);
-        return new ResponseEntity<>(d, HttpStatus.OK);
-    }
 }

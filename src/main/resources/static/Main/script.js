@@ -9,8 +9,8 @@ class doStuff {
         this.status = document.getElementById("pro1");
         var i;
         //for (i = 0; i < this.status.length; i++) {
-            this.status.onclick = event => {
-                fetch('controller/lampStatus?lampNumber=1')
+        this.status.onclick = event => {
+            fetch('controller/lampStatus?lampNumber=1')
                     .then(response => {
                         if (response.ok)
                             return response.text();
@@ -19,10 +19,10 @@ class doStuff {
 
                         throw new Error("Failed");
                     }).then(data => {
-                    console.log(data);
-                })
+                console.log(data);
+            })
                     .catch(e => console.log("Error: " + e.message));
-            };
+        };
 
 
 
@@ -37,7 +37,7 @@ class doStuff {
         // }, false);
     }
 }
-let script = new doStuff();
+//let script = new doStuff();
 
 
 
@@ -54,5 +54,25 @@ function getLampStatus() {
     })
             .catch(e => console.log("Error: " + e.message));
 }
+function testCheck() {
+    var checkedList = document.getElementsByClassName('pro-checkbox');
+    var projectorList = [];
+    for (var i = 0; i < checkedList.length; i++) {
+        if (checkedList[i].checked) {
+            let id = i+1;
+            fetch('MainController/getProjector?id=' + id).then(response => {
+                if (response.ok) {
+                    console.log(id);
+                    console.log(response);
+                    projectorList.push(id);
+                    response.json().then(p => console.log(p));
+                }
+            });
 
+        } else {
+            console.log(checkedList[i] + 'is not checked.');
+        }
+    }
+    console.log(projectorList);
+}
 
