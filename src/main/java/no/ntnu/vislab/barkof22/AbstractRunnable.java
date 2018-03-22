@@ -1,9 +1,12 @@
 package no.ntnu.vislab.barkof22;
 
-public abstract class AbstractThread extends Thread {
+/**
+ * An abstract class that ensures all threads will have a stopThread and a conditional for continuous running.
+ */
+public abstract class AbstractRunnable implements Runnable {
     private boolean running;
 
-    public AbstractThread() {
+    public AbstractRunnable() {
         this.running = true;
     }
 

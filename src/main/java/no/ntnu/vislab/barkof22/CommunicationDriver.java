@@ -8,7 +8,7 @@ import java.util.List;
 
 import no.ntnu.vislab.vislabcontroller.Command;
 
-public class CommunicationDriver extends AbstractThread {
+public class CommunicationDriver extends AbstractRunnable {
     private Socket host;
     private ArrayList<Command> idleCommands;
     private ArrayList<Command> outgoingBuffer;

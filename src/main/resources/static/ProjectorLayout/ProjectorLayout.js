@@ -26,9 +26,8 @@ document.getElementById('projector-layout').onclick = event => {
         }
     }
 };
-
 function drawProjector(x, y, rot) {
-    let canvas = document.getElementById('projector-layout');
+    let canvas = document.getElementById('projector-layout'); //asdadfdsagfsa
     let ctx = canvas.getContext('2d');
     let img = new Image;
     img.onload = function () {
@@ -43,8 +42,9 @@ function drawProjector(x, y, rot) {
         ctx.drawImage(img, -(width / 2), -(height / 2), width, height);
         ctx.restore();
     }
-    img.src = "images/projector.png";
+    img.src = "/Images/projector.png";
 }
+
 let width = 64;
 
 function isWithin(x, y, xOrg, yOrg) {

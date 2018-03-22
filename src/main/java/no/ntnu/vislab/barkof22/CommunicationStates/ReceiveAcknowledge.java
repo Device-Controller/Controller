@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 import no.ntnu.vislab.barkof22.CommunicationContext;
 import no.ntnu.vislab.vislabcontroller.Command;
 
+/**
+ * State that waits for upto 1500ms for a response.
+ */
 public class ReceiveAcknowledge implements CommunicationState {
     private long timeout = 1500;
     @Override

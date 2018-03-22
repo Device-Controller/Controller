@@ -5,47 +5,30 @@
  */
 package no.ntnu.vislab.vislabcontroller;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 /**
- *
+ * Interface for projectors in general.
  * @author Kristoffer
  */
-public abstract class Projector {
-    private final String projectorName;
-    private final String id;
-    private final InetAddress hostAddress;
-    private final int portNumber;
+public interface Projector {
+    int powerOn();
 
-    public Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException{
-        this.projectorName = projectorName;
-        this.id = id;
-        this.hostAddress = hostAddress;
-        this.portNumber = portNumber;
-    }
-    public abstract int powerOn();
-    public abstract int powerOff();
-    public abstract int mute();
-    public abstract int unMute();
-    public abstract int getPowerState();
-    public abstract int getLampStatus(int lampNum);
+    int powerOff();
 
-    public String getProjectorName() {
-        return projectorName;
-    }
+    int mute();
 
-    public String getId() {
-        return id;
-    }
+    int unMute();
 
-    public InetAddress getHostAddress() {
-        return hostAddress;
-    }
+    int getPowerState();
 
-    public int getPortNumber() {
-        return portNumber;
-    }
-    
-    
+    int getLampStatus(int lampNum);
+
+    String getProjectorName();
+
+    String getId();
+
+    String getHostAddress();
+
+    int getPortNumber();
+
+
 }
