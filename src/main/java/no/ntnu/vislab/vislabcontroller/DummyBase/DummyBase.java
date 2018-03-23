@@ -1,8 +1,5 @@
 package no.ntnu.vislab.vislabcontroller.DummyBase;
 
-import no.ntnu.vislab.vislabcontroller.Entity.Device;
-import no.ntnu.vislab.vislabcontroller.Entity.DeviceType;
-
 import java.util.ArrayList;
 
 /**
@@ -10,7 +7,6 @@ import java.util.ArrayList;
  */
 public class DummyBase {
     ArrayList<DummyDevice> list;
-    ArrayList<no.ntnu.vislab.vislabcontroller.Entity.Device> realList;
 
     public DummyBase() {
         int port = 1025;
@@ -31,26 +27,6 @@ public class DummyBase {
         this.list.add(new DummyDevice(350,550,90,12,"Barko F22", "F22", "Barko", baseIp + endIp, port));
     }
 
-    public DummyBase(int i) {
-        int port = 1025;
-        String baseIp = "158.38.101.";
-        String endIp = "110";
-        DeviceType barkoF22 = new DeviceType("projector", "barko", "F22");
-        this.realList = new ArrayList<>();
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 50,550,270));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 50,420,270));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 50,290,280));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 70,190,290));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 110,110,305));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 170,50,340));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 230,50,20));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 290,110,55));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 330,190,70));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 350,290,80));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 350,420,90));
-        this.realList.add(new Device(barkoF22, baseIp + endIp, port, 350,550,90));
-    }
-
     public ArrayList<DummyDevice> getList() {
         return list;
     }
@@ -63,10 +39,6 @@ public class DummyBase {
             }
         }
         return returnD;
-    }
-
-    public ArrayList<no.ntnu.vislab.vislabcontroller.Entity.Device> getRealList() {
-        return realList;
     }
 }
 
