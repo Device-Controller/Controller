@@ -13,7 +13,7 @@ public class Send implements CommunicationState {
     @Override
     public void execute(final CommunicationContext context) {
         Command command = context.getCommand();
-        context.getOut().println(command.toString());
+        context.getPrintWriter().println(command.toString());
         context.incrementSentCounter();
         context.incrementSendAttempts();
         int waitTime = 0;
@@ -25,6 +25,8 @@ public class Send implements CommunicationState {
         } else {
             waitTime += 500;
         }
-        context.changeState(new Wait(waitTime));
+        context.setWaitTime(waitTime);
+        context.changeState(new ReceiveAcknowledge());
+        context.resetTimer();
     }
 }

@@ -11,7 +11,7 @@ public class NoAcknowledge implements CommunicationState {
     @Override
     public void execute(CommunicationContext context) {
         if (context.getSendAttempts() < 3) {
-            context.changeState(new Send());
+            context.changeState(new Wait());
         } else {
             context.changeState(new SendFailed());
         }

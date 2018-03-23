@@ -46,10 +46,21 @@ public class CommunicationDriver extends AbstractRunnable {
     @Override
     public void run() {
         while (getRunning()) {
-            communicator.execute();
+            try {
+                communicator.execute();
+            } catch (IOException e){
+                System.out.println(e.getMessage());
+                stopThread();
+
+            }
         }
+        System.out.println("stopping");
+        stopThread();
     }
-    public void queueCommand(Command command) {
-        outgoingBuffer.add(command);
+    public boolean queueCommand(Command command) {
+        if(getRunning()) {
+            outgoingBuffer.add(command);
+        }
+        return getRunning();
     }
 }
