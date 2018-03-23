@@ -29,12 +29,13 @@ public class DGDJunction implements Serializable {
     public DGDJunction() {
     }
 
-    public Integer getDgdJunctionID() {
-        return dgdJunctionID;
+    public DGDJunction(DeviceGroup deviceGroup, Device device) {
+        this.deviceGroup = deviceGroup;
+        this.device = device;
     }
 
-    public void setDgdJunctionID(Integer dgdJunctionID) {
-        this.dgdJunctionID = dgdJunctionID;
+    public Integer getDgdJunctionID() {
+        return dgdJunctionID;
     }
 
     public DeviceGroup getDeviceGroup() {

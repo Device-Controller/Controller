@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,8 @@ public class Device implements Serializable {
 
     String ipAdress;
 
+    int port;
+
     int xPos;
 
     int yPos;
@@ -33,22 +36,45 @@ public class Device implements Serializable {
     int rotation;
 
     public Device() {
+        this.dgdJunctions = new ArrayList<>();
+    }
+
+    public Device(DeviceType deviceType, String ipAdress, int port, int xPos, int yPos, int rotation) {
+        this.dgdJunctions = new ArrayList<>();
+        this.deviceType = deviceType;
+        this.ipAdress = ipAdress;
+        this.port = port;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.rotation = rotation;
+    }
+
+    public Device(DeviceType deviceType, String ipAdress, int port, int xPos, int yPos) {
+        this.dgdJunctions = new ArrayList<>();
+        this.deviceType = deviceType;
+        this.ipAdress = ipAdress;
+        this.port = port;
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
+    public Device(DeviceType deviceType, String ipAdress, int port) {
+        this.dgdJunctions = new ArrayList<>();
+        this.deviceType = deviceType;
+        this.ipAdress = ipAdress;
+        this.port = port;
     }
 
     public Integer getDeviceID() {
         return deviceID;
     }
 
-    public void setDeviceID(Integer deviceID) {
-        this.deviceID = deviceID;
-    }
-
     public List<DGDJunction> getDgdJunctions() {
         return dgdJunctions;
     }
 
-    public void setDgdJunctions(List<DGDJunction> dgdJunctions) {
-        this.dgdJunctions = dgdJunctions;
+    public void setDgdJunctions(DGDJunction dgdJunction) {
+        this.dgdJunctions.add(dgdJunction);
     }
 
     public DeviceType getDeviceType() {

@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,22 +34,27 @@ public class User implements Serializable {
     String email;
 
     public User() {
+        this.udgJunctions = new ArrayList<>();
+    }
+
+    public User(Role role, String username, String password, String email) {
+        this.udgJunctions = new ArrayList<>();
+        this.role = role;
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public Integer getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-    }
-
     public List<UDGJunction> getUdgJunctions() {
         return udgJunctions;
     }
 
-    public void setUdgJunctions(List<UDGJunction> udgJunctions) {
-        this.udgJunctions = udgJunctions;
+    public void setUdgJunctions(UDGJunction udgJunctions) {
+        this.udgJunctions.add(udgJunctions);
     }
 
     public Role getRole() {

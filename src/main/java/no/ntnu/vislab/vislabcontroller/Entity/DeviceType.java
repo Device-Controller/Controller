@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,22 +32,26 @@ public class DeviceType implements Serializable {
     String model;
 
     public DeviceType() {
+        this.devices = new ArrayList<>();
+    }
+
+    public DeviceType(String deviceType, String manufacturer, String model) {
+        this.devices = new ArrayList<>();
+        this.deviceType = deviceType;
+        this.manufacturer = manufacturer;
+        this.model = model;
     }
 
     public Integer getDeviceTypeID() {
         return deviceTypeID;
     }
 
-    public void setDeviceTypeID(Integer deviceTypeID) {
-        this.deviceTypeID = deviceTypeID;
-    }
-
     public List<Device> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
+    public void setDevices(Device devices) {
+        this.devices.add(devices);
     }
 
     public String getDeviceType() {

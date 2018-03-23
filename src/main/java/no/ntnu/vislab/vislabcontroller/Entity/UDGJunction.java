@@ -29,12 +29,13 @@ public class UDGJunction implements Serializable {
     public UDGJunction() {
     }
 
-    public Integer getUdgJunctionID() {
-        return udgJunctionID;
+    public UDGJunction(User user, DeviceGroup deviceGroup) {
+        this.user = user;
+        this.deviceGroup = deviceGroup;
     }
 
-    public void setUdgJunctionID(Integer udgJunctionID) {
-        this.udgJunctionID = udgJunctionID;
+    public Integer getUdgJunctionID() {
+        return udgJunctionID;
     }
 
     public User getUser() {

@@ -24,12 +24,12 @@ public class Role implements Serializable {
     public Role() {
     }
 
-    public Integer getRoleID() {
-        return roleID;
+    public Role(String roleName) {
+        this.roleName = roleName;
     }
 
-    public void setRoleID(Integer roleID) {
-        this.roleID = roleID;
+    public Integer getRoleID() {
+        return roleID;
     }
 
     public String getRoleName() {
