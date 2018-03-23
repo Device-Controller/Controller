@@ -3,7 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var projectorList = [];
+let projectors = [];
+var checkedList = document.getElementsByClassName('pro-checkbox');
+
+fetch('test/db').then(response => {
+    if (response.ok) {
+        response.json().then(e => {
+            projectors.push.apply(projectors, e);
+        });
+    }
+});
+
 class doStuff {
     constructor() {
         //this.status = document.querySelectorAll("li");
@@ -56,14 +66,13 @@ function getLampStatus() {
             .catch(e => console.log("Error: " + e.message));
 }
 function testCheck() {
-    var checkedList = document.getElementsByClassName('pro-checkbox');
+
+    var projectors = [];
     for (var i = 0; i < checkedList.length; i++) {
         if (checkedList[i].checked) {
             let id = i + 1;
             fetch('MainController/getProjector?id=' + id).then(response => {
                 if (response.ok) {
-                    powerOn(id);
-                    projectorList.push(id);
                     response.json().then(p => console.log(p));
                 }
             });
@@ -72,15 +81,24 @@ function testCheck() {
             console.log(checkedList[i] + 'is not checked.');
         }
     }
-    powerOn();
+    return projectors;
 }
-function powerOn(id) {
-    fetch('MainController/powerOn?id=' + id).then(response => {
-        if (response.ok) {
-            console.log(response);
-            response.text().then(p => console.log(p));
+function powerOn() {
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            let pID = projectors[j].id;
+            console.log(pID);
+            fetch('MainController/powerOn?id=' + pID).then(response => {
+                if (response.ok) {
+                    console.log('yaey');
+                    response.text().then(p => console.log(p));
+                } else {
+                    console.log("fuck");
+                }
+            });
         }
-    });
+    }
+
 }
 
 
