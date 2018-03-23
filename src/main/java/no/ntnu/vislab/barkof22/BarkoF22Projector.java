@@ -8,7 +8,6 @@ package no.ntnu.vislab.barkof22;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,7 +49,7 @@ public class BarkoF22Projector implements BarkoF22Interface, Projector  {
     private int thermal;
     private int testImage;
 
-    public BarkoF22Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) throws UnknownHostException {
+    public BarkoF22Projector(String projectorName, String id, InetAddress hostAddress, int portNumber) {
 
         this.projectorName = projectorName;
         this.id = id;
@@ -60,18 +59,35 @@ public class BarkoF22Projector implements BarkoF22Interface, Projector  {
 
     public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws IOException {
         this("BarkoF22", "1", hostAddress, portNumber);
-        cd = new CommunicationDriver(new Socket(hostAddress, portNumber));
-        cd.setOnCommandReady(this::processCommand);
-        Thread driver = new Thread(cd);
-        driver.start();
 
-    }/**
+    }
+
+    private CommunicationDriver setUpDriver() throws IOException {
+        CommunicationDriver communicationDriver = null;
+        try {
+            communicationDriver = new CommunicationDriver(new Socket(hostAddress, portNumber), new LampStatus(1), new PowerState());
+            communicationDriver.setOnCommandReady(this::processCommand);
+            Thread driver = new Thread(communicationDriver);
+            driver.start();
+        } catch (BarkoF22Exception e) {
+            e.printStackTrace();
+        }
+        return communicationDriver;
+    }
+
+    /**
      * Queues up a command and waits for the response. This method blocks.
      *
      * @param command the command to queue.
      */
     private synchronized void sendAndWait(Command command) {
-        cd.queueCommand(command);
+        while(cd == null || !cd.queueCommand(command)){
+            try {
+                cd = setUpDriver();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         while (command.getResponse() == null) {
             try {
                 wait();

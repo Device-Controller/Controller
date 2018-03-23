@@ -3,6 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+let projectors = [];
+var checkedList = document.getElementsByClassName('pro-checkbox');
+
+fetch('test/db').then(response => {
+    if (response.ok) {
+        response.json().then(e => {
+            projectors.push.apply(projectors, e);
+        });
+    }
+});
+
 class doStuff {
     constructor() {
         //this.status = document.querySelectorAll("li");
@@ -55,16 +66,13 @@ function getLampStatus() {
             .catch(e => console.log("Error: " + e.message));
 }
 function testCheck() {
-    var checkedList = document.getElementsByClassName('pro-checkbox');
-    var projectorList = [];
+
+    var projectors = [];
     for (var i = 0; i < checkedList.length; i++) {
         if (checkedList[i].checked) {
-            let id = i+1;
+            let id = i + 1;
             fetch('MainController/getProjector?id=' + id).then(response => {
                 if (response.ok) {
-                    console.log(id);
-                    console.log(response);
-                    projectorList.push(id);
                     response.json().then(p => console.log(p));
                 }
             });
@@ -73,6 +81,24 @@ function testCheck() {
             console.log(checkedList[i] + 'is not checked.');
         }
     }
-    console.log(projectorList);
+    return projectors;
 }
+function powerOn() {
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            let pID = projectors[j].id;
+            console.log(pID);
+            fetch('MainController/powerOn?id=' + pID).then(response => {
+                if (response.ok) {
+                    console.log('yaey');
+                    response.text().then(p => console.log(p));
+                } else {
+                    console.log("fuck");
+                }
+            });
+        }
+    }
+
+}
+
 

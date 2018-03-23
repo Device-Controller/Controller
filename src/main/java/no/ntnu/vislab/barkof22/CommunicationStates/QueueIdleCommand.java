@@ -9,6 +9,6 @@ public class QueueIdleCommand implements CommunicationState {
     @Override
     public void execute(CommunicationContext context) {
         context.addCommand(context.getIdleCommand());
-        context.changeState(new Send());
+        context.changeState(new Idle());
     }
 }
