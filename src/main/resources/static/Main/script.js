@@ -48,12 +48,9 @@ function powerOn() {
             console.log(pID);
             fetch('MainController/powerOn?id=' + pID).then(response => {
                 if (response.ok) {
-                    powerIcon(j, "#66ff00");
                     response.text().then(p => console.log(p));
                 }
             });
-        } else {
-            powerIcon(j, "red");
         }
     }
 }
@@ -84,15 +81,40 @@ function powerIcon(index, color) {
 function getPowerState(id) {
     fetch('MainController/powerState?id=' + id).then(response => {
         if (response.ok) {
-            console.log(response);
-            response.json().then(p => console.log(id, p));
+            response.json().then(p => {
+                switch (p) {
+                    case 0:
+                        powerIcon(id - 1, "#ff6600");
+                        break;
+                    case 1:
+                        powerIcon(id - 1, "red");
+                        break;
+                    case 2:
+                        powerIcon(id - 1, "#ccff33");
+                        break;
+                    case 3:
+                        powerIcon(id - 1, "#66ff00");
+                        break;
+                    case 4:
+                        powerIcon(id - 1, "yellow");
+                        break;
+                    case 5:
+                        powerIcon(id - 1, "darkred");
+                        break;
+                    case 6:
+                        powerIcon(id - 1, "black");
+                        break;
+                }
+            });
         }
     });
 }
+
 setInterval(window.setInterval(function () {
     for (let n = 0; n < projectors.length; n++) {
-        getPowerState(n+1);
+        getPowerState(n + 1);
     }
-}, 1000), 5000);
+}
+, 1000), 5000);
 
 
