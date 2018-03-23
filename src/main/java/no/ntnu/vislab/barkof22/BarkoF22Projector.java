@@ -59,7 +59,6 @@ public class BarkoF22Projector implements BarkoF22Interface, Projector  {
 
     public BarkoF22Projector(InetAddress hostAddress, int portNumber) throws IOException {
         this("BarkoF22", "1", hostAddress, portNumber);
-        this.cd = setUpDriver();
 
     }
 
@@ -82,7 +81,7 @@ public class BarkoF22Projector implements BarkoF22Interface, Projector  {
      * @param command the command to queue.
      */
     private synchronized void sendAndWait(Command command) {
-        while(!cd.queueCommand(command)){
+        while(cd == null || !cd.queueCommand(command)){
             try {
                 cd = setUpDriver();
             } catch (IOException e) {
