@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 let projectors = [];
 var checkedList = document.getElementsByClassName('pro-checkbox');
-
 fetch('test/db').then(response => {
     if (response.ok) {
         response.json().then(e => {
             projectors.push.apply(projectors, e);
+            //this.worker.postMessage("e");
         });
     }
 });
@@ -34,37 +35,11 @@ class doStuff {
             })
                     .catch(e => console.log("Error: " + e.message));
         };
-
-
-
-
         //}
-        // this.worker = new Worker("worker.js");
-        // this.worker.postMessage("rofl");
-        //
-        // this.worker.addEventListener('message', function (e) {
-        //     console.log('MAIN THREAD' + e.data);
-        //     document.getElementById('pro1').style.backgroundColor = e.data;
-        // }, false);
     }
 }
 //let script = new doStuff();
 
-
-
-function getLampStatus() {
-    fetch('controller/lampStatus?lampNumber=1')
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                }
-
-                throw new Error("Failed");
-            }).then(data => {
-        console.log(data);
-    })
-            .catch(e => console.log("Error: " + e.message));
-}
 
 function powerOn() {
     for (let j = 0; j < projectors.length; j++) {
@@ -73,7 +48,7 @@ function powerOn() {
             console.log(pID);
             fetch('MainController/powerOn?id=' + pID).then(response => {
                 if (response.ok) {
-                    powerIcon(j,"#66ff00");
+                    powerIcon(j, "#66ff00");
                     response.text().then(p => console.log(p));
                 }
             });
@@ -101,5 +76,23 @@ function powerIcon(index, color) {
     statusIcons[index].style.backgroundColor = color;
 }
 
+
+//this.worker.addEventListener('message', function (e) {
+//    console.log('MAIN THREAD' + e.data);
+//    document.getElementById('pro1').style.backgroundColor = e.data;
+//}, false);
+function getPowerState(id) {
+    fetch('MainController/powerState?id=' + id).then(response => {
+        if (response.ok) {
+            console.log(response);
+            response.json().then(p => console.log(id, p));
+        }
+    });
+}
+setInterval(window.setInterval(function () {
+    for (let n = 0; n < projectors.length; n++) {
+        getPowerState(n+1);
+    }
+}, 1000), 5000);
 
 

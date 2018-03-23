@@ -45,6 +45,11 @@ public class ProjectorController {
         BarkoF22Projector projector = getProjector(id);
         return new ResponseEntity<>(projector.mute(), HttpStatus.OK);
     }
+    @RequestMapping("/powerState")
+    public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.getPowerStateValue(), HttpStatus.OK);
+    }
 
     private synchronized BarkoF22Projector getProjector(int id) throws IOException {
         if (activeProjectors == null) {
