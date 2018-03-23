@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Server extends Thread {
+    private final int port;
     private boolean running;
     private ServerSocket socket;
-    private Projector projector;
+    private SimulatedDevice device;
     private ArrayList<Log> logs;
 
     public interface OnDummy {
-        void onDummy(ProjectorCommunicator d);
+        void onDummy(Communicator d);
     }
 
     private OnDummy onDummyCallback;
@@ -24,18 +25,19 @@ public class Server extends Thread {
 
     private OnChange onChange;
 
-    public Server(Projector projector, OnDummy onDummyCallback, OnChange onChange) {
+    public Server(int port, SimulatedDevice device, OnDummy onDummyCallback, OnChange onChange) {
         this.onDummyCallback = onDummyCallback;
         this.onChange = onChange;
-        this.projector = projector;
+        this.device = device;
         this.running = true;
         this.logs = new ArrayList<>();
+        this.port = port;
     }
 
     public void run() {
 
         try {
-            socket = new ServerSocket(1025);
+            socket = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,10 +47,20 @@ public class Server extends Thread {
             try {
                 conn = socket.accept();
                 if (conn.getInetAddress().toString().replace("/", "").startsWith("158.38.")) {
-                    ProjectorCommunicator d = new ProjectorCommunicator(conn, projector, msg -> {
-                        logs.add(msg);
-                        onChange.onChange();
-                    });
+                    Communicator d;
+                    if(device instanceof Projector) {
+                        d = new ProjectorCommunicator(conn, ((Projector) device), msg -> {
+                            logs.add(msg);
+                            onChange.onChange();
+                        });
+                    } else if (device instanceof SoundSystem){
+                        d = new SoundSystemCommunicator(conn, ((SoundSystem) device),msg ->{
+                            logs.add(msg);
+                            onChange.onChange();
+                        });
+                    } else {
+                        d = null;
+                    }
                     onDummyCallback.onDummy(d);
                     d.start();
                 } else {
