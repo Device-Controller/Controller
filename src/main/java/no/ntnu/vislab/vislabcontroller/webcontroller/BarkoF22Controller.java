@@ -11,7 +11,7 @@ import java.net.InetAddress;
 import java.util.HashMap;
 
 import no.ntnu.vislab.barkof22.BarkoF22Projector;
-import no.ntnu.vislab.vislabcontroller.DummyBase.Device;
+import no.ntnu.vislab.vislabcontroller.DummyBase.DummyDevice;
 import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 
 @Controller
@@ -87,7 +87,7 @@ public class BarkoF22Controller {
         }
         BarkoF22Projector projector;
         if (!activeProjectors.keySet().contains(id)) {
-            Device device = new DummyBase().getSingle(id);
+            DummyDevice device = new DummyBase().getSingle(id);
             projector = new BarkoF22Projector(InetAddress.getByName(device.getIp()), device.getPort());
             activeProjectors.put(device.getId(), projector);
         } else {

@@ -5,7 +5,7 @@
  */
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
-import no.ntnu.vislab.vislabcontroller.DummyBase.Device;
+import no.ntnu.vislab.vislabcontroller.DummyBase.DummyDevice;
 import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +23,8 @@ public class ProjectorController {
     
     
     @RequestMapping("/getProjector")
-    public ResponseEntity<Device> getSingleProjector(@RequestParam (value = "id") int id){
-        Device d = new DummyBase().getSingle(id);
+    public ResponseEntity<DummyDevice> getSingleProjector(@RequestParam (value = "id") int id){
+        DummyDevice d = new DummyBase().getSingle(id);
         System.out.println(d);
         return new ResponseEntity<>(d, HttpStatus.OK);
     }

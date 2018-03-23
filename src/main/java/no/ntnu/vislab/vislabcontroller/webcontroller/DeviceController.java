@@ -1,15 +1,14 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
+import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
+import no.ntnu.vislab.vislabcontroller.DummyBase.DummyDevice;
+import no.ntnu.vislab.vislabcontroller.Entity.Device;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-
-import no.ntnu.vislab.vislabcontroller.DummyBase.Device;
-import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
 
 @Controller
 @RequestMapping("/test")
@@ -26,8 +25,12 @@ public class DeviceController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @RequestMapping("/db")
-    public ResponseEntity<List<Device>> devices(){
+    public ResponseEntity<List<DummyDevice>> dummyDevices(){
         return new ResponseEntity<>(new DummyBase().getList(), HttpStatus.OK);
     }
 
+    @RequestMapping("/db-realdeal")
+    public ResponseEntity<List<Device>> devices() {
+        return new ResponseEntity<>(new DummyBase(1).getRealList(), HttpStatus.OK);
+    }
 }

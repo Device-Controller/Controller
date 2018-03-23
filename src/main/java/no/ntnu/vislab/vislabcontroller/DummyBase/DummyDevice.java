@@ -1,6 +1,6 @@
 package no.ntnu.vislab.vislabcontroller.DummyBase;
 
-public class Device {
+public class DummyDevice {
     private int x;
     private int y;
     private int rotDeg;
@@ -11,7 +11,7 @@ public class Device {
     private String ip;
     private int port;
 
-    public Device(int x, int y, int rotDeg, int id, String name, String model, String make, String ip, int port) {
+    public DummyDevice(int x, int y, int rotDeg, int id, String name, String model, String make, String ip, int port) {
         this.x = x;
         this.y = y;
         this.rotDeg = rotDeg;
