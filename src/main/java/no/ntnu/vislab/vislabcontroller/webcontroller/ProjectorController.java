@@ -6,6 +6,8 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.util.HashMap;
 import no.ntnu.vislab.barkof22.BarkoF22Projector;
 import no.ntnu.vislab.vislabcontroller.DummyBase.Device;
 import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/MainController")
 public class ProjectorController {
 
+    private static HashMap<Integer, BarkoF22Projector> activeProjectors;
+
     @RequestMapping("/getProjector")
     public ResponseEntity<Device> getSingleProjector(@RequestParam(value = "id") int id) {
         Device d = new DummyBase().getSingle(id);
@@ -31,8 +35,24 @@ public class ProjectorController {
     }
 
     @RequestMapping("/powerOn")
-    public String powerOn(@RequestParam(value = "id") int id) throws IOException {
-        return "poweron rofl " + id;
+    public ResponseEntity<Integer> powerOn(@RequestParam(value = "id") int id) throws IOException {
+        BarkoF22Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.powerOn(), HttpStatus.OK);
+    }
+
+    private synchronized BarkoF22Projector getProjector(int id) throws IOException {
+        if (activeProjectors == null) {
+            activeProjectors = new HashMap<>();
+        }
+        BarkoF22Projector projector;
+        if (!activeProjectors.keySet().contains(id)) {
+            Device device = new DummyBase().getSingle(id);
+            projector = new BarkoF22Projector(InetAddress.getByName(device.getIp()), device.getPort());
+            activeProjectors.put(device.getId(), projector);
+        } else {
+            projector = activeProjectors.get(id);
+        }
+        return projector;
     }
 
 }
