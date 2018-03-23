@@ -5,15 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Date;
 import java.util.Random;
 
-public class ProjectorCommunicator extends Thread {
+public class ProjectorCommunicator extends Communicator {
 
-    private Socket host;
-    private boolean running;
-    private PrintWriter pw;
-    private BufferedReader br;
     private Projector projector;
 
 
@@ -23,26 +18,18 @@ public class ProjectorCommunicator extends Thread {
     private static int corruptWeight = 0;
     private static int incorrectWeight = 0;
 
-    public interface OnLog {
-        void onLog(Log log);
-    }
-
-    private OnLog callback;
-
     public ProjectorCommunicator(Socket host, Projector projector, OnLog callback) {
+        super(host, callback);
         setName("D-" + getId());
-        this.host = host;
         this.projector = projector;
-        this.callback = callback;
-        this.running = true;
     }
 
     public void run() {
         try {
-            br = new BufferedReader(new InputStreamReader(host.getInputStream()));
-            pw = new PrintWriter(host.getOutputStream());
-            print(Log.CONNECTION, host.getRemoteSocketAddress() + " CONNECTED");
-            while (running) {
+            br = new BufferedReader(new InputStreamReader(getHost().getInputStream()));
+            pw = new PrintWriter(getHost().getOutputStream());
+            print(Log.CONNECTION, getHost().getRemoteSocketAddress() + " CONNECTED");
+            while (isRunning()) {
                 if (isDataAvailable(br)) {
                     String line = br.readLine();
                     print(Log.RECEIVED, line);
@@ -62,9 +49,6 @@ public class ProjectorCommunicator extends Thread {
         print(Log.CONNECTION, "DISCONNECTED");
     }
 
-    public boolean isRunning() {
-        return running;
-    }
 
     private void send(String response) throws InterruptedException {
         if (!response.equals("ERROR")) {
@@ -114,32 +98,11 @@ public class ProjectorCommunicator extends Thread {
         }
     }
 
-    private void print(String tag, String line) {
-        callback.onLog(new Log(new Date(), getName(), tag, line));
-    }
-
-    private void finish() {
-        running = false;
-        pw.close();
-        try {
-            br.close();
-        } catch (IOException e) {
-            print(Log.ERROR, e.getMessage());
-        }
-        try {
-            host.close();
-        } catch (IOException e) {
-            print(Log.ERROR, e.getMessage());
-        }
-    }
 
     private boolean isDataAvailable(BufferedReader br) throws IOException {
         return br.read() == ':';
     }
 
-    public void stopRunning() {
-        finish();
-    }
 
     public static int getNormalWeight() {
         return normalWeight;
@@ -181,7 +144,4 @@ public class ProjectorCommunicator extends Thread {
         ProjectorCommunicator.incorrectWeight = incorrectWeight;
     }
 
-    public String getHostIp(){
-        return host.getInetAddress().toString().replace("/", "") + ":" + host.getPort();
-    }
 }

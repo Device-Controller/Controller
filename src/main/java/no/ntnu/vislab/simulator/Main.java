@@ -9,7 +9,7 @@ import static java.lang.Thread.sleep;
 
 public class Main {
 
-    private static ArrayList<ProjectorCommunicator> dummies;
+    private static ArrayList<Communicator> dummies;
     private static Server server;
     private static boolean running = true;
 
@@ -18,7 +18,7 @@ public class Main {
             String arg = args[0];
             if (arg.toLowerCase().equals("nogui")) {
                 dummies = new ArrayList<>();
-                server = new Server(new Projector(), d -> dummies.add(d), () -> {
+                server = new Server(1025, new Projector(), d -> dummies.add(d), () -> {
                 });
                 server.start();
                 Scanner in = new Scanner(System.in);
@@ -31,9 +31,9 @@ public class Main {
                             if (!dummies.isEmpty()) {
                                 System.out.println("Stopping all dummies");
                             }
-                            for (ProjectorCommunicator projectorCommunicator : dummies) {
-                                projectorCommunicator.stopRunning();
-                                System.out.println("ProjectorCommunicator " + projectorCommunicator.getName() + "Stopped");
+                            for (Communicator communicator : dummies) {
+                                communicator.stopRunning();
+                                System.out.println("ProjectorCommunicator " + communicator.getName() + "Stopped");
                             }
                             running = false;
                             server.stopRunning();

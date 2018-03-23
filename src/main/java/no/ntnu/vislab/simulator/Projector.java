@@ -2,7 +2,7 @@ package no.ntnu.vislab.simulator;
 
 import java.util.Random;
 
-public class Projector {
+public class Projector extends SimulatedDevice{
     private int lamp1Status = 0;
     private int lamp2Status = 1;
     private int lamp1Runtime = 621;
