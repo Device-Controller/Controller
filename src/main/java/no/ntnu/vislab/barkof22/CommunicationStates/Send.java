@@ -25,6 +25,7 @@ public class Send implements CommunicationState {
         } else {
             waitTime += 500;
         }
-        context.changeState(new Wait(waitTime));
+        context.setWaitTime(waitTime);
+        context.changeState(new ReceiveAcknowledge());
     }
 }

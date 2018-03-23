@@ -20,7 +20,13 @@ import static java.lang.Thread.sleep;
  */
 public class CommunicationContext {
     private CommunicationState currentState;
-
+    private long waitTime = 500;
+    public void setWaitTime(long time) {
+        waitTime = time;
+    }
+    public long getWaitTime(){
+        return waitTime;
+    }
     public interface OnAcknowledge {
         void onAcknowledge(Command received);
     }

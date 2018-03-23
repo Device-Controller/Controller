@@ -6,15 +6,11 @@ import no.ntnu.vislab.barkof22.CommunicationContext;
  * A wait state. The state machine will wait here for the given amount of time before proceeding.
  */
 public class Wait implements CommunicationState {
-    private long waitTime = 500;
-    public Wait(long waitTime) {
-        this.waitTime = waitTime;
-    }
 
     @Override
     public void execute(final CommunicationContext context) {
-        if(context.hasTimerPassed(waitTime)){
-            context.changeState(new ReceiveAcknowledge());
+        if(context.hasTimerPassed(context.getWaitTime())){
+            context.changeState(new Idle());
         }
     }
 }

@@ -8,10 +8,10 @@ import no.ntnu.vislab.barkof22.CommunicationContext;
 import no.ntnu.vislab.vislabcontroller.Command;
 
 /**
- * State that waits for upto 1500ms for a response.
+ * State that waits for upto 2000ms for a response.
  */
 public class ReceiveAcknowledge implements CommunicationState {
-    private long timeout = 1500;
+    private long timeout = 2000;
     @Override
     public void execute(final CommunicationContext context) {
         try {

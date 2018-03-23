@@ -20,7 +20,7 @@ public class InvalidAcknowledge implements CommunicationState {
 
             }
             if (context.getSendAttempts() < 3) {
-                context.changeState(new Send());
+                context.changeState(new Wait());
             } else {
                 context.changeState(new SendFailed());
             }
