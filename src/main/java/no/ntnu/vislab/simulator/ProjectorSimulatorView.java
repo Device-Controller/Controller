@@ -6,21 +6,35 @@ import java.util.Arrays;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class ProjectorSimulatorView extends AbstractSimulatorView{
+public class ProjectorSimulatorView extends AbstractSimulatorView {
     private ArrayList<TextField> fields;
 
     private Projector projector;
+
     public ProjectorSimulatorView() {
         super("Connections: ");
         projector = new Projector();
         fields = new ArrayList<>();
-        updateFields();
-        setLeft(new VBox(setUpProjector(), setUpResponses()));
+        Button updateAll = new Button("Update all fields");
+        updateAll.setOnAction(e->setAll());
+        setLeft(new VBox(setUpProjector(), setUpResponses(), updateAll));
         setServer(new Server(1025, projector, this::handleDummy, this::updateFields));
+        setUpFieldListeners();
+        updateFields();
+    }
+
+    private void setUpFieldListeners() {
+        fields.forEach(f -> f.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                setFieldValue(f);
+                getRoot().requestFocus();
+            }
+        }));
     }
 
     private GridPane setUpProjector() {
@@ -29,23 +43,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf1 = new TextField();
         tf1.setId("POWER");
         Button b1 = new Button("SET");
-        b1.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf1.getText());
-                if (num > 1 || num < 0) {
-                    throw new NumberFormatException("Number must be between 1 and 0");
-                }
-                projector.setPower(num);
-                tf1.setText("");
-                tf1.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf1.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf1.setPromptText("" + projector.getPower());
-            }
-        });
+        b1.setOnAction(e -> setFieldValue(tf1));
         pane.add(t1, 0, 0);
         pane.add(tf1, 1, 0);
         pane.add(b1, 2, 0);
@@ -54,23 +52,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf2 = new TextField();
         tf2.setId("POWER STATE");
         Button b2 = new Button("SET");
-        b2.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf2.getText());
-                if (num > 6 || num < 0) {
-                    throw new NumberFormatException("Number must be between 6 and 0");
-                }
-                projector.setPowerState(num);
-                tf2.setText("");
-                tf2.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf2.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf2.setPromptText("" + projector.getPowerState());
-            }
-        });
+        b2.setOnAction(e -> setFieldValue(tf2));
         pane.add(t2, 0, 1);
         pane.add(tf2, 1, 1);
         pane.add(b2, 2, 1);
@@ -79,23 +61,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf3 = new TextField();
         tf3.setId("MUTE");
         Button b3 = new Button("SET");
-        b3.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf3.getText());
-                if (num > 1 || num < 0) {
-                    throw new NumberFormatException("Number must be between 1 and 0");
-                }
-                projector.setMute(num);
-                tf3.setText("");
-                tf3.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf3.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf3.setPromptText("" + projector.getMute());
-            }
-        });
+        b3.setOnAction(e -> setFieldValue(tf3));
         pane.add(t3, 0, 2);
         pane.add(tf3, 1, 2);
         pane.add(b3, 2, 2);
@@ -104,23 +70,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf4 = new TextField();
         tf4.setId("BRIGHTNESS");
         Button b4 = new Button("SET");
-        b4.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf4.getText());
-                if (num > 100 || num < 0) {
-                    throw new NumberFormatException("Number must be between 100 and 0");
-                }
-                projector.setBrightness(num);
-                tf4.setText("");
-                tf4.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf4.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf4.setPromptText("" + projector.getBrightness());
-            }
-        });
+        b4.setOnAction(e -> setFieldValue(tf4));
         pane.add(t4, 0, 3);
         pane.add(tf4, 1, 3);
         pane.add(b4, 2, 3);
@@ -129,23 +79,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf5 = new TextField();
         tf5.setId("CONTRAST");
         Button b5 = new Button("SET");
-        b5.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf5.getText());
-                if (num > 100 || num < 0) {
-                    throw new NumberFormatException("Number must be between 100 and 0");
-                }
-                projector.setContrast(num);
-                tf5.setText("");
-                tf5.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf5.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf5.setPromptText("" + projector.getContrast());
-            }
-        });
+        b5.setOnAction(e -> setFieldValue(tf5));
         pane.add(t5, 0, 4);
         pane.add(tf5, 1, 4);
         pane.add(b5, 2, 4);
@@ -154,23 +88,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf6 = new TextField();
         tf6.setId("TEST IMAGE");
         Button b6 = new Button("SET");
-        b6.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf6.getText());
-                if (num > 7 || num < 0) {
-                    throw new NumberFormatException("Number must be between 7 and 0");
-                }
-                projector.setTestImage(num);
-                tf6.setText("");
-                tf6.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf6.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf6.setPromptText("" + projector.getTestImage());
-            }
-        });
+        b6.setOnAction(e -> setFieldValue(tf6));
         pane.add(t6, 0, 5);
         pane.add(tf6, 1, 5);
         pane.add(b6, 2, 5);
@@ -179,20 +97,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf7 = new TextField();
         tf7.setId("LAMP 1 RUNTIME");
         Button b7 = new Button("SET");
-        b7.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf7.getText());
-                projector.setLamp1Runtime(num);
-                tf7.setText("");
-                tf7.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf7.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf7.setPromptText("" + projector.getLamp1Runtime());
-            }
-        });
+        b7.setOnAction(e -> setFieldValue(tf7));
         pane.add(t7, 0, 6);
         pane.add(tf7, 1, 6);
         pane.add(b7, 2, 6);
@@ -201,20 +106,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf8 = new TextField();
         tf8.setId("LAMP 2 RUNTIME");
         Button b8 = new Button("SET");
-        b8.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf8.getText());
-                projector.setLamp2Runtime(num);
-                tf8.setText("");
-                tf8.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf8.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf8.setPromptText("" + projector.getLamp2Runtime());
-            }
-        });
+        b8.setOnAction(e -> setFieldValue(tf8));
         pane.add(t8, 0, 7);
         pane.add(tf8, 1, 7);
         pane.add(b8, 2, 7);
@@ -223,20 +115,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf9 = new TextField();
         tf9.setId("LAMP 1 TIME REMAINING");
         Button b9 = new Button("SET");
-        b9.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf9.getText());
-                projector.setLamp1TimeRemaining(num);
-                tf9.setText("");
-                tf9.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf9.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf9.setPromptText("" + projector.getLamp1TimeRemaining());
-            }
-        });
+        b9.setOnAction(e -> setFieldValue(tf9));
         pane.add(t9, 0, 8);
         pane.add(tf9, 1, 8);
         pane.add(b9, 2, 8);
@@ -245,20 +124,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf10 = new TextField();
         tf10.setId("LAMP 2 TIME REMAINING");
         Button b10 = new Button("SET");
-        b10.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf10.getText());
-                projector.setLamp2TimeRemaining(num);
-                tf10.setText("");
-                tf10.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf10.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf10.setPromptText("" + projector.getLamp2TimeRemaining());
-            }
-        });
+        b10.setOnAction(e -> setFieldValue(tf10));
         pane.add(t10, 0, 9);
         pane.add(tf10, 1, 9);
         pane.add(b10, 2, 9);
@@ -267,23 +133,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf11 = new TextField();
         tf11.setId("LAMP 1 STATUS");
         Button b11 = new Button("SET");
-        b11.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf11.getText());
-                if (num > 5 || num < 0) {
-                    throw new NumberFormatException("Number must be between 5 and 0");
-                }
-                projector.setLamp1Status(num);
-                tf11.setText("");
-                tf11.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf11.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf11.setPromptText("" + projector.getLamp1Status());
-            }
-        });
+        b11.setOnAction(e -> setFieldValue(tf11));
         pane.add(t11, 0, 10);
         pane.add(tf11, 1, 10);
         pane.add(b11, 2, 10);
@@ -292,23 +142,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf12 = new TextField();
         tf12.setId("LAMP 2 STATUS");
         Button b12 = new Button("SET");
-        b12.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf12.getText());
-                if (num > 5 || num < 0) {
-                    throw new NumberFormatException("Number must be between 5 and 0");
-                }
-                projector.setLamp2Status(num);
-                tf12.setText("");
-                tf12.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf12.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf12.setPromptText("" + projector.getLamp2Status());
-            }
-        });
+        b12.setOnAction(e -> setFieldValue(tf12));
         pane.add(t12, 0, 11);
         pane.add(tf12, 1, 11);
         pane.add(b12, 2, 11);
@@ -317,20 +151,7 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf13 = new TextField();
         tf13.setId("THERMAL");
         Button b13 = new Button("SET");
-        b13.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf13.getText());
-                projector.setThermal(num);
-                tf13.setText("");
-                tf13.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf13.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf13.setPromptText("" + projector.getThermal());
-            }
-        });
+        b13.setOnAction(e -> setFieldValue(tf13));
         pane.add(t13, 0, 12);
         pane.add(tf13, 1, 12);
         pane.add(b13, 2, 12);
@@ -339,25 +160,36 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         final TextField tf14 = new TextField();
         tf14.setId("UNIT TOTAL TIME");
         Button b14 = new Button("SET");
-        b14.setOnAction(e -> {
-            try {
-                int num = Integer.parseInt(tf14.getText());
-                projector.setTotalRuntime(num);
-                tf14.setText("");
-                tf14.setPromptText("" + num);
-            } catch (NumberFormatException ex) {
-                tf14.setText("");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("ERROR: " + ex.getMessage());
-                alert.showAndWait();
-                tf14.setPromptText("" + projector.getTotalRuntime());
-            }
-        });
+        b14.setOnAction(e -> setFieldValue(tf14));
         pane.add(t14, 0, 13);
         pane.add(tf14, 1, 13);
         pane.add(b14, 2, 13);
         fields.add(tf14);
         return pane;
+    }
+
+    private void setAll() {
+        fields.forEach(f->setFieldValue(f,false));
+    }
+
+    private void setFieldValue(TextField tf){
+        setFieldValue(tf,true);
+    }
+    private void setFieldValue(TextField tf, boolean showAlert) {
+        try {
+            int num = Integer.parseInt(tf.getText());
+            setProjectorValue(num, tf.getId());
+            tf.setText("");
+            tf.setPromptText("" + num);
+        } catch (NumberFormatException ex) {
+            if(showAlert) {
+                tf.setText("");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("ERROR: " + ex.getMessage());
+                alert.showAndWait();
+                tf.setPromptText(getProjectorValue(tf.getId()));
+            }
+        }
     }
 
     private GridPane setUpResponses() {
@@ -403,69 +235,35 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
         Button noButton = new Button("SET");
 
         normalButton.setOnAction(event -> {
-            try {
-                int num = Integer.parseInt(normalField.getText());
-                ProjectorCommunicator.setNormalWeight(num);
-                normalField.setText("");
-                updateFields();
-            } catch (NumberFormatException ex) {
-                alert(ex, normalField);
-            }
+            setFieldValue(normalField);
         });
         corruptButton.setOnAction(event -> {
-            try {
-                int num = Integer.parseInt(corruptField.getText());
-                ProjectorCommunicator.setCorruptWeight(num);
-                corruptField.setText("");
-                updateFields();
-            } catch (NumberFormatException ex) {
-                alert(ex, corruptField);
-            }
+            setFieldValue(corruptField);
         });
         delayedButton.setOnAction(event -> {
-            try {
-                int num = Integer.parseInt(delayedField.getText());
-                ProjectorCommunicator.setDelayedWeight(num);
-                delayedField.setText("");
-                updateFields();
-            } catch (NumberFormatException ex) {
-                alert(ex, delayedField);
-            }
+            setFieldValue(delayedField);
         });
         incorrectButton.setOnAction(event -> {
-            try {
-                int num = Integer.parseInt(incorrectField.getText());
-                ProjectorCommunicator.setIncorrectWeight(num);
-                incorrectField.setText("");
-                updateFields();
-            } catch (NumberFormatException ex) {
-                alert(ex, incorrectField);
-            }
+            setFieldValue(incorrectField);
         });
         noButton.setOnAction(event -> {
-            try {
-                int num = Integer.parseInt(noField.getText());
-                ProjectorCommunicator.setNoResponseWeight(num);
-                noField.setText("");
-                updateFields();
-            } catch (NumberFormatException ex) {
-                alert(ex, noField);
-            }
+            setFieldValue(noField);
         });
         pane.add(normalButton, 2, 1);
         pane.add(corruptButton, 2, 2);
         pane.add(delayedButton, 2, 3);
         pane.add(incorrectButton, 2, 4);
         pane.add(noButton, 2, 5);
+
         return pane;
     }
 
     public void updateFields() {
-        fields.forEach(textField -> updateField(textField, textField.getId()));
+        fields.forEach(this::updateField);
     }
 
-    public void updateField(TextField tf, String id) {
-        switch (id) {
+    public void updateField(TextField tf) {
+        switch (tf.getId()) {
             case "POWER":
                 tf.setPromptText("" + projector.getPower());
                 break;
@@ -525,4 +323,131 @@ public class ProjectorSimulatorView extends AbstractSimulatorView{
                 break;
         }
     }
+
+    public void setProjectorValue(int num, String id) {
+        switch (id) {
+            case "POWER":
+                projector.setPower(num);
+                break;
+            case "POWER STATE":
+                projector.setPowerState(num);
+                break;
+            case "MUTE":
+                projector.setMute(num);
+                break;
+            case "BRIGHTNESS":
+                projector.setBrightness(num);
+                break;
+            case "CONTRAST":
+                projector.setContrast(num);
+                break;
+            case "LAMP 1 RUNTIME":
+                projector.setLamp1Runtime(num);
+                break;
+            case "LAMP 2 RUNTIME":
+                projector.setLamp2Runtime(num);
+                break;
+            case "LAMP 1 STATUS":
+                projector.setLamp1Status(num);
+                break;
+            case "LAMP 2 STATUS":
+                projector.setLamp2Status(num);
+                break;
+            case "LAMP 1 TIME REMAINING":
+                projector.setLamp1TimeRemaining(num);
+                break;
+            case "LAMP 2 TIME REMAINING":
+                projector.setLamp2TimeRemaining(num);
+                break;
+            case "THERMAL":
+                projector.setThermal(num);
+                break;
+            case "TEST IMAGE":
+                projector.setTestImage(num);
+                break;
+            case "UNIT TOTAL TIME":
+                projector.setTotalRuntime(num);
+                break;
+            case "NORMAL":
+                ProjectorCommunicator.setNormalWeight(num);
+                break;
+            case "DELAY":
+                ProjectorCommunicator.setDelayedWeight(num);
+                break;
+            case "CORRUPT":
+                ProjectorCommunicator.setCorruptWeight(num);
+                break;
+            case "INCORRECT":
+                ProjectorCommunicator.setIncorrectWeight(num);
+                break;
+            case "NO RESPONSE":
+                ProjectorCommunicator.setNoResponseWeight(num);
+                break;
+        }
+    }
+
+    private String getProjectorValue(String id) {
+        int num = 0;
+        switch (id) {
+            case "POWER":
+                num = projector.getPower();
+                break;
+            case "POWER STATE":
+                num = projector.getPowerState();
+                break;
+            case "MUTE":
+                num = projector.getMute();
+                break;
+            case "BRIGHTNESS":
+                num = projector.getBrightness();
+                break;
+            case "CONTRAST":
+                num = projector.getContrast();
+                break;
+            case "LAMP 1 RUNTIME":
+                num = projector.getLamp1Runtime();
+                break;
+            case "LAMP 2 RUNTIME":
+                num = projector.getLamp2Runtime();
+                break;
+            case "LAMP 1 STATUS":
+                num = projector.getLamp1Status();
+                break;
+            case "LAMP 2 STATUS":
+                num = projector.getLamp2Status();
+                break;
+            case "LAMP 1 TIME REMAINING":
+                num = projector.getLamp1TimeRemaining();
+                break;
+            case "LAMP 2 TIME REMAINING":
+                num = projector.getLamp2TimeRemaining();
+                break;
+            case "THERMAL":
+                num = projector.getThermal();
+                break;
+            case "TEST IMAGE":
+                num = projector.getTestImage();
+                break;
+            case "UNIT TOTAL TIME":
+                num = projector.getTotalRuntime();
+                break;
+            case "NORMAL":
+                num = ProjectorCommunicator.getNormalWeight();
+                break;
+            case "DELAY":
+                num = ProjectorCommunicator.getDelayedWeight();
+                break;
+            case "CORRUPT":
+                num = ProjectorCommunicator.getCorruptWeight();
+                break;
+            case "INCORRECT":
+                num = ProjectorCommunicator.getIncorrectWeight();
+                break;
+            case "NO RESPONSE":
+                num = ProjectorCommunicator.getNoResponseWeight();
+                break;
+        }
+        return num + "";
+    }
+
 }

@@ -15,7 +15,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -30,7 +29,7 @@ public abstract class AbstractSimulatorView {
     private ArrayList<String> activeFilters;
     private ComboBox<String> filterList;
     private ObservableList<String> filters;
-    private ArrayList<Communicator> dummies;
+    private ArrayList<Communicator> connecedList;
     private Text connections;
     private ObservableList<Log> logs;
     private ArrayList<Log> rawLog = new ArrayList<>();
@@ -85,12 +84,12 @@ public abstract class AbstractSimulatorView {
             popup.setContentText("Disconnect all connections?");
             popup.showAndWait();
             if(popup.getResult().equals(ButtonType.OK)){
-                dummies.forEach(Communicator::stopRunning);
+                connecedList.forEach(Communicator::stopRunning);
             }
         });
         connectionsText.setOnMouseEntered(e->{
             StringBuilder str = new StringBuilder();
-            dummies.forEach(d-> str.append(d.getHostIp() + "\n"));
+            connecedList.forEach(d-> str.append(d.getHostIp() + "\n"));
             t.setText(str.toString());
             if(!t.getText().isEmpty()){
                 Tooltip.install(connectionsText,t);
@@ -131,7 +130,7 @@ public abstract class AbstractSimulatorView {
     private void setUpLists() {
         logView = new ListView<>();
         logView.setCellFactory(list -> new LogCell());
-        dummies = new ArrayList<>();
+        connecedList = new ArrayList<>();
         logs = FXCollections.observableArrayList();
         filters = FXCollections.observableArrayList();
         logView.setItems(logs);
@@ -139,7 +138,7 @@ public abstract class AbstractSimulatorView {
     }
 
     void handleDummy(Communicator d) {
-        dummies.add(d);
+        connecedList.add(d);
     }
 
     private void addToLog(Log log) {
@@ -182,21 +181,15 @@ public abstract class AbstractSimulatorView {
         }
     }
 
-    protected void alert(NumberFormatException ex, TextField field) {
-        field.setText("");
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText("ERROR: " + ex.getMessage());
-        alert.showAndWait();
-        updateFields();
-    }
-
     protected abstract void updateFields();
 
     public void stop() throws Exception {
         running = false;
         logger.join();
-        server.stopRunning();
-        dummies.forEach(Communicator::stopRunning);
+        if(server != null) {
+            server.stopRunning();
+        }
+        connecedList.forEach(Communicator::stopRunning);
     }
     public void setLeft(Node left){
         root.setLeft(left);
@@ -212,9 +205,9 @@ public abstract class AbstractSimulatorView {
                         Platform.runLater(() -> addToLog(log));
                         time = System.currentTimeMillis();
                     }
-                    dummies.removeIf(dummy -> !dummy.isRunning());
-                    connections.setText("" + dummies.size());
-                    if (time + 60 * 60 * 1000 < System.currentTimeMillis() && dummies.size() == 0) {
+                    connecedList.removeIf(dummy -> !dummy.isRunning());
+                    connections.setText("" + connecedList.size());
+                    if (time + 60 * 60 * 1000 < System.currentTimeMillis() && connecedList.size() == 0) {
                         clearLog();
                     }
                 }

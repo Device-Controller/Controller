@@ -7,7 +7,7 @@ import javafx.application.Application;
 
 import static java.lang.Thread.sleep;
 
-public class Main {
+public class Simulator {
 
     private static ArrayList<Communicator> dummies;
     private static Server server;
@@ -56,7 +56,7 @@ public class Main {
                 }
             }
         } else {
-            Application.launch(App.class, args);
+            Application.launch(SimulatorGUI.class, args);
         }
     }
 }

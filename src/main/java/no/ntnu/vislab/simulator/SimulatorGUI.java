@@ -7,7 +7,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
-public class App extends Application {
+public class SimulatorGUI extends Application {
     private ProjectorSimulatorView projectorView;
     private SoundSystemView soundSystemView;
 
@@ -31,5 +31,6 @@ public class App extends Application {
     public void stop() throws Exception {
         super.stop();
         projectorView.stop();
+        soundSystemView.stop();
     }
 }
