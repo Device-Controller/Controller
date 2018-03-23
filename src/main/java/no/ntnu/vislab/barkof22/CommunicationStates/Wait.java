@@ -11,6 +11,7 @@ public class Wait implements CommunicationState {
     public void execute(final CommunicationContext context) {
         if(context.hasTimerPassed(context.getWaitTime())){
             context.changeState(new Idle());
+            context.resetTimer();
         }
     }
 }

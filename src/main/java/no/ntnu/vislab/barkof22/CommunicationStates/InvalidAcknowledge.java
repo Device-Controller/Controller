@@ -15,8 +15,8 @@ public class InvalidAcknowledge implements CommunicationState {
     @Override
     public void execute(CommunicationContext context) {
         try {
-            while (context.getIn().ready()) {
-                context.getIn().read(); //Clear the inputstream, when an invalid response is recieved it could mean that an older command was sent twice, but the response was delayed causing data to be left in the stream.
+            while (context.getReader().ready()) {
+                context.getReader().read(); //Clear the inputstream, when an invalid response is recieved it could mean that an older command was sent twice, but the response was delayed causing data to be left in the stream.
 
             }
             if (context.getSendAttempts() < 3) {

@@ -1,6 +1,7 @@
 package no.ntnu.vislab.barkof22;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -21,12 +22,7 @@ import static java.lang.Thread.sleep;
 public class CommunicationContext {
     private CommunicationState currentState;
     private long waitTime = 500;
-    public void setWaitTime(long time) {
-        waitTime = time;
-    }
-    public long getWaitTime(){
-        return waitTime;
-    }
+
     public interface OnAcknowledge {
         void onAcknowledge(Command received);
     }
@@ -38,27 +34,40 @@ public class CommunicationContext {
     private final List<Command> idleBuffer;
     private long sentCount = 0;
     private int sendAttempts = 0;
-    private BufferedReader in;
-    private PrintWriter out;
+    private BufferedReader reader;
+    private PrintWriter printWriter;
+    private OutputStream outputStream;
+    private InputStream inputStream;
 
-    public CommunicationContext(OutputStream out_raw, InputStream in_raw, List<Command> outgoingBuffer, List<Command> idleBuffer) {
+    public CommunicationContext(OutputStream outputStream, InputStream inputStream, List<Command> outgoingBuffer, List<Command> idleBuffer) {
         this.outgoingBuffer = outgoingBuffer;
         this.idleBuffer = idleBuffer;
         this.timer = new Timer();
         changeState(new Idle());
-        this.in = new BufferedReader(new InputStreamReader(in_raw));
-        this.out = new PrintWriter(out_raw, true);
+        this.outputStream = outputStream;
+        this.inputStream = inputStream;
+        this.reader = new BufferedReader(new InputStreamReader(inputStream));
+        this.printWriter = new PrintWriter(outputStream, true);
+
     }
 
     public void changeState(final CommunicationState nextState) {
-        resetTimer();
+        System.out.println(nextState);
         currentState = nextState;
+    }
+
+    public void setWaitTime(long time) {
+        waitTime = time;
+    }
+
+    public long getWaitTime() {
+        return waitTime;
     }
 
     /**
      * Executes the current state of the state machine.
      */
-    public void execute() {
+    public void execute() throws IOException {
         currentState.execute(this);
     }
 
@@ -90,7 +99,7 @@ public class CommunicationContext {
     /**
      * Resets the timer.
      */
-    private void resetTimer() {
+    public void resetTimer() {
         timer.reset();
     }
 
@@ -99,8 +108,8 @@ public class CommunicationContext {
      *
      * @return the PrintWriter that is the output.
      */
-    public PrintWriter getOut() {
-        return out;
+    public PrintWriter getPrintWriter() {
+        return printWriter;
     }
 
     /**
@@ -108,8 +117,8 @@ public class CommunicationContext {
      *
      * @return the PrintWriter that is the input.
      */
-    public BufferedReader getIn() {
-        return in;
+    public BufferedReader getReader() {
+        return reader;
     }
 
     /**
@@ -204,10 +213,16 @@ public class CommunicationContext {
 
     /**
      * Adds a command to the outgoing buffer.
+     *
      * @param command the command to add to the outgoing buffer.
      * @return true if adding was successful.
      */
     public boolean addCommand(Command command) {
         return outgoingBuffer.add(command);
     }
+
+    public void checkConnection() throws IOException {
+        outputStream.write(new byte[1], 0, 1);
+    }
+
 }
