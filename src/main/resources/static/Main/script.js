@@ -65,24 +65,7 @@ function getLampStatus() {
     })
             .catch(e => console.log("Error: " + e.message));
 }
-function testCheck() {
 
-    var projectors = [];
-    for (var i = 0; i < checkedList.length; i++) {
-        if (checkedList[i].checked) {
-            let id = i + 1;
-            fetch('MainController/getProjector?id=' + id).then(response => {
-                if (response.ok) {
-                    response.json().then(p => console.log(p));
-                }
-            });
-
-        } else {
-            console.log(checkedList[i] + 'is not checked.');
-        }
-    }
-    return projectors;
-}
 function powerOn() {
     for (let j = 0; j < projectors.length; j++) {
         if (checkedList[j].checked) {
@@ -90,15 +73,33 @@ function powerOn() {
             console.log(pID);
             fetch('MainController/powerOn?id=' + pID).then(response => {
                 if (response.ok) {
-                    console.log('yaey');
+                    powerIcon(j,"#66ff00");
                     response.text().then(p => console.log(p));
-                } else {
-                    console.log("fuck");
+                }
+            });
+        } else {
+            powerIcon(j, "red");
+        }
+    }
+}
+function mute() {
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            let pID = projectors[j].id;
+            console.log(pID);
+            fetch('MainController/mute?id=' + pID).then(response => {
+                if (response.ok) {
+                    response.text().then(p => console.log(p));
                 }
             });
         }
     }
-
 }
+
+function powerIcon(index, color) {
+    let statusIcons = document.getElementsByClassName('state-icon');
+    statusIcons[index].style.backgroundColor = color;
+}
+
 
 

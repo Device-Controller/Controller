@@ -165,6 +165,14 @@ input[type=checkbox]:checked + .check-label {
     background: url('Images/check-icon.png');
     background-size: 100%;
 }
+.state-icon {
+    height: 10px;
+    width: 10px;
+    background-color: red;
+    border-radius: 50%;
+    border: black solid .5px;
+    display: inline-block;
+}
 
 .group-button {
     width: 42.85%;
