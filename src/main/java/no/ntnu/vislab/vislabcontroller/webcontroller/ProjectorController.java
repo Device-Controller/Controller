@@ -47,7 +47,7 @@ public class ProjectorController {
 
     @RequestMapping("/getRealProjector")
     public ResponseEntity<Device> getSingleDevice(@RequestParam(value = "id") int id) {
-        Device d =
+        return null;
     }
 
     @RequestMapping("/powerOn")
