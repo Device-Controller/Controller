@@ -19,13 +19,16 @@ public class Device implements Serializable {
     @GeneratedValue
     Integer deviceID;
 
-    @OneToMany(mappedBy = "device")
-    List<DGDJunction> dgdJunctions;
+    /*@OneToMany(mappedBy = "device")
+    List<DGDJunction> dgdJunctions;*/
+
+    @ManyToMany(mappedBy = "devices")
+    List<DeviceGroup> deviceGroups;
 
     @ManyToOne(optional = false)
     DeviceType deviceType;
 
-    String ipAdress;
+    String ipAddress;
 
     int port;
 
@@ -36,32 +39,36 @@ public class Device implements Serializable {
     int rotation;
 
     public Device() {
-        this.dgdJunctions = new ArrayList<>();
+        //this.dgdJunctions = new ArrayList<>();
+        this.deviceGroups = new ArrayList<>();
     }
 
-    public Device(DeviceType deviceType, String ipAdress, int port, int xPos, int yPos, int rotation) {
-        this.dgdJunctions = new ArrayList<>();
+    public Device(DeviceType deviceType, String ipAddress, int port, int xPos, int yPos, int rotation) {
+        //this.dgdJunctions = new ArrayList<>();
+        this.deviceGroups = new ArrayList<>();
         this.deviceType = deviceType;
-        this.ipAdress = ipAdress;
+        this.ipAddress = ipAddress;
         this.port = port;
         this.xPos = xPos;
         this.yPos = yPos;
         this.rotation = rotation;
     }
 
-    public Device(DeviceType deviceType, String ipAdress, int port, int xPos, int yPos) {
-        this.dgdJunctions = new ArrayList<>();
+    public Device(DeviceType deviceType, String ipAddress, int port, int xPos, int yPos) {
+        //this.dgdJunctions = new ArrayList<>();
+        this.deviceGroups = new ArrayList<>();
         this.deviceType = deviceType;
-        this.ipAdress = ipAdress;
+        this.ipAddress = ipAddress;
         this.port = port;
         this.xPos = xPos;
         this.yPos = yPos;
     }
 
-    public Device(DeviceType deviceType, String ipAdress, int port) {
-        this.dgdJunctions = new ArrayList<>();
+    public Device(DeviceType deviceType, String ipAddress, int port) {
+        //this.dgdJunctions = new ArrayList<>();
+        this.deviceGroups = new ArrayList<>();
         this.deviceType = deviceType;
-        this.ipAdress = ipAdress;
+        this.ipAddress = ipAddress;
         this.port = port;
     }
 
@@ -69,12 +76,20 @@ public class Device implements Serializable {
         return deviceID;
     }
 
-    public List<DGDJunction> getDgdJunctions() {
+    /*public List<DGDJunction> getDgdJunctions() {
         return dgdJunctions;
     }
 
     public void setDgdJunctions(DGDJunction dgdJunction) {
         this.dgdJunctions.add(dgdJunction);
+    }*/
+
+    public List<DeviceGroup> getDeviceGroups() {
+        return deviceGroups;
+    }
+
+    public void setDeviceGroups(List<DeviceGroup> deviceGroups) {
+        this.deviceGroups = deviceGroups;
     }
 
     public DeviceType getDeviceType() {
@@ -85,12 +100,12 @@ public class Device implements Serializable {
         this.deviceType = deviceType;
     }
 
-    public String getIpAdress() {
-        return ipAdress;
+    public String getIpAddress() {
+        return ipAddress;
     }
 
-    public void setIpAdress(String ipAdress) {
-        this.ipAdress = ipAdress;
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     public int getxPos() {

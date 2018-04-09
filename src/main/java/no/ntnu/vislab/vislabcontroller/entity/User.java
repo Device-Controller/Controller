@@ -20,10 +20,13 @@ public class User implements Serializable {
     @GeneratedValue
     Integer userID;
 
-    @OneToMany(mappedBy = "user")
-    List<UDGJunction> udgJunctions;
+    /*@OneToMany(mappedBy = "user")
+    List<UDGJunction> udgJunctions;*/
 
-    @ManyToOne(optional = true)
+    @ManyToMany(mappedBy = "user")
+    List<DeviceGroup> deviceGroups;
+
+    @ManyToOne
     Role role;
 
     String username;
@@ -34,11 +37,13 @@ public class User implements Serializable {
     String email;
 
     public User() {
-        this.udgJunctions = new ArrayList<>();
+        //this.udgJunctions = new ArrayList<>();
+        this.deviceGroups = new ArrayList<>();
     }
 
     public User(Role role, String username, String password, String email) {
-        this.udgJunctions = new ArrayList<>();
+        //this.udgJunctions = new ArrayList<>();
+        this.deviceGroups = new ArrayList<>();
         this.role = role;
         this.username = username;
         this.password = password;
@@ -49,12 +54,20 @@ public class User implements Serializable {
         return userID;
     }
 
-    public List<UDGJunction> getUdgJunctions() {
+    /*public List<UDGJunction> getUdgJunctions() {
         return udgJunctions;
     }
 
     public void setUdgJunctions(UDGJunction udgJunctions) {
         this.udgJunctions.add(udgJunctions);
+    }*/
+
+    public List<DeviceGroup> getDeviceGroups() {
+        return deviceGroups;
+    }
+
+    public void setDeviceGroups(List<DeviceGroup> deviceGroups) {
+        this.deviceGroups = deviceGroups;
     }
 
     public Role getRole() {

@@ -1,9 +1,6 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,34 +19,57 @@ public class DeviceGroup implements Serializable {
     @GeneratedValue
     Integer deviceGroupID;
 
-    @OneToMany(mappedBy = "deviceGroup")
-    List<UDGJunction> udgJunctions;
+    /*@OneToMany(mappedBy = "deviceGroup")
+    List<UDGJunction> udgJunctions;*/
 
-    @OneToMany(mappedBy = "deviceGroup")
-    List<DGDJunction> dgdJunctions;
+    @ManyToMany(mappedBy = "deviceGroups")
+    List<User> users;
+
+    /*@OneToMany(mappedBy = "deviceGroup")
+    List<DGDJunction> dgdJunctions;*/
+
+    @ManyToMany(mappedBy = "deviceGroups")
+    List<Device> devices;
 
     public DeviceGroup() {
-        this.udgJunctions = new ArrayList<>();
-        this.dgdJunctions = new ArrayList<>();
+        //this.udgJunctions = new ArrayList<>();
+        //this.dgdJunctions = new ArrayList<>();
+        this.users = new ArrayList<>();
+        this.devices = new ArrayList<>();
     }
 
     public Integer getDeviceGroupID() {
         return deviceGroupID;
     }
 
-    public List<UDGJunction> getUdgJunctions() {
+    /*public List<UDGJunction> getUdgJunctions() {
         return udgJunctions;
     }
 
     public void setUdgJunctions(UDGJunction udgJunctions) {
         this.udgJunctions.add(udgJunctions);
+    }*/
+
+    public List<User> getUsers() {
+        return users;
     }
 
-    public List<DGDJunction> getDgdJunctions() {
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+/*public List<DGDJunction> getDgdJunctions() {
         return dgdJunctions;
     }
 
     public void setDgdJunctions(DGDJunction dgdJunctions) {
         this.dgdJunctions.add(dgdJunctions);
+    }*/
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
     }
 }
