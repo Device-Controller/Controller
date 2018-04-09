@@ -1,7 +1,7 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
-import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
-import no.ntnu.vislab.vislabcontroller.DummyBase.DummyDevice;
+import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
+import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

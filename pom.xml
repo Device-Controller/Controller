@@ -7,13 +7,12 @@
     <groupId>org.springframework</groupId>
     <artifactId>VislabController</artifactId>
     <version>0.2.0</version>
-
+    <packaging>jar</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.10.RELEASE</version>
     </parent>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

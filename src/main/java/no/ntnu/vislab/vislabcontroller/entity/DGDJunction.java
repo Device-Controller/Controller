@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.Entity;
+package no.ntnu.vislab.vislabcontroller.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
