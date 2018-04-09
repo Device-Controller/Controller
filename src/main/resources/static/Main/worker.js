@@ -1,32 +1,20 @@
-function getLampStatus() {
-    fetch().then(response => {
-        if(response.ok
-)
-    {
-        return response.text();
-    }
-    throw new Error("Failed");
-}).
-    then(data => {
+let id = -1;
+
+function getPowerState(id) {
+    fetch('MainController/powerState?id=' + id).then(response => {
+        if (response.ok) {
+            console.log(response);
+            return response.text();
+        }
+        throw new Error("Failed");
+    }).then(data => {
         console.log(data);
         self.postMessage(data);
-}).
-    catch(e => console.log(e)
-);
-
-    setTimeout("getLampStatus()", 1000);
+    }).catch(e => console.log(e));
+    setTimeOut("getPowerState()", 1000);
 }
-/*self.onmessage = function (msg) {
-    switch(msg.data.aTopic) {
-        case 'do_sendWorkerMsg':
-            getLampStatus(msg.data)
-            break;
-        default:
-            throw 'rofl';
-    }
-}*/
-self.addEventListener('message', function (e) {
-    self.postMessage(e.data);
-}, false);
 
-getLampStatus();
+console.log("wtf");
+this.onmessage = function(e) {
+    console.log(e);
+}
