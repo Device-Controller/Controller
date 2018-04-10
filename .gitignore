@@ -8,4 +8,4 @@ nbactions.xml
 /.idea/
 VislabController.iml
 classes/
-src/main/META-INF/MANIFEST.MF
+src/main/resources/META-INF/MANIFEST.MF
