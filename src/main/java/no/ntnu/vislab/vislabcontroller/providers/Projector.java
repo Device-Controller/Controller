@@ -9,10 +9,25 @@ package no.ntnu.vislab.vislabcontroller.providers;
  * Interface for projectors in general.
  * @author Kristoffer
  */
-public interface Projector {
+public interface Projector{
+
     int powerOn();
 
     int powerOff();
+
+    String getMake();
+
+    String getModel();
+
+    String getDeviceName();
+
+    String getHostAddress();
+
+    int getPortNumber();
+
+    boolean setIpAddress(String ip);
+
+    void setPort(int port);
 
     int mute();
 
@@ -20,15 +35,5 @@ public interface Projector {
 
     int getPowerState();
 
-    int getLampStatus(int lampNum);
-
-    String getProjectorName();
-
-    String getId();
-
-    String getHostAddress();
-
-    int getPortNumber();
-
-
+    int getLampStatus();
 }
