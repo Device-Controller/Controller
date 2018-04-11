@@ -117,4 +117,20 @@ setInterval(window.setInterval(function () {
 }
 , 1000), 5000);
 
+function createGroup() {
+    let group = [];
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            group.push(projectors[j]);
 
+        }
+    }
+    fetch('...' + group).then(response => {
+        if(response.ok) {
+            return 'rolilol';
+        }
+        throw new Error("Failed to send message " + group);
+    });
+    
+    console.log(group);
+}
