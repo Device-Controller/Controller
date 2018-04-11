@@ -81,7 +81,7 @@
                     </execution>
                     <execution>
                         <id>test-compile</id>
-                        <phase>test-compile</phase>
+                        <phase>test</phase>
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
