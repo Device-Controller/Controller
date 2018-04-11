@@ -74,7 +74,7 @@
                             <includes>
                                 <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
                                 <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
-                                <!--include dependencies required for LogMeCustomAnnotationProcessor -->
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.AnnotationProccesor</include>
                             </includes>
                         </configuration>
                     </execution>
