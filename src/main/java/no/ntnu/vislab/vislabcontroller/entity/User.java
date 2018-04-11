@@ -1,5 +1,9 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,10 +19,14 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
+@Table(name = "user")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
+        allowGetters = true)
 public class User implements Serializable {
     @Id
-    @GeneratedValue
-    Integer userID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long userID;
 
     /*@OneToMany(mappedBy = "user")
     List<UDGJunction> udgJunctions;*/
@@ -29,9 +37,11 @@ public class User implements Serializable {
     @ManyToOne
     Role role;
 
+    @NotBlank
     String username;
 
     @XmlTransient
+    @NotBlank
     String password;
 
     String email;
@@ -50,7 +60,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Integer getUserID() {
+    public long getUserID() {
         return userID;
     }
 

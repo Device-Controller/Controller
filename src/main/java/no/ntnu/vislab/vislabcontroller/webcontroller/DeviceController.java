@@ -3,26 +3,71 @@ package no.ntnu.vislab.vislabcontroller.webcontroller;
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
 import no.ntnu.vislab.vislabcontroller.entity.User;
+import no.ntnu.vislab.vislabcontroller.exception.ResourceNotFoundException;
 import no.ntnu.vislab.vislabcontroller.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/test")
 public class DeviceController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/testDummy")
+    @PostMapping("/user")
+    public User addNewUser(@Valid @RequestBody User user) {
+        return userRepository.save(user);
+    }
+
+    @GetMapping("/user")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/user/{id}")
+    public User getUserById(@PathVariable(value = "id") Long userID) {
+        User user = userRepository.findOne(userID);
+        if(user == null) {
+            throw new ResourceNotFoundException("User", "id", userID);
+        }
+        return user;
+    }
+
+    @PutMapping("/user/{id}")
+    public User updateUser(@PathVariable(value = "id") Long userID,
+                           @Valid @RequestBody User userDetails) {
+        User user = userRepository.findOne(userID);
+        if(user == null) {
+            throw new ResourceNotFoundException("User", "id", userID);
+        }
+
+        user.setUsername(userDetails.getUsername());
+        user.setPassword(userDetails.getPassword());
+        user.setEmail(userDetails.getEmail());
+        user.setDeviceGroups(userDetails.getDeviceGroups());
+        user.setRole(userDetails.getRole());
+
+        User updatedUser = userRepository.save(user);
+        return updatedUser;
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long userID) {
+        User user = userRepository.findOne(userID);
+        if(user == null) {
+            throw new ResourceNotFoundException("User", "id", userID);
+        }
+        userRepository.delete(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+    /*@RequestMapping("/testDummy")
     public ResponseEntity<String> dummy() {
         long time = System.currentTimeMillis();
         String response = "blue";
@@ -37,23 +82,5 @@ public class DeviceController {
     @RequestMapping("/db")
     public ResponseEntity<List<DummyDevice>> dummyDevices(){
         return new ResponseEntity<>(new DummyBase().getList(), HttpStatus.OK);
-    }
-
-    @GetMapping(path="/add")
-    public @ResponseBody String addNewUser (@RequestParam String name
-                                            , @RequestParam String password
-                                            , @RequestParam String email) {
-        User n = new User();
-        n.setUsername(name);
-        n.setPassword(password);
-        n.setEmail(email);
-        userRepository.save(n);
-
-        return "saved";
-    }
-
-    @GetMapping(path="/all")
-    public @ResponseBody Iterable<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+    }*/
 }
