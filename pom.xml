@@ -69,6 +69,7 @@
                 <executions>
                     <execution>
                         <id>default-compile</id>
+                        <phase>post-clean</phase>
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
