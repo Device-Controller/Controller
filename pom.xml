@@ -80,8 +80,8 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>test-compile</id>
-                        <phase>test</phase>
+                        <id>default-test-compile</id>
+                        <phase>test-compile</phase>
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
