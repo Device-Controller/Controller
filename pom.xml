@@ -73,6 +73,7 @@
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
                                 <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
                                 <!--include dependencies required for LogMeCustomAnnotationProcessor -->
                             </includes>
                         </configuration>
