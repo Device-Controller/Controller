@@ -90,10 +90,10 @@ function getPowerState(id) {
                         powerIcon(id - 1, "red");
                         break;
                     case 2:
-                        powerIcon(id - 1, "#ccff33");
+                        powerIcon(id - 1, "#66ff00");
                         break;
                     case 3:
-                        powerIcon(id - 1, "#66ff00");
+                        powerIcon(id - 1, "orange");
                         break;
                     case 4:
                         powerIcon(id - 1, "yellow");
