@@ -79,13 +79,6 @@
                             </includes>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>compile-project</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
                 </executions>
             </plugin>
         </plugins>
