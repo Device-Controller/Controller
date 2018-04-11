@@ -58,6 +58,41 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <compilerArgument>-proc:none</compilerArgument>
+                            <includes>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.AnnotationProccesor</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-test-compile</id>
+                        <phase>test-compile</phase>
+                        <configuration>
+                            <compilerArgument>-proc:none</compilerArgument>
+                            <includes>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.AnnotationProccesor</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -23,11 +23,11 @@ public class ProjectorFactory {
 
     public Projector getProjector(String make, String model){
         Projector projector = null;
+        loader.reload();
         try{
             Iterator<Projector> projectors = loader.iterator();
             while(projector == null && projectors.hasNext()){
-                Object obj = projectors.next();
-                Projector tempProjector = (Projector) obj;
+                Projector tempProjector = projectors.next();
                 if(tempProjector.getMake().toLowerCase().equals(make.toLowerCase())
                         && tempProjector.getModel().toLowerCase().equals(model.toLowerCase())){
                     projector = tempProjector;
