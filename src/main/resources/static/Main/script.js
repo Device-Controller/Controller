@@ -15,15 +15,12 @@ function startUp() {
             response.json().then(e => {
                 projectors.push.apply(projectors, e);
                 addListElements();
-                raveParty();
+                updateState();
                 //this.worker.postMessage("e");
             });
         }
     });
 }
-
-
-console.log(projectors);
 
 function powerOn() {
     for (let j = 0; j < projectors.length; j++) {
@@ -63,7 +60,6 @@ function powerIcon(index, color) {
 //    document.getElementById('pro1').style.backgroundColor = e.data;
 //}, false);
 function getPowerState(id) {
-    console.log(id);
     fetch('MainController/powerState?id=' + id).then(response => {
         if (response.ok) {
             response.json().then(p => {
@@ -103,11 +99,11 @@ function getPowerState(id) {
 // }
 // , 1000), 5000);
 
-function raveParty() {
+function updateState() {
     for (let n = 0; n < projectors.length; n++) {
         getPowerState(n + 1);
     }
-    timeout = setTimeout(raveParty,2000);
+    timeout = setTimeout(updateState,2000);
 }
 
 function createGroup() {
