@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.DummyBase;
+package no.ntnu.vislab.vislabcontroller.dummybase;
 
 public class DummyDevice {
     private int x;

@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller;
+package no.ntnu.vislab.vislabcontroller.providers;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.DummyBase;
+package no.ntnu.vislab.vislabcontroller.dummybase;
 
 import java.util.ArrayList;
 

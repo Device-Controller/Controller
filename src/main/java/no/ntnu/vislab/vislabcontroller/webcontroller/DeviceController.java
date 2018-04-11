@@ -1,13 +1,14 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
-import no.ntnu.vislab.vislabcontroller.DummyBase.DummyBase;
-import no.ntnu.vislab.vislabcontroller.DummyBase.DummyDevice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+
+import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
+import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
 
 @Controller
 @RequestMapping("/test")
