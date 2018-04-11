@@ -17,6 +17,7 @@ import java.util.HashMap;
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
 import no.ntnu.vislab.vislabcontroller.entity.Device;
+import no.ntnu.vislab.vislabcontroller.factories.ProjectorFactory;
 import no.ntnu.vislab.vislabcontroller.providers.Projector;
 
 /**
@@ -61,7 +62,7 @@ public class ProjectorController {
     @RequestMapping("/powerState")
     public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
         Projector projector = getProjector(id);
-        return new ResponseEntity<>(1, HttpStatus.OK);
+        return new ResponseEntity<>(projector.getPowerState(), HttpStatus.OK);
     }
 
     private synchronized Projector getProjector(int id) throws IOException {
@@ -71,8 +72,13 @@ public class ProjectorController {
         Projector projector;
         if (!activeProjectors.keySet().contains(id)) {
             DummyDevice device = new DummyBase().getSingle(id);
-            projector = null;
-            activeProjectors.put(device.getId(), projector);
+            ProjectorFactory pf = ProjectorFactory.getInstance();
+            projector = pf.getProjector(device.getMake(), device.getModel());
+            if(projector != null) {
+                projector.setIpAddress(device.getIp());
+                projector.setPort(device.getPort());
+                activeProjectors.put(device.getId(), projector);
+            }
         } else {
             projector = activeProjectors.get(id);
         }
