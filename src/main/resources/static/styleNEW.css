@@ -36,17 +36,6 @@ canvas {
     display: none;
 }
 
-/*@media only screen and (min-width: 600px) {
-     TABLET 
-    .side-c {
-        width: 25%;
-    }
-
-    .middle-c {
-        width: 37%;
-        text-align: center;
-    }
-}*/
 
 @media only screen and (min-width: 768px) {
     /* DESKTOP */
@@ -66,18 +55,6 @@ canvas {
 
 }
 
-/*@media only screen and (min-width: 768px) {
-     DESKTOP 
-    .side-c {
-        width: 25%;
-    }
-
-    .middle-c {
-        display: block;
-        width: 37%;
-        text-align: center;
-    }
-}*/
 
 .row:after {
     content: "";
@@ -199,10 +176,6 @@ input[type=checkbox]:checked + .check-label {
     .group-button {
         width: 100%;
         margin: 0;
-    }
-    .generic-buttons {
-
-
     }
 }
 /* INTERACTIVE APPLICATION MIDDLE IMAGE THINGY ------------------ */
