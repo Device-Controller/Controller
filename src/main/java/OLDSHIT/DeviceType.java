@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.entity;
+package OLDSHIT;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

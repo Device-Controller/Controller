@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.entity;
+package OLDSHIT;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import no.ntnu.vislab.vislabcontroller.entity.User;
 
 /**
  * @author ThomasSTodal

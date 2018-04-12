@@ -1,107 +1,37 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * @author ThomasSTodal
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name = "user")
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
-public class User implements Serializable {
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long userID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    /*@OneToMany(mappedBy = "user")
-    List<UDGJunction> udgJunctions;*/
+    private String name;
 
-    @ManyToMany(mappedBy = "user")
-    List<DeviceGroup> deviceGroups;
+    private String email;
 
-    @ManyToOne
-    Role role;
-
-    @NotBlank
-    String username;
-
-    @XmlTransient
-    @NotBlank
-    String password;
-
-    String email;
-
-    public User() {
-        //this.udgJunctions = new ArrayList<>();
-        this.deviceGroups = new ArrayList<>();
+    public Integer getId() {
+        return id;
     }
 
-    public User(Role role, String username, String password, String email) {
-        //this.udgJunctions = new ArrayList<>();
-        this.deviceGroups = new ArrayList<>();
-        this.role = role;
-        this.username = username;
-        this.password = password;
-        this.email = email;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public long getUserID() {
-        return userID;
+    public String getName() {
+        return name;
     }
 
-    /*public List<UDGJunction> getUdgJunctions() {
-        return udgJunctions;
-    }
-
-    public void setUdgJunctions(UDGJunction udgJunctions) {
-        this.udgJunctions.add(udgJunctions);
-    }*/
-
-    public List<DeviceGroup> getDeviceGroups() {
-        return deviceGroups;
-    }
-
-    public void setDeviceGroups(List<DeviceGroup> deviceGroups) {
-        this.deviceGroups = deviceGroups;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

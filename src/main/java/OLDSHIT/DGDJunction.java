@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.entity;
+package OLDSHIT;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,35 +15,27 @@ import java.io.Serializable;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class UDGJunction implements Serializable {
+public class DGDJunction implements Serializable {
     @Id
     @GeneratedValue
-    Integer udgJunctionID;
-
-    @ManyToOne(optional = false)
-    User user;
+    Integer dgdJunctionID;
 
     @ManyToOne(optional = false)
     DeviceGroup deviceGroup;
 
-    public UDGJunction() {
+    @ManyToOne(optional = false)
+    Device device;
+
+    public DGDJunction() {
     }
 
-    public UDGJunction(User user, DeviceGroup deviceGroup) {
-        this.user = user;
+    public DGDJunction(DeviceGroup deviceGroup, Device device) {
         this.deviceGroup = deviceGroup;
+        this.device = device;
     }
 
-    public Integer getUdgJunctionID() {
-        return udgJunctionID;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public Integer getDgdJunctionID() {
+        return dgdJunctionID;
     }
 
     public DeviceGroup getDeviceGroup() {
@@ -52,5 +44,13 @@ public class UDGJunction implements Serializable {
 
     public void setDeviceGroup(DeviceGroup deviceGroup) {
         this.deviceGroup = deviceGroup;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
     }
 }

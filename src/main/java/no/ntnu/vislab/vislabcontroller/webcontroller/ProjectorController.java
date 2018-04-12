@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
-import no.ntnu.vislab.vislabcontroller.entity.Device;
+import OLDSHIT.Device;
 import no.ntnu.vislab.vislabcontroller.factories.ProjectorFactory;
 import no.ntnu.vislab.vislabcontroller.providers.Projector;
 
