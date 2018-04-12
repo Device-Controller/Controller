@@ -11,5 +11,5 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @Retention(SOURCE)
 @Documented
 @Target(TYPE)
-public @interface ProjectorSPI {
+public @interface DeviceSPI {
 }
