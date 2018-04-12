@@ -5,41 +5,22 @@
  */
 
 let projectors = [];
-var checkedList = document.getElementsByClassName('pro-checkbox');
-fetch('test/db').then(response => {
-    if (response.ok) {
-        response.json().then(e => {
-            projectors.push.apply(projectors, e);
-            //this.worker.postMessage("e");
-        });
-    }
-});
+var checkedList = [];
+var timeout;
+startUp();
 
-class doStuff {
-    constructor() {
-        //this.status = document.querySelectorAll("li");
-        this.status = document.getElementById("pro1");
-        var i;
-        //for (i = 0; i < this.status.length; i++) {
-        this.status.onclick = event => {
-            fetch('controller/lampStatus?lampNumber=1')
-                    .then(response => {
-                        if (response.ok)
-                            return response.text();
-                        {
-                        }
-
-                        throw new Error("Failed");
-                    }).then(data => {
-                console.log(data);
-            })
-                    .catch(e => console.log("Error: " + e.message));
-        };
-        //}
-    }
+function startUp() {
+    fetch('test/db').then(response => {
+        if (response.ok) {
+            response.json().then(e => {
+                projectors.push.apply(projectors, e);
+                addListElements();
+                updateState();
+                //this.worker.postMessage("e");
+            });
+        }
+    });
 }
-//let script = new doStuff();
-
 
 function powerOn() {
     for (let j = 0; j < projectors.length; j++) {
@@ -88,12 +69,13 @@ function getPowerState(id) {
                         break;
                     case 1:
                         powerIcon(id - 1, "red");
+                        console.log("REDDDDDDDDDD");
                         break;
                     case 2:
-                        powerIcon(id - 1, "#ccff33");
+                        powerIcon(id - 1, "#66ff00");
                         break;
                     case 3:
-                        powerIcon(id - 1, "#66ff00");
+                        powerIcon(id - 1, "orange");
                         break;
                     case 4:
                         powerIcon(id - 1, "yellow");
@@ -110,11 +92,53 @@ function getPowerState(id) {
     });
 }
 
-setInterval(window.setInterval(function () {
+// setInterval(window.setInterval(function () {
+//     for (let n = 0; n < projectors.length; n++) {
+//         getPowerState(n + 1);
+//     }
+// }
+// , 1000), 5000);
+
+function updateState() {
     for (let n = 0; n < projectors.length; n++) {
         getPowerState(n + 1);
     }
+    timeout = setTimeout(updateState,2000);
 }
-, 1000), 5000);
 
+function createGroup() {
+    let group = [];
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            group.push(projectors[j]);
 
+        }
+    }
+    fetch('...' + group).then(response => {
+        if(response.ok) {
+            return 'rolilol';
+        }
+        throw new Error("Failed to send message " + group);
+    });
+    
+    console.log(group);
+}
+
+function addListElements() {
+    let ul = document.getElementById("selected-list");
+
+    for (let counter = 1; counter < projectors.length+1; counter++) {
+        var li = document.createElement('li');
+
+        li.innerHTML = "<li class='list-item' onclick='whatIsThis(this)'>"
+            +"<input id='pro"+counter+"'"+" class='pro-checkbox' type='checkbox'>"
+            +"<label for='pro"+counter+"'"+" class='check-label'></label>"
+            +"<label for='pro"+counter+"'"+" class='text-label'>Projector "+counter+"<span class='state-icon' id='status'</label>"
+            +"</li>";
+        ul.appendChild(li);
+    }
+    document.getElementsByClassName('pro-checkbox');
+}
+function whatIsThis(unknownEntity) {
+    console.log(unknownEntity);
+}

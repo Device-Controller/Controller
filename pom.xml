@@ -69,20 +69,27 @@
                 <executions>
                     <execution>
                         <id>default-compile</id>
+                        <phase>compile</phase>
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
                                 <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
-                                <!--include dependencies required for LogMeCustomAnnotationProcessor -->
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.AnnotationProccesor</include>
                             </includes>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>compile-project</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
+                        <id>default-test-compile</id>
+                        <phase>test-compile</phase>
+                        <configuration>
+                            <compilerArgument>-proc:none</compilerArgument>
+                            <includes>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.AnnotationProccesor</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
+                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
+                            </includes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
