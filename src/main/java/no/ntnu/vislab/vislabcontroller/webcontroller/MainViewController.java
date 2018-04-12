@@ -15,9 +15,4 @@ public class MainViewController {
     public String user() {
         return "forward:/User/useradmin.html";
     }
-
-    @RequestMapping("/projector")
-    public String projector() {
-        return "forward:/Projector/projector.html";
-    }
 }
