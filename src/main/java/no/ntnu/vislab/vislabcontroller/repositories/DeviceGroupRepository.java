@@ -1,7 +1,8 @@
-package OLDSHIT;
+package no.ntnu.vislab.vislabcontroller.repositories;
 
-import OLDSHIT.DeviceGroup;
 import org.springframework.data.repository.CrudRepository;
+
+import no.ntnu.vislab.vislabcontroller.entity.DeviceGroup;
 
 public interface DeviceGroupRepository extends CrudRepository<DeviceGroup, Long> {
 }

@@ -20,7 +20,7 @@ public class DeviceController {
     public @ResponseBody
     String addNewUser(@RequestParam String name, @RequestParam String email){
         User u = new User();
-        u.setName(name);
+        u.setUsername(name);
         u.setEmail(email);
         repository.save(u);
         return "Saved";

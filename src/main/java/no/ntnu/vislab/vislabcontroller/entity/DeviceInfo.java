@@ -1,15 +1,17 @@
-package OLDSHIT;
+package no.ntnu.vislab.vislabcontroller.entity;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author ThomasSTodal
@@ -17,48 +19,50 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class DeviceType implements Serializable {
+public class DeviceInfo implements Serializable {
     @Id
     @GeneratedValue
-    Integer deviceTypeID;
+    private int id;
 
-    @OneToMany(mappedBy = "deviceType")
-    List<Device> devices;
+    @OneToMany(mappedBy = "deviceInfo")
+    private List<Device> devices;
 
-    String deviceType;
+    @ManyToOne
+    private DeviceType deviceType;
 
-    String manufacturer;
+    private String manufacturer;
 
-    String model;
+    private String model;
 
-    public DeviceType() {
+    public DeviceInfo() {
         this.devices = new ArrayList<>();
     }
 
-    public DeviceType(String deviceType, String manufacturer, String model) {
+    public DeviceInfo(DeviceType deviceType, String manufacturer, String model) {
         this.devices = new ArrayList<>();
         this.deviceType = deviceType;
         this.manufacturer = manufacturer;
         this.model = model;
     }
 
-    public Integer getDeviceTypeID() {
-        return deviceTypeID;
+    public int getId() {
+        return id;
     }
 
     public List<Device> getDevices() {
+
         return devices;
     }
 
-    public void setDevices(Device devices) {
-        this.devices.add(devices);
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
     }
 
-    public String getDeviceType() {
+    public DeviceType getDeviceType() {
         return deviceType;
     }
 
-    public void setDeviceType(String deviceType) {
+    public void setDeviceType(DeviceType deviceType) {
         this.deviceType = deviceType;
     }
 

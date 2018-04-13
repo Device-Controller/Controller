@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
 import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
-import OLDSHIT.Device;
+import no.ntnu.vislab.vislabcontroller.entity.Device;
 import no.ntnu.vislab.vislabcontroller.factories.ProjectorFactory;
 import no.ntnu.vislab.vislabcontroller.providers.Projector;
 
@@ -32,7 +32,7 @@ public class ProjectorController {
     //private DeviceRepository deviceRepository;
 
     //@Autowired
-    //private DeviceTypeRepository deviceTypeRepository;
+    //private DeviceInfoRepository deviceTypeRepository;
 
     private static HashMap<Integer, Projector> activeProjectors;
 
