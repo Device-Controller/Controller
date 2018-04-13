@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 @Table(name="devicegroup")
 public class DeviceGroup implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -45,15 +46,25 @@ public class DeviceGroup implements Serializable {
         return users;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void addUser(User user) {
+        this.users.add(user);
+        user.getDeviceGroups().add(this);
+    }
+    public void removeUser(User user) {
+        this.users.remove(user);
+        user.getDeviceGroups().remove(this);
     }
 
     public List<Device> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
+    public void addDevice(Device device) {
+        this.devices.add(device);
+        device.getDeviceGroups().add(this);
+    }
+    public void removeDevice(Device device){
+        this.devices.remove(device);
+        device.getDeviceGroups().remove(this);
     }
 }

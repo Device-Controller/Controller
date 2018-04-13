@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -12,8 +13,8 @@ import javax.persistence.Id;
 @Entity
 public class Role implements Serializable {
     @Id
-    @GeneratedValue
-    private int roleID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     private String roleName;
 
@@ -24,8 +25,8 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
-    public int getRoleID() {
-        return roleID;
+    public int getId() {
+        return id;
     }
 
     public String getRoleName() {

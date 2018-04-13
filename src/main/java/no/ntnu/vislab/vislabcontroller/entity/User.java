@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
 
@@ -32,7 +32,7 @@ public class User {
 
     private String email;
 
-    public User(Role role, String username, String password, String email) {
+    public User(String username, String password, String email, Role role) {
         this.role = role;
         this.username = username;
         this.password = password;
@@ -50,10 +50,6 @@ public class User {
 
     public List<DeviceGroup> getDeviceGroups() {
         return deviceGroups;
-    }
-
-    public void setDeviceGroups(List<DeviceGroup> deviceGroups) {
-        this.deviceGroups = deviceGroups;
     }
 
     public Role getRole() {

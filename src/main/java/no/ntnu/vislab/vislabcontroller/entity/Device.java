@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -16,7 +17,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Device implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /*@OneToMany(mappedBy = "device")
@@ -42,7 +43,7 @@ public class Device implements Serializable {
         this.deviceGroups = new ArrayList<>();
     }
 
-    public Device(DeviceInfo deviceInfo, String ipAddress, int port, int xPos, int yPos, int rotation) {
+    public Device(String ipAddress, int port, int xPos, int yPos, int rotation, DeviceInfo deviceInfo) {
         this.deviceGroups = new ArrayList<>();
         this.deviceInfo = deviceInfo;
         this.ipAddress = ipAddress;
@@ -59,11 +60,6 @@ public class Device implements Serializable {
     public List<DeviceGroup> getDeviceGroups() {
         return deviceGroups;
     }
-
-    public void setDeviceGroups(List<DeviceGroup> deviceGroups) {
-        this.deviceGroups = deviceGroups;
-    }
-
     public DeviceInfo getDeviceInfo() {
         return deviceInfo;
     }
