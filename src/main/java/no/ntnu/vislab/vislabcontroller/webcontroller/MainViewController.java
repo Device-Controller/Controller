@@ -2,6 +2,7 @@ package no.ntnu.vislab.vislabcontroller.webcontroller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainViewController {
@@ -13,5 +14,10 @@ public class MainViewController {
     @RequestMapping("/user")
     public String user() {
         return "forward:/User/useradmin.html";
+    }
+
+    @RequestMapping("/projector")
+    public String projector(@RequestParam("id") int id){
+        return "";
     }
 }
