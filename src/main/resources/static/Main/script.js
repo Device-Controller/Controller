@@ -8,6 +8,7 @@ let projectors = [];
 var checkedList = document.getElementsByClassName('pro-checkbox');
 var timeout;
 startUp();
+
 function startUp() {
     fetch('test/db').then(response => {
         if (response.ok) {
@@ -15,27 +16,46 @@ function startUp() {
                 projectors.push.apply(projectors, e);
                 addListElements();
                 updateState();
-                //this.worker.postMessage("e");
             });
         }
     });
 }
 
 function powerOn() {
-    console.log(checkedList);
+    console.log("CLICKED");
     for (let j = 0; j < projectors.length; j++) {
-        console.log(checkedList[j]);
         if (checkedList[j].checked) {
             let pID = projectors[j].id;
-            console.log(pID);
-            fetch('MainController/powerOn?id=' + pID).then(response => {
+            fetch('MainController/powerState?id=' + pID).then(response => {
                 if (response.ok) {
-                    response.text().then(p => console.log(p));
+                    response.json().then(p => {
+                        if (response.ok) {
+                            console.log(p);
+                            if (p == 1) {
+                                fetch('MainController/powerOff?id=' + pID).then(response => {
+                                    if (response.ok) {
+                                        console.log(response);
+                                        response.text().then(p => console.log(p));
+                                    }
+                                });
+                            }
+                            else if (p == 3) {
+                                fetch('MainController/powerOn?id=' + pID).then(response => {
+                                    if (response.ok) {
+                                        console.log(response);
+                                        response.text().then(p => console.log(p));
+                                    }
+                                });
+                            }
+                        }
+
+                    });
                 }
             });
         }
     }
 }
+
 function mute() {
     for (let j = 0; j < projectors.length; j++) {
         if (checkedList[j].checked) {
@@ -51,15 +71,10 @@ function mute() {
 }
 
 function powerIcon(index, color) {
-    let statusIcons = document.getElementsByClassName('state-icon');
-    statusIcons[index].style.backgroundColor = color;
+    let statusIcon = document.getElementById(index);
+    statusIcon.style.backgroundColor = color;
 }
 
-
-//this.worker.addEventListener('message', function (e) {
-//    console.log('MAIN THREAD' + e.data);
-//    document.getElementById('pro1').style.backgroundColor = e.data;
-//}, false);
 function getPowerState(id) {
     fetch('MainController/powerState?id=' + id).then(response => {
         if (response.ok) {
@@ -70,13 +85,12 @@ function getPowerState(id) {
                         break;
                     case 1:
                         powerIcon(id, "red");
-                        console.log("REDDDDDDDDDD");
                         break;
                     case 2:
-                        powerIcon(id, "#66ff00");
+                        powerIcon(id, "orange");
                         break;
                     case 3:
-                        powerIcon(id, "orange");
+                        powerIcon(id, "#66ff00");
                         break;
                     case 4:
                         powerIcon(id, "yellow");
@@ -93,18 +107,11 @@ function getPowerState(id) {
     });
 }
 
-// setInterval(window.setInterval(function () {
-//     for (let n = 0; n < projectors.length; n++) {
-//         getPowerState(n + 1);
-//     }
-// }
-// , 1000), 5000);
-
 function updateState() {
     for (let n = 0; n < projectors.length; n++) {
         getPowerState(projectors[n].id);
     }
-    timeout = setTimeout(updateState,2000);
+    timeout = setTimeout(updateState, 2000);
 }
 
 function createGroup() {
@@ -116,29 +123,30 @@ function createGroup() {
         }
     }
     fetch('...' + group).then(response => {
-        if(response.ok) {
+        if (response.ok) {
             return 'rolilol';
         }
         throw new Error("Failed to send message " + group);
     });
-    
+
     console.log(group);
 }
 
 function addListElements() {
     let ul = document.getElementById("selected-list");
 
-    for (let counter = 1; counter < projectors.length+1; counter++) {
+    for (let counter = 1; counter < projectors.length + 1; counter++) {
         var li = document.createElement('li');
 
         li.innerHTML =
-             "<input id='pro"+counter+"'"+" class='pro-checkbox' type='checkbox'>"
-            +"<label for='pro"+counter+"'"+" class='check-label'></label>"
-            +"<label for='pro"+counter+"'"+" class='text-label'>Projector "+counter+"<span class='state-icon' id='status'</label>";
+            "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
+            + "<label for='pro" + counter + "'" + " class='check-label'></label>"
+            + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "<span class='state-icon' id='"+projectors[counter-1].id+"'</label>";
         ul.appendChild(li);
     }
     document.getElementsByClassName('pro-checkbox');
 }
+
 function whatIsThis(unknownEntity) {
     console.log(checkedList);
     console.log(unknownEntity);
