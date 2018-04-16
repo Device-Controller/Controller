@@ -40,7 +40,7 @@ canvas {
 @media only screen and (min-width: 768px) {
     /* DESKTOP */
     .side-c {
-        width: 30%;
+        width: 40%;
         float: left;
     }
     .right-c {
@@ -100,13 +100,13 @@ select:hover {
     vertical-align: middle;
 }
 .selected-container li {
-    width: 35%;
-    min-width: 8em;
+    width: 12em;
     background-color: #ff3300;
     margin-bottom: 1%;
     display: block;
     margin-left: 29%;
     border: solid black 1px;
+    border-radius: 15px;
 }
 
 
@@ -165,8 +165,6 @@ input[type=checkbox]:checked + .check-label {
 
 @media only screen and (min-width: 768px) {
     .selected-container li {
-        width: 35%;
-        min-width: 8em;
         background-color: #ff3300;
         margin-bottom: 1%;
         display: inline-table;
