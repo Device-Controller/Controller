@@ -69,9 +69,9 @@ public class ProjectorController {
             activeProjectors = new HashMap<>();
         }
         Projector projector;
-        if (!activeProjectors.keySet().contains(4)) {
-            if (deviceRepository.findById(4).isPresent()) {
-                Device device = deviceRepository.findById(4).get();
+        if (!activeProjectors.keySet().contains(id)) {
+            if (deviceRepository.findById(id).isPresent()) {
+                Device device = deviceRepository.findById(id).get();
                 ProjectorFactory pf = ProjectorFactory.getInstance();
                 projector = pf.getProjector(device.getDeviceInfo().getManufacturer(), device.getDeviceInfo().getModel());
 
@@ -84,7 +84,7 @@ public class ProjectorController {
                 projector = null;
             }
         } else {
-            projector = activeProjectors.get(4);
+            projector = activeProjectors.get(id);
         }
         return projector;
     }
