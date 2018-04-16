@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainViewController {
-
     @RequestMapping("/")
     public String index() {
         return "forward:/Main/main.html";
@@ -14,10 +13,5 @@ public class MainViewController {
     @RequestMapping("/user")
     public String user() {
         return "forward:/User/useradmin.html";
-    }
-
-    @RequestMapping("/projector")
-    public String projector() {
-        return "forward:/Projector/projector.html";
     }
 }
