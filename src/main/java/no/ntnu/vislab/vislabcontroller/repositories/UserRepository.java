@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import no.ntnu.vislab.vislabcontroller.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 }

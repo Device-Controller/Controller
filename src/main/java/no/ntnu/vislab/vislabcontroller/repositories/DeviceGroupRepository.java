@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import no.ntnu.vislab.vislabcontroller.entity.DeviceGroup;
 
-public interface DeviceGroupRepository extends JpaRepository<DeviceGroup, Long> {
+public interface DeviceGroupRepository extends JpaRepository<DeviceGroup, Integer> {
 }

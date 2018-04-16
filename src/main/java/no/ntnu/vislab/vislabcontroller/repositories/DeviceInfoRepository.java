@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import no.ntnu.vislab.vislabcontroller.entity.DeviceInfo;
 
-public interface DeviceInfoRepository extends JpaRepository<DeviceInfo, Long> {
+public interface DeviceInfoRepository extends JpaRepository<DeviceInfo, Integer> {
 }

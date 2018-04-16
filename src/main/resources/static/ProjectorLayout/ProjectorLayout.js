@@ -13,9 +13,9 @@ fetch('test/db').then(response => {
             list.push.apply(list, e);
 
             list.forEach(p => {
-                let x = p.x;
-                let y = p.y;
-                let rot = p.rotDeg;
+                let x = p.xPos;
+                let y = p.yPos;
+                let rot = p.rotation;
                 drawProjector(x, y, rot);
             });
         });
@@ -48,7 +48,7 @@ canvas.onclick = event => {
     var y = event.offsetY;
     let i;
     for (i = 0; i < list.length; i++) {
-        if (isWithin(x, y, list[i].x, list[i].y)) {
+        if (isWithin(x, y, list[i].xPos, list[i].yPos)) {
             window.location.href = "projector?id=" + list[i].id;
         }
     }
@@ -58,7 +58,7 @@ canvas.onclick = event => {
 function isWithinAny(x, y) {
     let changed = false;
     list.forEach(p => {
-        if (isWithin(x, y, p.x, p.y)) {
+        if (isWithin(x, y, p.xPos, p.yPos)) {
             changed = true;
         }
     });

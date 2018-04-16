@@ -1,15 +1,12 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,9 +22,6 @@ public class DeviceInfo implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @OneToMany(mappedBy = "deviceInfo")
-    private List<Device> devices;
-
     @ManyToOne
     private DeviceType deviceType;
 
@@ -36,11 +30,10 @@ public class DeviceInfo implements Serializable {
     private String model;
 
     public DeviceInfo() {
-        this.devices = new ArrayList<>();
+
     }
 
     public DeviceInfo(String manufacturer, String model, DeviceType deviceType) {
-        this.devices = new ArrayList<>();
         this.deviceType = deviceType;
         this.manufacturer = manufacturer;
         this.model = model;
@@ -50,14 +43,6 @@ public class DeviceInfo implements Serializable {
         return id;
     }
 
-    public List<Device> getDevices() {
-
-        return devices;
-    }
-
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
-    }
 
     public DeviceType getDeviceType() {
         return deviceType;

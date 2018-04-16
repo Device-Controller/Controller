@@ -1,5 +1,8 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +23,11 @@ public class Device implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    /*@OneToMany(mappedBy = "device")
-    List<DGDJunction> dgdJunctions;*/
-
+    @JsonManagedReference
     @ManyToMany(mappedBy = "devices")
     private List<DeviceGroup> deviceGroups;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     private DeviceInfo deviceInfo;
 
