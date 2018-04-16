@@ -31,7 +31,7 @@ function powerOn() {
                     response.json().then(p => {
                         if (response.ok) {
                             console.log(p);
-                            if (p == 1) {
+                            if (p === 3) {
                                 fetch('MainController/powerOff?id=' + pID).then(response => {
                                     if (response.ok) {
                                         console.log(response);
@@ -39,7 +39,7 @@ function powerOn() {
                                     }
                                 });
                             }
-                            else if (p == 3) {
+                            else if (p === 1 || p === 0) {
                                 fetch('MainController/powerOn?id=' + pID).then(response => {
                                     if (response.ok) {
                                         console.log(response);
@@ -76,6 +76,7 @@ function powerIcon(index, color) {
 }
 
 function getPowerState(id) {
+
     fetch('MainController/powerState?id=' + id).then(response => {
         if (response.ok) {
             response.json().then(p => {
