@@ -130,11 +130,10 @@ function addListElements() {
     for (let counter = 1; counter < projectors.length+1; counter++) {
         var li = document.createElement('li');
 
-        li.innerHTML = "<li class='list-item' onclick='whatIsThis(this)'>"
-            +"<input id='pro"+counter+"'"+" class='pro-checkbox' type='checkbox'>"
+        li.innerHTML =
+             "<input id='pro"+counter+"'"+" class='pro-checkbox' type='checkbox'>"
             +"<label for='pro"+counter+"'"+" class='check-label'></label>"
-            +"<label for='pro"+counter+"'"+" class='text-label'>Projector "+counter+"<span class='state-icon' id='status'</label>"
-            +"</li>";
+            +"<label for='pro"+counter+"'"+" class='text-label'>Projector "+counter+"<span class='state-icon' id='status'</label>";
         ul.appendChild(li);
     }
     document.getElementsByClassName('pro-checkbox');
