@@ -102,7 +102,7 @@ function getPowerState(id) {
 
 function updateState() {
     for (let n = 0; n < projectors.length; n++) {
-        getPowerState(n + 1);
+        getPowerState(projectors[n].id);
     }
     timeout = setTimeout(updateState,2000);
 }
