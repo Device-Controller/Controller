@@ -42,6 +42,11 @@ public class ProjectorController extends MainController {
         Projector projector = getProjector(id);
         return new ResponseEntity<>(projector.powerOn(), HttpStatus.OK);
     }
+    @RequestMapping("/powerOff")
+    public ResponseEntity<Integer> powerOff(@RequestParam(value = "id") int id) throws IOException {
+        Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.powerOff(), HttpStatus.OK);
+    }
 
     @RequestMapping("/mute")
     public ResponseEntity<Integer> muteImage(@RequestParam(value = "id") int id) throws IOException {
