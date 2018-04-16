@@ -85,7 +85,7 @@ public class ProjectorController {
                 projector = null;
             }
         } else {
-            projector = activeProjectors.get(id);
+            projector = activeProjectors.get(4);
         }
         return projector;
     }

@@ -100,12 +100,12 @@ function getPowerState(id) {
 // }
 // , 1000), 5000);
 
-// function updateState() {
-//     for (let n = 0; n < projectors.length; n++) {
-//         getPowerState(n + 1);
-//     }
-//     timeout = setTimeout(updateState,2000);
-// }
+function updateState() {
+    for (let n = 0; n < projectors.length; n++) {
+        getPowerState(n + 1);
+    }
+    timeout = setTimeout(updateState,2000);
+}
 
 function createGroup() {
     let group = [];
