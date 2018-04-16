@@ -61,8 +61,7 @@ public class ProjectorController {
     @RequestMapping("/powerState")
     public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
         Projector projector = getProjector(id);
-        System.out.println(projector.getPowerState());
-        return new ResponseEntity<>(1, HttpStatus.OK);
+        return new ResponseEntity<>(projector.getPowerState(), HttpStatus.OK);
     }
 
     private synchronized Projector getProjector(int id) throws IOException {
