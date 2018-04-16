@@ -66,26 +66,26 @@ function getPowerState(id) {
             response.json().then(p => {
                 switch (p) {
                     case 0:
-                        powerIcon(id - 1, "#ff6600");
+                        powerIcon(id, "#ff6600");
                         break;
                     case 1:
-                        powerIcon(id - 1, "red");
+                        powerIcon(id, "red");
                         console.log("REDDDDDDDDDD");
                         break;
                     case 2:
-                        powerIcon(id - 1, "#66ff00");
+                        powerIcon(id, "#66ff00");
                         break;
                     case 3:
-                        powerIcon(id - 1, "orange");
+                        powerIcon(id, "orange");
                         break;
                     case 4:
-                        powerIcon(id - 1, "yellow");
+                        powerIcon(id, "yellow");
                         break;
                     case 5:
-                        powerIcon(id - 1, "darkred");
+                        powerIcon(id, "darkred");
                         break;
                     case 6:
-                        powerIcon(id - 1, "black");
+                        powerIcon(id, "black");
                         break;
                 }
             });
