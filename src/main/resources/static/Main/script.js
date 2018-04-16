@@ -5,10 +5,9 @@
  */
 
 let projectors = [];
-var checkedList = [];
+var checkedList = document.getElementsByClassName('pro-checkbox');
 var timeout;
 startUp();
-
 function startUp() {
     fetch('test/db').then(response => {
         if (response.ok) {
@@ -23,7 +22,9 @@ function startUp() {
 }
 
 function powerOn() {
+    console.log(checkedList);
     for (let j = 0; j < projectors.length; j++) {
+        console.log(checkedList[j]);
         if (checkedList[j].checked) {
             let pID = projectors[j].id;
             console.log(pID);
@@ -139,5 +140,6 @@ function addListElements() {
     document.getElementsByClassName('pro-checkbox');
 }
 function whatIsThis(unknownEntity) {
+    console.log(checkedList);
     console.log(unknownEntity);
 }
