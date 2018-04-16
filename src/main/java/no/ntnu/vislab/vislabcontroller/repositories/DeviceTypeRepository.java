@@ -1,7 +1,8 @@
 package no.ntnu.vislab.vislabcontroller.repositories;
 
-import no.ntnu.vislab.vislabcontroller.entity.DeviceType;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DeviceTypeRepository extends CrudRepository<DeviceType, Long> {
+import no.ntnu.vislab.vislabcontroller.entity.DeviceType;
+
+public interface DeviceTypeRepository extends JpaRepository<DeviceType, Integer> {
 }

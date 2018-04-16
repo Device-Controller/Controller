@@ -1,60 +1,55 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  * @author ThomasSTodal
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class User implements Serializable {
+public class User {
     @Id
-    @GeneratedValue
-    Integer userID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    @OneToMany(mappedBy = "user")
-    List<UDGJunction> udgJunctions;
 
-    @ManyToOne(optional = true)
-    Role role;
+    @ManyToMany(mappedBy = "users")
+    private List<DeviceGroup> deviceGroups;
 
-    String username;
+    @ManyToOne
+    private Role role;
 
-    @XmlTransient
-    String password;
+    private String username;
 
-    String email;
+    private String password;
 
-    public User() {
-        this.udgJunctions = new ArrayList<>();
-    }
+    private String email;
 
-    public User(Role role, String username, String password, String email) {
-        this.udgJunctions = new ArrayList<>();
+    public User(String username, String password, String email, Role role) {
         this.role = role;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.deviceGroups = new ArrayList<>();
     }
 
-    public Integer getUserID() {
-        return userID;
+    public User() {
+        this.deviceGroups = new ArrayList<>();
     }
 
-    public List<UDGJunction> getUdgJunctions() {
-        return udgJunctions;
+    public long getId() {
+        return id;
     }
 
-    public void setUdgJunctions(UDGJunction udgJunctions) {
-        this.udgJunctions.add(udgJunctions);
+    public List<DeviceGroup> getDeviceGroups() {
+        return deviceGroups;
     }
 
     public Role getRole() {

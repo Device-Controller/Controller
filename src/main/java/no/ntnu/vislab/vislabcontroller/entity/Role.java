@@ -1,25 +1,22 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
  * @author ThomasSTodal
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Role implements Serializable {
     @Id
-    @GeneratedValue
-    Integer roleID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    String roleName;
+    private String roleName;
 
     public Role() {
     }
@@ -28,8 +25,8 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
-    public Integer getRoleID() {
-        return roleID;
+    public int getId() {
+        return id;
     }
 
     public String getRoleName() {

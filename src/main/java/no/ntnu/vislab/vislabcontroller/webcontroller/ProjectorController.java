@@ -5,6 +5,7 @@
  */
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,20 +20,17 @@ import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
 import no.ntnu.vislab.vislabcontroller.entity.Device;
 import no.ntnu.vislab.vislabcontroller.factories.ProjectorFactory;
 import no.ntnu.vislab.vislabcontroller.providers.Projector;
+import no.ntnu.vislab.vislabcontroller.repositories.DeviceRepository;
 
 /**
- *
  * @author Erik
  */
 @Controller
 @RequestMapping("/MainController")
 public class ProjectorController {
 
-    //@Autowired
-    //private DeviceRepository deviceRepository;
-
-    //@Autowired
-    //private DeviceTypeRepository deviceTypeRepository;
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     private static HashMap<Integer, Projector> activeProjectors;
 
@@ -64,6 +62,7 @@ public class ProjectorController {
         Projector projector = getProjector(id);
         return new ResponseEntity<>(projector.mute(), HttpStatus.OK);
     }
+
     @RequestMapping("/powerState")
     public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
         Projector projector = getProjector(id);
@@ -76,13 +75,18 @@ public class ProjectorController {
         }
         Projector projector;
         if (!activeProjectors.keySet().contains(id)) {
-            DummyDevice device = new DummyBase().getSingle(id);
-            ProjectorFactory pf = ProjectorFactory.getInstance();
-            projector = pf.getProjector(device.getMake(), device.getModel());
-            if(projector != null) {
-                projector.setIpAddress(device.getIp());
-                projector.setPort(device.getPort());
-                activeProjectors.put(device.getId(), projector);
+            if (deviceRepository.findById(id).isPresent()) {
+                Device device = deviceRepository.findById(id).get();
+                ProjectorFactory pf = ProjectorFactory.getInstance();
+                projector = pf.getProjector(device.getDeviceInfo().getManufacturer(), device.getDeviceInfo().getModel());
+
+                if (projector != null) {
+                    projector.setIpAddress(device.getIpAddress());
+                    projector.setPort(device.getPort());
+                    activeProjectors.put(device.getId(), projector);
+                }
+            } else {
+                projector = null;
             }
         } else {
             projector = activeProjectors.get(id);
