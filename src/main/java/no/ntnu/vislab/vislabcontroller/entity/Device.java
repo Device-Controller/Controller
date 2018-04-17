@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
@@ -31,8 +32,10 @@ public class Device implements Serializable {
     @ManyToOne(optional = false)
     private DeviceInfo deviceInfo;
 
+    @NotNull
     private String ipAddress;
 
+    @NotNull
     private int port;
 
     private int xPos;
