@@ -71,7 +71,9 @@ button:hover {
     margin-top: 20%;
     float: left;
 }
-
+#powerimg {
+    filter: invert(100%);
+}
 #buttonpower, #buttonmute {
     display: block;
     width: 100px;
@@ -101,7 +103,7 @@ select:hover {
 }
 .selected-container li {
     width: 12em;
-    background-color: #ff3300;
+    background-color: #ff1801;
     margin-bottom: 1%;
     display: block;
     margin-left: 29%;
@@ -165,7 +167,6 @@ input[type=checkbox]:checked + .check-label {
 
 @media only screen and (min-width: 768px) {
     .selected-container li {
-        background-color: #ff3300;
         margin-bottom: 1%;
         display: inline-table;
         margin-right: 8.5%;
