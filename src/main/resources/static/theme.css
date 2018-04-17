@@ -54,6 +54,8 @@ ul {
 #logo-small {
     float: left;
     margin-right: 5%;
+    margin-left: 2%;
+    margin-top: 0.25%;
 }
 
 nav {
@@ -82,7 +84,7 @@ nav {
 }
 
 .active {
-    background-color: #ff3311;
+    background-color: #ff1801;
     color: white;
 }
 
