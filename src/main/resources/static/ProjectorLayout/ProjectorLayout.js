@@ -24,9 +24,9 @@ fetch('test/db').then(response => {
 
 function drawSelectorCircle(x, y) {
     list.forEach(p=>{
-        if(isWithin(x,y,p.x,p.y)){
+        if(isWithin(x,y,p.xPos,p.yPos)){
             drawSurface.beginPath();
-            drawSurface.arc(p.x, p.y, width / 2, 0, 2 * Math.PI);
+            drawSurface.arc(p.xPos, p.yPos, width / 2, 0, 2 * Math.PI);
             drawSurface.stroke();
         }
     });
