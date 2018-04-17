@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
@@ -26,10 +27,13 @@ public class User {
     @ManyToOne
     private Role role;
 
+    @NotNull
     private String username;
 
+    @NotNull
     private String password;
 
+    @NotNull
     private String email;
 
     public User(String username, String password, String email, Role role) {

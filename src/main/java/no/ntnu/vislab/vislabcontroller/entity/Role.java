@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
@@ -16,6 +17,7 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @NotNull
     private String roleName;
 
     public Role() {
