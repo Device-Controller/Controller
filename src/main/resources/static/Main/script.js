@@ -20,7 +20,7 @@ function startUp() {
         }
     });
 }
-
+/*
 function powerOn() {
     console.log("CLICKED");
     for (let j = 0; j < projectors.length; j++) {
@@ -55,7 +55,33 @@ function powerOn() {
         }
     }
 }
-
+*/
+function powerOn() {
+    console.log("CLICKED POWER ON");
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            let pID = projectors[j].id;
+            fetch('MainController/powerOn?id=' + pID).then(response => {
+                if (response.ok) {
+                    response.json().then(p => console.log(p));
+                }
+            });
+        }
+    }
+}
+function powerOff() {
+    console.log("CLICKED POWER OFF");
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            let pID = projectors[j].id;
+            fetch('MainController/powerOff?id=' + pID).then(response => {
+                if (response.ok) {
+                    response.json().then(p => console.log(p));
+                }
+            });
+        }
+    }
+}
 function mute() {
     for (let j = 0; j < projectors.length; j++) {
         if (checkedList[j].checked) {
