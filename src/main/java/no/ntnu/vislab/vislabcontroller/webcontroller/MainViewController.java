@@ -19,24 +19,7 @@ public class MainViewController extends MainController{
     public String user() {
         return "forward:/User/user.html";
     }
-//
-//    @RequestMapping("/device")
-//    public String projector(@RequestParam("id") int id){
-//        if(deviceRepository.findById(id).isPresent()){
-//            Device d = getProjector(id);
-//            if(d != null) {
-//                return d.getDeviceSpecificPage();
-//            }
-//            no.ntnu.vislab.vislabcontroller.entity.Device device = deviceRepository.findById(id).get();
-//            d = DeviceFactory.getInstance().getDevice(device.getDeviceInfo().getManufacturer(),device.getDeviceInfo().getModel());
-//            if(d != null){
-//                return d.getDeviceSpecificPage();
-//            }
-//            d = DeviceFactory.getInstance().getDevice(device.getDeviceInfo().getManufacturer(),device.getDeviceInfo().getModel());
-//            if (d != null){
-//                return d.getDeviceSpecificPage();
-//            }
-//        }
-//        return "";
-//    }
+
+    @RequestMapping("/admin")
+    public String admin(){return "forward:/Admin/admin.html";}
 }

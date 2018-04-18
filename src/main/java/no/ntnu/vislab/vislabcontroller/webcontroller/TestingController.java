@@ -2,9 +2,12 @@ package no.ntnu.vislab.vislabcontroller.webcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -39,7 +42,7 @@ public class TestingController {
     @RequestMapping("/initial")
     public ResponseEntity<String> initial() {
         String s = "";
-        s += roleRepository.save(new Role("ADMIN",true,true,true,true)).toString();
+        s += roleRepository.save(new Role("ADMIN", true, true, true, true)).toString();
         s += " " + deviceTypeRepository.save(new DeviceType("Projector")).toString();
         s += " " + deviceInfoRepository.save(new DeviceInfo("Barko", "F22", deviceTypeRepository.findAll().iterator().next())).toString();
         return new ResponseEntity<>(s, HttpStatus.OK);
@@ -77,7 +80,7 @@ public class TestingController {
     }
 
     @RequestMapping("/removeall")
-    public ResponseEntity<String> remove(){
+    public ResponseEntity<String> remove() {
         deviceRepository.deleteAll();
         return new ResponseEntity<>("Cleared all devices", HttpStatus.OK);
     }
@@ -107,5 +110,21 @@ public class TestingController {
     public ResponseEntity<List<Device>> getDevices() {
         List<Device> list = deviceRepository.findAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @RequestMapping("/roles")
+    public ResponseEntity<List<Role>> getRoles() {
+        return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/role", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Role> addRole(@RequestBody Role role){
+        roleRepository.save(role);
+        return new ResponseEntity<>(role, HttpStatus.OK);
+    }
+
+    @RequestMapping(value ="/role")
+    public ResponseEntity<Role> getRole(){
+        return new ResponseEntity<>(new Role("User",false,false,true,true), HttpStatus.OK);
     }
 }

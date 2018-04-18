@@ -21,34 +21,25 @@ public class Role implements Serializable {
     private String roleName;
 
     @NotNull
-    private boolean canAddDevice;
+    private boolean addDevice;
 
     @NotNull
-    private boolean canCreateUser;
+    private boolean createUser;
 
     @NotNull
-    private boolean canRemoveDevice;
+    private boolean removeDevice;
 
     @NotNull
-    private boolean canRemoveUser;
+    private boolean removeUser;
     public Role() {
     }
 
-    public Role(@NotNull String roleName) {
+    public Role(@NotNull String roleName, @NotNull boolean addDevice, @NotNull boolean createUser, @NotNull boolean removeDevice, @NotNull boolean removeUser) {
         this.roleName = roleName;
-        this.canAddDevice = false;
-        this.canCreateUser = false;
-        this.canRemoveDevice = false;
-        this.canRemoveUser = false;
-    }
-
-    public Role(@NotNull String roleName, @NotNull boolean canAddDevice, @NotNull boolean canCreateUser,
-                @NotNull boolean canRemoveDevice, @NotNull boolean canRemoveUser) {
-        this.roleName = roleName;
-        this.canAddDevice = canAddDevice;
-        this.canCreateUser = canCreateUser;
-        this.canRemoveDevice = canRemoveDevice;
-        this.canRemoveUser = canRemoveUser;
+        this.addDevice = addDevice;
+        this.createUser = createUser;
+        this.removeDevice = removeDevice;
+        this.removeUser = removeUser;
     }
 
     public int getId() {
@@ -63,35 +54,35 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
-    public boolean canAddDevice() {
-        return canAddDevice;
+    public boolean isAddDevice() {
+        return addDevice;
     }
 
-    public void setAddDevicePrivilage(boolean canAddDevice) {
-        this.canAddDevice = canAddDevice;
+    public void setAddDevice(boolean addDevice) {
+        this.addDevice = addDevice;
     }
 
-    public boolean canCreateUser() {
-        return canCreateUser;
+    public boolean isCreateUser() {
+        return createUser;
     }
 
-    public void setCreateUserPrivelage(boolean canCreateUser) {
-        this.canCreateUser = canCreateUser;
+    public void setCreateUser(boolean createUser) {
+        this.createUser = createUser;
     }
 
-    public boolean canRemoveDevice() {
-        return canRemoveDevice;
+    public boolean isRemoveDevice() {
+        return removeDevice;
     }
 
-    public void setRemoveDevicePrivelage(boolean canRemoveDevice) {
-        this.canRemoveDevice = canRemoveDevice;
+    public void setRemoveDevice(boolean removeDevice) {
+        this.removeDevice = removeDevice;
     }
 
-    public boolean canRemoveUser() {
-        return canRemoveUser;
+    public boolean isRemoveUser() {
+        return removeUser;
     }
 
-    public void setRemoveUserPrivelage(boolean canRemoveUser) {
-        this.canRemoveUser = canRemoveUser;
+    public void setRemoveUser(boolean removeUser) {
+        this.removeUser = removeUser;
     }
 }
