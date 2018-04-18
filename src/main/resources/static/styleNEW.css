@@ -74,7 +74,7 @@ button:hover {
 #powerimg {
     filter: invert(100%);
 }
-#buttonpower, #buttonmute {
+#buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff {
     display: block;
     width: 100px;
     height: 100px;
