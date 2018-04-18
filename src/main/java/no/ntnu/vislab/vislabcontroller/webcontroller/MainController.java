@@ -2,8 +2,11 @@ package no.ntnu.vislab.vislabcontroller.webcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import no.ntnu.vislab.vislabcontroller.factories.ProjectorFactory;
@@ -17,6 +20,9 @@ public abstract class MainController {
 
     @Autowired
     private DeviceRepository deviceRepository;
+
+    @Autowired
+    private List<MainController> controllers;
 
     protected synchronized Projector getProjector(int id){
         Projector projector;
@@ -62,5 +68,28 @@ public abstract class MainController {
         Map<Integer, Projector> projectors = new HashMap<>();
         activeDevices.forEach((i,d)-> {if(d != null && (d instanceof Projector)) projectors.put(i,(Projector) d); });
         return projectors;
+    }
+
+    @RequestMapping("/device")
+    private String locateDevicePage(@RequestParam("id") int id){
+        String deviceControllerPageLink = "";
+        for(MainController mc : controllers){
+            if(deviceControllerPageLink.isEmpty()){
+                deviceControllerPageLink = mc.getDevicePage(id);
+                if(deviceControllerPageLink == null){
+                    deviceControllerPageLink = "";
+                }
+            }
+        }
+        return deviceControllerPageLink;
+    }
+
+    /**
+     *  Returns the implementing classes path to their html page. Default is empty string, causing a page reload.
+     * @param id The id of the device in question.
+     * @return the string containg the path to the devices html page
+     */
+    public String getDevicePage(int id){
+        return "";
     }
 }

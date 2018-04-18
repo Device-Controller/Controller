@@ -19,6 +19,4 @@ public interface Device {
     boolean setIpAddress(String ip);
 
     void setPort(int port);
-
-    String getDeviceSpecificPage();
 }
