@@ -95,6 +95,19 @@ function mute() {
         }
     }
 }
+function unMute() {
+    for (let j = 0; j < projectors.length; j++) {
+        if (checkedList[j].checked) {
+            let pID = projectors[j].id;
+            console.log(pID);
+            fetch('MainController/unMute?id=' + pID).then(response => {
+                if (response.ok) {
+                    response.text().then(p => console.log(p));
+                }
+            });
+        }
+    }
+}
 
 function powerIcon(index, color) {
     let statusIcon = document.getElementById(index);
