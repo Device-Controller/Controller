@@ -30,6 +30,7 @@ public class Device implements Serializable {
 
     @JsonBackReference
     @ManyToOne(optional = false)
+    @NotNull
     private DeviceInfo deviceInfo;
 
     @NotNull
@@ -48,7 +49,7 @@ public class Device implements Serializable {
         this.deviceGroups = new ArrayList<>();
     }
 
-    public Device(String ipAddress, int port, int xPos, int yPos, int rotation, DeviceInfo deviceInfo) {
+    public Device(@NotNull String ipAddress, @NotNull int port, int xPos, int yPos, int rotation, @NotNull DeviceInfo deviceInfo) {
         this.deviceGroups = new ArrayList<>();
         this.deviceInfo = deviceInfo;
         this.ipAddress = ipAddress;

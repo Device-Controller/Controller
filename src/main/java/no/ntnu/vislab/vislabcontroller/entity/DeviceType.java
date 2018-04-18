@@ -15,7 +15,7 @@ public class DeviceType {
     @NotNull
     private String type;
 
-    public DeviceType(String type) {
+    public DeviceType(@NotNull String type) {
         this.type = type;
     }
 

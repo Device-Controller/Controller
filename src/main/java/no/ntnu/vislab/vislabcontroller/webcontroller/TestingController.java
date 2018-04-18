@@ -39,7 +39,7 @@ public class TestingController {
     @RequestMapping("/initial")
     public ResponseEntity<String> initial() {
         String s = "";
-        s += roleRepository.save(new Role("USER")).toString();
+        s += roleRepository.save(new Role("ADMIN",true,true,true,true)).toString();
         s += " " + deviceTypeRepository.save(new DeviceType("Projector")).toString();
         s += " " + deviceInfoRepository.save(new DeviceInfo("Barko", "F22", deviceTypeRepository.findAll().iterator().next())).toString();
         return new ResponseEntity<>(s, HttpStatus.OK);

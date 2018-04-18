@@ -17,7 +17,7 @@ public class MainViewController extends MainController{
 
     @RequestMapping("/user")
     public String user() {
-        return "forward:/User/useradmin.html";
+        return "forward:/User/user.html";
     }
 //
 //    @RequestMapping("/device")

@@ -24,6 +24,7 @@ public class DeviceInfo implements Serializable {
     private int id;
 
     @ManyToOne
+    @NotNull
     private DeviceType deviceType;
 
     @NotNull
@@ -36,7 +37,7 @@ public class DeviceInfo implements Serializable {
 
     }
 
-    public DeviceInfo(String manufacturer, String model, DeviceType deviceType) {
+    public DeviceInfo(@NotNull String manufacturer, @NotNull String model, @NotNull DeviceType deviceType) {
         this.deviceType = deviceType;
         this.manufacturer = manufacturer;
         this.model = model;

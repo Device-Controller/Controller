@@ -25,12 +25,12 @@ public class DeviceGroup implements Serializable {
     Integer id;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "devicegroup_user", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "user_id")) //this creates the junction in a table named "devicegroup_user"
+    @JoinTable(name = "junction_devicegroup_user", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "user_id")) //this creates the junction in a table named "junction_devicegroup_user"
     private List<User> users;
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "devicegroup_device", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "device_id"))//this creates the junction in a table named "devicegroup_device"
+    @JoinTable(name = "junction_devicegroup_device", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "device_id"))//this creates the junction in a table named "junction_devicegroup_device"
     List<Device> devices;
 
     public DeviceGroup() {

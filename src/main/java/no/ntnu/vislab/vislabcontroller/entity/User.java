@@ -36,7 +36,7 @@ public class User {
     @NotNull
     private String email;
 
-    public User(String username, String password, String email, Role role) {
+    public User(@NotNull String username, @NotNull String password, @NotNull String email, Role role) {
         this.role = role;
         this.username = username;
         this.password = password;
