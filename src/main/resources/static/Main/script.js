@@ -181,7 +181,8 @@ function addListElements() {
         li.innerHTML =
             "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
             + "<label for='pro" + counter + "'" + " class='check-label'></label>"
-            + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "<span class='state-icon' id='"+projectors[counter-1].id+"'</label>";
+            + "<span class='state-icon' id='"+projectors[counter-1].id+"'></span>"
+            + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "</label>";
         ul.appendChild(li);
     }
     document.getElementsByClassName('pro-checkbox');

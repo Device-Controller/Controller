@@ -109,8 +109,8 @@ select:hover {
     margin-left: 29%;
     border: solid black 1px;
     border-radius: 15px;
+    font-size: 17px;
 }
-
 
 .selected-container li:hover {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
@@ -124,6 +124,7 @@ label {
 
 .text-label {
     white-space: pre-line;
+    margin: 0;
 }
 
 input[type=checkbox] {
@@ -143,14 +144,18 @@ input[type=checkbox]:checked + .check-label {
     float: right;
     background: url('Images/check-icon.png');
     background-size: 100%;
+    background-repeat: ;
 }
 .state-icon {
-    height: 10px;
-    width: 10px;
+    height: 20px;
+    width: 20px;
     background-color: red;
     border-radius: 50%;
     border: black solid .5px;
     display: inline-block;
+    float: left;
+    margin-left: 3%;
+    margin-top: 3%;
 }
 
 .group-button {
