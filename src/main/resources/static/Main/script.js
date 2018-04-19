@@ -5,7 +5,7 @@
  */
 
 var devices = [];
-var devicegroups = [];
+var optionMap = [];
 var timeout;
 startUp();
 
@@ -79,58 +79,49 @@ function unMute() {
 }
 
 function powerIcon(index, color) {
-    let statusIcon = devices.selectionBox.
+    let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
+    console.log(devices[index].selectionBox);
     statusIcon.style.backgroundColor = color;
 }
 
-function getPowerState(id) {
-    console.log(id);
-
+function getPowerState(id, n) {
     fetch('MainController/powerState?id=' + id).then(response => {
         if (response.ok) {
             response.json().then(p => {
                 switch (p) {
                     case 0:
-                        powerIcon(id, "#ff6600");
+                        powerIcon(n, "#ff6600");
                         break;
                     case 1:
-                        powerIcon(id, "red");
+                        powerIcon(n, "red");
                         break;
                     case 2:
-                        powerIcon(id, "orange");
+                        powerIcon(n, "orange");
                         break;
                     case 3:
-                        powerIcon(id, "#66ff00");
+                        powerIcon(n, "#66ff00");
                         break;
                     case 4:
-                        powerIcon(id, "yellow");
+                        powerIcon(n, "yellow");
                         break;
                     case 5:
-                        powerIcon(id, "darkred");
+                        powerIcon(n, "darkred");
                         break;
                     case 6:
-                        powerIcon(id, "black");
+                        powerIcon(n, "black");
                         break;
                 }
-                return true;
             });
         } else {
-            return false;
         }
     });
 }
 
 function updateState() {
-    console.log(devices);
-    let erik = true;
     for (let n = 0; n < devices.length; n++) {
-        erik = erik && getPowerState(devices[n].id);
-        console.log(erik);
+        getPowerState(devices[n].id, n);
     }
-    console.log(erik);
-    if (erik) {
-        timeout = setTimeout(updateState, 2000);
-    }
+    timeout = setTimeout(updateState, 2000);
 
 }
 
@@ -155,14 +146,18 @@ function createGroup() {
 function addListElements(device) {
     let ul = document.getElementById("selected-list");
 
+
     var li = document.createElement('li');
+
     let counter = devices.length + 1;
     li.innerHTML =
         "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
         + "<label for='pro" + counter + "'" + " class='check-label'></label>"
-        + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "<span class='state-icon'</label>";
+        + "<span class='state-icon'></span>"
+        + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "</label>";
     ul.appendChild(li);
-    devices.push(new DeviceMap(device, li));
+    devices.push(new DeviceMap(device, li, document.getElementById("pro" + counter)));
+
     document.getElementsByClassName('pro-checkbox');
 }
 
@@ -170,27 +165,27 @@ function whatIsThis(unknownEntity) {
     console.log(unknownEntity);
 }
 
-function getDevice(deviceId) {
-    for (let i = 0; i < projectors.length; i++) {
-        if (projectors[i].id == deviceId) {
-            return i;
+function getDeviceSelectionBox(id) {
+    for (let i = 0; i < devices.length; i++) {
+        if (devices[i].device.id == parseInt(id)) {
+            return devices[i].checkbox;
         }
     }
+    return "";
 }
 
 function populateDropdown() {
     let dropdown = document.getElementById("group-select");
     dropdown.onchange = e => {
-        for (let i = 0; i < checkedList.length; i++) {
-            checkedList[i].checked = false;
+        for (let i = 0; i < devices.length; i++) {
+            devices[i].selectionBox.checked = false;
         }
-        let options = dropdown.children;
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].selected) {
-                let devices = devicegroups[parseInt(options[i].id)].devices;
-                for (let j = 0; j < devices.length; j++) {
-                    let projectorIndex = getDevice(devices[j].id);
-                    checkedList[projectorIndex].checked = true;
+        for (let i = 0; i < optionMap.length; i++) {
+            if (optionMap[i].option.selected) {
+                let optionDevices = optionMap[i].deviceGroup.devices;
+                for (let j = 0; j < optionDevices.length; j++) {
+                    let vara = getDeviceSelectionBox(optionDevices[j].id);
+                    vara.checked = true;
                 }
             }
         }
@@ -200,10 +195,9 @@ function populateDropdown() {
             r.json().then(e => {
                 for (let i = 0; i < e.length; i++) {
                     let x = new DeviceGroup(e[i].id, e[i].groupName, e[i].devices);
-                    devicegroups.push(x);
                     let option = document.createElement("option");
                     option.text = x.groupName;
-                    option.id = i + "";
+                    optionMap.push(new OptionMap(option, x));
                     dropdown.add(option, 99);
                 }
             })
@@ -233,10 +227,17 @@ class Device {
 }
 
 class DeviceMap {
-    constructor(device, li, powerIcon) {
+    constructor(device, li, checkbox) {
         this.id = device.id;
         this.device = device;
         this.selectionBox = li;
-        this.powerIcon = powerIcon;
+        this.checkbox = checkbox;
+    }
+}
+
+class OptionMap {
+    constructor(option, deviceGroup) {
+        this.option = option;
+        this.deviceGroup = deviceGroup;
     }
 }
