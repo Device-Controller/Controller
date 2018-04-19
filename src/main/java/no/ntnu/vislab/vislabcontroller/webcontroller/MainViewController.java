@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import no.ntnu.vislab.vislabcontroller.repositories.DeviceRepository;
 
 @Controller
-public class MainViewController extends MainController{
+public class MainViewController extends DeviceController {
     @Autowired
     DeviceRepository deviceRepository;
     @RequestMapping("/")
