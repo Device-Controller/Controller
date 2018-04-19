@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-let projectors = [];
-var checkedList = document.getElementsByClassName('pro-checkbox');
+var devices = [];
+var devicegroups = [];
 var timeout;
 startUp();
 
@@ -13,54 +13,22 @@ function startUp() {
     fetch('test/db').then(response => {
         if (response.ok) {
             response.json().then(e => {
-                projectors.push.apply(projectors, e);
-                addListElements();
+                for (let i = 0; i < e.length; i++) {
+                    let f = e[i];
+                    let d = new Device(f);
+                    addListElements(d);
+                }
                 updateState();
             });
         }
     });
 }
-/*
-function powerOn() {
-    console.log("CLICKED");
-    for (let j = 0; j < projectors.length; j++) {
-        if (checkedList[j].checked) {
-            let pID = projectors[j].id;
-            fetch('MainController/powerState?id=' + pID).then(response => {
-                if (response.ok) {
-                    response.json().then(p => {
-                        if (response.ok) {
-                            console.log(p);
-                            if (p === 3) {
-                                fetch('MainController/powerOff?id=' + pID).then(response => {
-                                    if (response.ok) {
-                                        console.log(response);
-                                        response.text().then(p => console.log(p));
-                                    }
-                                });
-                            }
-                            else if (p === 1 || p === 0) {
-                                fetch('MainController/powerOn?id=' + pID).then(response => {
-                                    if (response.ok) {
-                                        console.log(response);
-                                        response.text().then(p => console.log(p));
-                                    }
-                                });
-                            }
-                        }
 
-                    });
-                }
-            });
-        }
-    }
-}
-*/
 function powerOn() {
     console.log("CLICKED POWER ON");
-    for (let j = 0; j < projectors.length; j++) {
-        if (checkedList[j].checked) {
-            let pID = projectors[j].id;
+    for (let i = 0; i < devices.length; i++) {
+        if (devices[i].selectionBox.checked) {
+            let pID = devices[i].id;
             fetch('MainController/powerOn?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
@@ -69,11 +37,12 @@ function powerOn() {
         }
     }
 }
+
 function powerOff() {
     console.log("CLICKED POWER OFF");
-    for (let j = 0; j < projectors.length; j++) {
-        if (checkedList[j].checked) {
-            let pID = projectors[j].id;
+    for (let i = 0; i < devices.length; i++) {
+        if (devices[i].selectionBox.checked) {
+            let pID = devices[i].id;
             fetch('MainController/powerOff?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
@@ -82,27 +51,27 @@ function powerOff() {
         }
     }
 }
+
 function mute() {
-    for (let j = 0; j < projectors.length; j++) {
-        if (checkedList[j].checked) {
-            let pID = projectors[j].id;
-            console.log(pID);
+    for (let i = 0; i < devices.length; i++) {
+        if (devices[i].selectionBox.checked) {
+            let pID = devices[i].id;
             fetch('MainController/mute?id=' + pID).then(response => {
                 if (response.ok) {
-                    response.text().then(p => console.log(p));
+                    response.json().then(p => console.log(p));
                 }
             });
         }
     }
 }
+
 function unMute() {
-    for (let j = 0; j < projectors.length; j++) {
-        if (checkedList[j].checked) {
-            let pID = projectors[j].id;
-            console.log(pID);
+    for (let i = 0; i < devices.length; i++) {
+        if (devices[i].selectionBox.checked) {
+            let pID = devices[i].id;
             fetch('MainController/unMute?id=' + pID).then(response => {
                 if (response.ok) {
-                    response.text().then(p => console.log(p));
+                    response.json().then(p => console.log(p));
                 }
             });
         }
@@ -110,11 +79,12 @@ function unMute() {
 }
 
 function powerIcon(index, color) {
-    let statusIcon = document.getElementById(index);
+    let statusIcon = devices.selectionBox.
     statusIcon.style.backgroundColor = color;
 }
 
 function getPowerState(id) {
+    console.log(id);
 
     fetch('MainController/powerState?id=' + id).then(response => {
         if (response.ok) {
@@ -142,23 +112,33 @@ function getPowerState(id) {
                         powerIcon(id, "black");
                         break;
                 }
+                return true;
             });
+        } else {
+            return false;
         }
     });
 }
 
 function updateState() {
-    for (let n = 0; n < projectors.length; n++) {
-        getPowerState(projectors[n].id);
+    console.log(devices);
+    let erik = true;
+    for (let n = 0; n < devices.length; n++) {
+        erik = erik && getPowerState(devices[n].id);
+        console.log(erik);
     }
-    timeout = setTimeout(updateState, 2000);
+    console.log(erik);
+    if (erik) {
+        timeout = setTimeout(updateState, 2000);
+    }
+
 }
 
 function createGroup() {
     let group = [];
-    for (let j = 0; j < projectors.length; j++) {
-        if (checkedList[j].checked) {
-            group.push(projectors[j]);
+    for (let j = 0; j < devices.length; j++) {
+        if (devices[j].selectionBox.checked) {
+            group.push(devices[j]);
 
         }
     }
@@ -172,22 +152,91 @@ function createGroup() {
     console.log(group);
 }
 
-function addListElements() {
+function addListElements(device) {
     let ul = document.getElementById("selected-list");
 
-    for (let counter = 1; counter < projectors.length + 1; counter++) {
-        var li = document.createElement('li');
-
-        li.innerHTML =
-            "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
-            + "<label for='pro" + counter + "'" + " class='check-label'></label>"
-            + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "<span class='state-icon' id='"+projectors[counter-1].id+"'</label>";
-        ul.appendChild(li);
-    }
+    var li = document.createElement('li');
+    let counter = devices.length + 1;
+    li.innerHTML =
+        "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
+        + "<label for='pro" + counter + "'" + " class='check-label'></label>"
+        + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "<span class='state-icon'</label>";
+    ul.appendChild(li);
+    devices.push(new DeviceMap(device, li));
     document.getElementsByClassName('pro-checkbox');
 }
 
 function whatIsThis(unknownEntity) {
-    console.log(checkedList);
     console.log(unknownEntity);
+}
+
+function getDevice(deviceId) {
+    for (let i = 0; i < projectors.length; i++) {
+        if (projectors[i].id == deviceId) {
+            return i;
+        }
+    }
+}
+
+function populateDropdown() {
+    let dropdown = document.getElementById("group-select");
+    dropdown.onchange = e => {
+        for (let i = 0; i < checkedList.length; i++) {
+            checkedList[i].checked = false;
+        }
+        let options = dropdown.children;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+                let devices = devicegroups[parseInt(options[i].id)].devices;
+                for (let j = 0; j < devices.length; j++) {
+                    let projectorIndex = getDevice(devices[j].id);
+                    checkedList[projectorIndex].checked = true;
+                }
+            }
+        }
+    };
+    fetch("devicegroup/groups").then(r => {
+        if (r.ok) {
+            r.json().then(e => {
+                for (let i = 0; i < e.length; i++) {
+                    let x = new DeviceGroup(e[i].id, e[i].groupName, e[i].devices);
+                    devicegroups.push(x);
+                    let option = document.createElement("option");
+                    option.text = x.groupName;
+                    option.id = i + "";
+                    dropdown.add(option, 99);
+                }
+            })
+        }
+    })
+}
+
+populateDropdown();
+
+class DeviceGroup {
+    constructor(id, groupName, devices) {
+        this.id = id;
+        this.groupName = groupName;
+        this.devices = devices;
+    }
+}
+
+class Device {
+    constructor(jsonObject) {
+        this.ipAddress = jsonObject.ipAddress;
+        this.port = jsonObject.port;
+        this.xPos = jsonObject.xPos;
+        this.yPos = jsonObject.yPos;
+        this.rotation = jsonObject.rotation;
+        this.id = jsonObject.id;
+    }
+}
+
+class DeviceMap {
+    constructor(device, li, powerIcon) {
+        this.id = device.id;
+        this.device = device;
+        this.selectionBox = li;
+        this.powerIcon = powerIcon;
+    }
 }

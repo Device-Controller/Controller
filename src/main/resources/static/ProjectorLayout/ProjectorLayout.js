@@ -5,6 +5,8 @@ let width = 64;
 let canvas = document.getElementById('projector-layout');
 let drawSurface = canvas.getContext('2d');
 var baseDrawing = document.createElement('canvas');
+let lastMouseX;
+let lastMouseY;
 baseDrawing.width = 500;
 baseDrawing.height = 700;
 fetch('test/db').then(response => {
@@ -22,25 +24,33 @@ fetch('test/db').then(response => {
     }
 });
 
+function resetDrawing() {
+    drawSurface.clearRect(0, 0, 500, 700);
+    drawSurface.drawImage(baseDrawing, 0, 0);
+}
+
 function drawSelectorCircle(x, y) {
-    list.forEach(p=>{
-        if(isWithin(x,y,p.xPos,p.yPos)){
-            drawSurface.beginPath();
-            drawSurface.arc(p.xPos, p.yPos, width / 2, 0, 2 * Math.PI);
-            drawSurface.stroke();
-        }
-    });
+    drawSurface.beginPath();
+    drawSurface.arc(x, y, width / 2, 0, 2 * Math.PI);
+    drawSurface.stroke();
+}
+
+function checkMouseHover() {
+    if (isWithinAny(lastMouseX, lastMouseY)) {
+        canvas.style.cursor = "pointer";
+        list.forEach(p => {
+            if (isWithin(lastMouseX, lastMouseY, p.xPos, p.yPos)) {
+                drawSelectorCircle(p.xPos, p.yPos);
+            }
+        });
+    } else {
+        canvas.style.cursor = "auto";
+    }
 }
 
 canvas.onmousemove = event => {
-    if (isWithinAny(event.offsetX, event.offsetY)) {
-        canvas.style.cursor = "pointer";
-        drawSelectorCircle(event.offsetX, event.offsetY);
-    } else {
-        canvas.style.cursor = "auto";
-        drawSurface.clearRect(0, 0, 500, 700);
-        drawSurface.drawImage(baseDrawing, 0, 0);
-    }
+    lastMouseX = event.offsetX;
+    lastMouseY = event.offsetY;
 };
 
 canvas.onclick = event => {
@@ -63,6 +73,10 @@ function isWithinAny(x, y) {
         }
     });
     return changed;
+}
+
+function drawProjectorCircle(p) {
+    drawSelectorCircle(p.xPos, p.yPos);
 }
 
 function drawProjector(x, y, rot) {
@@ -91,5 +105,19 @@ function isWithin(x, y, xOrg, yOrg) {
         return true
     }
     return false;
+}
+
+let circleTimeout;
+checkChecked();
+
+function checkChecked() {
+    resetDrawing();
+    for (let i = 0; i < checkedList.length; i++) {
+        if (checkedList[i].checked) {
+            drawProjectorCircle(projectors[i]);
+        }
+    }
+    checkMouseHover();
+    circleTimeout = setTimeout(checkChecked, 200);
 }
 
