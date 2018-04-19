@@ -23,7 +23,7 @@ import no.ntnu.vislab.vislabcontroller.providers.Projector;
  */
 @Controller
 @RequestMapping("/MainController")
-public class ProjectorController extends MainController {
+public class ProjectorController extends DeviceController {
 
     @RequestMapping("/getProjector")
     public ResponseEntity<DummyDevice> getSingleProjector(@RequestParam(value = "id") int id) {

@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="images/favicon.ico" />
         <link rel="stylesheet" href="../theme.css">
-        <link rel="stylesheet" href="../loginstyle.css">
+        <link rel="stylesheet" href="Login/login.css">
     </head>
     <body>
         <div class="row">
@@ -21,7 +21,7 @@ and open the template in the editor.
         </div>
         <div class="row">
             <div class="login">
-                <form id="loginForm" onsubmit="onSubmit()">
+                <form id="loginForm" onsubmit="login()">
                     <label>Username:</label><br>
                     <input type="text" name="username" id="username"><br>
                     <label>Password:</label><br>
@@ -29,10 +29,7 @@ and open the template in the editor.
                     <input type="submit" value="Login">
                 </form>
             </div>
-            <script>
-                function onSubmit() {
-                    window.localStorage.name = document.getElementById('username').value;
-                }
+            <script src="Login/login.js">
             </script>
 
         </div>
