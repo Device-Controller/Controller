@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import no.ntnu.vislab.vislabcontroller.entity.User;
+import no.ntnu.vislab.vislabcontroller.repositories.RoleRepository;
 import no.ntnu.vislab.vislabcontroller.repositories.UserRepository;
 
 @Controller
@@ -15,12 +16,17 @@ import no.ntnu.vislab.vislabcontroller.repositories.UserRepository;
 public class LoginController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     @RequestMapping("/login")
-    public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password){
+    public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password) {
         System.out.println(username);
         System.out.println(password);
-        User u = userRepository.findByUsernameAndPassword(username,password);
+        User u = userRepository.findByUsernameAndPassword(username, password);
         System.out.println(u);
-        return new ResponseEntity<>(u, HttpStatus.OK);
+        if (u != null) {
+            return new ResponseEntity<>(u, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new User(), HttpStatus.OK);
     }
 }

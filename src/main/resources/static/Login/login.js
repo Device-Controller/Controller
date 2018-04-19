@@ -5,7 +5,7 @@ function login(){
     console.log(password);
     fetch('login/login?username=' + username + '&password=' + password).then(r=>{
         if(r.ok){
-            console.log(r);
+            r.json().then(e => console.log(e));
         }
     })
 }
