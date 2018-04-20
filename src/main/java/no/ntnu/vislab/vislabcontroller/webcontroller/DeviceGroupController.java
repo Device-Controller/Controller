@@ -38,7 +38,7 @@ public class DeviceGroupController {
         DeviceGroup d = new DeviceGroup(groupName);
         devices.forEach(de->{
             d.addDevice(deviceRepository.findById(de.getId()).get());
-            d.setGroupName(d.getGroupName() + " " + de.getId());
+            d.setGroupName(d.getGroupName());
         });
         return new ResponseEntity<>(deviceGroupRepository.save(d),HttpStatus.OK);
     }
