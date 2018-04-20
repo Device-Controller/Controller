@@ -4,7 +4,7 @@
     <title>Projectors n shiet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="../styleNEW.css">
+    <link rel="stylesheet" href="Main/dashboard.css">
     <script src="../templatescript.js"></script>
 
 </head>
@@ -24,16 +24,17 @@
                 <option>Unselect Group</option>
             </select>
             <ul id="selected-list">
-                  <!--   <li>
+                <!--   <li>
 
-                         <input id="pro1" class="pro-checkbox" type="checkbox">
-                         <label for="pro1" class="check-label"></label>
-                         <span class="state-icon" id="status"></span>
-                         <label for="pro1" class="text-label">Projector 111</label>
+                       <input id="pro1" class="pro-checkbox" type="checkbox">
+                       <label for="pro1" class="check-label"></label>
+                       <span class="state-icon" id="status"></span>
+                       <label for="pro1" class="text-label">Projector 111</label>
 
 
-                     </li>-->
+                   </li>-->
             </ul>
+            <input type="text" id="groupname" name="groupname" placeholder="Enter group name" required>
             <div class="group-button">
                 <div class="tooltip">
                     <button id="settings-group">
@@ -42,12 +43,11 @@
                     </button>
                 </div>
 
-                <div class="tooltip">
-                    <button id="button-savegroup" onclick="createGroup()">
-                        <span class="tooltiptext">Save the current selected devices as a group.</span>
-                        <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
+                    <div class="tooltip">
+                        <button id="button-savegroup" onclick="createGroup()">
+                            <span class="tooltiptext">Save the current selected devices as a group.</span>
+                            <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
                 </div>
-                <script src="Main/script.js"></script>
             </div>
         </div>
     </div>
@@ -80,5 +80,6 @@
     </div>
 </div>
 
+<script src="Main/script.js"></script>
 </body>
 </html>

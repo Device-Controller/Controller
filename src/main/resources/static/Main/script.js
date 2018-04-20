@@ -125,33 +125,36 @@ function updateState() {
 }
 
 function createGroup() {
+
     let group = [];
     for (let j = 0; j < devices.length; j++) {
-        console.log(devices[j].checkbox.checked);
         if (devices[j].checkbox.checked) {
             group.push(devices[j].device);
         }
     }
-    console.log(group);
 
-    let name = "Group";
-    fetch("devicegroup/add?groupname=Group", {
-        method: "POST",
-        body: JSON.stringify(group),
-        headers: {"Content-Type": "application/json"}
+    let name = document.getElementById('groupname').value;
+    if (name === "" || name == null || name === " " || group.length < 1) {
+        alert("Skriv inn dritt homo eller velg nokke dritt");
+    } else {
+        fetch("devicegroup/add?groupname=" + name, {
+            method: "POST",
+            body: JSON.stringify(group),
+            headers: {"Content-Type": "application/json"}
 
-    }).then(response => {
-        if (response.ok) {
+        }).then(response => {
+            if (response.ok) {
 
-            response.json().then(response_group=>{
-                console.log(response_group);
-                updateDropdown(true);
-                let dropdown = document.getElementById("group-select");
-            });
-        } else {
-            throw new Error("Failed to create group: " + name);
-        }
-    });
+                response.json().then(response_group => {
+                    updateDropdown(true);
+                    let dropdown = document.getElementById("group-select");
+                });
+            } else {
+                throw new Error("Failed to create group: " + name);
+            }
+        });
+        document.getElementById("groupname").value = "";
+    }
 }
 
 function addListElements(device) {
@@ -204,9 +207,10 @@ function populateDropdown() {
     };
     updateDropdown();
 }
-function updateDropdown(index){
+
+function updateDropdown(index) {
     let dropdown = document.getElementById("group-select");
-    for(let i = dropdown.children.length-1;i>1; i-- ){
+    for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
     fetch("devicegroup/groups").then(r => {
@@ -219,13 +223,14 @@ function updateDropdown(index){
                     optionMap.push(new OptionMap(option, x));
                     dropdown.add(option, 99);
                 }
-                if(index){
-                    dropdown.selectedIndex = dropdown.length-1;
+                if (index) {
+                    dropdown.selectedIndex = dropdown.length - 1;
                 }
             });
         }
     })
 }
+
 populateDropdown();
 
 class DeviceGroup {
@@ -262,3 +267,4 @@ class OptionMap {
         this.deviceGroup = deviceGroup;
     }
 }
+
