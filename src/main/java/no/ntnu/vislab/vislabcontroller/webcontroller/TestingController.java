@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Random;
 
 import no.ntnu.vislab.vislabcontroller.entity.Device;
+import no.ntnu.vislab.vislabcontroller.entity.DeviceGroup;
 import no.ntnu.vislab.vislabcontroller.entity.DeviceInfo;
 import no.ntnu.vislab.vislabcontroller.entity.DeviceType;
 import no.ntnu.vislab.vislabcontroller.entity.Role;
@@ -85,6 +87,23 @@ public class TestingController {
         return new ResponseEntity<>("Cleared all devices", HttpStatus.OK);
     }
 
+    @RequestMapping("/addGroup")
+    public ResponseEntity<DeviceGroup> addDeviceGroup(){
+        DeviceGroup d = new DeviceGroup("All");
+        deviceRepository.findAll().forEach(d::addDevice);
+        return new ResponseEntity<>(deviceGroupRepository.save(d),HttpStatus.OK);
+    }
+    @RequestMapping("randomgroup")
+    public ResponseEntity<DeviceGroup> randomGroup(){
+        DeviceGroup d = new DeviceGroup("Random");
+        deviceRepository.findAll().forEach(e->{
+            if(new Random().nextInt(100)<50){
+                d.addDevice(e);
+                d.setGroupName(d.getGroupName() + " " + e.getId());
+            }
+        });
+        return new ResponseEntity<>(deviceGroupRepository.save(d),HttpStatus.OK);
+    }
     @RequestMapping("/actualdevices")
     public ResponseEntity<String> actualDevices() {
         String s = "";
