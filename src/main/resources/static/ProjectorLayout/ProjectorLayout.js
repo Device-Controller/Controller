@@ -112,9 +112,9 @@ checkChecked();
 
 function checkChecked() {
     resetDrawing();
-    for (let i = 0; i < checkedList.length; i++) {
-        if (checkedList[i].checked) {
-            drawProjectorCircle(projectors[i]);
+    for (let i = 0; i < devices.length; i++) {
+        if (devices[i].checkbox.checked) {
+            drawProjectorCircle(devices[i].device);
         }
     }
     checkMouseHover();

@@ -1,10 +1,12 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +25,7 @@ public class Device implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "devices")
     private List<DeviceGroup> deviceGroups;
 
@@ -111,5 +113,25 @@ public class Device implements Serializable {
 
     public void setRotation(int rotation) {
         this.rotation = rotation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Device)) return false;
+        Device device = (Device) o;
+        return getId() == device.getId() &&
+                getPort() == device.getPort() &&
+                getxPos() == device.getxPos() &&
+                getyPos() == device.getyPos() &&
+                getRotation() == device.getRotation() &&
+                Objects.equals(getDeviceInfo(), device.getDeviceInfo()) &&
+                Objects.equals(getIpAddress(), device.getIpAddress());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getDeviceInfo(), getIpAddress(), getPort(), getxPos(), getyPos(), getRotation());
     }
 }

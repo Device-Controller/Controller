@@ -27,7 +27,7 @@ function startUp() {
 function powerOn() {
     console.log("CLICKED POWER ON");
     for (let i = 0; i < devices.length; i++) {
-        if (devices[i].selectionBox.checked) {
+        if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
             fetch('MainController/powerOn?id=' + pID).then(response => {
                 if (response.ok) {
@@ -41,7 +41,7 @@ function powerOn() {
 function powerOff() {
     console.log("CLICKED POWER OFF");
     for (let i = 0; i < devices.length; i++) {
-        if (devices[i].selectionBox.checked) {
+        if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
             fetch('MainController/powerOff?id=' + pID).then(response => {
                 if (response.ok) {
@@ -54,7 +54,7 @@ function powerOff() {
 
 function mute() {
     for (let i = 0; i < devices.length; i++) {
-        if (devices[i].selectionBox.checked) {
+        if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
             fetch('MainController/mute?id=' + pID).then(response => {
                 if (response.ok) {
@@ -67,7 +67,7 @@ function mute() {
 
 function unMute() {
     for (let i = 0; i < devices.length; i++) {
-        if (devices[i].selectionBox.checked) {
+        if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
             fetch('MainController/unMute?id=' + pID).then(response => {
                 if (response.ok) {
@@ -80,7 +80,6 @@ function unMute() {
 
 function powerIcon(index, color) {
     let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
-    console.log(devices[index].selectionBox);
     statusIcon.style.backgroundColor = color;
 }
 
@@ -128,19 +127,31 @@ function updateState() {
 function createGroup() {
     let group = [];
     for (let j = 0; j < devices.length; j++) {
-        if (devices[j].selectionBox.checked) {
-            group.push(devices[j]);
-
+        console.log(devices[j].checkbox.checked);
+        if (devices[j].checkbox.checked) {
+            group.push(devices[j].device);
         }
     }
-    fetch('...' + group).then(response => {
-        if (response.ok) {
-            return 'rolilol';
-        }
-        throw new Error("Failed to send message " + group);
-    });
-
     console.log(group);
+
+    let name = "Group";
+    fetch("devicegroup/add?groupname=Group", {
+        method: "POST",
+        body: JSON.stringify(group),
+        headers: {"Content-Type": "application/json"}
+
+    }).then(response => {
+        if (response.ok) {
+
+            response.json().then(response_group=>{
+                console.log(response_group);
+                updateDropdown(true);
+                let dropdown = document.getElementById("group-select");
+            });
+        } else {
+            throw new Error("Failed to create group: " + name);
+        }
+    });
 }
 
 function addListElements(device) {
@@ -175,10 +186,11 @@ function getDeviceSelectionBox(id) {
 }
 
 function populateDropdown() {
+
     let dropdown = document.getElementById("group-select");
     dropdown.onchange = e => {
         for (let i = 0; i < devices.length; i++) {
-            devices[i].selectionBox.checked = false;
+            devices[i].checkbox.checked = false;
         }
         for (let i = 0; i < optionMap.length; i++) {
             if (optionMap[i].option.selected) {
@@ -190,6 +202,13 @@ function populateDropdown() {
             }
         }
     };
+    updateDropdown();
+}
+function updateDropdown(index){
+    let dropdown = document.getElementById("group-select");
+    for(let i = dropdown.children.length-1;i>1; i-- ){
+        dropdown.children[i].remove();
+    }
     fetch("devicegroup/groups").then(r => {
         if (r.ok) {
             r.json().then(e => {
@@ -200,11 +219,13 @@ function populateDropdown() {
                     optionMap.push(new OptionMap(option, x));
                     dropdown.add(option, 99);
                 }
-            })
+                if(index){
+                    dropdown.selectedIndex = dropdown.length-1;
+                }
+            });
         }
     })
 }
-
 populateDropdown();
 
 class DeviceGroup {
