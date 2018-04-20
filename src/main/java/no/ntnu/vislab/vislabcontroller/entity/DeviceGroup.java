@@ -1,6 +1,5 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
@@ -30,13 +29,12 @@ public class DeviceGroup implements Serializable {
 
     @NotNull
     private String groupName;
-    @JsonBackReference
+    @JsonManagedReference("user_devicegroup")
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "junction_devicegroup_user", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "user_id")) //this creates the junction in a table named "junction_devicegroup_user"
     private List<User> users;
 
 
-    @JsonManagedReference
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "junction_devicegroup_device", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "device_id"))//this creates the junction in a table named "junction_devicegroup_device"
     List<Device> devices;

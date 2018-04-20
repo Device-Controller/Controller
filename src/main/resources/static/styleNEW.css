@@ -147,7 +147,8 @@ label:hover {
 
 input[type=checkbox]:checked + .check-label {
     float: right;
-    background: url('Images/check-icon.png') 100% no-repeat;
+    background: url('Images/check-icon.png') no-repeat;
+    background-size: 100%;
 }
 .state-icon {
     height: 20px;
