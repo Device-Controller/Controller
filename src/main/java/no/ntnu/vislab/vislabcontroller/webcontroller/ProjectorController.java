@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
-import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
-import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
 import no.ntnu.vislab.vislabcontroller.entity.Device;
 import no.ntnu.vislab.vislabcontroller.providers.Projector;
 
@@ -24,14 +22,6 @@ import no.ntnu.vislab.vislabcontroller.providers.Projector;
 @Controller
 @RequestMapping("/MainController")
 public class ProjectorController extends DeviceController {
-
-    @RequestMapping("/getProjector")
-    public ResponseEntity<DummyDevice> getSingleProjector(@RequestParam(value = "id") int id) {
-        DummyDevice d = new DummyBase().getSingle(id);
-        System.out.println(d);
-        return new ResponseEntity<>(d, HttpStatus.OK);
-    }
-
     @RequestMapping("/getRealProjector")
     public ResponseEntity<Device> getSingleDevice(@RequestParam(value = "id") int id) {
         return null;
