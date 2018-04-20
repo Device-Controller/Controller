@@ -135,7 +135,7 @@ function createGroup() {
 
     let name = document.getElementById('groupname').value;
     if (name === "" || name == null || name === " " || group.length < 1) {
-        alert("Skriv inn dritt homo eller velg nokke dritt");
+        alert("Please type in a group name and select one device or more.");
     } else {
         fetch("devicegroup/add?groupname=" + name, {
             method: "POST",
