@@ -79,7 +79,10 @@ button:hover {
 #powerimg {
     filter: invert(100%);
 }
-#buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff {
+#poweroffimg {
+    filter: invert(100%);
+}
+#buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff, #settings-group {
     display: block;
     width: 100px;
     height: 100px;
@@ -167,14 +170,17 @@ input[type=checkbox]:checked + .check-label {
     float: left;
     margin-left: 35%;
 }
-#settings-group, #button-savegroup {
+#button-savegroup {
     border-radius: 30%;
     float: left;
     width: 5em;
     height: 5em;
 }
 #groupname {
-
+    font-size: 17px;
+}
+#saveimg {
+    filter: invert(100%);
 }
 
 @media only screen and (min-width: 768px) {
