@@ -2,79 +2,35 @@ package no.ntnu.vislab.vislabcontroller.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-/**
- * @author ThomasSTodal
- */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class DeviceType implements Serializable {
+public class DeviceType {
     @Id
-    @GeneratedValue
-    Integer deviceTypeID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    @OneToMany(mappedBy = "deviceType")
-    List<Device> devices;
+    @NotNull
+    private String type;
 
-    String deviceType;
-
-    String manufacturer;
-
-    String model;
+    public DeviceType(@NotNull String type) {
+        this.type = type;
+    }
 
     public DeviceType() {
-        this.devices = new ArrayList<>();
     }
 
-    public DeviceType(String deviceType, String manufacturer, String model) {
-        this.devices = new ArrayList<>();
-        this.deviceType = deviceType;
-        this.manufacturer = manufacturer;
-        this.model = model;
+    public int getId() {
+        return id;
     }
 
-    public Integer getDeviceTypeID() {
-        return deviceTypeID;
+    public String getType() {
+        return type;
     }
 
-    public List<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(Device devices) {
-        this.devices.add(devices);
-    }
-
-    public String getDeviceType() {
-        return deviceType;
-    }
-
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
+    public void setType(String type) {
+        this.type = type;
     }
 }

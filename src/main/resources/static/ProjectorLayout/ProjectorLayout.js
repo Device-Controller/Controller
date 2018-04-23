@@ -5,6 +5,8 @@ let width = 64;
 let canvas = document.getElementById('projector-layout');
 let drawSurface = canvas.getContext('2d');
 var baseDrawing = document.createElement('canvas');
+let lastMouseX;
+let lastMouseY;
 baseDrawing.width = 500;
 baseDrawing.height = 700;
 fetch('test/db').then(response => {
@@ -13,34 +15,42 @@ fetch('test/db').then(response => {
             list.push.apply(list, e);
 
             list.forEach(p => {
-                let x = p.x;
-                let y = p.y;
-                let rot = p.rotDeg;
+                let x = p.xPos;
+                let y = p.yPos;
+                let rot = p.rotation;
                 drawProjector(x, y, rot);
             });
         });
     }
 });
 
+function resetDrawing() {
+    drawSurface.clearRect(0, 0, 500, 700);
+    drawSurface.drawImage(baseDrawing, 0, 0);
+}
+
 function drawSelectorCircle(x, y) {
-    list.forEach(p=>{
-        if(isWithin(x,y,p.x,p.y)){
-            drawSurface.beginPath();
-            drawSurface.arc(p.x, p.y, width / 2, 0, 2 * Math.PI);
-            drawSurface.stroke();
-        }
-    });
+    drawSurface.beginPath();
+    drawSurface.arc(x, y, width / 2, 0, 2 * Math.PI);
+    drawSurface.stroke();
+}
+
+function checkMouseHover() {
+    if (isWithinAny(lastMouseX, lastMouseY)) {
+        canvas.style.cursor = "pointer";
+        list.forEach(p => {
+            if (isWithin(lastMouseX, lastMouseY, p.xPos, p.yPos)) {
+                drawSelectorCircle(p.xPos, p.yPos);
+            }
+        });
+    } else {
+        canvas.style.cursor = "auto";
+    }
 }
 
 canvas.onmousemove = event => {
-    if (isWithinAny(event.offsetX, event.offsetY)) {
-        canvas.style.cursor = "pointer";
-        drawSelectorCircle(event.offsetX, event.offsetY);
-    } else {
-        canvas.style.cursor = "auto";
-        drawSurface.clearRect(0, 0, 500, 700);
-        drawSurface.drawImage(baseDrawing, 0, 0);
-    }
+    lastMouseX = event.offsetX;
+    lastMouseY = event.offsetY;
 };
 
 canvas.onclick = event => {
@@ -48,8 +58,8 @@ canvas.onclick = event => {
     var y = event.offsetY;
     let i;
     for (i = 0; i < list.length; i++) {
-        if (isWithin(x, y, list[i].x, list[i].y)) {
-            window.location.href = "projector?id=" + list[i].id;
+        if (isWithin(x, y, list[i].xPos, list[i].yPos)) {
+            window.location.href = "device?id=" + list[i].id;
         }
     }
 };
@@ -58,11 +68,15 @@ canvas.onclick = event => {
 function isWithinAny(x, y) {
     let changed = false;
     list.forEach(p => {
-        if (isWithin(x, y, p.x, p.y)) {
+        if (isWithin(x, y, p.xPos, p.yPos)) {
             changed = true;
         }
     });
     return changed;
+}
+
+function drawProjectorCircle(p) {
+    drawSelectorCircle(p.xPos, p.yPos);
 }
 
 function drawProjector(x, y, rot) {
@@ -91,5 +105,19 @@ function isWithin(x, y, xOrg, yOrg) {
         return true
     }
     return false;
+}
+
+let circleTimeout;
+checkChecked();
+
+function checkChecked() {
+    resetDrawing();
+    for (let i = 0; i < devices.length; i++) {
+        if (devices[i].checkbox.checked) {
+            drawProjectorCircle(devices[i].device);
+        }
+    }
+    checkMouseHover();
+    circleTimeout = setTimeout(checkChecked, 200);
 }
 

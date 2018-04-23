@@ -1,96 +1,94 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Device implements Serializable {
     @Id
-    @GeneratedValue
-    Integer deviceID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    @OneToMany(mappedBy = "device")
-    List<DGDJunction> dgdJunctions;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "devices")
+    private List<DeviceGroup> deviceGroups;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
-    DeviceType deviceType;
+    @NotNull
+    private DeviceInfo deviceInfo;
 
-    String ipAdress;
+    @NotNull
+    private String ipAddress;
 
-    int port;
+    @NotNull
+    private int port;
 
-    int xPos;
+    private int xPos;
 
-    int yPos;
+    private int yPos;
 
-    int rotation;
+    private int rotation;
 
     public Device() {
-        this.dgdJunctions = new ArrayList<>();
+        this.deviceGroups = new ArrayList<>();
     }
 
-    public Device(DeviceType deviceType, String ipAdress, int port, int xPos, int yPos, int rotation) {
-        this.dgdJunctions = new ArrayList<>();
-        this.deviceType = deviceType;
-        this.ipAdress = ipAdress;
+    public Device(@NotNull String ipAddress, @NotNull int port, int xPos, int yPos, int rotation, @NotNull DeviceInfo deviceInfo) {
+        this.deviceGroups = new ArrayList<>();
+        this.deviceInfo = deviceInfo;
+        this.ipAddress = ipAddress;
         this.port = port;
         this.xPos = xPos;
         this.yPos = yPos;
         this.rotation = rotation;
     }
 
-    public Device(DeviceType deviceType, String ipAdress, int port, int xPos, int yPos) {
-        this.dgdJunctions = new ArrayList<>();
-        this.deviceType = deviceType;
-        this.ipAdress = ipAdress;
+    public Integer getId() {
+        return id;
+    }
+
+    public List<DeviceGroup> getDeviceGroups() {
+        return deviceGroups;
+    }
+    public DeviceInfo getDeviceInfo() {
+        return deviceInfo;
+    }
+
+    public void setDeviceInfo(DeviceInfo deviceInfo) {
+        this.deviceInfo = deviceInfo;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
         this.port = port;
-        this.xPos = xPos;
-        this.yPos = yPos;
-    }
-
-    public Device(DeviceType deviceType, String ipAdress, int port) {
-        this.dgdJunctions = new ArrayList<>();
-        this.deviceType = deviceType;
-        this.ipAdress = ipAdress;
-        this.port = port;
-    }
-
-    public Integer getDeviceID() {
-        return deviceID;
-    }
-
-    public List<DGDJunction> getDgdJunctions() {
-        return dgdJunctions;
-    }
-
-    public void setDgdJunctions(DGDJunction dgdJunction) {
-        this.dgdJunctions.add(dgdJunction);
-    }
-
-    public DeviceType getDeviceType() {
-        return deviceType;
-    }
-
-    public void setDeviceType(DeviceType deviceType) {
-        this.deviceType = deviceType;
-    }
-
-    public String getIpAdress() {
-        return ipAdress;
-    }
-
-    public void setIpAdress(String ipAdress) {
-        this.ipAdress = ipAdress;
     }
 
     public int getxPos() {
@@ -115,5 +113,25 @@ public class Device implements Serializable {
 
     public void setRotation(int rotation) {
         this.rotation = rotation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Device)) return false;
+        Device device = (Device) o;
+        return getId() == device.getId() &&
+                getPort() == device.getPort() &&
+                getxPos() == device.getxPos() &&
+                getyPos() == device.getyPos() &&
+                getRotation() == device.getRotation() &&
+                Objects.equals(getDeviceInfo(), device.getDeviceInfo()) &&
+                Objects.equals(getIpAddress(), device.getIpAddress());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getDeviceInfo(), getIpAddress(), getPort(), getxPos(), getyPos(), getRotation());
     }
 }

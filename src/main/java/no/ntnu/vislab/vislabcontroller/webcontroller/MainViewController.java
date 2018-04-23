@@ -1,11 +1,15 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-public class MainViewController {
+import no.ntnu.vislab.vislabcontroller.repositories.DeviceRepository;
 
+@Controller
+public class MainViewController extends DeviceController {
+    @Autowired
+    DeviceRepository deviceRepository;
     @RequestMapping("/")
     public String index() {
         return "forward:/Main/main.html";
@@ -13,11 +17,9 @@ public class MainViewController {
 
     @RequestMapping("/user")
     public String user() {
-        return "forward:/User/useradmin.html";
+        return "forward:/User/user.html";
     }
 
-    @RequestMapping("/projector")
-    public String projector() {
-        return "forward:/Projector/projector.html";
-    }
+    @RequestMapping("/admin")
+    public String admin(){return "forward:/Admin/admin.html";}
 }

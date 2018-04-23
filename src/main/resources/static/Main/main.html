@@ -1,137 +1,85 @@
 <!DOCTYPE HTML>
 <html>
-    <head> 
-        <title>Projectors n shiet</title> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="shortcut icon" href="images/favicon.ico" />
-        <link rel="stylesheet" href="../styleNEW.css">
-        <script src="../templatescript.js"></script>
+<head>
+    <title>Projectors n shiet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="Main/dashboard.css">
+    <script src="../templatescript.js"></script>
 
-    </head>
+</head>
 
-    <body>
-        <div include-html="template.html"></div>
-        <script>
-            includeHTML();
-        </script>
+<body>
+<div include-html="template.html"></div>
+<script>
+    includeHTML();
+</script>
 
-        <div class="row">
+<div class="row">
 
-            <div class="column side-c"> <!-- KOLONNE VENSTRE -->
-                <div class="selected-container">
-                    <select id="group-select">
-                        <option value="" selected disabled hidden>Choose projector group</option>
-                        <option>Unselect Group</option>
-                        <option>ProjectorGroup1</option>
-                        <option>ProjectorGroup2</option>
-                        <option>ProjectorGroup3</option>
-                        <option>ProjectorGroup4</option>
-                        <option>ProjectorGroup5</option>
-                        <option>ProjectorGroup6</option>
-                    </select>
-                    <ul id="selected-list">
-                        <li>
-                            
-                            <input id="pro1" class="pro-checkbox" type="checkbox">
-                            <label for="pro1" class="check-label"></label>
-                            <label for="pro1" class="text-label">Projector 1 <span class="state-icon" id="status"></span></label>
+    <div class="column side-c"> <!-- KOLONNE VENSTRE -->
+        <div class="selected-container">
+            <select id="group-select">
+                <option value="" selected disabled hidden>Choose projector group</option>
+                <option>Unselect Group</option>
+            </select>
+            <ul id="selected-list">
+                <!--   <li>
 
-                        </li>
-                        <li>
-                            <input id="pro2" class="pro-checkbox" type="checkbox">
-                            <label for="pro2" class="check-label"></label>
-                            <label for="pro2" class="text-label">Projector 2 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro3" class="pro-checkbox" type="checkbox">
-                            <label for="pro3" class="check-label"></label>
-                            <label for="pro3" class="text-label">Projector 3 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro4" class="pro-checkbox" type="checkbox">
-                            <label for="pro4" class="check-label"></label>
-                            <label for="pro4" class="text-label">Projector 4 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro5" class="pro-checkbox" type="checkbox">
-                            <label for="pro5" class="check-label"></label>
-                            <label for="pro5" class="text-label">Projector 5 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro6" class="pro-checkbox" type="checkbox">
-                            <label for="pro6" class="check-label"></label>
-                            <label for="pro6" class="text-label">Projector 6 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro7" class="pro-checkbox" type="checkbox">
-                            <label for="pro7" class="check-label"></label>
-                            <label for="pro7" class="text-label">Projector 7 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro8" class="pro-checkbox" type="checkbox">
-                            <label for="pro8" class="check-label"></label>
-                            <label for="pro8" class="text-label">Projector 8 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro9" class="pro-checkbox" type="checkbox">
-                            <label for="pro9" class="check-label"></label>
-                            <label for="pro9" class="text-label">Projector 9 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro10" class="pro-checkbox" type="checkbox">
-                            <label for="pro10" class="check-label"></label>
-                            <label for="pro10" class="text-label">Projector 10 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro11" class="pro-checkbox" type="checkbox">
-                            <label for="pro11" class="check-label"></label>
-                            <label for="pro11" class="text-label">Projector 11 <span class="state-icon" id="status"></span></label>
-                        </li>
-                        <li>
-                            <input id="pro12" class="pro-checkbox" type="checkbox">
-                            <label for="pro12" class="check-label"></label>
-                            <label for="pro12" class="text-label">Projector 12 <span class="state-icon" id="status"></span></label>
-                        </li>
-                    </ul>
-                    <div class="group-button">
-                        <div class="tooltip">
-                            <button id="settings-group">
-                                <span class="tooltiptext">See the settings of the currently selected group.</span>
-                                <img src="../Images/groupsettings.png" id="settingsimg" width="40px" height="40px">
-                            </button>
-                        </div>
+                       <input id="pro1" class="pro-checkbox" type="checkbox">
+                       <label for="pro1" class="check-label"></label>
+                       <span class="state-icon" id="status"></span>
+                       <label for="pro1" class="text-label">Projector 111</label>
 
-                        <div class="tooltip">
-                            <button id="button-savegroup">
-                                <span class="tooltiptext">Save the current selected devices as a group.</span>
-                                <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
-                        </div>
-                        <script src="Main/script.js"></script>
-                    </div>
+
+                   </li>-->
+            </ul>
+            <input type="text" id="groupname" name="groupname" placeholder="Enter group name" required>
+            <div class="group-button">
+                <div class="tooltip">
+                    <button id="settings-group">
+                        <span class="tooltiptext">See the settings of the currently selected group.</span>
+                        <img src="../Images/groupsettings.png" id="settingsimg" width="40px" height="40px">
+                    </button>
                 </div>
-            </div>
 
-            <div class="column side-c right-c"> <!-- KOLONNE HØYRE -->
-                <div class="generic-buttons">
                     <div class="tooltip">
-                        <span class="tooltiptext">Turns the selected devices on/off.</span>
-                        <button id="buttonpower">
-                            <img src="../Images/power.png" onclick="powerOn()" id="powerimg" width="40px" height="40px">
-                        </button>
-                    </div>
-                    <div class="tooltip">
-                        <span class="tooltiptext">Turns the projector image on/off.</span>
-                        <button id="buttonmute">
-                            <img src="../Images/mute.png" id="muteimg" onclick="mute()" width="40px" height="40px">
-                        </button>
-                    </div>
+                        <button id="button-savegroup" onclick="createGroup()">
+                            <span class="tooltiptext">Save the current selected devices as a group.</span>
+                            <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
                 </div>
-            </div>
-            <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
-                <canvas width="400px" height="600px" id="projector-layout" style="background: #555555"></canvas>
-                <script src="../ProjectorLayout/ProjectorLayout.js"></script>
             </div>
         </div>
+    </div>
 
-    </body>
+    <div class="column side-c right-c"> <!-- KOLONNE HØYRE -->
+        <div class="generic-buttons">
+            <div class="tooltip">
+                <span class="tooltiptext">Turns the selected devices on/off.</span>
+                <button id="buttonpower" onclick="powerOn()">
+                    <img src="../Images/power_standby.png" id="powerimg" width="40px" height="40px">
+                </button>
+                <button onclick="powerOff()" id="buttonpoweroff">
+                    POWER OFF
+                </button>
+            </div>
+            <div class="tooltip">
+                <span class="tooltiptext">Turns the projector image on/off.</span>
+                <button id="buttonmute">
+                    <img src="../Images/mute_projector.png" id="muteimg" onclick="mute()" width="60px" height="60px">
+                </button>
+                <button onclick="unMute()" id="buttonunmute">
+                    UNMUTE
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
+        <canvas width="400px" height="600px" id="projector-layout" style="background: #555555"></canvas>
+        <script src="../ProjectorLayout/ProjectorLayout.js"></script>
+    </div>
+</div>
+
+<script src="Main/script.js"></script>
+</body>
 </html>

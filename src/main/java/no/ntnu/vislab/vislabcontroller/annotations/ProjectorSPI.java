@@ -12,5 +12,4 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @Documented
 @Target(TYPE)
 public @interface ProjectorSPI {
-    Class<?> value() default void.class;
 }

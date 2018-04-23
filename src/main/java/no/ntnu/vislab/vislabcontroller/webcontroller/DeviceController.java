@@ -1,31 +1,95 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
-import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
+import no.ntnu.vislab.vislabcontroller.factories.ProjectorFactory;
+import no.ntnu.vislab.vislabcontroller.providers.Device;
+import no.ntnu.vislab.vislabcontroller.providers.Projector;
+import no.ntnu.vislab.vislabcontroller.repositories.DeviceRepository;
 
-@Controller
-@RequestMapping("/test")
-public class DeviceController {
-    @RequestMapping("/testDummy")
-    public ResponseEntity<String> dummy() {
-        long time = System.currentTimeMillis();
-        String response = "blue";
-        if (time % 2 == 0) {
-            response = "red";
+@Component
+public abstract class DeviceController {
+    private static Map<Integer, Device> activeDevices;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
+
+    @Autowired
+    private List<DeviceController> controllers;
+
+    protected synchronized Projector getProjector(int id){
+        Projector projector;
+        if (!getProjectors().keySet().contains(id)) {
+            if (deviceRepository.findById(id).isPresent()) {
+                no.ntnu.vislab.vislabcontroller.entity.Device device = deviceRepository.findById(id).get();
+                ProjectorFactory pf = ProjectorFactory.getInstance();
+                projector = pf.getProjector(device.getDeviceInfo().getManufacturer(), device.getDeviceInfo().getModel());
+
+                if (projector != null) {
+                    projector.setIpAddress(device.getIpAddress());
+                    projector.setPort(device.getPort());
+                    activeDevices.put(device.getId(), projector);
+                }
+            } else {
+                projector = null;
+            }
         } else {
-            response = "blue";
+            Device device = activeDevices.get(id);
+            if(device instanceof Projector) {
+                projector = (Projector) device;
+            } else {
+                projector = null;
+            }
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return projector;
     }
-    @RequestMapping("/db")
-    public ResponseEntity<List<DummyDevice>> dummyDevices(){
-        return new ResponseEntity<>(new DummyBase().getList(), HttpStatus.OK);
+    private Map<Integer, Device> getDevices(){
+        checkActiveDevices();
+        Map<Integer, Device> devices = new HashMap<>();
+        activeDevices.forEach((i,d)-> {if(d != null && !(d instanceof Projector)) devices.put(i,d); });
+        return devices;
+    }
+
+    private void checkActiveDevices() {
+        if (activeDevices == null) {
+            activeDevices = new HashMap<>();
+        }
+    }
+
+    private Map<Integer, Projector> getProjectors(){
+        checkActiveDevices();
+        Map<Integer, Projector> projectors = new HashMap<>();
+        activeDevices.forEach((i,d)-> {if(d != null && (d instanceof Projector)) projectors.put(i,(Projector) d); });
+        return projectors;
+    }
+
+    @RequestMapping("/device")
+    private String locateDevicePage(@RequestParam("id") int id){
+        String deviceControllerPageLink = "";
+        for(DeviceController mc : controllers){
+            if(deviceControllerPageLink.isEmpty()){
+                deviceControllerPageLink = mc.getDevicePage(id);
+                if(deviceControllerPageLink == null){
+                    deviceControllerPageLink = "";
+                }
+            }
+        }
+        return deviceControllerPageLink;
+    }
+
+    /**
+     *  Returns the implementing classes path to their html page. Default is empty string, causing a page reload.
+     * @param id The id of the device in question.
+     * @return the string containg the path to the devices html page
+     */
+    public String getDevicePage(int id){
+        return "";
     }
 }

@@ -1,9 +1,8 @@
 FROM java:8
-FROM mysql:latest
-ARG version
-ENV version ${version}
-COPY target/VislabController-$version.jar /vislab/VislabController.jar
+COPY VislabController.jar /vislab/VislabController.jar
+COPY /lib /vislab/lib
+COPY /plugins /vislab/plugins
 
-WORKDIR /
+WORKDIR /vislab/
 
-CMD ["java", "-jar", "/vislab/VislabController.jar"]
+CMD ["java", "-cp", "lib/*:plugins/*:VislabController.jar", "no.ntnu.vislab.vislabcontroller.Application"]
