@@ -1,12 +1,3 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Mar 12, 2018, 11:32:21 AM
-    Author     : Erik
-*/
 
 * {
     margin: 0;
@@ -18,6 +9,7 @@ canvas {
 
 .row {
     height: 100%;
+    width: 100%;
     text-align: center;
     margin-top: 1%;
 }
@@ -28,7 +20,6 @@ canvas {
     height: 100%;
 }
 .right-c {
-    float: right;
     width: 25%;
 }
 .middle-c {
@@ -36,19 +27,18 @@ canvas {
 }
 
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 821px) {
     /* DESKTOP */
     .side-c {
-        width: 40%;
-        float: left;
+        width: 35%;
     }
     .right-c {
-        width: 10%;
+        width: 15%;
     }
 
     .middle-c {
-        display: block;
-        width: 30%;
+        display: inline-block;
+        width: auto;
         text-align: center;
     }
 }
@@ -66,15 +56,10 @@ button:hover {
 /* GENERIC BUTTONS ----------------- */
 .generic-buttons {
     width: 10%;
-    margin-top: 5%;
-    float: left;
+    margin-top: 3%;
     position: fixed;
 }
-@media only screen and (min-width: 768px) {
-    .generic-buttons {
-        position: relative;
-    }
-}
+
 #powerimg {
     filter: invert(100%);
 }
@@ -94,7 +79,9 @@ button:hover {
 
 .selected-container {
     width: 100%;
-    border: solid 2px black;
+    display: inline-block;
+    text-align: center;
+
 }
 
 #group-select {
@@ -108,16 +95,17 @@ select:hover {
 .selected-container ul {
     margin-top: 1%;
     padding: 0;
-    vertical-align: middle;
 }
 .selected-container li {
     width: 12em;
     background-color: #ff1801;
     margin-bottom: 1%;
-    display: block;
     border: solid black 1px;
     border-radius: 15px;
     font-size: 17px;
+    display: inline-table;
+    margin-right: 8.5%;
+    margin-left:0;
 }
 
 .selected-container li:hover {
@@ -185,14 +173,14 @@ input[type=checkbox]:checked + .check-label {
 
 @media only screen and (min-width: 768px) {
     .selected-container li {
-        margin-bottom: 1%;
-        display: inline-table;
-        margin-right: 8.5%;
-        margin-left:0;
+
     }
     .group-button {
         width: 100%;
         margin: 0;
+    }
+    .generic-buttons {
+        position: absolute;
     }
 }
 
