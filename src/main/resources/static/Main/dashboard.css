@@ -20,7 +20,6 @@ canvas {
     height: 100%;
     text-align: center;
     margin-top: 1%;
-    margin-left: 5%;
 }
 
 .column {
@@ -95,6 +94,7 @@ button:hover {
 
 .selected-container {
     width: 100%;
+    border: solid 2px black;
 }
 
 #group-select {
@@ -107,6 +107,7 @@ select:hover {
 }
 .selected-container ul {
     margin-top: 1%;
+    padding: 0;
     vertical-align: middle;
 }
 .selected-container li {
@@ -114,7 +115,6 @@ select:hover {
     background-color: #ff1801;
     margin-bottom: 1%;
     display: block;
-    margin-left: 29%;
     border: solid black 1px;
     border-radius: 15px;
     font-size: 17px;
