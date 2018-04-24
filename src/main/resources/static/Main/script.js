@@ -168,6 +168,8 @@ function addListElements(device) {
         "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
         + "<label for='pro" + counter + "'" + " class='check-label'></label>"
         + "<span class='state-icon'></span>"
+        + "<span class='disconnect-icon'>"
+        +"<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>"
         + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "</label>";
     ul.appendChild(li);
     devices.push(new DeviceMap(device, li, document.getElementById("pro" + counter)));

@@ -151,6 +151,22 @@ input[type=checkbox]:checked + .check-label {
     margin-left: 3%;
     margin-top: 3%;
 }
+.disconnect-image {
+    width: 25px;
+    height: 28px;
+}
+.disconnect-icon {
+    border: solid white 1px;
+    background-color: #696565;
+    border-radius: 5%;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    float: left;
+    border-radius: 30%;
+    margin-top: 1%;
+    margin-left: 1%;
+}
 
 .group-button {
     width: 42.85%;
