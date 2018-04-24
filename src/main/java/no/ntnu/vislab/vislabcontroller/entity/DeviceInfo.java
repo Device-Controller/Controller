@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class DeviceInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @NotNull
@@ -43,7 +43,7 @@ public class DeviceInfo implements Serializable {
         this.model = model;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
