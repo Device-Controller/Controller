@@ -20,7 +20,6 @@ canvas {
     height: 100%;
     text-align: center;
     margin-top: 1%;
-    margin-left: 5%;
 }
 
 .column {
@@ -79,7 +78,10 @@ button:hover {
 #powerimg {
     filter: invert(100%);
 }
-#buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff {
+#poweroffimg {
+    filter: invert(100%);
+}
+#buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff, #settings-group {
     display: block;
     width: 100px;
     height: 100px;
@@ -92,6 +94,7 @@ button:hover {
 
 .selected-container {
     width: 100%;
+    border: solid 2px black;
 }
 
 #group-select {
@@ -104,6 +107,7 @@ select:hover {
 }
 .selected-container ul {
     margin-top: 1%;
+    padding: 0;
     vertical-align: middle;
 }
 .selected-container li {
@@ -111,7 +115,6 @@ select:hover {
     background-color: #ff1801;
     margin-bottom: 1%;
     display: block;
-    margin-left: 29%;
     border: solid black 1px;
     border-radius: 15px;
     font-size: 17px;
@@ -147,7 +150,7 @@ label:hover {
 
 input[type=checkbox]:checked + .check-label {
     float: right;
-    background: url('Images/check-icon.png') no-repeat;
+    background: url('../Images/check-icon.png') no-repeat;
     background-size: 100%;
 }
 .state-icon {
@@ -167,11 +170,17 @@ input[type=checkbox]:checked + .check-label {
     float: left;
     margin-left: 35%;
 }
-#settings-group, #button-savegroup {
+#button-savegroup {
     border-radius: 30%;
     float: left;
     width: 5em;
     height: 5em;
+}
+#groupname {
+    font-size: 17px;
+}
+#saveimg {
+    filter: invert(100%);
 }
 
 @media only screen and (min-width: 768px) {

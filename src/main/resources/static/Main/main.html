@@ -4,7 +4,7 @@
     <title>Projectors n shiet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="../styleNEW.css">
+    <link rel="stylesheet" href="Main/dashboard.css">
     <script src="../templatescript.js"></script>
 
 </head>
@@ -24,30 +24,23 @@
                 <option>Unselect Group</option>
             </select>
             <ul id="selected-list">
-                  <!--   <li>
+                <!--   <li>
 
-                         <input id="pro1" class="pro-checkbox" type="checkbox">
-                         <label for="pro1" class="check-label"></label>
-                         <span class="state-icon" id="status"></span>
-                         <label for="pro1" class="text-label">Projector 111</label>
+                       <input id="pro1" class="pro-checkbox" type="checkbox">
+                       <label for="pro1" class="check-label"></label>
+                       <span class="state-icon" id="status"></span>
+                       <label for="pro1" class="text-label">Projector 111</label>
 
 
-                     </li>-->
+                   </li>-->
             </ul>
+            <input type="text" id="groupname" name="groupname" placeholder="Enter group name" required>
             <div class="group-button">
-                <div class="tooltip">
-                    <button id="settings-group">
-                        <span class="tooltiptext">See the settings of the currently selected group.</span>
-                        <img src="../Images/groupsettings.png" id="settingsimg" width="40px" height="40px">
-                    </button>
+                    <div class="tooltip">
+                        <button id="button-savegroup" onclick="createGroup()">
+                            <span class="tooltiptext">Save the current selected devices as a group.</span>
+                            <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
                 </div>
-
-                <div class="tooltip">
-                    <button id="button-savegroup" onclick="createGroup()">
-                        <span class="tooltiptext">Save the current selected devices as a group.</span>
-                        <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
-                </div>
-                <script src="Main/script.js"></script>
             </div>
         </div>
     </div>
@@ -57,28 +50,34 @@
             <div class="tooltip">
                 <span class="tooltiptext">Turns the selected devices on/off.</span>
                 <button id="buttonpower" onclick="powerOn()">
-                    <img src="../Images/power_standby.png" id="powerimg" width="40px" height="40px">
+                    <img src="../Images/power_on.png" id="powerimg" width="10px" height="50px">
                 </button>
                 <button onclick="powerOff()" id="buttonpoweroff">
-                    POWER OFF
+                    <img src="../Images/power_off.png" id="poweroffimg" width="50px" height="50px">
                 </button>
             </div>
             <div class="tooltip">
                 <span class="tooltiptext">Turns the projector image on/off.</span>
-                <button id="buttonmute">
-                    <img src="../Images/mute_projector.png" id="muteimg" onclick="mute()" width="60px" height="60px">
+                <button id="buttonmute" onclick="mute()">
+                    <img src="../Images/mute_projector.png" id="muteimg"  width="60px" height="60px">
                 </button>
                 <button onclick="unMute()" id="buttonunmute">
-                    UNMUTE
+                    <img src="../Images/unmute_projector.png" id="unmuteimg" width="60px" height="60px">
+                </button>
+            </div>
+            <div class="tooltip">
+                <button id="settings-group">
+                    <span class="tooltiptext">See the settings of the currently selected group.</span>
+                    <img src="../Images/groupsettings.png" id="settingsimg" width="70px" height="60px">
                 </button>
             </div>
         </div>
     </div>
     <div class="column middle-c"> <!-- KOLONNE MIDTEN -->
         <canvas width="400px" height="600px" id="projector-layout" style="background: #555555"></canvas>
-        <script src="../ProjectorLayout/ProjectorLayout.js"></script>
     </div>
 </div>
-
 </body>
+<script src="Main/script.js"></script>
+<script src="../ProjectorLayout/ProjectorLayout.js"></script>
 </html>
