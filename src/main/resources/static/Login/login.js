@@ -5,8 +5,8 @@ function login() {
     console.log(password);
     fetch('login/login', {
         method: "POST",
-        headers: {"Content-type": "application/json;"},
-        body: JSON.stringify(new User(username, password))
+        body: JSON.stringify(new User(username, password)),
+        headers: {"Content-Type": "application/json"}
     }).then(r => {
         if (r.ok) {
             r.json().then(e => window.location.replace(window.location.origin + e.link));
