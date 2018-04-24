@@ -23,10 +23,11 @@ fetch('../test/db')
 
 function loadDevices() {
     for (let numberOfDevices = 1; numberOfDevices < devices.length + 1; numberOfDevices++) {
-        let table = document.createElement('table');
-
-        table.innerHTML =
-            "<tr class='header-row'>"
+        let div = document.createElement('div');
+        div.classList.add('table-container');
+        div.innerHTML =
+              "<table class='display-table'>"
+            + "<tr class='header-row'>"
             + "<td>Setting</td>"
             + "<td>Current Value</td>"
             + "<td>New Value</td>"
@@ -47,7 +48,12 @@ function loadDevices() {
         </tr>
         <tr>
         <td>Mute</td>
-        <td id="mute-state">Loading...</td>
+        <td>
+                    <select id="muteList">
+                        <option value="mute">Mute</option>
+                        <option value="unMute">Unmute</option>
+                    </select>
+                </td>
         <td>
         <select>
         <option>Mute</option>
@@ -72,36 +78,42 @@ function loadDevices() {
         </td>
         </tr>
         <tr>
-        <td>Brightness</td>
-        <td id="brightness">Loading...</td>
-        <td>
-        <div class="slider-container">
-            <input type="range" min="-100" max="100" value="0" class="slider" id="brightness" oninput="brightnessFinder()">
-            <span id="brightness-value">0</span>
-            </div>
-            <script>
-            function brightnessFinder() {
-                let slider = document.getElementById('brightness').value;
-                document.getElementById('brightness-value').innerHTML = slider;
-            }
-            </script>
-            </td>
+                <td>Brightness</td>
+                <td>
+                    <input type="number" id="brightness-value" value="0" min="-100" max="100"
+                           onload="setValue(this, brightness)" style="width:50px;">
+                </td>
+                <td>
+                    <div class="slider-container">
+                        <input type="range" min="-100" max="100" value="0" class="slider" id="brightness"
+                               oninput="brightnessFinder()" onmouseup="setBrightness(this)">
+                    </div>
+                    <script>
+                        function brightnessFinder() {
+                            let slider = document.getElementById('brightness').value;
+                            document.getElementById('brightness-value').value = slider;
+                        }
+                    </script>
+                </td>
             </tr>
             <tr>
-            <td>Contrast</td>
-            <td id="get-contrast">Loading...</td>
-        <td>
-        <div class="slider-container">
-            <input type="range" min="-100" max="100" value="0" class="slider" id="contrast" oninput="contrastFinder()">
-            <span id="contrast-value">0</span>
-            </div>
-            <script>
-            function contrastFinder() {
-                let slider = document.getElementById('contrast').value;
-                document.getElementById('contrast-value').innerHTML = slider;
-            }
-            </script>
-            </td>
+                <td>Contrast</td>
+                <td>
+                    <input type="number" id="contrast-value" value="0" min="-100" max="100"
+                           onload="setValue(this, contrast)" style="width:50px;">
+                </td>
+                <td>
+                    <div class="slider-container">
+                        <input type="range" min="-100" max="100" value="0" class="slider" id="contrast"
+                               oninput="contrastFinder()" onmouseup="setContrast(this)">
+                    </div>
+                    <script>
+                        function contrastFinder() {
+                            let slider = document.getElementById('contrast').value;
+                            document.getElementById('contrast-value').value = slider;
+                        }
+                    </script>
+                </td>
             </tr>
             <tr>
             <td>Thermal</td>
@@ -118,15 +130,81 @@ function loadDevices() {
         <tr class="bottom-row">
         <td>Lamp Status</td>
         <td id="lamp1-status">Loading...</td>
-        </tr>`
+        </tr>
+        </table>`
         ;
 
-        console.log(table);
-        console.log(document.body);
-        document.body.appendChild(table);
+        document.body.appendChild(div);
         updateData(numberOfDevices);
 
     }
+}
+
+document.getElementById("muteList").onchange = function() {
+    if (this.value == 'mute') {
+        mute();
+    } else if (this.value == 'unMute') {
+        unMute();
+    }
+};
+
+function mute() {
+    fetch('BarkoF22/mute?id=' + parseURLId(location.href)).then(response => {
+        if (response.ok) {
+            response.json().then(e => console.log(e));
+        }
+    })
+}
+
+function unMute() {
+    fetch('BarkoF22/unMute?id=' + parseURLId(location.href)).then(response => {
+        if (response.ok) {
+            response.json().then(e => console.log(e));
+        }
+    })
+}
+
+document.getElementById("imageList").onchange = function() {
+    console.log(this.value);
+    testImage(this.value);
+}
+
+function testImage(image) {
+    fetch('BarkoF22/testImage?id=' + parseURLId(location.href) + '&image=' + image).then(response => {
+        if (response.ok) {
+            response.json().then(e => console.log(e));
+        }
+    })
+}
+
+document.querySelector('#contrast-value').addEventListener('keypress', function (e) {
+    var key = e.which || e.keyCode;
+    if (key === 13) {
+        setContrast(document.querySelector('#contrast-value'));
+        document.querySelector('#contrast').value = document.querySelector('#contrast-value').value;
+    }
+});
+
+function setContrast(number) {
+    fetch('BarkoF22/setContrast?id=' + parseURLId(location.href) + '&value=' + number.value).then(response => {
+        if (response.ok) {
+            console.log(number.value);
+            console.log(response);
+            response.json().then(e => document.getElementById("contrast-value").innerHTML = e);
+        }
+    });
+}
+function setBrightness(number) {
+    fetch('BarkoF22/setBrightness?id=' + parseURLId(location.href) + '&value=' + number.value).then(response => {
+        if (response.ok) {
+            console.log(number.value);
+            console.log(response);
+            response.json().then(e => document.getElementById("brightness-value").innerHTML = e);
+        }
+    });
+}
+function setValue(element1, element2) {
+    element1.value = document.getElementById(element2).value;
 }
 
 function updateData(id) {
