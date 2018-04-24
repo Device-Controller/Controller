@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
-import no.ntnu.vislab.vislabcontroller.dummybase.DummyBase;
-import no.ntnu.vislab.vislabcontroller.dummybase.DummyDevice;
 import no.ntnu.vislab.vislabcontroller.entity.Device;
 import no.ntnu.vislab.vislabcontroller.providers.Projector;
 
@@ -23,15 +21,7 @@ import no.ntnu.vislab.vislabcontroller.providers.Projector;
  */
 @Controller
 @RequestMapping("/MainController")
-public class ProjectorController extends MainController {
-
-    @RequestMapping("/getProjector")
-    public ResponseEntity<DummyDevice> getSingleProjector(@RequestParam(value = "id") int id) {
-        DummyDevice d = new DummyBase().getSingle(id);
-        System.out.println(d);
-        return new ResponseEntity<>(d, HttpStatus.OK);
-    }
-
+public class ProjectorController extends DeviceController {
     @RequestMapping("/getRealProjector")
     public ResponseEntity<Device> getSingleDevice(@RequestParam(value = "id") int id) {
         return null;
@@ -52,6 +42,12 @@ public class ProjectorController extends MainController {
     public ResponseEntity<Integer> muteImage(@RequestParam(value = "id") int id) throws IOException {
         Projector projector = getProjector(id);
         return new ResponseEntity<>(projector.mute(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/unMute")
+    public ResponseEntity<Integer> unMuteImage(@RequestParam(value = "id") int id) throws IOException {
+        Projector projector = getProjector(id);
+        return new ResponseEntity<>(projector.unMute(), HttpStatus.OK);
     }
 
     @RequestMapping("/powerState")

@@ -20,7 +20,6 @@ canvas {
     height: 100%;
     text-align: center;
     margin-top: 1%;
-    margin-left: 5%;
 }
 
 .column {
@@ -52,7 +51,6 @@ canvas {
         width: 30%;
         text-align: center;
     }
-
 }
 
 
@@ -67,14 +65,23 @@ button:hover {
 }
 /* GENERIC BUTTONS ----------------- */
 .generic-buttons {
-    width: 25%;
-    margin-top: 20%;
+    width: 10%;
+    margin-top: 5%;
     float: left;
+    position: fixed;
+}
+@media only screen and (min-width: 768px) {
+    .generic-buttons {
+        position: relative;
+    }
 }
 #powerimg {
     filter: invert(100%);
 }
-#buttonpower, #buttonmute {
+#poweroffimg {
+    filter: invert(100%);
+}
+#buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff, #settings-group {
     display: block;
     width: 100px;
     height: 100px;
@@ -87,6 +94,7 @@ button:hover {
 
 .selected-container {
     width: 100%;
+    border: solid 2px black;
 }
 
 #group-select {
@@ -99,6 +107,7 @@ select:hover {
 }
 .selected-container ul {
     margin-top: 1%;
+    padding: 0;
     vertical-align: middle;
 }
 .selected-container li {
@@ -106,11 +115,10 @@ select:hover {
     background-color: #ff1801;
     margin-bottom: 1%;
     display: block;
-    margin-left: 29%;
     border: solid black 1px;
     border-radius: 15px;
+    font-size: 17px;
 }
-
 
 .selected-container li:hover {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
@@ -124,6 +132,7 @@ label {
 
 .text-label {
     white-space: pre-line;
+    margin: 0;
 }
 
 input[type=checkbox] {
@@ -141,16 +150,19 @@ label:hover {
 
 input[type=checkbox]:checked + .check-label {
     float: right;
-    background: url('Images/check-icon.png');
+    background: url('../Images/check-icon.png') no-repeat;
     background-size: 100%;
 }
 .state-icon {
-    height: 10px;
-    width: 10px;
+    height: 20px;
+    width: 20px;
     background-color: red;
     border-radius: 50%;
     border: black solid .5px;
     display: inline-block;
+    float: left;
+    margin-left: 3%;
+    margin-top: 3%;
 }
 
 .group-button {
@@ -158,11 +170,17 @@ input[type=checkbox]:checked + .check-label {
     float: left;
     margin-left: 35%;
 }
-#settings-group, #button-savegroup {
+#button-savegroup {
     border-radius: 30%;
     float: left;
     width: 5em;
     height: 5em;
+}
+#groupname {
+    font-size: 17px;
+}
+#saveimg {
+    filter: invert(100%);
 }
 
 @media only screen and (min-width: 768px) {

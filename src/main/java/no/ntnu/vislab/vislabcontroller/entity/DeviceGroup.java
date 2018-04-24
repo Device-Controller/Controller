@@ -1,5 +1,7 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
@@ -24,6 +27,9 @@ public class DeviceGroup implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
+    @NotNull
+    private String groupName;
+    @JsonManagedReference("user_devicegroup")
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "junction_devicegroup_user", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "user_id")) //this creates the junction in a table named "junction_devicegroup_user"
     private List<User> users;
@@ -36,6 +42,11 @@ public class DeviceGroup implements Serializable {
     public DeviceGroup() {
         this.users = new ArrayList<>();
         this.devices = new ArrayList<>();
+    }
+
+    public DeviceGroup(@NotNull String groupName) {
+        this();
+        this.groupName = groupName;
     }
 
     public Integer getId() {
@@ -66,5 +77,13 @@ public class DeviceGroup implements Serializable {
     public void removeDevice(Device device){
         this.devices.remove(device);
         device.getDeviceGroups().remove(this);
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

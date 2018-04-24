@@ -15,14 +15,14 @@ import no.ntnu.vislab.vislabcontroller.providers.Projector;
 import no.ntnu.vislab.vislabcontroller.repositories.DeviceRepository;
 
 @Component
-public abstract class MainController {
+public abstract class DeviceController {
     private static Map<Integer, Device> activeDevices;
 
     @Autowired
     private DeviceRepository deviceRepository;
 
     @Autowired
-    private List<MainController> controllers;
+    private List<DeviceController> controllers;
 
     protected synchronized Projector getProjector(int id){
         Projector projector;
@@ -73,7 +73,7 @@ public abstract class MainController {
     @RequestMapping("/device")
     private String locateDevicePage(@RequestParam("id") int id){
         String deviceControllerPageLink = "";
-        for(MainController mc : controllers){
+        for(DeviceController mc : controllers){
             if(deviceControllerPageLink.isEmpty()){
                 deviceControllerPageLink = mc.getDevicePage(id);
                 if(deviceControllerPageLink == null){
