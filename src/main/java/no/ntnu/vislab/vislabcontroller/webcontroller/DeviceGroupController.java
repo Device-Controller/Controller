@@ -1,5 +1,6 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
+import no.ntnu.vislab.vislabcontroller.entity.Theatre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class DeviceGroupController {
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DeviceGroup> addNew(@RequestParam("groupname") String groupName, @RequestBody Device[] deviceArray){
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
-        DeviceGroup d = new DeviceGroup(groupName);
+        DeviceGroup d = new DeviceGroup(groupName, new Theatre());
         devices.forEach(de->{
             d.addDevice(deviceRepository.findById(de.getId()).get());
             d.setGroupName(d.getGroupName());

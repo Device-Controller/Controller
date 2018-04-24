@@ -23,11 +23,15 @@ import javax.validation.constraints.NotNull;
 public class Device implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "devices")
     private List<DeviceGroup> deviceGroups;
+
+    @JsonBackReference("device_theatre")
+    @ManyToMany(mappedBy = "devices")
+    private List<Theatre> theatres;
 
     @JsonBackReference
     @ManyToOne(optional = false)
@@ -67,6 +71,11 @@ public class Device implements Serializable {
     public List<DeviceGroup> getDeviceGroups() {
         return deviceGroups;
     }
+
+    public List<Theatre> getTheatres() {
+        return theatres;
+    }
+
     public DeviceInfo getDeviceInfo() {
         return deviceInfo;
     }

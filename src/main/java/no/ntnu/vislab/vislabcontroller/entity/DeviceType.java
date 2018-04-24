@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class DeviceType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @NotNull
     private String type;
@@ -22,7 +22,7 @@ public class DeviceType {
     public DeviceType() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -1,5 +1,6 @@
 package no.ntnu.vislab.vislabcontroller.webcontroller;
 
+import no.ntnu.vislab.vislabcontroller.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,11 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Random;
 
-import no.ntnu.vislab.vislabcontroller.entity.Device;
-import no.ntnu.vislab.vislabcontroller.entity.DeviceGroup;
-import no.ntnu.vislab.vislabcontroller.entity.DeviceInfo;
-import no.ntnu.vislab.vislabcontroller.entity.DeviceType;
-import no.ntnu.vislab.vislabcontroller.entity.Role;
 import no.ntnu.vislab.vislabcontroller.repositories.DeviceGroupRepository;
 import no.ntnu.vislab.vislabcontroller.repositories.DeviceInfoRepository;
 import no.ntnu.vislab.vislabcontroller.repositories.DeviceRepository;
@@ -89,13 +85,13 @@ public class TestingController {
 
     @RequestMapping("/addGroup")
     public ResponseEntity<DeviceGroup> addDeviceGroup(){
-        DeviceGroup d = new DeviceGroup("All");
+        DeviceGroup d = new DeviceGroup("All", new Theatre());
         deviceRepository.findAll().forEach(d::addDevice);
         return new ResponseEntity<>(deviceGroupRepository.save(d),HttpStatus.OK);
     }
     @RequestMapping("randomgroup")
     public ResponseEntity<DeviceGroup> randomGroup(){
-        DeviceGroup d = new DeviceGroup("Random");
+        DeviceGroup d = new DeviceGroup("Random", new Theatre());
         deviceRepository.findAll().forEach(e->{
             if(new Random().nextInt(100)<50){
                 d.addDevice(e);
