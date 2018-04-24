@@ -29,7 +29,6 @@ public class Theatre implements Serializable {
     private List<Device> devices;
 
     @JsonManagedReference("devicegroup_theatre")
-    /*@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})*/
     @OneToMany(mappedBy = "theatre")
     private List<DeviceGroup> deviceGroups;
 

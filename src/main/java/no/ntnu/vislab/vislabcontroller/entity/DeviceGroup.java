@@ -37,7 +37,6 @@ public class DeviceGroup implements Serializable {
     private List<Device> devices;
 
     @NotNull
-    /*@OneToMany(mappedBy = "deviceGroups")*/
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Theatre theatre;
 
