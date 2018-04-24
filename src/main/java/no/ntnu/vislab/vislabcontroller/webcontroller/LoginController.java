@@ -12,12 +12,10 @@ import javax.validation.Valid;
 
 import no.ntnu.vislab.vislabcontroller.Security.UserValidator;
 import no.ntnu.vislab.vislabcontroller.entity.User;
-import no.ntnu.vislab.vislabcontroller.repositories.UserRepository;
 import no.ntnu.vislab.vislabcontroller.services.SecurityService;
 import no.ntnu.vislab.vislabcontroller.services.UserService;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
     @Autowired
     private UserService userService;
@@ -27,12 +25,8 @@ public class LoginController {
 
     @Autowired
     private UserValidator validator;
-
-    @Autowired
-    private UserRepository userRepository;
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String registration(@Valid @RequestBody User user, BindingResult bindingResult) {
-        User userForm = userRepository.findByUsername(user.getUsername());
+    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String registration(@Valid @RequestBody User userForm, BindingResult bindingResult) {
 
         validator.validate(userForm, bindingResult);
 
@@ -47,15 +41,16 @@ public class LoginController {
         return "redirect:/";
     }
 //
-//    @RequestMapping("/login")
-//    public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password) {
-//        System.out.println(username);
-//        System.out.println(password);
-//        User u = userRepository.findByUsernameAndPassword(username, password);
-//        System.out.println(u);
-//        if (u != null) {
-//            return new ResponseEntity<>(u, HttpStatus.OK);
+//    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public String login(@Valid @RequestBody User userForm, BindingResult bindingResult) {
+//
+//        validator.validate(userForm, bindingResult);
+//
+//        if (bindingResult.hasErrors()) {
+//            return "404";
 //        }
-//        return new ResponseEntity<>(new User(), HttpStatus.OK);
+//        securityService.autoLogin(userForm.getUsername(), userForm.getPassword());
+//
+//        return "redirect:/";
 //    }
 }

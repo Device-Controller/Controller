@@ -1,6 +1,6 @@
 package no.ntnu.vislab.vislabcontroller.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class User {
     private long id;
 
 
-    @JsonBackReference("user_devicegroup")
+    @JsonIgnore
     @ManyToMany(mappedBy = "users")
     private List<DeviceGroup> deviceGroups;
 

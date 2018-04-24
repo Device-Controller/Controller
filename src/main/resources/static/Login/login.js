@@ -3,15 +3,15 @@ function login() {
     let password = document.getElementById("pass").value;
     console.log(username);
     console.log(password);
-    fetch('login/login', {
+    fetch('login', {
         method: "POST",
         body: JSON.stringify(new User(username, password)),
-        headers: {"Content-Type": "application/json"}
+        headers: {'Content-Type': 'application/json;charset=UTF-8'}
     }).then(r => {
         if (r.ok) {
             r.json().then(e => window.location.replace(window.location.origin + e.link));
         }
-    })
+    });
 }
 
 let form = document.getElementById("loginForm");
