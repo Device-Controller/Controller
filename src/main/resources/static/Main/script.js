@@ -204,7 +204,47 @@ function getDeviceSelectionBox(id) {
     }
     return "";
 }
-
+function populateTheatre() {
+    let dropdown = document.getElementById("theatre-select");
+    dropdown.onchange = e => {
+        for (let i = 0; i < devices.length; i++) {
+            devices[i].checkbox.checked = false;
+        }
+        for (let i = 0; i < optionMap.length; i++) {
+            if (optionMap[i].option.selected) {
+                let optionDevices = optionMap[i].deviceGroup.devices;
+                for (let j = 0; j < optionDevices.length; j++) {
+                    let vara = getDeviceSelectionBox(optionDevices[j].id);
+                    vara.checked = true;
+                }
+            }
+        }
+    };
+    updateTheatre();
+}
+function updateTheatre(index) {
+    let dropdown = document.getElementById("theatre-select");
+    for (let i = dropdown.children.length - 1; i > 1; i--) {
+        dropdown.children[i].remove();
+    }
+    fetch("theatre/theatres").then(r => {
+        if (r.ok) {
+            r.json().then(e => {
+                for (let i = 0; i < e.length; i++) {
+                    let x = new DeviceGroup(e[i].id, e[i].theatreName, e[i].devices);
+                    let option = document.createElement("option");
+                    option.text = x.groupName;
+                    optionMap.push(new OptionMap(option, x));
+                    dropdown.add(option, 99);
+                }
+                if (index) {
+                    dropdown.selectedIndex = dropdown.length - 1;
+                }
+            });
+        }
+    })
+}
+populateTheatre();
 function populateDropdown() {
 
     let dropdown = document.getElementById("group-select");
