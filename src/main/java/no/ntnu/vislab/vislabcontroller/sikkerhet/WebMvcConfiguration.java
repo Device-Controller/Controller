@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.Security;
+package no.ntnu.vislab.vislabcontroller.sikkerhet;
 
 
 import org.springframework.context.annotation.ComponentScan;

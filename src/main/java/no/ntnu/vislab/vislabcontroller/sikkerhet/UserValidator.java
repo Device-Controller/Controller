@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.Security;
+package no.ntnu.vislab.vislabcontroller.sikkerhet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
