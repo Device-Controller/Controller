@@ -22,4 +22,9 @@ public class MainViewController extends DeviceController {
 
     @RequestMapping("/admin")
     public String admin(){return "forward:/Admin/admin.html";}
+
+    @RequestMapping("/login")
+    public String login(){
+        return "forward:/Login/login.html";
+    }
 }
