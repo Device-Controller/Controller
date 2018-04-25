@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 import no.ntnu.vislab.vislabcontroller.Security.UserValidator;
 import no.ntnu.vislab.vislabcontroller.entity.User;
+import no.ntnu.vislab.vislabcontroller.repositories.UserRepository;
 import no.ntnu.vislab.vislabcontroller.services.SecurityService;
 import no.ntnu.vislab.vislabcontroller.services.UserService;
 
@@ -24,6 +25,8 @@ public class LoginController {
     private SecurityService securityService;
 
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private UserValidator validator;
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String registration(@Valid @RequestBody User userForm, BindingResult bindingResult) {
@@ -31,7 +34,7 @@ public class LoginController {
         validator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return "fuckoff";
         }
 
         userService.save(userForm);
@@ -41,15 +44,17 @@ public class LoginController {
         return "redirect:/";
     }
 //
-//    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    public String login(@Valid @RequestBody User userForm, BindingResult bindingResult) {
+//    @RequestMapping(value = "/login", method = RequestMethod.POST)
+//    public String processLoginForm(HttpSession session, @RequestParam("username") String username, @RequestParam("password") String password,
+//                                   BindingResult result, Model model, final RedirectAttributes redirectAttributes)
+//    {
+//        User user = userRepository.findByUsername(username);
+//        validator.validate(user, result);
 //
-//        validator.validate(userForm, bindingResult);
-//
-//        if (bindingResult.hasErrors()) {
+//        if (result.hasErrors()) {
 //            return "404";
 //        }
-//        securityService.autoLogin(userForm.getUsername(), userForm.getPassword());
+//        securityService.autoLogin(user.getUsername(), user.getPassword());
 //
 //        return "redirect:/";
 //    }

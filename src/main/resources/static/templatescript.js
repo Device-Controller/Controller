@@ -1,6 +1,13 @@
 /*
  * includeHTML code is borrowed from https://www.w3schools.com/howto/howto_html_include.asp 
  */
+
+let orgFetch = fetch;
+fetch = function (dest) {
+    return orgFetch(dest,  {
+        method: 'GET',
+        credentials: 'include'});
+};
 function includeHTML() {
     var z, i, elmnt, file, xhttp;
     z = document.getElementsByTagName("*");

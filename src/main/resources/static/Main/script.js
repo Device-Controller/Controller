@@ -7,10 +7,13 @@
 var devices = [];
 var optionMap = [];
 var timeout;
-startUp();
+console.log("init");
 
+startUp();
 function startUp() {
+    console.log("start");
     fetch('test/db').then(response => {
+        console.log(response);
         if (response.ok) {
             response.json().then(e => {
                 for (let i = 0; i < e.length; i++) {

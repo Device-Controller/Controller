@@ -127,6 +127,7 @@ public class TestingController {
 
     @RequestMapping("/db")
     public ResponseEntity<List<Device>> getDevices() {
+        System.out.println("rte");
         List<Device> list = deviceRepository.findAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
