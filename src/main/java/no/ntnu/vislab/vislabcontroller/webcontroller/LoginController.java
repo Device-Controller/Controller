@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 
-import no.ntnu.vislab.vislabcontroller.sikkerhet.UserValidator;
+import no.ntnu.vislab.vislabcontroller.security.UserValidator;
 import no.ntnu.vislab.vislabcontroller.entity.User;
 import no.ntnu.vislab.vislabcontroller.repositories.UserRepository;
 import no.ntnu.vislab.vislabcontroller.services.SecurityService;
