@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Integer id;
 
 
     @JsonIgnore
@@ -51,7 +51,7 @@ public class User {
         this.deviceGroups = new ArrayList<>();
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @NotNull
     private String roleName;
@@ -31,6 +31,7 @@ public class Role implements Serializable {
 
     @NotNull
     private boolean removeUser;
+
     public Role() {
     }
 
@@ -42,7 +43,7 @@ public class Role implements Serializable {
         this.removeUser = removeUser;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

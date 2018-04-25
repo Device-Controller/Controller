@@ -6,15 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -25,28 +17,38 @@ import javax.validation.constraints.NotNull;
 public class DeviceGroup implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    private Integer id;
 
     @NotNull
     private String groupName;
+
     @JsonManagedReference("user_devicegroup")
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "junction_devicegroup_user", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "user_id")) //this creates the junction in a table named "junction_devicegroup_user"
+    @JoinTable(name = "junction_devicegroup_user"
+            , joinColumns = @JoinColumn(name = "devicegroup_id")
+            , inverseJoinColumns = @JoinColumn(name = "user_id")) //this creates the junction in a table named "junction_devicegroup_user"
     private List<User> users;
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "junction_devicegroup_device", joinColumns = @JoinColumn(name = "devicegroup_id"), inverseJoinColumns = @JoinColumn(name = "device_id"))//this creates the junction in a table named "junction_devicegroup_device"
-    List<Device> devices;
+    @JoinTable(name = "junction_devicegroup_device"
+            , joinColumns = @JoinColumn(name = "devicegroup_id")
+            , inverseJoinColumns = @JoinColumn(name = "device_id")) //this creates the junction in a table named "junction_devicegroup_device"
+    private List<Device> devices;
+
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Theatre theatre;
 
     public DeviceGroup() {
         this.users = new ArrayList<>();
         this.devices = new ArrayList<>();
     }
 
-    public DeviceGroup(@NotNull String groupName) {
+    public DeviceGroup(@NotNull String groupName, @NotNull Theatre theatre) {
         this();
         this.groupName = groupName;
+        this.theatre = theatre;
     }
 
     public Integer getId() {
@@ -61,6 +63,7 @@ public class DeviceGroup implements Serializable {
         this.users.add(user);
         user.getDeviceGroups().add(this);
     }
+
     public void removeUser(User user) {
         this.users.remove(user);
         user.getDeviceGroups().remove(this);
@@ -77,6 +80,14 @@ public class DeviceGroup implements Serializable {
     public void removeDevice(Device device){
         this.devices.remove(device);
         device.getDeviceGroups().remove(this);
+    }
+
+    public Theatre getTheatre() {
+        return theatre;
+    }
+
+    public void setTheatre(Theatre theatre) {
+        this.theatre = theatre;
     }
 
     public String getGroupName() {

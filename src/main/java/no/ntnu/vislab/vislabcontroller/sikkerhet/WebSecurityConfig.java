@@ -1,4 +1,4 @@
-package no.ntnu.vislab.vislabcontroller.Security;
+package no.ntnu.vislab.vislabcontroller.sikkerhet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/*.js").permitAll()
                 .antMatchers("/**/*.css").permitAll()
                 .antMatchers("/**/logo-v2.png").permitAll()
-                .anyRequest().authenticated()
+                //.anyRequest().authenticated()
                 .and()
                 .formLogin().defaultSuccessUrl("/", true)
                 .loginPage("/login")
