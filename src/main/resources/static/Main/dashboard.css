@@ -159,7 +159,7 @@ input[type=checkbox]:checked + .check-label {
     border: solid white 1px;
     background-color: #696565;
     border-radius: 5%;
-    display: inline-block;
+    display: none;
     height: 30px;
     width: 30px;
     float: left;

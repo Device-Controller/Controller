@@ -83,7 +83,14 @@ function unMute() {
 
 function powerIcon(index, color) {
     let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
-    statusIcon.style.backgroundColor = color;
+    let discoIcon = devices[index].selectionBox.querySelector(".disconnect-icon");
+    if (color === 'none') {
+        statusIcon.style.display = color;
+        discoIcon.style.display = 'inline-block';
+    } else {
+        statusIcon.style.backgroundColor = color;
+        discoIcon.style.display = 'none';
+    }
 }
 
 function getPowerState(id, n) {
@@ -91,6 +98,8 @@ function getPowerState(id, n) {
         if (response.ok) {
             response.json().then(p => {
                 switch (p) {
+                    case -1:
+                        powerIcon(n, 'none');
                     case 0:
                         powerIcon(n, "#ff6600");
                         break;
