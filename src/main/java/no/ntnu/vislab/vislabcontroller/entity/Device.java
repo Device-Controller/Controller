@@ -52,10 +52,11 @@ public class Device implements Serializable {
 
     public Device() {
         this.deviceGroups = new ArrayList<>();
+        this.theatres = new ArrayList<>();
     }
 
     public Device(@NotNull String ipAddress, @NotNull int port, int xPos, int yPos, int rotation, @NotNull DeviceInfo deviceInfo) {
-        this.deviceGroups = new ArrayList<>();
+        this();
         this.deviceInfo = deviceInfo;
         this.ipAddress = ipAddress;
         this.port = port;

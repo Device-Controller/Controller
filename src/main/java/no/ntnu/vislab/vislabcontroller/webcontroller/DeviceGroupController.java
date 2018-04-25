@@ -30,11 +30,15 @@ public class DeviceGroupController {
     DeviceRepository deviceRepository;
 
     @RequestMapping("/groups")
-    public ResponseEntity<List<DeviceGroup>> getAll(){
+    public ResponseEntity<List<DeviceGroup>> getAll() {
         return new ResponseEntity<>(deviceGroupRepository.findAll(), HttpStatus.OK);
     }
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DeviceGroup> addNew(@RequestParam("groupname") String groupName, @RequestBody Device[] deviceArray){
+
+    @RequestMapping(value = "/add"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceGroup> addNew(@RequestParam("groupname") String groupName
+            , @RequestBody Device[] deviceArray) {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         DeviceGroup d = new DeviceGroup(groupName, new Theatre());
         devices.forEach(de->{
