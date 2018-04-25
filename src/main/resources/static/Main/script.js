@@ -85,11 +85,13 @@ function powerIcon(index, color) {
     let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
     let discoIcon = devices[index].selectionBox.querySelector(".disconnect-icon");
     if (color === 'none') {
-        statusIcon.style.display = color;
-        discoIcon.style.display = 'inline-block';
+        console.log(color);
+        statusIcon.style.display = "none";
+        discoIcon.style.display = "inline-block";
     } else {
+        statusIcon.style.display = "inline-block";
         statusIcon.style.backgroundColor = color;
-        discoIcon.style.display = 'none';
+        discoIcon.style.display = "none";
     }
 }
 
@@ -100,6 +102,7 @@ function getPowerState(id, n) {
                 switch (p) {
                     case -1:
                         powerIcon(n, 'none');
+                        break;
                     case 0:
                         powerIcon(n, "#ff6600");
                         break;
