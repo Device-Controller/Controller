@@ -27,4 +27,7 @@ public class MainViewController extends DeviceController {
     public String login(){
         return "forward:/Login/login.html";
     }
+
+    @RequestMapping("/devicesettings")
+    public String devicesettings() { return "forward:/DeviceControls/devicecontrols.html"; }
 }
