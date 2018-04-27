@@ -5,4 +5,4 @@ COPY /plugins /vislab/plugins
 
 WORKDIR /vislab/
 
-CMD ["java", "-cp", "lib/*:plugins/*:VislabController.jar", "no.ntnu.vislab.vislabcontroller.Application"]
+CMD ["java", "-cp", "lib/*:plugins/*:VislabController.jar", "Application"]

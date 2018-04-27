@@ -39,16 +39,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--NEW ADDITIONS:-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
-        <!--END NEW ADDITIONS-->
+        <groupId>vislab.no.ntnu</groupId>
+        <artifactId>Vislab-Devices</artifactId>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/src/main/resources/Vislab-Devices-1.0-SNAPSHOT.jar</systemPath>
+    </dependency>
     </dependencies>
 
     <properties>
