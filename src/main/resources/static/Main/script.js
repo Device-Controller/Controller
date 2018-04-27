@@ -1,32 +1,20 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-var devices = [];
-var optionMap = [];
 var timeout;
 console.log("init");
 
-startUp();
-function startUp() {
-    console.log("start");
-    fetch('test/db').then(response => {
-        console.log(response);
-        if (response.ok) {
-            response.json().then(e => {
-                for (let i = 0; i < e.length; i++) {
-                    let f = e[i];
-                    let d = new Device(f);
-                    addListElements(d);
-                }
-                updateState();
-            });
-        }
-    });
+
+getDevices().then(r => buildList(r));
+
+function buildList(deviceList) {
+    for (let i = 0; i < deviceList.length; i++) {
+        let f = deviceList[i];
+        let d = new Device(f);
+        addListElements(d);
+    }
 }
 
+
+updateState();
 function powerOn() {
     console.log("CLICKED POWER ON");
     for (let i = 0; i < devices.length; i++) {
@@ -290,38 +278,5 @@ function updateDropdown(index) {
 
 populateDropdown();
 
-class DeviceGroup {
-    constructor(id, groupName, devices) {
-        this.id = id;
-        this.groupName = groupName;
-        this.devices = devices;
-    }
-}
 
-class Device {
-    constructor(jsonObject) {
-        this.ipAddress = jsonObject.ipAddress;
-        this.port = jsonObject.port;
-        this.xPos = jsonObject.xPos;
-        this.yPos = jsonObject.yPos;
-        this.rotation = jsonObject.rotation;
-        this.id = jsonObject.id;
-    }
-}
-
-class DeviceMap {
-    constructor(device, li, checkbox) {
-        this.id = device.id;
-        this.device = device;
-        this.selectionBox = li;
-        this.checkbox = checkbox;
-    }
-}
-
-class OptionMap {
-    constructor(option, deviceGroup) {
-        this.option = option;
-        this.deviceGroup = deviceGroup;
-    }
-}
 
