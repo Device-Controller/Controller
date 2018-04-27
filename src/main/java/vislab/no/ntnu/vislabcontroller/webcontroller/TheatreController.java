@@ -27,6 +27,9 @@ public class TheatreController {
 
     @RequestMapping("/addtheatre")
     public ResponseEntity<Theatre> addTheatre(@RequestParam("theatre") Theatre theatre) {
-        return null;
+        return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
     }
+
+    @RequestMapping("/removetheatre")
+    public ResponseEntity
 }

@@ -46,6 +46,6 @@ public class DeviceGroupController {
             d.addDevice(deviceRepository.findById(de.getId()).get());
             d.setGroupName(d.getGroupName());
         });
-        return new ResponseEntity<>(deviceGroupRepository.save(d),HttpStatus.OK);
+        return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
     }
 }
