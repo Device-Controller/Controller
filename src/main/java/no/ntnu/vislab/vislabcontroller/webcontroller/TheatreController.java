@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,5 +23,10 @@ public class TheatreController {
     @RequestMapping("/theatres")
     public ResponseEntity<List<Theatre>> getAll() {
         return new ResponseEntity<>(theatreRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/addtheatre")
+    public ResponseEntity<Theatre> addTheatre(@RequestParam("theatre") Theatre theatre) {
+        return null;
     }
 }

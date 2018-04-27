@@ -38,9 +38,10 @@ public class DeviceGroupController {
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DeviceGroup> addNew(@RequestParam("groupname") String groupName
+            , @RequestParam("theatre") Theatre theatre
             , @RequestBody Device[] deviceArray) {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
-        DeviceGroup d = new DeviceGroup(groupName, new Theatre());
+        DeviceGroup d = new DeviceGroup(groupName, theatre);
         devices.forEach(de->{
             d.addDevice(deviceRepository.findById(de.getId()).get());
             d.setGroupName(d.getGroupName());

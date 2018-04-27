@@ -88,14 +88,14 @@ public class TestingController {
     }
 
     @RequestMapping("/addGroup")
-    public ResponseEntity<DeviceGroup> addDeviceGroup(){
-        DeviceGroup d = new DeviceGroup("All", new Theatre());
+    public ResponseEntity<DeviceGroup> addDeviceGroup(@RequestParam("theatre") Theatre theatre){
+        DeviceGroup d = new DeviceGroup("All", theatre);
         deviceRepository.findAll().forEach(d::addDevice);
         return new ResponseEntity<>(deviceGroupRepository.save(d),HttpStatus.OK);
     }
     @RequestMapping("randomgroup")
-    public ResponseEntity<DeviceGroup> randomGroup(){
-        DeviceGroup d = new DeviceGroup("Random", new Theatre());
+    public ResponseEntity<DeviceGroup> randomGroup(@RequestParam("theatre") Theatre theatre){
+        DeviceGroup d = new DeviceGroup("Random", theatre);
         deviceRepository.findAll().forEach(e->{
             if(new Random().nextInt(100)<50){
                 d.addDevice(e);
