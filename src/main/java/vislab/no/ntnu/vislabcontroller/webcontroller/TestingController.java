@@ -99,14 +99,18 @@ public class TestingController {
         return new ResponseEntity<>("Cleared all devices", HttpStatus.OK);
     }
 
-    @RequestMapping("/addGroup")
-    public ResponseEntity<DeviceGroup> addDeviceGroup(@RequestParam("theatre") Theatre theatre){
+    @RequestMapping(value = "/addGroup"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceGroup> addDeviceGroup(@RequestBody Theatre theatre){
         DeviceGroup d = new DeviceGroup("All", theatre);
         deviceRepository.findAll().forEach(d::addDevice);
         return new ResponseEntity<>(deviceGroupRepository.save(d),HttpStatus.OK);
     }
-    @RequestMapping("randomgroup")
-    public ResponseEntity<DeviceGroup> randomGroup(@RequestParam("theatre") Theatre theatre){
+    @RequestMapping(value = "randomgroup"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceGroup> randomGroup(@RequestBody Theatre theatre){
         DeviceGroup d = new DeviceGroup("Random", theatre);
         deviceRepository.findAll().forEach(e->{
             if(new Random().nextInt(100)<50){
@@ -145,7 +149,6 @@ public class TestingController {
 
     @RequestMapping("/db")
     public ResponseEntity<List<Device>> getDevices() {
-        System.out.println("rte");
         List<Device> list = deviceRepository.findAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -155,7 +158,9 @@ public class TestingController {
         return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/role", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/role"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Role> addRole(@RequestBody Role role){
         roleRepository.save(role);
         return new ResponseEntity<>(role, HttpStatus.OK);

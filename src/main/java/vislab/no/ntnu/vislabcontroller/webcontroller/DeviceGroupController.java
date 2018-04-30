@@ -29,12 +29,12 @@ public class DeviceGroupController {
     @Autowired
     DeviceRepository deviceRepository;
 
-    @RequestMapping("/groups")
+    @RequestMapping("/getall")
     public ResponseEntity<List<DeviceGroup>> getAll() {
         return new ResponseEntity<>(deviceGroupRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add"
+    @RequestMapping(value = "/addone"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DeviceGroup> addNew(@RequestParam("groupname") String groupName
@@ -47,5 +47,29 @@ public class DeviceGroupController {
             d.setGroupName(d.getGroupName());
         });
         return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/removeone"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> removeOne(@RequestBody DeviceGroup deviceGroup) {
+        deviceGroupRepository.delete(deviceGroup);
+        return new ResponseEntity<>("Removed device group: "
+                + deviceGroup.getGroupName(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/removelist"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> removeList(@RequestBody DeviceGroup[] deviceGroupArray) {
+        List<DeviceGroup> deviceGroups = new ArrayList<>(Arrays.asList(deviceGroupArray));
+        deviceGroupRepository.deleteAll(deviceGroups);
+        return new ResponseEntity<>("Removed device groups", HttpStatus.OK);
+    }
+
+    @RequestMapping("/removeall")
+    public ResponseEntity<String> removeall() {
+        deviceGroupRepository.deleteAll();
+        return new ResponseEntity<>("Removed all device groups", HttpStatus.OK);
     }
 }
