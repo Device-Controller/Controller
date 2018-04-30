@@ -59,7 +59,7 @@ public class ProjectorController extends DeviceManager {
     @RequestMapping("/powerState")
     public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
         Projector projector = getProjector(id);
-        return new ResponseEntity<>(projector.getPowerState(), HttpStatus.OK);
+        return (projector != null) ? new ResponseEntity<>(projector.getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
     private Projector getProjector(int id) {
@@ -67,8 +67,10 @@ public class ProjectorController extends DeviceManager {
         vislab.no.ntnu.providers.Device device = getDevice(id);
         if(device == null){
             device = createNewProjector(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
-            device.setIpAddress(entDevice.getIpAddress());
-            device.setPort(entDevice.getPort());
+            if(device != null) {
+                device.setIpAddress(entDevice.getIpAddress());
+                device.setPort(entDevice.getPort());
+            }
 
         }
         return (Projector) device;
