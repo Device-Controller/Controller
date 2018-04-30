@@ -37,7 +37,7 @@ function buildTable(device) {
         <tr>
         <td>Mute</td>
         <td>
-                    <select id="muteList">
+                    <select onchange='muteOrNot(this)'>
                         <option value="mute">Mute</option>
                         <option value="unMute">Unmute</option>
                     </select>
@@ -127,13 +127,18 @@ function buildTable(device) {
     updateData(device.id);
 }
 
-document.getElementById("muteList").onchange = function () {
-    if (this.value == 'mute') {
+function muteOrNot(muteList) {
+    if (muteList.value == 'mute') {
+        console.log('MUTED');
+        console.log(muteList);
         mute();
-    } else if (this.value == 'unMute') {
+    } else {
+        console.log('UNMUTED');
+        console.log(muteList);
         unMute();
     }
-};
+}
+
 
 function mute() {
     fetch('BarkoF22/mute?id=' + parseURLId(location.href)).then(response => {
@@ -196,55 +201,59 @@ function setValue(element1, element2) {
     element1.value = document.getElementById(element2).value;
 }
 
-function updateData(id) {
-    //GET CONTRAST
-    fetch('../BarkoF22/getContrast?id=' + id).then(response => {
-        if (response.ok) {
-            response.json().then(e => document.getElementById("contrast-value").innerHTML = e);
-        }
-    });
+function updateData() {
+    for (let i = 0; i > deviceTable.length; i++) {
+
+
+        //GET CONTRAST
+        fetch('../BarkoF22/getContrast?id=' + deviceTable[i].device.id).then(response => {
+            if (response.ok) {
+                response.json().then(e => document.getElementById("contrast-value").innerHTML = e);
+            }
+        });
 
 //GET POWERSTATE
-    fetch('../BarkoF22/powerState?id=' + id).then(response => {
-        if (response.ok) {
-            response.json().then(e => document.getElementById("get-powerstate").innerHTML = e);
-        }
-    });
+        fetch('../BarkoF22/powerState?id=' + deviceTable[i].device.id).then(response => {
+            if (response.ok) {
+                response.json().then(e => document.getElementById("get-powerstate").innerHTML = e);
+            }
+        });
 
 //GET BRIGHTNESS
-    fetch('../BarkoF22/getBrightness?id=' + id).then(response => {
-        if (response.ok) {
-            response.json().then(e => document.getElementById("brightness").innerHTML = e);
-        }
-    });
+        fetch('../BarkoF22/getBrightness?id=' + deviceTable[i].device.id).then(response => {
+            if (response.ok) {
+                response.json().then(e => document.getElementById("brightness").innerHTML = e);
+            }
+        });
 
 //GET TEMPERATURE
-    fetch('../BarkoF22/getThermal?id=' + id).then(response => {
-        if (response.ok) {
-            response.json().then(e => document.getElementById("temperature").innerHTML = e);
-        }
-    });
+        fetch('../BarkoF22/getThermal?id=' + deviceTable[i].device.id).then(response => {
+            if (response.ok) {
+                response.json().then(e => document.getElementById("temperature").innerHTML = e);
+            }
+        });
 
 //GET PROJECTOR RUNTIME
-    fetch('../BarkoF22/getProjectorRuntime?id=' + id).then(response => {
-        if (response.ok) {
-            response.json().then(e => document.getElementById("projector-runtime").innerHTML = e);
-        }
-    });
+        fetch('../BarkoF22/getProjectorRuntime?id=' + deviceTable[i].device.id).then(response => {
+            if (response.ok) {
+                response.json().then(e => document.getElementById("projector-runtime").innerHTML = e);
+            }
+        });
 
 //GET LAMPRUNTIME 1
-    fetch('../BarkoF22/lampRuntime?id=' + id + '&lampNum=1').then(response => {
-        if (response.ok) {
-            response.json().then(e => document.getElementById("lamp1-runtime").innerHTML = e);
-        }
-    });
+        fetch('../BarkoF22/lampRuntime?id=' + deviceTable[i].device.id + '&lampNum=1').then(response => {
+            if (response.ok) {
+                response.json().then(e => document.getElementById("lamp1-runtime").innerHTML = e);
+            }
+        });
 
 //GET LAMPSTATUS 1
-    fetch('../BarkoF22/lampStatus?id=' + id + '&lampNum=1').then(response => {
-        if (response.ok) {
-            response.json().then(e => document.getElementById("lamp1-status").innerHTML = e);
-        }
-    });
+        fetch('../BarkoF22/lampStatus?id=' + deviceTable[i].device.id + '&lampNum=1').then(response => {
+            if (response.ok) {
+                response.json().then(e => document.getElementById("lamp1-status").innerHTML = e);
+            }
+        });
+    }
 }
 
 class TableMap {
