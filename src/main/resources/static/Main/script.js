@@ -1,4 +1,3 @@
-
 var timeout;
 console.log("init");
 
@@ -11,10 +10,10 @@ function buildList(deviceList) {
         let d = new Device(f);
         addListElements(d);
     }
+    updateState();
 }
 
 
-updateState();
 function powerOn() {
     console.log("CLICKED POWER ON");
     for (let i = 0; i < devices.length; i++) {
@@ -172,7 +171,7 @@ function addListElements(device) {
         + "<label for='pro" + counter + "'" + " class='check-label'></label>"
         + "<span class='state-icon'></span>"
         + "<span class='disconnect-icon'>"
-        +"<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>"
+        + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>"
         + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "</label>";
     ul.appendChild(li);
     devices.push(new DeviceMap(device, li, document.getElementById("pro" + counter)));
@@ -192,24 +191,33 @@ function getDeviceSelectionBox(id) {
     }
     return "";
 }
+
 function populateTheatre() {
     let dropdown = document.getElementById("theatre-select");
     dropdown.onchange = e => {
-        for (let i = 0; i < devices.length; i++) {
-            devices[i].checkbox.checked = false;
-        }
-        for (let i = 0; i < optionMap.length; i++) {
-            if (optionMap[i].option.selected) {
-                let optionDevices = optionMap[i].deviceGroup.devices;
-                for (let j = 0; j < optionDevices.length; j++) {
-                    let vara = getDeviceSelectionBox(optionDevices[j].id);
-                    vara.checked = true;
+        document.getElementById('selected-list').innerHTML = '';
+        if (dropdown.value == 'unselect') {
+            getDevices().then(r => buildList(r));
+        } else {
+            devices = [];
+            for (let i = 0; i < devices.length; i++) {
+                devices[i].checkbox.checked = false;
+            }
+            for (let i = 0; i < optionMap.length; i++) {
+                if (optionMap[i].option.selected) {
+                    let optionDevices = optionMap[i].deviceGroup.devices;
+                    for (let j = 0; j < optionDevices.length; j++) {
+                        addListElements(optionDevices[j]);
+                        let vara = getDeviceSelectionBox(optionDevices[j].id);
+                        vara.checked = true;
+                    }
                 }
             }
         }
     };
     updateTheatre();
 }
+
 function updateTheatre(index) {
     let dropdown = document.getElementById("theatre-select");
     for (let i = dropdown.children.length - 1; i > 1; i--) {
@@ -217,6 +225,7 @@ function updateTheatre(index) {
     }
     fetch("theatre/theatres").then(r => {
         if (r.ok) {
+            document.getElementById('selected-list');
             r.json().then(e => {
                 for (let i = 0; i < e.length; i++) {
                     let x = new DeviceGroup(e[i].id, e[i].theatreName, e[i].devices);
@@ -232,7 +241,9 @@ function updateTheatre(index) {
         }
     })
 }
+
 populateTheatre();
+
 function populateDropdown() {
 
     let dropdown = document.getElementById("group-select");
