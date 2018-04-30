@@ -1,6 +1,6 @@
-
-
 getDevices().then(r => buildTables(r));
+
+var tableMap = [];
 
 function buildTables(deviceList) {
     for (let i = 0; i < deviceList.length; i++) {
@@ -9,17 +9,18 @@ function buildTables(deviceList) {
         buildTable(d);
     }
 }
+
 function buildTable(device) {
-        let div = document.createElement('div');
-        div.classList.add('table-container');
-        div.innerHTML =
-              "<table class='display-table'>"
-            + "<tr class='header-row'>"
-            + "<td>Setting</td>"
-            + "<td>Current Value</td>"
-            + "<td>New Value</td>"
-            + "</tr>"
-            + `<tr>
+    let div = document.createElement('div');
+    div.classList.add('table-container');
+    div.innerHTML =
+        "<table class='display-table'>"
+        + "<tr class='header-row'>"
+        + "<td>Setting</td>"
+        + "<td>Current Value</td>"
+        + "<td>New Value</td>"
+        + "</tr>"
+        + `<tr>
             <td>Power</td>
             <td id="power-setting">Loading...</td>
         <td>
@@ -119,13 +120,14 @@ function buildTable(device) {
         <td id="lamp1-status">Loading...</td>
         </tr>
         </table>`
-        ;
+    ;
 
-        document.body.appendChild(div);
-        updateData(device.id);
+    document.body.appendChild(div);
+    devices.push(new TableMap(device, div));
+    updateData(device.id);
 }
 
-document.getElementById("muteList").onchange = function() {
+document.getElementById("muteList").onchange = function () {
     if (this.value == 'mute') {
         mute();
     } else if (this.value == 'unMute') {
@@ -149,7 +151,7 @@ function unMute() {
     })
 }
 
-document.getElementById("imageList").onchange = function() {
+document.getElementById("imageList").onchange = function () {
     console.log(this.value);
     testImage(this.value);
 }
@@ -179,6 +181,7 @@ function setContrast(number) {
         }
     });
 }
+
 function setBrightness(number) {
     fetch('BarkoF22/setBrightness?id=' + parseURLId(location.href) + '&value=' + number.value).then(response => {
         if (response.ok) {
@@ -188,6 +191,7 @@ function setBrightness(number) {
         }
     });
 }
+
 function setValue(element1, element2) {
     element1.value = document.getElementById(element2).value;
 }
@@ -241,6 +245,14 @@ function updateData(id) {
             response.json().then(e => document.getElementById("lamp1-status").innerHTML = e);
         }
     });
+}
+
+class TableMap {
+    constructor(device, table) {
+        this.device = device;
+        this.table = table;
+        //BRUK THIS
+    }
 }
 
 
