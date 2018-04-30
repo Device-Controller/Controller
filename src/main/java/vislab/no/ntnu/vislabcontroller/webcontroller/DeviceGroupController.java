@@ -21,7 +21,7 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 
 @Controller
-@RequestMapping("/devicegroup")
+@RequestMapping("/api/devicegroup")
 public class DeviceGroupController {
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
@@ -37,15 +37,18 @@ public class DeviceGroupController {
     @RequestMapping(value = "/addone"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DeviceGroup> addNew(@RequestParam("groupname") String groupName
+    public ResponseEntity<DeviceGroup> addOne(@RequestBody DeviceGroup deviceGroup) {
+        return new ResponseEntity<>(deviceGroupRepository.save(deviceGroup), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/makeone"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceGroup> makeOne(@RequestParam("groupname") String groupName
             , @RequestParam("theatre") Theatre theatre
             , @RequestBody Device[] deviceArray) {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         DeviceGroup d = new DeviceGroup(groupName, theatre);
-        devices.forEach(de->{
-            d.addDevice(deviceRepository.findById(de.getId()).get());
-            d.setGroupName(d.getGroupName());
-        });
         return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
     }
 

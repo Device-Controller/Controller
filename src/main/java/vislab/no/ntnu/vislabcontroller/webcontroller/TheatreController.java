@@ -3,7 +3,11 @@ package vislab.no.ntnu.vislabcontroller.webcontroller;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
+import vislab.no.ntnu.vislabcontroller.entity.Device;
+import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
 import vislab.no.ntnu.vislabcontroller.entity.Theatre;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +24,14 @@ import java.util.List;
  * @author ThomasSTodal
  */
 @Controller
-@RequestMapping("/theatre")
+@RequestMapping("/api/theatre")
 public class TheatreController {
     @Autowired
     TheatreRepository theatreRepository;
+    @Autowired
+    DeviceGroupRepository deviceGroupRepository;
+    @Autowired
+    DeviceRepository deviceRepository;
 
     @RequestMapping("/getall")
     public ResponseEntity<List<Theatre>> getAll() {
