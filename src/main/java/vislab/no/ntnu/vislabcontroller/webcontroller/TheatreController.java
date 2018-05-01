@@ -28,10 +28,6 @@ import java.util.List;
 public class TheatreController {
     @Autowired
     TheatreRepository theatreRepository;
-    @Autowired
-    DeviceGroupRepository deviceGroupRepository;
-    @Autowired
-    DeviceRepository deviceRepository;
 
     @RequestMapping("/getall")
     public ResponseEntity<List<Theatre>> getAll() {
@@ -67,6 +63,7 @@ public class TheatreController {
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> removeList(@RequestBody Theatre[] theatreArray) {
         List<Theatre> theatres = new ArrayList<>(Arrays.asList(theatreArray));
+        theatreRepository.deleteAll(theatres);
         return new ResponseEntity<>("Removed theatres", HttpStatus.OK);
     }
 
