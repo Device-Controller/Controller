@@ -9,4 +9,5 @@ import vislab.no.ntnu.vislabcontroller.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsernameAndPassword(String username, String password);
     User findByUsername(String username);
+    User findByEmail(String email);
 }

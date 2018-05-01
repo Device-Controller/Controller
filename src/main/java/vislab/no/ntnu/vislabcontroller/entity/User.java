@@ -27,6 +27,8 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<DeviceGroup> deviceGroups;
 
+    private Theatre theatre;
+
     @ManyToOne
     private Role role;
 
@@ -39,16 +41,20 @@ public class User {
     @NotNull
     private String email;
 
-    public User(@NotNull String username, @NotNull String password, @NotNull String email, Role role) {
-        this.role = role;
-        this.username = username;
-        this.password = password;
-        this.email = email;
+    private User() {
         this.deviceGroups = new ArrayList<>();
     }
 
-    public User() {
-        this.deviceGroups = new ArrayList<>();
+    public User(@NotNull String username, @NotNull String password, @NotNull String email) {
+        this();
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(@NotNull String username, @NotNull String password, @NotNull String email, Role role) {
+        this(username, password, email);
+        this.role = role;
     }
 
     public Integer getId() {
@@ -57,6 +63,30 @@ public class User {
 
     public List<DeviceGroup> getDeviceGroups() {
         return deviceGroups;
+    }
+
+    public void addDeviceGroup(DeviceGroup deviceGroup) {
+        this.deviceGroups.add(deviceGroup);
+    }
+
+    public void addDeviceGroups(List<DeviceGroup> deviceGroups) {
+        this.deviceGroups.addAll(deviceGroups);
+    }
+
+    public void removeDeviceGroup(DeviceGroup deviceGroup) {
+        this.deviceGroups.remove(deviceGroup);
+    }
+
+    public void removeDeviceGroups(List<DeviceGroup> deviceGroups) {
+        this.deviceGroups.removeAll(deviceGroups);
+    }
+
+    public Theatre getTheatre() {
+        return theatre;
+    }
+
+    public void setTheatre(Theatre theatre) {
+        this.theatre = theatre;
     }
 
     public Role getRole() {

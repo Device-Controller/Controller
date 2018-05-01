@@ -65,8 +65,8 @@ public class Theatre implements Serializable {
     }
 
     public void addDeviceGroup(DeviceGroup deviceGroup) {
-        this.deviceGroups.add(deviceGroup);/*
-        deviceGroup.setTheatre(this);*/
+        this.deviceGroups.add(deviceGroup);
+        deviceGroup.setTheatre(this);
     }
 
     public void removeDeviceGroup(DeviceGroup deviceGroup) {
