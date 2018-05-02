@@ -37,11 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.anyRequest().authenticated()
                 .and()
                 .formLogin().defaultSuccessUrl("/", true)
-                .loginPage("/login")
-                .permitAll()
+                .loginPage("/login").permitAll()
                 .and()
-                .logout()
-                .permitAll();
+                .logout().permitAll();
         http.csrf().disable();
         AntPathMatcher pathMatcher = new AntPathMatcher("**/*.js");
         System.out.println(pathMatcher.toString());
