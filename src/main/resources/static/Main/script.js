@@ -139,7 +139,7 @@ function createGroup() {
     if (name === "" || name == null || name === " " || group.length < 1) {
         alert("Please type in a group name and select one device or more.");
     } else {
-        fetch("devicegroup/add?groupname=" + name, {
+        fetch("/api/devicegroup/makeone?groupname=" + name, {
             method: "POST",
             body: JSON.stringify(group),
             headers: {"Content-Type": "application/json"}
@@ -223,7 +223,7 @@ function updateTheatre(index) {
     for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
-    fetch("theatre/theatres").then(r => {
+    fetch("/api/theatre/getall").then(r => {
         if (r.ok) {
             document.getElementById('selected-list');
             r.json().then(e => {
@@ -269,7 +269,7 @@ function updateDropdown(index) {
     for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
-    fetch("devicegroup/groups").then(r => {
+    fetch("/api/devicegroup/getall").then(r => {
         if (r.ok) {
             r.json().then(e => {
                 for (let i = 0; i < e.length; i++) {
