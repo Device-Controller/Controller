@@ -2,6 +2,7 @@ package vislab.no.ntnu.vislabcontroller.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class Device implements Serializable {
     @ManyToMany(mappedBy = "devices")
     private List<Theatre> theatres;
 
-    @JsonBackReference
     @ManyToOne(optional = false)
     @NotNull
     private DeviceInfo deviceInfo;
