@@ -77,6 +77,14 @@ public class Device implements Serializable {
         return theatres;
     }
 
+    public void addTheatre(Theatre theatre) {
+        this.theatres.add(theatre);
+    }
+
+    public void removeTheatre(Theatre theatre) {
+        this.theatres.remove(theatre);
+    }
+
     public DeviceInfo getDeviceInfo() {
         return deviceInfo;
     }
