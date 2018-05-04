@@ -53,6 +53,7 @@ public class TestingController {
         s += " " + deviceTypeRepository.save(new DeviceType("Projector")).toString();
         s += " " + deviceInfoRepository.save(new DeviceInfo("Barko", "F22", deviceTypeRepository.findAll().iterator().next())).toString();
         s += " " + theatreRepository.save(new Theatre("Visualiseringslab")).toString();
+        s += " " + theatreRepository.save(new Theatre("Testlab")).toString();
         return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
@@ -78,7 +79,7 @@ public class TestingController {
 
         for(Device dv : d) {
             s += deviceRepository.save(dv).toString();
-            theatreRepository.findAll().iterator().next().addDevice(dv);
+            theatreRepository.findByTheatreName("Testlab").addDevice(dv);
         }
         return new ResponseEntity<>(s, HttpStatus.OK);
     }
@@ -142,7 +143,7 @@ public class TestingController {
 
         for(Device dv : d) {
             s += deviceRepository.save(dv).toString();
-            theatreRepository.findAll().iterator().next().addDevice(dv);
+            theatreRepository.findByTheatreName("Visualiseringslab").addDevice(dv);
         }
         return new ResponseEntity<>(s, HttpStatus.OK);
     }

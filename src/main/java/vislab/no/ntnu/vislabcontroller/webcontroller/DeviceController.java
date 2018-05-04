@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.vislabcontroller.entity.Device;
+import vislab.no.ntnu.vislabcontroller.entity.Theatre;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author ThomasSTodal
@@ -25,6 +24,8 @@ import java.util.Optional;
 public class DeviceController {
     @Autowired
     DeviceRepository deviceRepository;
+    @Autowired
+    TheatreRepository theatreRepository;
 
     @RequestMapping("/getall")
     public ResponseEntity<List<Device>> getAll() {
@@ -73,6 +74,10 @@ public class DeviceController {
 
     @RequestMapping("/removeall")
     public ResponseEntity<String> removeAll() {
+        List<Theatre> th = theatreRepository.findAll();
+        for(Theatre t : th) {
+            t.removeAllDevices();
+        }
         deviceRepository.deleteAll();
         return new ResponseEntity<>("Removed all devices", HttpStatus.OK);
     }

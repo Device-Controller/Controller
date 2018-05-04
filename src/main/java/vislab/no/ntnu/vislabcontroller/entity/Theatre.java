@@ -32,7 +32,7 @@ public class Theatre implements Serializable {
     @OneToMany(mappedBy = "theatre")
     private List<DeviceGroup> deviceGroups;
 
-    public Theatre() {
+    private Theatre() {
         this.devices = new ArrayList<>();
         this.deviceGroups = new ArrayList<>();
     }
@@ -58,6 +58,10 @@ public class Theatre implements Serializable {
     public void removeDevice(Device device) {
         this.devices.remove(device);
         device.getTheatres().remove(this);
+    }
+
+    public void removeAllDevices() {
+        this.devices = new ArrayList<>();
     }
 
     public List<DeviceGroup> getDeviceGroups() {
