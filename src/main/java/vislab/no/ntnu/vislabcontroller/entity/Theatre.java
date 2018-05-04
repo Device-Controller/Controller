@@ -52,15 +52,18 @@ public class Theatre implements Serializable {
 
     public void addDevice(Device device) {
         this.devices.add(device);
-        device.getTheatres().add(this);
+        device.addTheatre(this);
     }
 
     public void removeDevice(Device device) {
         this.devices.remove(device);
-        device.getTheatres().remove(this);
+        device.removeTheatre(this);
     }
 
     public void removeAllDevices() {
+        for(Device d : devices) {
+            d.removeTheatre(this);
+        }
         this.devices = new ArrayList<>();
     }
 
