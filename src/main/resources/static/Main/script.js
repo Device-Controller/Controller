@@ -167,12 +167,15 @@ function addListElements(device) {
 
     let counter = devices.length + 1;
     li.innerHTML =
-        "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
+          "<div class='image-card'>"
+        + "<image src='Images/projector_icon_simple.png' alt='projector-image'></image>"
+        + "</div>"
+        + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
         + "<label for='pro" + counter + "'" + " class='check-label'></label>"
+        + "<label for='pro" + counter + "'" + " class='text-label'>DeviceID: " + device.id + "</label>"
         + "<span class='state-icon'></span>"
         + "<span class='disconnect-icon'>"
-        + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>"
-        + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "</label>";
+        + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>";
     ul.appendChild(li);
     devices.push(new DeviceMap(device, li, document.getElementById("pro" + counter)));
 
