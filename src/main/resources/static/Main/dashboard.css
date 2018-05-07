@@ -177,7 +177,7 @@ input[type=checkbox]:checked + .check-label {
 .image-card {
     float: left;
     display:inline-block;
-    border-right: 1px solid black;
+    border-right: 1px solid #444444;
     height: 100%;
 }
 
