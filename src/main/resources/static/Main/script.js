@@ -11,6 +11,7 @@ function buildList(deviceList) {
         addListElements(d);
     }
     updateState();
+    projectorViewBuild();
 }
 
 

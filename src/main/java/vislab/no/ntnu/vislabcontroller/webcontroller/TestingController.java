@@ -77,10 +77,13 @@ public class TestingController {
         d.add(new Device("158.38.101.110", 1025, 350, 420, 90, deviceInfoRepository.findAll().iterator().next()));
         d.add(new Device("158.38.101.110", 1025, 350, 550, 90, deviceInfoRepository.findAll().iterator().next()));
 
+        Theatre t = theatreRepository.findByTheatreName("Testlab");
         for(Device dv : d) {
             s += deviceRepository.save(dv).toString();
-            theatreRepository.findByTheatreName("Testlab").addDevice(dv);
+            t.addDevice(dv);
+            System.out.println(t.getDevices().size());
         }
+        theatreRepository.save(t);
         return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
