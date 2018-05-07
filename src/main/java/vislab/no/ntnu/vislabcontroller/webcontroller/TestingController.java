@@ -53,6 +53,7 @@ public class TestingController {
         s += " " + deviceTypeRepository.save(new DeviceType("Projector")).toString();
         s += " " + deviceInfoRepository.save(new DeviceInfo("Barko", "F22", deviceTypeRepository.findAll().iterator().next())).toString();
         s += " " + theatreRepository.save(new Theatre("Visualiseringslab")).toString();
+        s += " " + theatreRepository.save(new Theatre("Testlab")).toString();
         return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
@@ -76,10 +77,13 @@ public class TestingController {
         d.add(new Device("158.38.101.110", 1025, 350, 420, 90, deviceInfoRepository.findAll().iterator().next()));
         d.add(new Device("158.38.101.110", 1025, 350, 550, 90, deviceInfoRepository.findAll().iterator().next()));
 
+        Theatre t = theatreRepository.findByTheatreName("Testlab");
         for(Device dv : d) {
             s += deviceRepository.save(dv).toString();
-            theatreRepository.findAll().iterator().next().addDevice(dv);
+            t.addDevice(dv);
+            System.out.println(t.getDevices().size());
         }
+        theatreRepository.save(t);
         return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
@@ -127,22 +131,22 @@ public class TestingController {
             initial();
         }
         ArrayList<Device> d = new ArrayList<>();
-        d.add(new Device("158.38.101.40", 1025, 50, 550, 270, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.41", 1025, 50, 420, 270, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.42", 1025, 50, 290, 280, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.43", 1025, 70, 190, 290, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.44", 1025, 110, 110, 305, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.45", 1025, 170, 50, 340, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.46", 1025, 230, 50, 20, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.47", 1025, 290, 110, 55, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.48", 1025, 330, 190, 70, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.49", 1025, 350, 290, 80, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.50", 1025, 350, 420, 90, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.51", 1025, 350, 550, 90, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.40", 1025, 50, 550, 270, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.41", 1025, 50, 420, 270, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.42", 1025, 50, 290, 280, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.43", 1025, 70, 190, 290, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.44", 1025, 110, 110, 305, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.45", 1025, 170, 50, 340, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.46", 1025, 230, 50, 20, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.47", 1025, 290, 110, 55, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.48", 1025, 330, 190, 70, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.49", 1025, 350, 290, 80, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.50", 1025, 350, 420, 90, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.51", 1025, 350, 550, 90, deviceInfoRepository.findAll().iterator().next()));
 
         for(Device dv : d) {
             s += deviceRepository.save(dv).toString();
-            theatreRepository.findAll().iterator().next().addDevice(dv);
+            theatreRepository.findByTheatreName("Visualiseringslab").addDevice(dv);
         }
         return new ResponseEntity<>(s, HttpStatus.OK);
     }

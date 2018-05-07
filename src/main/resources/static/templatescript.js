@@ -76,6 +76,9 @@ class Device {
         this.yPos = jsonObject.yPos;
         this.rotation = jsonObject.rotation;
         this.id = jsonObject.id;
+        this.type = jsonObject.deviceInfo.deviceType.type;
+        this.manufacturer = jsonObject.deviceInfo.manufacturer;
+        this.model = jsonObject.deviceInfo.model;
     }
 }
 
