@@ -9,20 +9,25 @@ let lastMouseX;
 let lastMouseY;
 baseDrawing.width = 500;
 baseDrawing.height = 700;
-fetch('test/db').then(response => {
-    if (response.ok) {
-        response.json().then(e => {
-            list.push.apply(list, e);
 
-            list.forEach(p => {
-                let x = p.xPos;
-                let y = p.yPos;
-                let rot = p.rotation;
-                drawProjector(x, y, rot);
-            });
-        });
+function projectorViewBuild() {
+    list = [];
+    for (let i = 0; i < devices.length; i++) {
+        if (isNumber(devices[i].device.xPos) && isNumber(devices[i].device.yPos) && isNumber(devices[i].device.rotation)) {
+            list.push(devices[i].device);
+        }
     }
-});
+    list.forEach(p => {
+        let x = p.xPos;
+        let y = p.yPos;
+        let rot = p.rotation;
+        drawProjector(x, y, rot);
+    });
+}
+
+function isNumber(num) {
+    return !isNaN(parseFloat(num)) && isFinite(num);
+}
 
 function resetDrawing() {
     drawSurface.clearRect(0, 0, 500, 700);
@@ -51,6 +56,7 @@ function checkMouseHover() {
 canvas.onmousemove = event => {
     lastMouseX = event.offsetX;
     lastMouseY = event.offsetY;
+    checkMouseHover();
 };
 
 canvas.onclick = event => {
@@ -112,12 +118,12 @@ checkChecked();
 
 function checkChecked() {
     resetDrawing();
+    checkMouseHover();
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             drawProjectorCircle(devices[i].device);
         }
     }
-    checkMouseHover();
     circleTimeout = setTimeout(checkChecked, 200);
 }
 
