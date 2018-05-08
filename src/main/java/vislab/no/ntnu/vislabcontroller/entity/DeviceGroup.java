@@ -40,6 +40,9 @@ public class DeviceGroup implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Theatre theatre;
 
+    @NotNull
+    private boolean isDefaultDGroup;
+
     public DeviceGroup() {
         this.users = new ArrayList<>();
         this.devices = new ArrayList<>();
@@ -49,6 +52,14 @@ public class DeviceGroup implements Serializable {
         this();
         this.groupName = groupName;
         this.theatre = theatre;
+        this.isDefaultDGroup = false;
+    }
+
+    public DeviceGroup(@NotNull String groupName, @NotNull Theatre theatre, @NotNull boolean isDefaultDGroup) {
+        this();
+        this.groupName = groupName;
+        this.theatre = theatre;
+        this.isDefaultDGroup = isDefaultDGroup;
     }
 
     public Integer getId() {
@@ -96,5 +107,13 @@ public class DeviceGroup implements Serializable {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public boolean isDefaultDGroup() {
+        return isDefaultDGroup;
+    }
+
+    public void setDefaultDGroup(boolean defaultDGroup) {
+        isDefaultDGroup = defaultDGroup;
     }
 }
