@@ -52,6 +52,16 @@ button:hover {
 
 /* PROJECTOR LIST ------------------ */
 
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown-box {
+    margin: 1%;
+}
+
 .selected-container {
     width: 100%;
     display: inline-block;
@@ -104,10 +114,10 @@ label {
 
 .text-label {
     width: 50%;
+    height: 100%;
     white-space: pre-line;
     margin: 0;
     padding: 0;
-    margin-top: 10%;
 }
 
 input[type=checkbox] {
@@ -137,7 +147,7 @@ input[type=checkbox]:checked + .check-label {
     display: inline-block;
     float: right;
     margin-right: 3%;
-    margin-top: 3%;
+    margin-top: -11%;
 }
 .disconnect-image {
     width: 25px;
@@ -146,14 +156,13 @@ input[type=checkbox]:checked + .check-label {
 .disconnect-icon {
     border: solid white 1px;
     background-color: #696565;
-    border-radius: 5%;
     display: none;
     height: 30px;
     width: 30px;
     float: right;
     border-radius: 30%;
     margin-right: 1%;
-    margin-bottom: 1%;
+    margin-top: -14%;
 }
 
 .group-button {

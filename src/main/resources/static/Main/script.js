@@ -159,7 +159,16 @@ function createGroup() {
         document.getElementById("groupname").value = "";
     }
 }
-
+function updateCount() {
+    let t = document.getElementById("check-count");
+    let counter = 0;
+    for (i = 0; i < devices.length; i++) {
+        if (devices[i].checkbox.checked) {
+            counter++;
+        }
+    }
+    t.innerHTML = "Count: " + counter;
+}
 function addListElements(device) {
     let ul = document.getElementById("selected-list");
 
@@ -171,9 +180,9 @@ function addListElements(device) {
           "<div class='image-card'>"
         + "<image src='Images/projector_icon_simple.png' alt='projector-image'></image>"
         + "</div>"
-        + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
-        + "<label for='pro" + counter + "'" + " class='check-label'></label>"
-        + "<label for='pro" + counter + "'" + " class='text-label'>DeviceID: " + device.id + "</label>"
+        + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox' onclick='updateCount()'>"
+        + "<label for='pro" + counter + "'" + " class='check-label' onclick='updateCount()'></label>"
+        + "<label for='pro" + counter + "'" + " class='text-label' onclick='updateCount()'>DeviceID: " + device.id + "</label>"
         + "<span class='state-icon'></span>"
         + "<span class='disconnect-icon'>"
         + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>";

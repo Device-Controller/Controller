@@ -16,42 +16,52 @@
 </script>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6"> <!-- KOLONNE VENSTRE -->
-            Theatre:
-            <select id="theatre-select">
-                <option value="" selected disabled hidden>Theatres</option>
-                <option value="unselect">Unselect Theatre</option>
-            </select>
-            Group:
-            <select id="group-select">
-                <option value="" selected disabled hidden>Choose projector group</option>
-                <option>Unselect Group</option>
-            </select>
+        <div class="col-lg-6">
+            <div class="center-container">
+                <span class="dropdown-box">
+                <h6>Theatre: </h6>
+                <select id="theatre-select">
+                    <option value="" selected disabled hidden>Theatres</option>
+                    <option value="unselect">Unselect Theatre</option>
+                </select>
+                </span>
+                <span class="dropdown-box">
+                    <h6>Group: </h6>
+                <select id="group-select">
+                    <option value="" selected disabled hidden>Choose projector group</option>
+                    <option>Unselect Group</option>
+                </select>
+                </span>
+            </div>
             <div class="selected-container">
                 <ul id="selected-list">
                     <!--<li>-->
-                        <!--<div class="image-card">-->
-                            <!--<image src="Images/projector_icon_simple.png" alt="projector-image"></image>-->
-                        <!--</div>-->
-                        <!--<span>-->
-                        <!--<input id='pro' class='pro-checkbox' type='checkbox'>-->
-                        <!--<label for='pro' class='check-label'></label>-->
+                    <!--<div class="image-card">-->
+                    <!--<image src="Images/projector_icon_simple.png" alt="projector-image"></image>-->
+                    <!--</div>-->
+                    <!--<span>-->
+                    <!--<input id='pro' class='pro-checkbox' type='checkbox'>-->
+                    <!--<label for='pro' class='check-label'></label>-->
 
-                        <!--<label for='pro' class='text-label'>ProjectorZZ</label>-->
-                        <!--<span class='state-icon'></span>-->
-                        <!--<span class='disconnect-icon'>-->
-                            <!--<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image>-->
-                        <!--</span>-->
-                        <!--</span>-->
+                    <!--<label for='pro' class='text-label'>ProjectorZZ</label>-->
+                    <!--<span class='state-icon'></span>-->
+                    <!--<span class='disconnect-icon'>-->
+                    <!--<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image>-->
+                    <!--</span>-->
+                    <!--</span>-->
                     <!--</li>-->
                 </ul>
             </div>
-            <input type="text" id="groupname" name="groupname" placeholder="Enter group name" required>
-            <div class="group-button align-middle">
+            <div class="center-container">
+                <span>
+                <input type="text" id="groupname" name="groupname" placeholder="Enter group name" required>
+                <span id="check-count">Count: </span>
+                    </span>
                 <button id="button-savegroup" onclick="createGroup()">
                     <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
             </div>
         </div>
+
         <div class="col-lg-1">
             <div class="generic-buttons">
                 <button onclick="powerOn()">
@@ -72,7 +82,7 @@
                 </button>
             </div>
         </div>
-        <div class="col"> <!-- KOLONNE MIDTEN -->
+        <div class="col">
             <canvas width="400px" height="600px" id="projector-layout" style="background: #555555"></canvas>
         </div>
     </div>
