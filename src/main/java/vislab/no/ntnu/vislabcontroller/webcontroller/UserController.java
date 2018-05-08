@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.vislabcontroller.entity.User;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    DeviceGroupRepository deviceGroupRepository;
 
     @RequestMapping("/getall")
     public ResponseEntity<List<User>> getAll() {
@@ -38,9 +41,8 @@ public class UserController {
             , @RequestParam("email") Optional<String> email) {
         User u = null;
         if (id.isPresent()) {
-            if (userRepository.findById(id.get()).isPresent()) {
+            if (userRepository.findById(id.get()).isPresent())
                 u = userRepository.findById(id.get()).get();
-            }
         } else if (username.isPresent()) {
             u = userRepository.findByUsername(username.get());
         } else if (email.isPresent()) {
@@ -53,6 +55,7 @@ public class UserController {
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addOne(@RequestBody User user) {
+        user.addDeviceGroups(deviceGroupRepository.findByDefaultDGroup(true)); //TODO is this even ok?
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
