@@ -14,10 +14,15 @@
 <script>
     includeHTML();
 </script>
-
 <div class="row">
 
     <div class="column side-c"> <!-- KOLONNE VENSTRE -->
+        <div class="selected-container">
+            <select id="theatre-select">
+                <option value="" selected disabled hidden>Theatres</option>
+                <option value="unselect">Unselect Theatre</option>
+            </select>
+        </div>
         <div class="selected-container">
             <select id="group-select">
                 <option value="" selected disabled hidden>Choose projector group</option>
@@ -36,10 +41,10 @@
             </ul>
             <input type="text" id="groupname" name="groupname" placeholder="Enter group name" required>
             <div class="group-button">
-                    <div class="tooltip">
-                        <button id="button-savegroup" onclick="createGroup()">
-                            <span class="tooltiptext">Save the current selected devices as a group.</span>
-                            <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
+                <div class="tooltip">
+                    <button id="button-savegroup" onclick="createGroup()">
+                        <span class="tooltiptext">Save the current selected devices as a group.</span>
+                        <img src="../Images/savegroup.png" id="saveimg" width="40px" height="40px"></button>
                 </div>
             </div>
         </div>
@@ -59,7 +64,7 @@
             <div class="tooltip">
                 <span class="tooltiptext">Turns the projector image on/off.</span>
                 <button id="buttonmute" onclick="mute()">
-                    <img src="../Images/mute_projector.png" id="muteimg"  width="60px" height="60px">
+                    <img src="../Images/mute_projector.png" id="muteimg" width="60px" height="60px">
                 </button>
                 <button onclick="unMute()" id="buttonunmute">
                     <img src="../Images/unmute_projector.png" id="unmuteimg" width="60px" height="60px">
@@ -68,7 +73,7 @@
             <div class="tooltip">
                 <button id="settings-group">
                     <span class="tooltiptext">See the settings of the currently selected group.</span>
-                    <img src="../Images/groupsettings.png" id="settingsimg" width="70px" height="60px">
+                    <img src="../Images/groupsettings.png" id="settingsimg" width="60px" height="60px">
                 </button>
             </div>
         </div>
@@ -79,5 +84,5 @@
 </div>
 </body>
 <script src="Main/script.js"></script>
-<script src="../ProjectorLayout/ProjectorLayout.js"></script>
+<script src="../ProjectorLayout.js"></script>
 </html>

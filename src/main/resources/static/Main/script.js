@@ -1,28 +1,19 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-var devices = [];
-var optionMap = [];
 var timeout;
-startUp();
+console.log("init");
 
-function startUp() {
-    fetch('test/db').then(response => {
-        if (response.ok) {
-            response.json().then(e => {
-                for (let i = 0; i < e.length; i++) {
-                    let f = e[i];
-                    let d = new Device(f);
-                    addListElements(d);
-                }
-                updateState();
-            });
-        }
-    });
+
+getDevices().then(r => buildList(r));
+
+function buildList(deviceList) {
+    for (let i = 0; i < deviceList.length; i++) {
+        let f = deviceList[i];
+        let d = new Device(f);
+        addListElements(d);
+    }
+    updateState();
+    projectorViewBuild();
 }
+
 
 function powerOn() {
     console.log("CLICKED POWER ON");
@@ -80,7 +71,16 @@ function unMute() {
 
 function powerIcon(index, color) {
     let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
-    statusIcon.style.backgroundColor = color;
+    let discoIcon = devices[index].selectionBox.querySelector(".disconnect-icon");
+    if (color === 'none') {
+        console.log(color);
+        statusIcon.style.display = "none";
+        discoIcon.style.display = "inline-block";
+    } else {
+        statusIcon.style.display = "inline-block";
+        statusIcon.style.backgroundColor = color;
+        discoIcon.style.display = "none";
+    }
 }
 
 function getPowerState(id, n) {
@@ -88,6 +88,9 @@ function getPowerState(id, n) {
         if (response.ok) {
             response.json().then(p => {
                 switch (p) {
+                    case -1:
+                        powerIcon(n, 'none');
+                        break;
                     case 0:
                         powerIcon(n, "#ff6600");
                         break;
@@ -137,7 +140,7 @@ function createGroup() {
     if (name === "" || name == null || name === " " || group.length < 1) {
         alert("Please type in a group name and select one device or more.");
     } else {
-        fetch("devicegroup/add?groupname=" + name, {
+        fetch("/api/devicegroup/makeone?groupname=" + name, {
             method: "POST",
             body: JSON.stringify(group),
             headers: {"Content-Type": "application/json"}
@@ -168,6 +171,8 @@ function addListElements(device) {
         "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
         + "<label for='pro" + counter + "'" + " class='check-label'></label>"
         + "<span class='state-icon'></span>"
+        + "<span class='disconnect-icon'>"
+        + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>"
         + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "</label>";
     ul.appendChild(li);
     devices.push(new DeviceMap(device, li, document.getElementById("pro" + counter)));
@@ -187,6 +192,58 @@ function getDeviceSelectionBox(id) {
     }
     return "";
 }
+
+function populateTheatre() {
+    let dropdown = document.getElementById("theatre-select");
+    dropdown.onchange = e => {
+        document.getElementById('selected-list').innerHTML = '';
+        if (dropdown.value == 'unselect') {
+            getDevices().then(r => buildList(r));
+        } else {
+            devices = [];
+            for (let i = 0; i < devices.length; i++) {
+                devices[i].checkbox.checked = false;
+            }
+            for (let i = 0; i < optionMap.length; i++) {
+                if (optionMap[i].option.selected) {
+                    let optionDevices = optionMap[i].deviceGroup.devices;
+                    for (let j = 0; j < optionDevices.length; j++) {
+                        addListElements(optionDevices[j]);
+                        let vara = getDeviceSelectionBox(optionDevices[j].id);
+                        vara.checked = true;
+                    }
+                }
+            }
+        }
+    };
+    updateTheatre();
+}
+
+function updateTheatre(index) {
+    let dropdown = document.getElementById("theatre-select");
+    for (let i = dropdown.children.length - 1; i > 1; i--) {
+        dropdown.children[i].remove();
+    }
+    fetch("/api/theatre/getall").then(r => {
+        if (r.ok) {
+            document.getElementById('selected-list');
+            r.json().then(e => {
+                for (let i = 0; i < e.length; i++) {
+                    let x = new DeviceGroup(e[i].id, e[i].theatreName, e[i].devices);
+                    let option = document.createElement("option");
+                    option.text = x.groupName;
+                    optionMap.push(new OptionMap(option, x));
+                    dropdown.add(option, 99);
+                }
+                if (index) {
+                    dropdown.selectedIndex = dropdown.length - 1;
+                }
+            });
+        }
+    })
+}
+
+populateTheatre();
 
 function populateDropdown() {
 
@@ -213,7 +270,7 @@ function updateDropdown(index) {
     for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
-    fetch("devicegroup/groups").then(r => {
+    fetch("/api/devicegroup/getall").then(r => {
         if (r.ok) {
             r.json().then(e => {
                 for (let i = 0; i < e.length; i++) {
@@ -233,38 +290,5 @@ function updateDropdown(index) {
 
 populateDropdown();
 
-class DeviceGroup {
-    constructor(id, groupName, devices) {
-        this.id = id;
-        this.groupName = groupName;
-        this.devices = devices;
-    }
-}
 
-class Device {
-    constructor(jsonObject) {
-        this.ipAddress = jsonObject.ipAddress;
-        this.port = jsonObject.port;
-        this.xPos = jsonObject.xPos;
-        this.yPos = jsonObject.yPos;
-        this.rotation = jsonObject.rotation;
-        this.id = jsonObject.id;
-    }
-}
-
-class DeviceMap {
-    constructor(device, li, checkbox) {
-        this.id = device.id;
-        this.device = device;
-        this.selectionBox = li;
-        this.checkbox = checkbox;
-    }
-}
-
-class OptionMap {
-    constructor(option, deviceGroup) {
-        this.option = option;
-        this.deviceGroup = deviceGroup;
-    }
-}
 
