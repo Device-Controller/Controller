@@ -51,7 +51,9 @@ public class TestingController {
         String s = "";
         s += roleRepository.save(new Role("ADMIN", true, true, true, true)).toString();
         s += " " + deviceTypeRepository.save(new DeviceType("Projector")).toString();
+        s += " " + deviceTypeRepository.save(new DeviceType("Sound System")).toString();
         s += " " + deviceInfoRepository.save(new DeviceInfo("Barko", "F22", deviceTypeRepository.findAll().iterator().next())).toString();
+        s += " " + deviceInfoRepository.save(new DeviceInfo("Denon", "DN500-AV", deviceTypeRepository.findAll().get(1))).toString();
         s += " " + theatreRepository.save(new Theatre("Visualiseringslab")).toString();
         s += " " + theatreRepository.save(new Theatre("Testlab")).toString();
         return new ResponseEntity<>(s, HttpStatus.OK);
@@ -60,7 +62,7 @@ public class TestingController {
     @RequestMapping("/testdevices")
     public ResponseEntity<String> testDevices() {
         String s = "";
-        if (deviceRepository.findAll().size() == 0) {
+        if (deviceTypeRepository.findAll().size() == 0) {
             initial();
         }
         ArrayList<Device> d = new ArrayList<>();
@@ -90,7 +92,7 @@ public class TestingController {
     @RequestMapping("/actualdevice")
     public ResponseEntity<String> actual(@RequestParam("id") int id) {
         String s = "";
-        if (deviceRepository.findAll().size() == 0) {
+        if (deviceTypeRepository.findAll().size() == 0) {
             initial();
         }
         s += deviceRepository.save(new Device("158.38.65." + id, 1025, 50, 550, 270, deviceInfoRepository.findAll().iterator().next())).toString();
@@ -127,7 +129,7 @@ public class TestingController {
     @RequestMapping("/actualdevices")
     public ResponseEntity<String> actualDevices() {
         String s = "";
-        if (deviceRepository.findAll().size() == 0) {
+        if (deviceTypeRepository.findAll().size() == 0) {
             initial();
         }
         ArrayList<Device> d = new ArrayList<>();
@@ -143,6 +145,7 @@ public class TestingController {
         d.add(new Device("158.38.65.49", 1025, 350, 290, 80, deviceInfoRepository.findAll().iterator().next()));
         d.add(new Device("158.38.65.50", 1025, 350, 420, 90, deviceInfoRepository.findAll().iterator().next()));
         d.add(new Device("158.38.65.51", 1025, 350, 550, 90, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device("158.38.65.60", 23, 150, 350, 0, deviceInfoRepository.findAll().get(1)));
 
         for(Device dv : d) {
             s += deviceRepository.save(dv).toString();
