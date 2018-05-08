@@ -57,6 +57,10 @@ button:hover {
     justify-content: center;
     align-items: center;
 }
+.center-container1 {
+    justify-content: center;
+    align-items: center;
+}
 
 .dropdown-box {
     margin: 1%;
@@ -173,8 +177,8 @@ input[type=checkbox]:checked + .check-label {
 #button-savegroup {
     border-radius: 30%;
     float: left;
-    width: 5em;
-    height: 5em;
+    width: 4em;
+    height: 4em;
 }
 #groupname {
     font-size: 17px;

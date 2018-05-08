@@ -159,6 +159,7 @@ function createGroup() {
         document.getElementById("groupname").value = "";
     }
 }
+
 function updateCount() {
     let t = document.getElementById("check-count");
     let counter = 0;
@@ -169,16 +170,25 @@ function updateCount() {
     }
     t.innerHTML = "Count: " + counter;
 }
+
 function addListElements(device) {
     let ul = document.getElementById("selected-list");
-
+    let imageCard;
+    switch (device.type) {
+        case "Projector":
+            imageCard = "<image src='Images/projector_icon_simple.png' alt='projector-image' class='list-icon'></image>";
+            break;
+        case "Sound System":
+            imageCard = "<image src='Images/soundsystem_icon_simple.png' alt='soundsystem-image' class='list-icon'></image>";
+            break;
+    }
 
     var li = document.createElement('li');
 
     let counter = devices.length + 1;
     li.innerHTML =
-          "<div class='image-card'>"
-        + "<image src='Images/projector_icon_simple.png' alt='projector-image'></image>"
+        "<div class='image-card'>"
+        + imageCard
         + "</div>"
         + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox' onclick='updateCount()'>"
         + "<label for='pro" + counter + "'" + " class='check-label' onclick='updateCount()'></label>"
