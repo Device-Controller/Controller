@@ -20,6 +20,9 @@ import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 
+/**
+ * @author ThomasSTodal
+ */
 @Controller
 @RequestMapping("/api/devicegroup")
 public class DeviceGroupController {

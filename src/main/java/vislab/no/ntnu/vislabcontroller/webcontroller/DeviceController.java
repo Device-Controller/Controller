@@ -35,14 +35,14 @@ public class DeviceController {
     @RequestMapping(value = "/getone"
             , method = RequestMethod.POST)
     public ResponseEntity<Device> getOne(@RequestParam("id") Optional<Integer> id
-            , @RequestParam("ipAdress") Optional<String> ipAdress) {
+            , @RequestParam("ipAddress") Optional<String> ipAddress) {
         Device d = null;
         if (id.isPresent()) {
             if (deviceRepository.findById(id.get()).isPresent()) {
                 d = deviceRepository.findById(id.get()).get();
             }
-        } else if (ipAdress.isPresent()) {
-            d = deviceRepository.findByIpAddress(ipAdress.get());
+        } else if (ipAddress.isPresent()) {
+            d = deviceRepository.findByIpAddress(ipAddress.get());
         } //TODO throw exception here?
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
