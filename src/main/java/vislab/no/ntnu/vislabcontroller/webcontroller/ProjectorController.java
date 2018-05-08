@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
-import vislab.no.ntnu.vislabcontroller.entity.Device;
+import vislab.no.ntnu.providers.Device;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 import vislab.no.ntnu.DeviceManager;
 import vislab.no.ntnu.providers.Projector;
@@ -34,46 +34,58 @@ public class ProjectorController extends DeviceManager {
 
     @RequestMapping("/powerOn")
     public ResponseEntity<Integer> powerOn(@RequestParam(value = "id") int id) throws IOException {
-        Projector projector = getProjector(id);
-        return new ResponseEntity<>(projector.powerOn(), HttpStatus.OK);
+        Device device = getProjector(id);
+        return new ResponseEntity<>(device.powerOn(), HttpStatus.OK);
     }
 
     @RequestMapping("/powerOff")
     public ResponseEntity<Integer> powerOff(@RequestParam(value = "id") int id) throws IOException {
-        Projector projector = getProjector(id);
-        return new ResponseEntity<>(projector.powerOff(), HttpStatus.OK);
+        Device device = getProjector(id);
+        return new ResponseEntity<>(device.powerOff(), HttpStatus.OK);
     }
 
     @RequestMapping("/mute")
     public ResponseEntity<Integer> muteImage(@RequestParam(value = "id") int id) throws IOException {
-        Projector projector = getProjector(id);
-        return new ResponseEntity<>(projector.mute(), HttpStatus.OK);
+        Device device = getProjector(id);
+        if(device instanceof Projector) {
+            return new ResponseEntity<>(((Projector)device).mute(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
     @RequestMapping("/unMute")
     public ResponseEntity<Integer> unMuteImage(@RequestParam(value = "id") int id) throws IOException {
-        Projector projector = getProjector(id);
-        return new ResponseEntity<>(projector.unMute(), HttpStatus.OK);
+        Device device = getProjector(id);
+        if(device instanceof Projector) {
+        return new ResponseEntity<>(((Projector)device).unMute(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
     @RequestMapping("/powerState")
     public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
-        Projector projector = getProjector(id);
-        return (projector != null) ? new ResponseEntity<>(projector.getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
+        Device device = getProjector(id);
+        if(device instanceof Projector) {
+            return (device != null) ? new ResponseEntity<>(((Projector)device).getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
+        }
+            return new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
-    private Projector getProjector(int id) {
-        Device entDevice = deviceRepository.findById(id).get();
-        vislab.no.ntnu.providers.Device device = getDevice(id);
+    private vislab.no.ntnu.providers.Device getProjector(int id) {
+        vislab.no.ntnu.vislabcontroller.entity.Device entDevice = deviceRepository.findById(id).get();
+        Device device = getDevice(id);
         if(device == null){
-            device = createNewProjector(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
+            if(entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("projector")) {
+                device = createNewProjector(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
+            } else if(entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("sound system")){
+                device = createNewDevice(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
+            }
             if(device != null) {
                 device.setIpAddress(entDevice.getIpAddress());
                 device.setPort(entDevice.getPort());
             }
-
         }
-        return (Projector) device;
+        return  device;
     }
 
 }
