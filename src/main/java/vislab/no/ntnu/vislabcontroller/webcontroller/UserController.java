@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
 import vislab.no.ntnu.vislabcontroller.entity.User;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.UserRepository;
@@ -55,7 +56,12 @@ public class UserController {
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addOne(@RequestBody User user) {
-        user.addDeviceGroups(deviceGroupRepository.findByDefaultDGroup(true)); //TODO is this even ok?
+        List<DeviceGroup> dgs = deviceGroupRepository.findAll();
+        for(DeviceGroup dg : dgs) {
+            if(!dg.isDefaultDGroup())
+                dgs.remove(dg);
+        }
+        user.addDeviceGroups(dgs);
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
