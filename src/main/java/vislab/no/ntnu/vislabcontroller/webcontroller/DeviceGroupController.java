@@ -28,7 +28,6 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 public class DeviceGroupController {
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
-
     @Autowired
     DeviceRepository deviceRepository;
 
@@ -44,25 +43,32 @@ public class DeviceGroupController {
         return new ResponseEntity<>(deviceGroupRepository.save(deviceGroup), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/addlist"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<DeviceGroup>> addList(@RequestBody DeviceGroup[] deviceGroupArray) {
+        return new ResponseEntity<>(deviceGroupRepository.saveAll(Arrays.asList(deviceGroupArray))
+                , HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/makeone"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DeviceGroup> makeOne(@RequestParam("groupname") String groupName
-            , @RequestParam("theatre") Theatre theatre
+            , @RequestBody Theatre theatre
             , @RequestBody Device[] deviceArray) {
-        List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
-        DeviceGroup d = new DeviceGroup(groupName, theatre);
+        DeviceGroup d = new DeviceGroup(groupName, theatre, Arrays.asList(deviceArray));
         return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/setifdefault"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DeviceGroup> setIfDefault(@RequestParam("id") Integer id
+    public ResponseEntity<List<DeviceGroup>> setIfDefault(@RequestParam("ids") Integer[] ids
             , @RequestParam("isdefault") boolean isDefaultDGroup) {
-        DeviceGroup d = deviceGroupRepository.findById(id).get();
-        d.setDefaultDGroup(isDefaultDGroup);
-        return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
+        List<DeviceGroup> dgs = deviceGroupRepository.findAllById(Arrays.asList(ids));
+        dgs.forEach(d -> d.setDefaultDGroup(isDefaultDGroup));
+        return new ResponseEntity<>(deviceGroupRepository.saveAll(dgs), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/removeone"
