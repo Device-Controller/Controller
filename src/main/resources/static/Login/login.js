@@ -25,6 +25,6 @@ class User {
         this.role = null;
         this.username = username;
         this.password = password;
-        this.email = "fuck@Off.forever";
+        this.email = "place@hold.er";
     }
 }
