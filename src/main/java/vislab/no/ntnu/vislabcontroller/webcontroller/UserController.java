@@ -65,6 +65,16 @@ public class UserController {
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/updateusername"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> updateUsername(@RequestParam("id") Integer id
+            , @RequestParam("username") String username) {
+        User u = userRepository.findById(id).get();
+        u.setUsername(username);
+        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/removeone"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
