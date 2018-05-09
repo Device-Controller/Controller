@@ -7,23 +7,33 @@ canvas {
     border: solid 1px black;
 }
 
+#canvas-container {
+    display: none;
+}
+#list-col {
+    width: 70%;
+}
+#button-col {
+    width: 25%;
+}
+@media only screen and (min-width: 1054px) {
 
+    #canvas-container {
 
+        display: inline-block;
 
-@media only screen and (min-width: 821px) {
-    /* DESKTOP */
+    }
 
 }
-
-
 
 button:hover {
     cursor: pointer;
 }
+
 /* GENERIC BUTTONS ----------------- */
 .generic-buttons {
-    width: 50%;
-    margin-top: 3%;
+    width: 20%;
+    margin-top: 15%;
     position: fixed;
 }
 
@@ -32,23 +42,22 @@ button:hover {
     height: 80px;
     border-radius: 50%;
 
-
 }
 
 #powerimg {
     filter: invert(100%);
 }
+
 #poweroffimg {
     filter: invert(100%);
 }
+
 #buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff, #settings-group {
     display: block;
     width: 100px;
     height: 100px;
     margin-bottom: 10%;
 }
-
-
 
 /* PROJECTOR LIST ------------------ */
 
@@ -57,6 +66,7 @@ button:hover {
     justify-content: center;
     align-items: center;
 }
+
 .center-container1 {
     justify-content: center;
     align-items: center;
@@ -81,6 +91,7 @@ button:hover {
 select:hover {
     cursor: pointer;
 }
+
 .selected-container ul {
     margin-top: 1%;
     padding: 0;
@@ -88,8 +99,9 @@ select:hover {
     margin: 0;
     padding: 0;
 }
+
 .selected-container li {
-    background-color: #ff1801;
+    background-color: #000033;
     margin-bottom: 1%;
     border: solid black 1px;
     border-radius: 15px;
@@ -108,7 +120,7 @@ select:hover {
 
 .selected-container li:hover {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
-    background-color: #ff3311;
+    background-color: #f2f2f2;
 }
 
 label {
@@ -122,6 +134,10 @@ label {
     white-space: pre-line;
     margin: 0;
     padding: 0;
+}
+
+.text-label:hover {
+    color: black;
 }
 
 input[type=checkbox] {
@@ -142,6 +158,7 @@ input[type=checkbox]:checked + .check-label {
     background: url('../Images/check-icon.png') no-repeat;
     background-size: 100%;
 }
+
 .state-icon {
     height: 20px;
     width: 20px;
@@ -153,10 +170,12 @@ input[type=checkbox]:checked + .check-label {
     margin-right: 3%;
     margin-top: -11%;
 }
+
 .disconnect-image {
     width: 25px;
     height: 28px;
 }
+
 .disconnect-icon {
     border: solid white 1px;
     background-color: #696565;
@@ -174,34 +193,44 @@ input[type=checkbox]:checked + .check-label {
     float: left;
     margin-left: 35%;
 }
+
 #button-savegroup {
     border-radius: 30%;
     float: left;
     width: 4em;
     height: 4em;
 }
+
 #groupname {
     font-size: 17px;
 }
+
 #saveimg {
     filter: invert(100%);
 }
 
 .image-card {
     float: left;
-    display:inline-block;
+    display: inline-block;
     border-right: 1px solid #444444;
     height: 100%;
+    width: 28%;
+}
+
+.list-icon {
+    margin-top: 12.5%;
 }
 
 @media only screen and (min-width: 768px) {
     .selected-container li {
 
     }
+
     .group-button {
         width: 100%;
         margin: 0;
     }
+
     .generic-buttons {
         position: absolute;
     }
