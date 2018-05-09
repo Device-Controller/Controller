@@ -71,6 +71,26 @@ public class DeviceGroupController {
         return new ResponseEntity<>(deviceGroupRepository.saveAll(dgs), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/adddevices"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceGroup> addDevices(@RequestParam("id") Integer id
+            , @RequestBody Device[] deviceArray) {
+        DeviceGroup dg = deviceGroupRepository.findById(id).get();
+        Arrays.asList(deviceArray).forEach(d -> dg.addDevice(d));
+        return new ResponseEntity<>(deviceGroupRepository.save(dg), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updatename"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceGroup> updateName(@RequestParam("id") Integer id
+            , @RequestParam("groupname") String groupName) {
+        DeviceGroup dg = deviceGroupRepository.findById(id).get();
+        dg.setGroupName(groupName);
+        return new ResponseEntity<>(deviceGroupRepository.save(dg), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/removeone"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
