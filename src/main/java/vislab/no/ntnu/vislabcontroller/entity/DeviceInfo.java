@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 public class DeviceInfo implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne

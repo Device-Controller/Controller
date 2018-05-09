@@ -49,7 +49,6 @@ public class TestingController {
     @RequestMapping("/initial")
     public ResponseEntity<String> initial() {
         String s = "";
-        s += roleRepository.save(new Role("ADMIN", true, true, true, true)).toString();
         s += " " + deviceTypeRepository.save(new DeviceType("Projector")).toString();
         s += " " + deviceTypeRepository.save(new DeviceType("Sound System")).toString();
         s += " " + deviceInfoRepository.save(new DeviceInfo("Barko", "F22", deviceTypeRepository.findAll().iterator().next())).toString();
@@ -175,6 +174,6 @@ public class TestingController {
 
     @RequestMapping(value ="/role")
     public ResponseEntity<Role> getRole(){
-        return new ResponseEntity<>(new Role("User",false,false,true,true), HttpStatus.OK);
+        return new ResponseEntity<>(new Role("User"), HttpStatus.OK);
     }
 }

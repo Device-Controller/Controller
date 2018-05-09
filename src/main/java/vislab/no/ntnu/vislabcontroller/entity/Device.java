@@ -2,7 +2,6 @@ package vislab.no.ntnu.vislabcontroller.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Device implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @JsonIgnore
