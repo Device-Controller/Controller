@@ -18,24 +18,24 @@ public class Role implements Serializable {
     private Integer id;
 
     @NotNull
-    private String role;
+    private String roleName;
 
     public Role() {
     }
 
-    public Role(@NotNull String role) {
-        this.role = role;
+    public Role(@NotNull String roleName) {
+        this.roleName = roleName;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

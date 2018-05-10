@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import vislab.no.ntnu.vislabcontroller.entity.Device;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
+import vislab.no.ntnu.vislabcontroller.entity.User;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 
@@ -55,9 +57,15 @@ public class DeviceGroupController {
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DeviceGroup> makeOne(@RequestParam("groupname") String groupName
+            , @RequestParam("isdefault") Optional<Boolean> isDefault
             , @RequestBody Theatre theatre
-            , @RequestBody Device[] deviceArray) {
+            , @RequestBody Device[] deviceArray
+            , @RequestBody Optional<User[]> userArray) {
         DeviceGroup d = new DeviceGroup(groupName, theatre, Arrays.asList(deviceArray));
+        if(userArray.isPresent())
+            d.addUsers(Arrays.asList(userArray.get()));
+        if(isDefault.isPresent())
+            d.setDefaultDGroup(isDefault.get());
         return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
     }
 
@@ -65,7 +73,7 @@ public class DeviceGroupController {
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<DeviceGroup>> setIfDefault(@RequestParam("ids") Integer[] ids
-            , @RequestParam("isdefault") boolean isDefaultDGroup) {
+            , @RequestParam("default") boolean isDefaultDGroup) {
         List<DeviceGroup> dgs = deviceGroupRepository.findAllById(Arrays.asList(ids));
         dgs.forEach(d -> d.setDefaultDGroup(isDefaultDGroup));
         return new ResponseEntity<>(deviceGroupRepository.saveAll(dgs), HttpStatus.OK);

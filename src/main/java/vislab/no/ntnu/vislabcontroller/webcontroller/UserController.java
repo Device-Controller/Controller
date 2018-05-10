@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
+import vislab.no.ntnu.vislabcontroller.entity.Role;
 import vislab.no.ntnu.vislabcontroller.entity.User;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.RoleRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class UserController {
     UserRepository userRepository;
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
     @RequestMapping("/getall")
     public ResponseEntity<List<User>> getAll() {
@@ -72,6 +76,38 @@ public class UserController {
             , @RequestParam("username") String username) {
         User u = userRepository.findById(id).get();
         u.setUsername(username);
+        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updateemail"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> updateEmail(@RequestParam("id") Integer id
+            , @RequestParam("email") String email) {
+        User u = userRepository.findById(id).get();
+        u.setEmail(email);
+        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updaterole"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> updateRole(@RequestParam("id") Integer id
+            , @RequestParam("rolename") String roleName) {
+        User u = userRepository.findById(id).get();
+        Role r = roleRepository.findByRoleName(roleName);
+        u.setRole(r);
+        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/addgroup"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> addGroup(@RequestParam("id") Integer id
+            , @RequestParam("rolename") String roleName) {
+        User u = userRepository.findById(id).get();
+        Role r = roleRepository.findByRoleName(roleName);
+        u.setRole(r);
         return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
     }
 

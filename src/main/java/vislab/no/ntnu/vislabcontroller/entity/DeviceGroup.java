@@ -86,6 +86,11 @@ public class DeviceGroup implements Serializable {
         user.getDeviceGroups().add(this);
     }
 
+    public void addUsers(List<User> users) {
+        this.users.addAll(users);
+        users.forEach(u -> u.getDeviceGroups().add(this));
+    }
+
     public void removeUser(User user) {
         this.users.remove(user);
         user.getDeviceGroups().remove(this);
