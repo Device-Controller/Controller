@@ -2,7 +2,7 @@ var timeout;
 console.log("init");
 
 
-//getDevices().then(r => buildList(r));
+getDevices().then(r => buildList(r));
 
 function buildList(deviceList) {
     devices = [];
