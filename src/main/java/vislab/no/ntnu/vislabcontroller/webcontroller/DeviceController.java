@@ -9,12 +9,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import vislab.no.ntnu.vislabcontroller.entity.Device;
-import vislab.no.ntnu.vislabcontroller.entity.Theatre;
-import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
-import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.ServletRequest;
+
+import vislab.no.ntnu.vislabcontroller.entity.Device;
+import vislab.no.ntnu.vislabcontroller.entity.DeviceInfo;
+import vislab.no.ntnu.vislabcontroller.entity.DeviceType;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceInfoRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceTypeRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
 /**
  * @author ThomasSTodal
@@ -24,6 +33,10 @@ import java.util.*;
 public class DeviceController {
     @Autowired
     DeviceRepository deviceRepository;
+    @Autowired
+    DeviceInfoRepository deviceInfoRepository;
+    @Autowired
+    DeviceTypeRepository deviceTypeRepository;
     @Autowired
     TheatreRepository theatreRepository;
 
@@ -49,76 +62,64 @@ public class DeviceController {
 
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Device>> addOne(@RequestBody Device[] deviceArray) {
-        return new ResponseEntity<>(deviceRepository.saveAll(Arrays.asList(deviceArray)), HttpStatus.OK);
+            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Device> addOne(ServletRequest request) {
+        String manufacturer = request.getParameter("manufacturer");
+        String model = request.getParameter("model");
+        String ipAddress = request.getParameter("ipAddress");
+        int port = Integer.parseInt(request.getParameter("port"));
+        int xPos = Integer.parseInt(request.getParameter("xPos"));
+        int yPos = Integer.parseInt(request.getParameter("yPos"));
+        int rotation = Integer.parseInt(request.getParameter("rotation"));
+        DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
+        DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
+        Device device = new Device(info, ipAddress,port,xPos,yPos,rotation);
+        return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/updatename"
-            , method = RequestMethod.GET)
-    public ResponseEntity<Device> updateName(@RequestParam("id") Integer id
-            , @RequestParam("name") String name) {
-        Device d = deviceRepository.findById(id).get();
-        d.setDefaultName(name);
-        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/updatexposition"
-            , method = RequestMethod.GET)
-    public ResponseEntity<Device> updateXPos(@RequestParam("id") Integer id
-            , @RequestParam("xposition") int xPosition) {
-        Device d = deviceRepository.findById(id).get();
-        d.setxPos(xPosition);
-        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/updateypos"
-            , method = RequestMethod.GET)
-    public ResponseEntity<Device> updateYPos(@RequestParam("id")  Integer id
-            , @RequestParam("yposition") int yPosition) {
-        Device d = deviceRepository.findById(id).get();
-        d.setyPos(yPosition);
-        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/updaterotation"
-            , method = RequestMethod.GET)
-    public ResponseEntity<Device> updateRotation(@RequestParam("id")  Integer id
-            , @RequestParam("rotation") int rotation) {
-        Device d = deviceRepository.findById(id).get();
-        d.setRotation(rotation);
-        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/updateaddress"
-            , method = RequestMethod.GET)
-    public ResponseEntity<Device> updateAddress(@RequestParam("id") Integer id
-            , @RequestParam("ipAddress") Optional<String> ipAddress
-            , @RequestParam("port") Optional<Integer> port) {
-        Device d = deviceRepository.findById(id).get();
-        if(ipAddress.isPresent())
-            d.setIpAddress(ipAddress.get());
-        if(port.isPresent())
-            d.setPort(port.get());
-        return new ResponseEntity<>(d, HttpStatus.OK);
+    @RequestMapping(value = "/update"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Device> update(ServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        if(deviceRepository.findById(id).isPresent()) {
+            Device device = deviceRepository.findById(id).get();
+            String manufacturer = request.getParameter("manufacturer");
+            String model = request.getParameter("model");
+            String ipAddress = request.getParameter("ipAddress");
+            String type = request.getParameter("type");
+            int port = Integer.parseInt(request.getParameter("port"));
+            int xPos = Integer.parseInt(request.getParameter("xPos"));
+            int yPos = Integer.parseInt(request.getParameter("yPos"));
+            int rotation = Integer.parseInt(request.getParameter("rotation"));
+            device.setIpAddress(ipAddress);
+            device.getDeviceInfo().setManufacturer(manufacturer);
+            device.getDeviceInfo().setModel(model);
+            device.getDeviceInfo().getDeviceType().setType(type);
+            device.setPort(port);
+            device.setxPos(xPos);
+            device.setyPos(yPos);
+            device.setRotation(rotation);
+            return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> remove(@RequestBody Device[] deviceArray) {
+    public ResponseEntity<String> removeOne(@RequestBody Device device) {
+        deviceRepository.delete(device);
+        return new ResponseEntity<>("Removed device: "
+                + device.getId(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/removelist"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> removeList(@RequestBody Device[] deviceArray) {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         deviceRepository.deleteAll(devices);
         return new ResponseEntity<>("Removed devices", HttpStatus.OK);
-    }
-
-    @RequestMapping("/removeall")
-    public ResponseEntity<String> removeAll() {
-        List<Theatre> th = theatreRepository.findAll();
-        for(Theatre t : th) {
-            t.removeAllDevices();
-        }
-        deviceRepository.deleteAll();
-        return new ResponseEntity<>("Removed all devices", HttpStatus.OK);
     }
 }

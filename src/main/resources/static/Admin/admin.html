@@ -6,18 +6,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.ico"/>
     <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="Admin/admin.css">
     <script src="../templatescript.js"></script>
 </head>
 <body>
 <div include-html="template.html"></div>
-<table>
-    <tr class="admin-action">
-        <td>Add new Role</td>
-        <td>Add new thingy</td>
-    </tr>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="row">
+                <div class="col-sm-4">
+                    <button onclick="showManageDevices()">Manage Devices</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button onclick="showManageTheatres()">Manage Theatres</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button onclick="showManageGroups()">Manage Groups</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button onclick="showManageUsers()">Manage Users</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-4">
+            <div id="manage-devices" class="manage-forms">
+                <form action="/api/device/addone" method="post"><!--
+                    <div class="form-group">
+                        <label for="deviceId">Device Id</label>
+                        <input type="number" class="form-control" id="deviceId" name="id"
+                               placeholder="Device ID">
+                    </div>-->
+                    <div class="form-group">
+                        <label for="deviceManufacturer">Device Manufacturer</label>
+                        <input type="text" class="form-control" id="deviceManufacturer"
+                               name="manufacturer" placeholder="Device Manufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceModel">Device Model</label>
+                        <input type="text" class="form-control" id="deviceModel" name="model"
+                               placeholder="Device Model">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceType">Device Type</label>
+                        <input type="text" class="form-control" id="deviceType" name="type"
+                               placeholder="Device Type">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceIpAddress">Device IpAddress</label>
+                        <input type="text" class="form-control" id="deviceIpAddress"
+                               name="ipAddress" placeholder="Device IpAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="devicePort">Device Port</label>
+                        <input type="number" class="form-control" id="devicePort" name="port"
+                               placeholder="Device Port">
+                    </div>
+                    <div class="form-group">
+                        <label for="devicexPos">Device xPos</label>
+                        <input type="number" class="form-control" id="devicexPos" name="xPos"
+                               placeholder="Device xPos">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceyPos">Device yPos</label>
+                        <input type="number" class="form-control" id="deviceyPos" name="yPos"
+                               placeholder="Device yPos">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceRotation">Device Rotation</label>
+                        <input type="number" class="form-control" id="deviceRotation" name="rotation"
+                               aria-describedby="deviceRotationHelp" placeholder="Device Rotation">
+                        <small id="deviceRotationHelp" class="form-text">Values from 0 to 360
+                            degrees
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="manage-theatre" class="manage-forms">
+                <form>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     includeHTML();
 </script>
 </body>
+<script src="Admin/admin.js"></script>
 </html>
