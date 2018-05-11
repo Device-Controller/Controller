@@ -38,14 +38,7 @@ public class DeviceGroupController {
         return new ResponseEntity<>(deviceGroupRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addone"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DeviceGroup> addOne(@RequestBody DeviceGroup deviceGroup) {
-        return new ResponseEntity<>(deviceGroupRepository.save(deviceGroup), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/addlist"
+    @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<DeviceGroup>> addList(@RequestBody DeviceGroup[] deviceGroupArray) {
@@ -53,24 +46,8 @@ public class DeviceGroupController {
                 , HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/makeone"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DeviceGroup> makeOne(@RequestParam("groupname") String groupName
-            , @RequestParam("isdefault") Optional<Boolean> isDefault
-            , @RequestBody Theatre theatre
-            , @RequestBody Device[] deviceArray
-            , @RequestBody Optional<User[]> userArray) {
-        DeviceGroup d = new DeviceGroup(groupName, theatre, Arrays.asList(deviceArray));
-        if(userArray.isPresent())
-            d.addUsers(Arrays.asList(userArray.get()));
-        if(isDefault.isPresent())
-            d.setDefaultDGroup(isDefault.get());
-        return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/setifdefault"
-            , method = RequestMethod.POST
+            , method = RequestMethod.GET
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<DeviceGroup>> setIfDefault(@RequestParam("ids") Integer[] ids
             , @RequestParam("default") boolean isDefaultDGroup) {
@@ -99,16 +76,7 @@ public class DeviceGroupController {
         return new ResponseEntity<>(deviceGroupRepository.save(dg), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/removeone"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOne(@RequestBody DeviceGroup deviceGroup) {
-        deviceGroupRepository.delete(deviceGroup);
-        return new ResponseEntity<>("Removed device group: "
-                + deviceGroup.getGroupName(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/removelist"
+    @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> removeList(@RequestBody DeviceGroup[] deviceGroupArray) {

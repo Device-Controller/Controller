@@ -25,7 +25,7 @@ public class Device implements Serializable {
 
     private String defaultName;
 
-    private Map<Theatre, String> deviceName;
+    //private Map<Theatre, String> deviceName; //TODO should be a separate table
 
     @JsonIgnore
     @ManyToMany(mappedBy = "devices")
@@ -54,7 +54,7 @@ public class Device implements Serializable {
     public Device() {
         this.deviceGroups = new ArrayList<>();
         this.theatres = new ArrayList<>();
-        this.deviceName = new HashMap<>();
+        //this.deviceName = new HashMap<>();
     }
 
     public Device(@NotNull DeviceInfo deviceInfo, @NotNull String ipAddress
@@ -86,13 +86,13 @@ public class Device implements Serializable {
         this.defaultName = defaultName;
     }
 
-    public String getDeviceName(Theatre theatre) {
+    /*public String getDeviceName(Theatre theatre) {
         return this.deviceName.get(theatre);
     }
 
     public void mapDeviceName(Theatre theatre, String deviceName) {
         this.deviceName.put(theatre, deviceName);
-    }
+    }*/
 
     public List<DeviceGroup> getDeviceGroups() {
         return deviceGroups;
@@ -104,12 +104,12 @@ public class Device implements Serializable {
 
     public void addTheatre(Theatre theatre) {
         this.theatres.add(theatre);
-        this.mapDeviceName(theatre, this.defaultName);
+        //this.mapDeviceName(theatre, this.defaultName);
     }
 
     public void removeTheatre(Theatre theatre) {
         this.theatres.remove(theatre);
-        this.deviceName.remove(theatre);
+        //this.deviceName.remove(theatre);
     }
 
     public DeviceInfo getDeviceInfo() {

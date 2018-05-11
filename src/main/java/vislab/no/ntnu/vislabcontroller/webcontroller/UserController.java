@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getone"
-            , method = RequestMethod.POST)
+            , method = RequestMethod.GET)
     public ResponseEntity<User> getOne(@RequestParam("id") Optional<Integer> id
             , @RequestParam("username") Optional<String> username
             , @RequestParam("email") Optional<String> email) {
@@ -56,21 +56,22 @@ public class UserController {
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addone"
+    @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addOne(@RequestBody User user) {
+    public ResponseEntity<List<User>> addOne(@RequestBody User[] user) {
         List<DeviceGroup> dgs = deviceGroupRepository.findAll();
         for(DeviceGroup dg : dgs) {
             if(!dg.isDefaultDGroup())
                 dgs.remove(dg);
         }
-        user.addDeviceGroups(dgs);
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+        List<User> users = Arrays.asList(user);
+        users.forEach(u -> u.addDeviceGroups(dgs));
+        return new ResponseEntity<>(userRepository.saveAll(users), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/updateusername"
-            , method = RequestMethod.POST
+            , method = RequestMethod.GET
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> updateUsername(@RequestParam("id") Integer id
             , @RequestParam("username") String username) {
@@ -80,7 +81,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/updateemail"
-            , method = RequestMethod.POST
+            , method = RequestMethod.GET
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> updateEmail(@RequestParam("id") Integer id
             , @RequestParam("email") String email) {
@@ -90,7 +91,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/updaterole"
-            , method = RequestMethod.POST
+            , method = RequestMethod.GET
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> updateRole(@RequestParam("id") Integer id
             , @RequestParam("rolename") String roleName) {
@@ -100,30 +101,20 @@ public class UserController {
         return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addgroup"
+    @RequestMapping(value = "/addgroups"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addGroup(@RequestParam("id") Integer id
-            , @RequestParam("rolename") String roleName) {
+            , @RequestBody DeviceGroup[] deviceGroupArray) {
         User u = userRepository.findById(id).get();
-        Role r = roleRepository.findByRoleName(roleName);
-        u.setRole(r);
+        u.addDeviceGroups(Arrays.asList(deviceGroupArray));
         return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/removeone"
+    @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOne(@RequestBody User user) {
-        userRepository.delete(user);
-        return new ResponseEntity<>("Removed user: "
-                + user.getUsername(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/removelist"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeList(@RequestBody User[] userArray) {
+    public ResponseEntity<String> remove(@RequestBody User[] userArray) {
         List<User> users = new ArrayList<>(Arrays.asList(userArray));
         userRepository.deleteAll(users);
         return new ResponseEntity<>("Removed users", HttpStatus.OK);
