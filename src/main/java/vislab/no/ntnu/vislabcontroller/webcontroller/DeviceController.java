@@ -103,19 +103,10 @@ public class DeviceController {
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/removeone"
+    @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOne(@RequestBody Device device) {
-        deviceRepository.delete(device);
-        return new ResponseEntity<>("Removed device: "
-                + device.getId(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/removelist"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeList(@RequestBody Device[] deviceArray) {
+    public ResponseEntity<String> remove(@RequestBody Device[] deviceArray) {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         deviceRepository.deleteAll(devices);
         return new ResponseEntity<>("Removed devices", HttpStatus.OK);
