@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +22,10 @@ public class Device implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private String defaultName;
+
+    //private Map<Theatre, String> deviceName; //TODO should be a separate table
 
     @JsonIgnore
     @ManyToMany(mappedBy = "devices")
@@ -52,9 +54,11 @@ public class Device implements Serializable {
     public Device() {
         this.deviceGroups = new ArrayList<>();
         this.theatres = new ArrayList<>();
+        //this.deviceName = new HashMap<>();
     }
 
-    public Device(@NotNull String ipAddress, @NotNull int port, int xPos, int yPos, int rotation, @NotNull DeviceInfo deviceInfo) {
+    public Device(@NotNull DeviceInfo deviceInfo, @NotNull String ipAddress
+            , @NotNull int port, int xPos, int yPos, int rotation) {
         this();
         this.deviceInfo = deviceInfo;
         this.ipAddress = ipAddress;
@@ -64,9 +68,31 @@ public class Device implements Serializable {
         this.rotation = rotation;
     }
 
+    public Device(String defaultName, @NotNull DeviceInfo deviceInfo, @NotNull String ipAddress
+            , @NotNull int port, int xPos, int yPos, int rotation) {
+        this(deviceInfo, ipAddress, port, xPos, yPos, rotation);
+        this.defaultName = defaultName;
+    }
+
     public Integer getId() {
         return id;
     }
+
+    public String getDefaultName() {
+        return defaultName;
+    }
+
+    public void setDefaultName(String defaultName) {
+        this.defaultName = defaultName;
+    }
+
+    /*public String getDeviceName(Theatre theatre) {
+        return this.deviceName.get(theatre);
+    }
+
+    public void mapDeviceName(Theatre theatre, String deviceName) {
+        this.deviceName.put(theatre, deviceName);
+    }*/
 
     public List<DeviceGroup> getDeviceGroups() {
         return deviceGroups;
@@ -78,10 +104,12 @@ public class Device implements Serializable {
 
     public void addTheatre(Theatre theatre) {
         this.theatres.add(theatre);
+        //this.mapDeviceName(theatre, this.defaultName);
     }
 
     public void removeTheatre(Theatre theatre) {
         this.theatres.remove(theatre);
+        //this.deviceName.remove(theatre);
     }
 
     public DeviceInfo getDeviceInfo() {

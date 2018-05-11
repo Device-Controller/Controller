@@ -55,11 +55,22 @@ public class DeviceGroup implements Serializable {
         this.isDefaultDGroup = false;
     }
 
+    public DeviceGroup(@NotNull String groupName, @NotNull Theatre theatre, @NotNull List<Device> devices) {
+        this(groupName, theatre);
+        this.devices.addAll(devices);
+    }
+
     public DeviceGroup(@NotNull String groupName, @NotNull Theatre theatre, @NotNull boolean isDefaultDGroup) {
         this();
         this.groupName = groupName;
         this.theatre = theatre;
         this.isDefaultDGroup = isDefaultDGroup;
+    }
+
+    public DeviceGroup(@NotNull String groupName, @NotNull Theatre theatre
+            , @NotNull List<Device> devices, @NotNull boolean isDefaultDGroup) {
+        this(groupName, theatre, isDefaultDGroup);
+        this.devices.addAll(devices);
     }
 
     public Integer getId() {
@@ -73,6 +84,11 @@ public class DeviceGroup implements Serializable {
     public void addUser(User user) {
         this.users.add(user);
         user.getDeviceGroups().add(this);
+    }
+
+    public void addUsers(List<User> users) {
+        this.users.addAll(users);
+        users.forEach(u -> u.getDeviceGroups().add(this));
     }
 
     public void removeUser(User user) {

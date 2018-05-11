@@ -33,7 +33,7 @@ public class DeviceController {
     }
 
     @RequestMapping(value = "/getone"
-            , method = RequestMethod.POST)
+            , method = RequestMethod.GET)
     public ResponseEntity<Device> getOne(@RequestParam("id") Optional<Integer> id
             , @RequestParam("ipAddress") Optional<String> ipAddress) {
         Device d = null;
@@ -47,11 +47,60 @@ public class DeviceController {
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addone"
+    @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Device> addOne(@RequestBody Device device) {
-        return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
+    public ResponseEntity<List<Device>> addOne(@RequestBody Device[] deviceArray) {
+        return new ResponseEntity<>(deviceRepository.saveAll(Arrays.asList(deviceArray)), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updatename"
+            , method = RequestMethod.GET)
+    public ResponseEntity<Device> updateName(@RequestParam("id") Integer id
+            , @RequestParam("name") String name) {
+        Device d = deviceRepository.findById(id).get();
+        d.setDefaultName(name);
+        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updatexposition"
+            , method = RequestMethod.GET)
+    public ResponseEntity<Device> updateXPos(@RequestParam("id") Integer id
+            , @RequestParam("xposition") int xPosition) {
+        Device d = deviceRepository.findById(id).get();
+        d.setxPos(xPosition);
+        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updateypos"
+            , method = RequestMethod.GET)
+    public ResponseEntity<Device> updateYPos(@RequestParam("id")  Integer id
+            , @RequestParam("yposition") int yPosition) {
+        Device d = deviceRepository.findById(id).get();
+        d.setyPos(yPosition);
+        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updaterotation"
+            , method = RequestMethod.GET)
+    public ResponseEntity<Device> updateRotation(@RequestParam("id")  Integer id
+            , @RequestParam("rotation") int rotation) {
+        Device d = deviceRepository.findById(id).get();
+        d.setRotation(rotation);
+        return new ResponseEntity<>(deviceRepository.save(d), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updateaddress"
+            , method = RequestMethod.GET)
+    public ResponseEntity<Device> updateAddress(@RequestParam("id") Integer id
+            , @RequestParam("ipAddress") Optional<String> ipAddress
+            , @RequestParam("port") Optional<Integer> port) {
+        Device d = deviceRepository.findById(id).get();
+        if(ipAddress.isPresent())
+            d.setIpAddress(ipAddress.get());
+        if(port.isPresent())
+            d.setPort(port.get());
+        return new ResponseEntity<>(d, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/removeone"

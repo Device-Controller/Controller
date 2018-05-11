@@ -65,18 +65,18 @@ public class TestingController {
             initial();
         }
         ArrayList<Device> d = new ArrayList<>();
-        d.add(new Device("158.38.101.110", 1025, 50, 550, 270, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 50, 420, 270, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 50, 290, 280, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 70, 190, 290, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 110, 110, 305, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 170, 50, 340, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 230, 50, 20, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 290, 110, 55, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 330, 190, 70, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 350, 290, 80, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 350, 420, 90, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.101.110", 1025, 350, 550, 90, deviceInfoRepository.findAll().iterator().next()));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 50, 550, 270));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 50, 420, 270));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 50, 290, 280));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 70, 190, 290));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 110, 110, 305));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 170, 50, 340));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 230, 50, 20));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 290, 110, 55));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 330, 190, 70));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 350, 290, 80));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 350, 420, 90));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.101.110", 1025, 350, 550, 90));
 
         Theatre t = theatreRepository.findByTheatreName("Testlab");
         for(Device dv : d) {
@@ -94,7 +94,7 @@ public class TestingController {
         if (deviceTypeRepository.findAll().size() == 0) {
             initial();
         }
-        s += deviceRepository.save(new Device("158.38.65." + id, 1025, 50, 550, 270, deviceInfoRepository.findAll().iterator().next())).toString();
+        s += deviceRepository.save(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65." + id, 1025, 50, 550, 270)).toString();
         return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
@@ -132,19 +132,19 @@ public class TestingController {
             initial();
         }
         ArrayList<Device> d = new ArrayList<>();
-        d.add(new Device("158.38.65.40", 1025, 50, 550, 270, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.41", 1025, 50, 420, 270, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.42", 1025, 50, 290, 280, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.43", 1025, 70, 190, 290, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.44", 1025, 110, 110, 305, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.45", 1025, 170, 50, 340, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.46", 1025, 230, 50, 20, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.47", 1025, 290, 110, 55, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.48", 1025, 330, 190, 70, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.49", 1025, 350, 290, 80, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.50", 1025, 350, 420, 90, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.51", 1025, 350, 550, 90, deviceInfoRepository.findAll().iterator().next()));
-        d.add(new Device("158.38.65.60", 23, 150, 350, 0, deviceInfoRepository.findAll().get(1)));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.40", 1025, 50, 550, 270));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.41", 1025, 50, 420, 270));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.42", 1025, 50, 290, 280));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.43", 1025, 70, 190, 290));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.44", 1025, 110, 110, 305));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.45", 1025, 170, 50, 340));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.46", 1025, 230, 50, 20));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.47", 1025, 290, 110, 55));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.48", 1025, 330, 190, 70));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.49", 1025, 350, 290, 80));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.50", 1025, 350, 420, 90));
+        d.add(new Device(deviceInfoRepository.findAll().iterator().next(), "158.38.65.51", 1025, 350, 550, 90));
+        d.add(new Device(deviceInfoRepository.findAll().get(1), "158.38.65.60", 23, 150, 350, 0));
 
         for(Device dv : d) {
             s += deviceRepository.save(dv).toString();
