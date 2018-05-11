@@ -46,8 +46,7 @@
         <dependency>
         <groupId>vislab.no.ntnu</groupId>
         <artifactId>Vislab-Devices</artifactId>
-        <scope>system</scope>
-        <systemPath>${project.basedir}/src/main/resources/Vislab-Devices-1.0-SNAPSHOT.jar</systemPath>
+            <version>0.8.0</version>
     </dependency>
     </dependencies>
 
@@ -73,6 +72,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.0.1.RELEASE</version>
+                <configuration>
+                    <layout>ZIP</layout>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -80,6 +82,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Loader-Path>plugins</Loader-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
