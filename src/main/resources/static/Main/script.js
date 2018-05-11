@@ -2,9 +2,10 @@ var timeout;
 console.log("init");
 
 
-getDevices().then(r => buildList(r));
+//getDevices().then(r => buildList(r));
 
 function buildList(deviceList) {
+    devices = [];
     for (let i = 0; i < deviceList.length; i++) {
         let f = deviceList[i];
         let d = new Device(f);
@@ -73,7 +74,6 @@ function powerIcon(index, color) {
     let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
     let discoIcon = devices[index].selectionBox.querySelector(".disconnect-icon");
     if (color === 'none') {
-        console.log(color);
         statusIcon.style.display = "none";
         discoIcon.style.display = "inline-block";
     } else {
@@ -219,28 +219,31 @@ function populateTheatre() {
     let dropdown = document.getElementById("theatre-select");
     dropdown.onchange = e => {
         document.getElementById('selected-list').innerHTML = '';
-        if (dropdown.value == 'unselect') {
-            getDevices().then(r => buildList(r));
-        } else {
-            devices = [];
+
             for (let i = 0; i < devices.length; i++) {
                 devices[i].checkbox.checked = false;
             }
             for (let i = 0; i < optionMap.length; i++) {
                 if (optionMap[i].option.selected) {
                     let optionDevices = optionMap[i].deviceGroup.devices;
-                    for (let j = 0; j < optionDevices.length; j++) {
-                        addListElements(optionDevices[j]);
-                        let vara = getDeviceSelectionBox(optionDevices[j].id);
-                        vara.checked = true;
-                    }
+                    buildList(optionDevices);
+
                 }
             }
-        }
     };
     updateTheatre();
 }
-
+function setDefault() {
+    fetch("/api/theatre/getall").then(r => {
+        if (r.ok) {
+            r.json().then(e => {
+                document.getElementById('selected-list').innerHTML = '';
+                    buildList(e[0].devices);
+            });
+        }
+    })
+}
+setDefault();
 function updateTheatre(index) {
     let dropdown = document.getElementById("theatre-select");
     for (let i = dropdown.children.length - 1; i > 1; i--) {
