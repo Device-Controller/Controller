@@ -34,34 +34,18 @@ public class TheatreController {
         return new ResponseEntity<>(theatreRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addone"
+    @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Theatre> addOne(@RequestBody Theatre theatre) {
-        return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/addlist"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Theatre>> addList(@RequestBody Theatre[] theatreArray) {
+    public ResponseEntity<List<Theatre>> add(@RequestBody Theatre[] theatreArray) {
         List<Theatre> theatres = new ArrayList<>(Arrays.asList(theatreArray));
         return new ResponseEntity<>(theatreRepository.saveAll(theatres), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/removeone"
+    @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOne(@RequestBody Theatre theatre) {
-        theatreRepository.delete(theatre);
-        return new ResponseEntity<>("Removed theatre: "
-                + theatre.getTheatreName(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/removelist"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeList(@RequestBody Theatre[] theatreArray) {
+    public ResponseEntity<String> remove(@RequestBody Theatre[] theatreArray) {
         List<Theatre> theatres = new ArrayList<>(Arrays.asList(theatreArray));
         theatreRepository.deleteAll(theatres);
         return new ResponseEntity<>("Removed theatres", HttpStatus.OK);

@@ -20,7 +20,6 @@ import javax.servlet.ServletRequest;
 import vislab.no.ntnu.vislabcontroller.entity.Device;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceInfo;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceType;
-import vislab.no.ntnu.vislabcontroller.entity.Theatre;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceInfoRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceTypeRepository;
@@ -47,7 +46,7 @@ public class DeviceController {
     }
 
     @RequestMapping(value = "/getone"
-            , method = RequestMethod.POST)
+            , method = RequestMethod.GET)
     public ResponseEntity<Device> getOne(@RequestParam("id") Optional<Integer> id
             , @RequestParam("ipAddress") Optional<String> ipAddress) {
         Device d = null;
@@ -61,7 +60,7 @@ public class DeviceController {
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addone"
+    @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<Device> addOne(ServletRequest request) {
@@ -74,11 +73,39 @@ public class DeviceController {
         int rotation = Integer.parseInt(request.getParameter("rotation"));
         DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
         DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
-        Device device = new Device(ipAddress,port,xPos,yPos,rotation,info);
+        Device device = new Device(info, ipAddress,port,xPos,yPos,rotation);
         return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/removeone"
+    @RequestMapping(value = "/update"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Device> update(ServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        if(deviceRepository.findById(id).isPresent()) {
+            Device device = deviceRepository.findById(id).get();
+            String manufacturer = request.getParameter("manufacturer");
+            String model = request.getParameter("model");
+            String ipAddress = request.getParameter("ipAddress");
+            String type = request.getParameter("type");
+            int port = Integer.parseInt(request.getParameter("port"));
+            int xPos = Integer.parseInt(request.getParameter("xPos"));
+            int yPos = Integer.parseInt(request.getParameter("yPos"));
+            int rotation = Integer.parseInt(request.getParameter("rotation"));
+            device.setIpAddress(ipAddress);
+            device.getDeviceInfo().setManufacturer(manufacturer);
+            device.getDeviceInfo().setModel(model);
+            device.getDeviceInfo().getDeviceType().setType(type);
+            device.setPort(port);
+            device.setxPos(xPos);
+            device.setyPos(yPos);
+            device.setRotation(rotation);
+            return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> removeOne(@RequestBody Device device) {
@@ -94,15 +121,5 @@ public class DeviceController {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         deviceRepository.deleteAll(devices);
         return new ResponseEntity<>("Removed devices", HttpStatus.OK);
-    }
-
-    @RequestMapping("/removeall")
-    public ResponseEntity<String> removeAll() {
-        List<Theatre> th = theatreRepository.findAll();
-        for(Theatre t : th) {
-            t.removeAllDevices();
-        }
-        deviceRepository.deleteAll();
-        return new ResponseEntity<>("Removed all devices", HttpStatus.OK);
     }
 }

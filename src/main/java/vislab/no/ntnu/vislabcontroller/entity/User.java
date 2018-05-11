@@ -27,7 +27,7 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<DeviceGroup> deviceGroups;
 
-    private Theatre theatre;
+    private Theatre defaultTheatre;
 
     @ManyToOne
     private Role role;
@@ -81,12 +81,12 @@ public class User {
         this.deviceGroups.removeAll(deviceGroups);
     }
 
-    public Theatre getTheatre() {
-        return theatre;
+    public Theatre getDefaultTheatre() {
+        return defaultTheatre;
     }
 
-    public void setTheatre(Theatre theatre) {
-        this.theatre = theatre;
+    public void setDefaultTheatre(Theatre defaultTheatre) {
+        this.defaultTheatre = defaultTheatre;
     }
 
     public Role getRole() {
