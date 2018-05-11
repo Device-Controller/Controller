@@ -15,9 +15,10 @@ html {
 body {
     font-family: 'Open Sans', 'Arial', sans-serif;
     font-size: 14px;
-    background-color: #737373;
+    background-color: #737373 !important;
     height: 100%;
     margin: 0;
+    color: white !important;
 }
 
 * {
@@ -84,7 +85,7 @@ nav {
 }
 
 .active {
-    background-color: #ff1801;
+    background-color: #000033;
     color: white;
 }
 

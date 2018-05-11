@@ -160,20 +160,42 @@ function createGroup() {
     }
 }
 
+function updateCount() {
+    let t = document.getElementById("check-count");
+    let counter = 0;
+    for (i = 0; i < devices.length; i++) {
+        if (devices[i].checkbox.checked) {
+            counter++;
+        }
+    }
+    t.innerHTML = "Count: " + counter;
+}
+
 function addListElements(device) {
     let ul = document.getElementById("selected-list");
-
+    let imageCard;
+    switch (device.type) {
+        case "Projector":
+            imageCard = "<image src='Images/projector_icon_simple.png' alt='projector-image' class='list-icon'></image>";
+            break;
+        case "Sound System":
+            imageCard = "<image src='Images/soundsystem_icon_simple.png' alt='soundsystem-image' class='list-icon'></image>";
+            break;
+    }
 
     var li = document.createElement('li');
 
     let counter = devices.length + 1;
     li.innerHTML =
-        "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox'>"
-        + "<label for='pro" + counter + "'" + " class='check-label'></label>"
+        "<div class='image-card'>"
+        + imageCard
+        + "</div>"
+        + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox' onclick='updateCount()'>"
+        + "<label for='pro" + counter + "'" + " class='check-label' onclick='updateCount()'></label>"
+        + "<label for='pro" + counter + "'" + " class='text-label' onclick='updateCount()'>" + device.manufacturer + "<br>" + device.model + "</label>"
         + "<span class='state-icon'></span>"
         + "<span class='disconnect-icon'>"
-        + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>"
-        + "<label for='pro" + counter + "'" + " class='text-label'>Projector " + counter + "</label>";
+        + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>";
     ul.appendChild(li);
     devices.push(new DeviceMap(device, li, document.getElementById("pro" + counter)));
 

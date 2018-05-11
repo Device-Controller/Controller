@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class DeviceType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull

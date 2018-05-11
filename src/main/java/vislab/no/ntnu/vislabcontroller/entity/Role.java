@@ -14,76 +14,28 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Role implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    private String roleName;
-
-    @NotNull
-    private boolean addDevice;
-
-    @NotNull
-    private boolean createUser;
-
-    @NotNull
-    private boolean removeDevice;
-
-    @NotNull
-    private boolean removeUser;
+    private String role;
 
     public Role() {
     }
 
-    public Role(@NotNull String roleName, @NotNull boolean addDevice, @NotNull boolean createUser, @NotNull boolean removeDevice, @NotNull boolean removeUser) {
-        this.roleName = roleName;
-        this.addDevice = addDevice;
-        this.createUser = createUser;
-        this.removeDevice = removeDevice;
-        this.removeUser = removeUser;
+    public Role(@NotNull String role) {
+        this.role = role;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public boolean isAddDevice() {
-        return addDevice;
-    }
-
-    public void setAddDevice(boolean addDevice) {
-        this.addDevice = addDevice;
-    }
-
-    public boolean isCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(boolean createUser) {
-        this.createUser = createUser;
-    }
-
-    public boolean isRemoveDevice() {
-        return removeDevice;
-    }
-
-    public void setRemoveDevice(boolean removeDevice) {
-        this.removeDevice = removeDevice;
-    }
-
-    public boolean isRemoveUser() {
-        return removeUser;
-    }
-
-    public void setRemoveUser(boolean removeUser) {
-        this.removeUser = removeUser;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

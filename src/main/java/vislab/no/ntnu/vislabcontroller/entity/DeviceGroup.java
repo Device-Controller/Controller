@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="devicegroup")
 public class DeviceGroup implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull

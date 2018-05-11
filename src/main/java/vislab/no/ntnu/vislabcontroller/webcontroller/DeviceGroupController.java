@@ -55,6 +55,16 @@ public class DeviceGroupController {
         return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/setifdefault"
+            , method = RequestMethod.POST
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceGroup> setIfDefault(@RequestParam("id") Integer id
+            , @RequestParam("isdefault") boolean isDefaultDGroup) {
+        DeviceGroup d = deviceGroupRepository.findById(id).get();
+        d.setDefaultDGroup(isDefaultDGroup);
+        return new ResponseEntity<>(deviceGroupRepository.save(d), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/removeone"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)

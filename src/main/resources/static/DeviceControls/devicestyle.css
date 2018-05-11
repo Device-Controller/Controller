@@ -4,16 +4,18 @@ body {
 }
 
 td {
-    border: solid 2px #ff1801;
+    border-bottom: solid 2px #bfbfbf;
 }
 
 .table-container {
     border: solid 2px black;
     display: inline-block;
+    margin: 1%;
+    background-color: #545454;
+    border-radius: 2%;
 }
 
 .display-table {
-    border: solid 2px black;
     border-collapse: collapse;
 }
 
