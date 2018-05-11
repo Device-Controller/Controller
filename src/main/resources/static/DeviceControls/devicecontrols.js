@@ -10,12 +10,20 @@ function buildTables(deviceList) {
 
 function buildTable(device) {
     let counter = device.id;
-    console.log(counter);
+    let imageCard;
+    switch (device.type) {
+        case "Projector":
+            imageCard = "<image src='Images/projector_icon_simple.png' alt='projector-image' class='list-icon'></image>";
+            break;
+        case "Sound System":
+            imageCard = "<image src='Images/soundsystem_icon_simple.png' alt='soundsystem-image' class='list-icon'></image>";
+            break;
+    }
     let div = document.createElement('div');
     div.classList.add('table-container');
     div.innerHTML =
           "<table class='display-table' id='"+counter+"'>"
-        + "<a href='device?id=" + counter + "'><image src='Images/projector_icon_simple.png' alt='projector image'></a>"
+        + "<a href='device?id=" + counter + "'>"+ imageCard + "</a>"
         + "<tr class='header-row'>"
         + "<td>Attribute</td>"
         + "<td>Value</td>"

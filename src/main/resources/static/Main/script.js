@@ -192,7 +192,7 @@ function addListElements(device) {
         + "</div>"
         + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox' onclick='updateCount()'>"
         + "<label for='pro" + counter + "'" + " class='check-label' onclick='updateCount()'></label>"
-        + "<label for='pro" + counter + "'" + " class='text-label' onclick='updateCount()'>DeviceID: " + device.id + "</label>"
+        + "<label for='pro" + counter + "'" + " class='text-label' onclick='updateCount()'>" + device.manufacturer + "<br>" + device.model + "</label>"
         + "<span class='state-icon'></span>"
         + "<span class='disconnect-icon'>"
         + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>";
