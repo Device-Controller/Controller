@@ -9,12 +9,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import vislab.no.ntnu.vislabcontroller.entity.Device;
-import vislab.no.ntnu.vislabcontroller.entity.Theatre;
-import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
-import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.ServletRequest;
+
+import vislab.no.ntnu.vislabcontroller.entity.Device;
+import vislab.no.ntnu.vislabcontroller.entity.DeviceInfo;
+import vislab.no.ntnu.vislabcontroller.entity.DeviceType;
+import vislab.no.ntnu.vislabcontroller.entity.Theatre;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceInfoRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceTypeRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
 /**
  * @author ThomasSTodal
@@ -24,6 +34,10 @@ import java.util.*;
 public class DeviceController {
     @Autowired
     DeviceRepository deviceRepository;
+    @Autowired
+    DeviceInfoRepository deviceInfoRepository;
+    @Autowired
+    DeviceTypeRepository deviceTypeRepository;
     @Autowired
     TheatreRepository theatreRepository;
 
@@ -49,8 +63,18 @@ public class DeviceController {
 
     @RequestMapping(value = "/addone"
             , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Device> addOne(@RequestBody Device device) {
+            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Device> addOne(ServletRequest request) {
+        String manufacturer = request.getParameter("manufacturer");
+        String model = request.getParameter("model");
+        String ipAddress = request.getParameter("ipAddress");
+        int port = Integer.parseInt(request.getParameter("port"));
+        int xPos = Integer.parseInt(request.getParameter("xPos"));
+        int yPos = Integer.parseInt(request.getParameter("yPos"));
+        int rotation = Integer.parseInt(request.getParameter("rotation"));
+        DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
+        DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
+        Device device = new Device(ipAddress,port,xPos,yPos,rotation,info);
         return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
     }
 
