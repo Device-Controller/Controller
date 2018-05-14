@@ -36,64 +36,135 @@
             </div>
         </div>
         <div class="col-sm-4">
-
+            <ul id="list"></ul>
         </div>
         <div class="col-sm-4">
-            <div id="manage-devices" class="manage-forms">
-                <form action="/api/device/addone" method="post"><!--
+            <div id="add-device" class="manage-forms">
+                <form action="/api/device/add" method="post" class="management-forms">
                     <div class="form-group">
-                        <label for="deviceId">Device Id</label>
-                        <input type="number" class="form-control" id="deviceId" name="id"
-                               placeholder="Device ID">
-                    </div>-->
-                    <div class="form-group">
-                        <label for="deviceManufacturer">Device Manufacturer</label>
-                        <input type="text" class="form-control" id="deviceManufacturer"
-                               name="manufacturer" placeholder="Device Manufacturer">
+                        <label for="addDeviceManufacturer">Device Manufacturer</label>
+                        <input type="text" class="form-control" id="addDeviceManufacturer"
+                               name="manufacturer" placeholder="Device Manufacturer" required>
                     </div>
                     <div class="form-group">
-                        <label for="deviceModel">Device Model</label>
-                        <input type="text" class="form-control" id="deviceModel" name="model"
-                               placeholder="Device Model">
+                        <label for="addDeviceModel">Device Model</label>
+                        <input type="text" class="form-control" id="addDeviceModel" name="model"
+                               placeholder="Device Model" required>
                     </div>
                     <div class="form-group">
-                        <label for="deviceType">Device Type</label>
-                        <input type="text" class="form-control" id="deviceType" name="type"
-                               placeholder="Device Type">
+                        <label for="addDeviceType">Device Type</label>
+                        <select class="form-control" id="addDeviceType" name="type"
+                              required>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="deviceIpAddress">Device IpAddress</label>
-                        <input type="text" class="form-control" id="deviceIpAddress"
-                               name="ipAddress" placeholder="Device IpAddress">
+                        <label for="addDeviceIpAddress">Device IpAddress</label>
+                        <input type="text" class="form-control" id="addDeviceIpAddress"
+                               name="ipAddress" placeholder="Device IpAddress" required>
                     </div>
                     <div class="form-group">
-                        <label for="devicePort">Device Port</label>
-                        <input type="number" class="form-control" id="devicePort" name="port"
-                               placeholder="Device Port">
+                        <label for="addDevicePort">Device Port</label>
+                        <input type="number" class="form-control" id="addDevicePort" name="port"
+                               placeholder="Device Port" required>
                     </div>
                     <div class="form-group">
-                        <label for="devicexPos">Device xPos</label>
-                        <input type="number" class="form-control" id="devicexPos" name="xPos"
+                        <label for="addDevicexPos">Device xPos</label>
+                        <input type="number" class="form-control" id="addDevicexPos" name="xPos"
+                               aria-describedby="addDeviceXPosHelp"
                                placeholder="Device xPos">
+                        <small id="addDeviceXPosHelp" class="form-text">(Optional)
+                        </small>
                     </div>
                     <div class="form-group">
-                        <label for="deviceyPos">Device yPos</label>
-                        <input type="number" class="form-control" id="deviceyPos" name="yPos"
+                        <label for="addDeviceyPos">Device yPos</label>
+                        <input type="number" class="form-control" id="addDeviceyPos" name="yPos"
+                               aria-describedby="addDeviceYPosHelp"
                                placeholder="Device yPos">
+                        <small id="addDeviceYPosHelp" class="form-text">(Optional)
+                        </small>
                     </div>
                     <div class="form-group">
-                        <label for="deviceRotation">Device Rotation</label>
-                        <input type="number" class="form-control" id="deviceRotation" name="rotation"
-                               aria-describedby="deviceRotationHelp" placeholder="Device Rotation">
-                        <small id="deviceRotationHelp" class="form-text">Values from 0 to 360
-                            degrees
+                        <label for="addDeviceRotation">Device Rotation</label>
+                        <input type="number" class="form-control" id="addDeviceRotation"
+                               name="rotation"
+                               aria-describedby="addDeviceRotationHelp"
+                               placeholder="Device Rotation">
+                        <small id="addDeviceRotationHelp" class="form-text">Values from 0 to 360
+                            degrees (Optional)
                         </small>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
+            <div id="manage-devices" class="manage-forms">
+                <form action="/api/device/update" method="put" class="management-forms">
+                    <div class="form-group">
+                        <label for="deviceId">Device Id</label>
+                        <input type="number" class="form-control" id="deviceId" name="id"
+                               placeholder="Device ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceManufacturer">Device Manufacturer</label>
+                        <input type="text" class="form-control" id="deviceManufacturer" required
+                               name="manufacturer" placeholder="Device Manufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceModel">Device Model</label>
+                        <input type="text" class="form-control" id="deviceModel" name="model" required
+                               placeholder="Device Model">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceType">Device Type</label>
+                        <select class="form-control" id="deviceType" name="type" required
+                               ></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceIpAddress">Device IpAddress</label>
+                        <input type="text" class="form-control" id="deviceIpAddress" required
+                               name="ipAddress" placeholder="Device IpAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="devicePort">Device Port</label>
+                        <input type="number" class="form-control" id="devicePort" name="port" required
+                               placeholder="Device Port">
+                    </div>
+                    <div class="form-group">
+                        <label for="devicexPos">Device xPos</label>
+                        <input type="number" class="form-control" id="devicexPos" name="xPos"
+                               aria-describedby="deviceXPosHelp"
+                               placeholder="Device xPos">
+                        <small id="deviceXPosHelp" class="form-text">(Optional)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceyPos">Device yPos</label>
+                        <input type="number" class="form-control" id="deviceyPos" name="yPos"
+                               aria-describedby="deviceYPosHelp"
+                               placeholder="Device yPos">
+                        <small id="deviceYPosHelp" class="form-text">(Optional)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceRotation">Device Rotation</label>
+                        <input type="number" class="form-control" id="deviceRotation"
+                               name="rotation"
+                               aria-describedby="deviceRotationHelp" placeholder="Device Rotation">
+                        <small id="deviceRotationHelp" class="form-text">Values from 0 to 360
+                            degrees (Optional)
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteDevice()" onsubmit="">Delete</button>
+                </form>
+            </div>
+            <div id="add-theatre" class="manage-forms">
+                <form action="/api/theatre/add" method="post" class="management-forms">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
             <div id="manage-theatre" class="manage-forms">
-                <form>
+                <form action="/api/theatre/update" method="post" class="management-forms">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
