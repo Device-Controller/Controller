@@ -93,7 +93,26 @@
                 </form>
             </div>
             <div id="manage-theatre" class="manage-forms">
-                <form>
+                <form action="/api/theatre/add" method="post"><!--
+                    <div class="form-group">
+                        <label for="theatreId">Theatre Id</label>
+                        <input type="number" class="form-control" id="theatreId" name="id"
+                               placeholder="Theatre ID">
+                    </div>-->
+                    <div class="form-group">
+                        <label for="theatreName">Theatre Name</label>
+                        <input type="text" class="form-control" id="theatreName"
+                               name="name" placeholder="Theatre Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="devices-in-theatre">Devices</label>
+                        <div id="devices-in-theatre"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="devices-in-theatre">Groups</label>
+                        <div id="devicegroups-in-theatre"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
