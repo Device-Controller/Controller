@@ -59,6 +59,12 @@ function dropDownFunction() {
     }
 }
 
+function handleRefused(error) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
 
 class DeviceGroup {
     constructor(id, groupName, devices) {

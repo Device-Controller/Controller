@@ -48,6 +48,10 @@ ul {
     list-style: none;
 }
 
+.user-links {
+    float: right;
+}
+
 .tooltiptext {
     display: none;
 }
