@@ -116,6 +116,8 @@ function getPowerState(id, n) {
             });
         } else {
         }
+    }).catch(function(error) {
+        console.log("THIS HAPPENED: " + error);
     });
 }
 
