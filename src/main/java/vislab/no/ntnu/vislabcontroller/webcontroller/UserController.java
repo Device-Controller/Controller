@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
 import vislab.no.ntnu.vislabcontroller.entity.Role;
 import vislab.no.ntnu.vislabcontroller.entity.User;
@@ -16,6 +13,7 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.RoleRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.UserRepository;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +35,11 @@ public class UserController {
     @RequestMapping("/getall")
     public ResponseEntity<List<User>> getAll() {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/getcurrent")
+    public ResponseEntity<User> getCurrent(Principal principal) {
+        return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getone"
