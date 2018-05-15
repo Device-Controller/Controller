@@ -181,12 +181,12 @@
                 </form>
             </div>
             <div id="manage-theatre" class="manage-forms">
-                <div class="form-group">
-                    <label for="theatreId">Device Id</label>
-                    <input type="number" class="form-control" id="theatreId" name="id"
-                           placeholder="Theatre ID" readonly>
-                </div>
                 <form action="/api/theatre/update" method="post" class="management-forms">
+                    <div class="form-group">
+                        <label for="theatreId">Device Id</label>
+                        <input type="number" class="form-control" id="theatreId" name="id"
+                               placeholder="Theatre ID" readonly>
+                    </div>
                     <div class="form-group">
                         <label for="theatreName">Theatre Name</label>
                         <input type="text" class="form-control" id="theatreName"
