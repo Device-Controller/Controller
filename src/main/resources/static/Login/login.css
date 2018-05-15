@@ -1,18 +1,4 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Apr 10, 2018, 10:30:43 AM
-    Author     : Erik
-*/
-/*------------------------------------------------------------ LOGIN PAGE ----------------------------------------------*/
-.row {
-    width: 100%;
-    height: 50%;
-    text-align: center;
-}
+
 
 .login {
     height: 20%;
@@ -22,4 +8,24 @@ and open the template in the editor.
 
 .image-container {
     margin-top: 7%;
+}
+
+form {
+    width: 15%;
+}
+
+.row {
+    margin-top: 10%;
+}
+.form-element {
+    border-radius: 5px;
+
+}
+
+.form-button {
+    border-radius: 10px;
+}
+
+.form-actions {
+    margin-left: 200%;
 }
