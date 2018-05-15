@@ -1,7 +1,7 @@
 var timeout;
 
 
-//getDevices().then(r => buildList(r));
+getDevices().then(r => buildList(r));
 
 function buildList(deviceList) {
     devices = [];
@@ -115,6 +115,8 @@ function getPowerState(id, n) {
             });
         } else {
         }
+    }).catch(function(error) {
+        console.log("THIS HAPPENED: " + error);
     });
 }
 

@@ -27,36 +27,36 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
  */
 @Controller
 @RequestMapping("/api/main")
-public class ProjectorController extends DeviceManager {
+public class MainController extends DeviceManager {
     @Autowired
     private DeviceRepository deviceRepository;
 
     @RequestMapping("/powerOn")
     public ResponseEntity<Integer> powerOn(@RequestParam(value = "id") int id) throws IOException {
-        Device device = getProjector(id);
+        Device device = getOneDevice(id);
         return new ResponseEntity<>(device.powerOn(), HttpStatus.OK);
     }
 
     @RequestMapping("/powerOff")
     public ResponseEntity<Integer> powerOff(@RequestParam(value = "id") int id) throws IOException {
-        Device device = getProjector(id);
+        Device device = getOneDevice(id);
         return new ResponseEntity<>(device.powerOff(), HttpStatus.OK);
     }
 
     @RequestMapping("/mute")
     public ResponseEntity<Integer> muteImage(@RequestParam(value = "id") int id) throws IOException {
-        Device device = getProjector(id);
-        if (device instanceof Projector) {
-            return new ResponseEntity<>(((Projector) device).mute(), HttpStatus.OK);
+        Device device = getOneDevice(id);
+        if(device instanceof Projector) {
+            return new ResponseEntity<>(((Projector)device).mute(), HttpStatus.OK);
         }
         return new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
     @RequestMapping("/unMute")
     public ResponseEntity<Integer> unMuteImage(@RequestParam(value = "id") int id) throws IOException {
-        Device device = getProjector(id);
-        if (device instanceof Projector) {
-            return new ResponseEntity<>(((Projector) device).unMute(), HttpStatus.OK);
+        Device device = getOneDevice(id);
+        if(device instanceof Projector) {
+        return new ResponseEntity<>(((Projector)device).unMute(), HttpStatus.OK);
         }
         return new ResponseEntity<>(-1, HttpStatus.OK);
     }
@@ -82,14 +82,14 @@ public class ProjectorController extends DeviceManager {
 
     @RequestMapping("/powerState")
     public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
-        Device device = getProjector(id);
-        if (device instanceof Projector) {
-            return (device != null) ? new ResponseEntity<>(((Projector) device).getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
+        Device device = getOneDevice(id);
+        if(device instanceof Projector) {
+            return (device != null) ? new ResponseEntity<>(((Projector)device).getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
         }
         return new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
-    private vislab.no.ntnu.providers.Device getProjector(int id) {
+    private vislab.no.ntnu.providers.Device getOneDevice(int id) {
         vislab.no.ntnu.vislabcontroller.entity.Device entDevice = deviceRepository.findById(id).get();
         Device device = getDevice(id);
         if (device == null) {

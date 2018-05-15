@@ -87,7 +87,7 @@ function theatreDisplay(theatreEntities) {
         "<p class='card-text'>Add a new theatre</p>" +
         "</div>";
     newLi.onclick = e => {
-        fillDeviceForm();
+        fillTheatreForm();
     };
     ul.appendChild(newLi);
     for (let i = 0; i < theatreEntities.length; i++) {
