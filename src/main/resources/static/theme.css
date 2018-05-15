@@ -48,6 +48,10 @@ ul {
     list-style: none;
 }
 
+.user-links {
+    float: right;
+}
+
 .tooltiptext {
     display: none;
 }
@@ -120,7 +124,9 @@ nav {
         display: block;
         text-align: left;
     }
+
 }
+
 
 @media only screen and (min-width: 768px) {
     .tooltip {

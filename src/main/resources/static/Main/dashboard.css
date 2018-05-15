@@ -136,7 +136,8 @@ label {
     padding: 0;
 }
 
-.text-label:hover {
+
+li:hover {
     color: black;
 }
 

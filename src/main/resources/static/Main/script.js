@@ -1,7 +1,11 @@
 var timeout;
 
 
-getDevices().then(r => buildList(r));
+getDevices().then(r => buildList(r))
+    .then(setDefault)
+    .catch(e => {
+        console.log(e);
+    });
 
 function buildList(deviceList) {
     devices = [];
@@ -70,15 +74,19 @@ function unMute() {
 }
 
 function powerIcon(index, color) {
-    let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
-    let discoIcon = devices[index].selectionBox.querySelector(".disconnect-icon");
-    if (color === 'none') {
-        statusIcon.style.display = "none";
-        discoIcon.style.display = "inline-block";
-    } else {
-        statusIcon.style.display = "inline-block";
-        statusIcon.style.backgroundColor = color;
-        discoIcon.style.display = "none";
+    try {
+        let statusIcon = devices[index].selectionBox.querySelector(".state-icon");
+        let discoIcon = devices[index].selectionBox.querySelector(".disconnect-icon");
+        if (color === 'none') {
+            statusIcon.style.display = "none";
+            discoIcon.style.display = "inline-block";
+        } else {
+            statusIcon.style.display = "inline-block";
+            statusIcon.style.backgroundColor = color;
+            discoIcon.style.display = "none";
+        }
+    } catch(e) {
+
     }
 }
 
@@ -113,10 +121,9 @@ function getPowerState(id, n) {
                         break;
                 }
             });
-        } else {
         }
-    }).catch(function(error) {
-        console.log("THIS HAPPENED: " + error);
+    }).catch(error => {
+        console.log("Failed to get power state.");
     });
 }
 
@@ -125,7 +132,6 @@ function updateState() {
         getPowerState(devices[n].id, n);
     }
     timeout = setTimeout(updateState, 2000);
-
 }
 
 function createGroup() {
@@ -141,7 +147,7 @@ function createGroup() {
     if (name === "" || name == null || name === " " || group.length < 1) {
         alert("Please type in a group name and select one device or more.");
     } else {
-        fetch("/api/devicegroup/makeone?groupname=" + name, {
+        fetch("/api/devicegroup/add?groupname=" + name, {
             method: "POST",
             body: JSON.stringify(group),
             headers: {"Content-Type": "application/json"}
@@ -156,6 +162,8 @@ function createGroup() {
             } else {
                 throw new Error("Failed to create group: " + name);
             }
+        }).catch(e => {
+            console.log("Failed to create group: " + e);
         });
         document.getElementById("groupname").value = "";
     }
@@ -221,30 +229,32 @@ function populateTheatre() {
     dropdown.onchange = e => {
         document.getElementById('selected-list').innerHTML = '';
 
-            for (let i = 0; i < devices.length; i++) {
-                devices[i].checkbox.checked = false;
-            }
-            for (let i = 0; i < optionMap.length; i++) {
-                if (optionMap[i].option.selected) {
-                    let optionDevices = optionMap[i].deviceGroup.devices;
-                    buildList(optionDevices);
+        for (let i = 0; i < devices.length; i++) {
+            devices[i].checkbox.checked = false;
+        }
+        for (let i = 0; i < optionMap.length; i++) {
+            if (optionMap[i].option.selected) {
+                let optionDevices = optionMap[i].deviceGroup.devices;
+                buildList(optionDevices);
 
-                }
             }
+        }
     };
     updateTheatre();
 }
+
 function setDefault() {
     fetch("/api/theatre/getall").then(r => {
         if (r.ok) {
             r.json().then(e => {
                 document.getElementById('selected-list').innerHTML = '';
-                    buildList(e[0].devices);
+                buildList(e[0].devices);
             });
         }
     })
 }
-setDefault();
+
+
 function updateTheatre(index) {
     let dropdown = document.getElementById("theatre-select");
     for (let i = dropdown.children.length - 1; i > 1; i--) {

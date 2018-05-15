@@ -59,7 +59,22 @@ function dropDownFunction() {
     }
 }
 
+function displayRole() {
+    fetch("api/user/getcurrent").then(response => {
+        if (response.ok) {
+            response.json().then(e => {
+                var user = new User(e);
+                if (user.roleName === "ADMIN") {
+                    document.getElementById("admin-link").style.display = "block";
+                } else {
+                    document.getElementById("admin-link").style.display = "none";
+                }
+            })
+        }
+    });
 
+}
+displayRole();
 class DeviceGroup {
     constructor(id, groupName, devices) {
         this.id = id;
@@ -95,5 +110,15 @@ class OptionMap {
     constructor(option, deviceGroup) {
         this.option = option;
         this.deviceGroup = deviceGroup;
+    }
+}
+
+class User {
+    constructor(jsonObject) {
+        this.id = jsonObject.id;
+        this.role = jsonObject.role;
+        this.roleName = jsonObject.role.roleName;
+        this.username = jsonObject.username;
+        this.email = jsonObject.email;
     }
 }
