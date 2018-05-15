@@ -10,11 +10,12 @@ let lastMouseY;
 baseDrawing.width = 500;
 baseDrawing.height = 700;
 
-function projectorViewBuild() {
+function projectorViewBuild(deviceList) {
+    clearAll();
     list = [];
-    for (let i = 0; i < devices.length; i++) {
-        if (isNumber(devices[i].device.xPos) && isNumber(devices[i].device.yPos) && isNumber(devices[i].device.rotation)) {
-            list.push(devices[i].device);
+    for (let i = 0; i < deviceList.length; i++) {
+        if (isNumber(deviceList[i].xPos) && isNumber(deviceList[i].yPos) && isNumber(deviceList[i].rotation)) {
+            list.push(deviceList[i]);
         }
     }
     list.forEach(p => {
@@ -29,6 +30,10 @@ function isNumber(num) {
     return !isNaN(parseFloat(num)) && isFinite(num);
 }
 
+function clearAll(){
+    drawSurface.clearRect(0, 0, 500, 700);
+    baseDrawing.getContext("2d").clearRect(0,0,500,700);
+}
 function resetDrawing() {
     drawSurface.clearRect(0, 0, 500, 700);
     drawSurface.drawImage(baseDrawing, 0, 0);

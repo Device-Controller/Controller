@@ -6,11 +6,15 @@ var devices = [];
 var optionMap = [];
 
 let orgFetch = fetch;
-fetch = function (dest) {
-    return orgFetch(dest, {
-        method: 'GET',
-        credentials: 'include'
-    });
+fetch = function (dest, obj) {
+    if(!obj) {
+        return orgFetch(dest, {
+            method: 'GET',
+            credentials: 'include'
+        });
+    }
+    obj.credentials = 'include';
+    return orgFetch(dest, obj);
 };
 
 function getDevices() {

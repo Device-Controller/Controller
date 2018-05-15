@@ -15,7 +15,7 @@ function buildList(deviceList) {
         addListElements(d);
     }
     updateState();
-    projectorViewBuild();
+    projectorViewBuild(deviceList);
 }
 
 
@@ -147,7 +147,7 @@ function createGroup() {
     if (name === "" || name == null || name === " " || group.length < 1) {
         alert("Please type in a group name and select one device or more.");
     } else {
-        fetch("/api/devicegroup/add?groupname=" + name, {
+        fetch("/api/devicegroup/add?groupname=" + name + "&theatre=" + document.getElementById("theatre-select").value, {
             method: "POST",
             body: JSON.stringify(group),
             headers: {"Content-Type": "application/json"}

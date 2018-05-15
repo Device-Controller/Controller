@@ -1,10 +1,11 @@
 package vislab.no.ntnu.vislabcontroller.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,8 +32,8 @@ public class Device implements Serializable {
     @ManyToMany(mappedBy = "devices")
     private List<DeviceGroup> deviceGroups;
 
-    @JsonBackReference("device_theatre")
-    @ManyToMany(mappedBy = "devices")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "devices", targetEntity = Theatre.class)
     private List<Theatre> theatres;
 
     @ManyToOne(optional = false)

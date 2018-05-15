@@ -31,8 +31,7 @@ public class Theatre implements Serializable {
     @NotNull
     private String theatreName;
 
-    @JsonManagedReference("device_theatre")
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Device.class)
     @JoinTable(name = "junction_theatre_device"
             , joinColumns = @JoinColumn(name = "theatre_id")
             , inverseJoinColumns = @JoinColumn(name = "device_id"))

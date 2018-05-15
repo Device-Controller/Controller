@@ -1,6 +1,5 @@
 package vislab.no.ntnu.vislabcontroller.webcontroller;
 
-import vislab.no.ntnu.vislabcontroller.entity.Theatre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,17 +9,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import vislab.no.ntnu.vislabcontroller.entity.Device;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
-import vislab.no.ntnu.vislabcontroller.entity.User;
+import vislab.no.ntnu.vislabcontroller.entity.Theatre;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
+import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
 /**
  * @author ThomasSTodal
@@ -30,6 +30,8 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 public class DeviceGroupController {
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
+    @Autowired
+    TheatreRepository theatreRepository;
     @Autowired
     DeviceRepository deviceRepository;
 
@@ -41,8 +43,13 @@ public class DeviceGroupController {
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<DeviceGroup>> addList(@RequestBody DeviceGroup[] deviceGroupArray) {
-        return new ResponseEntity<>(deviceGroupRepository.saveAll(Arrays.asList(deviceGroupArray))
+    @ResponseBody public ResponseEntity<DeviceGroup> addList(@RequestParam ("groupname") String groupName, @RequestParam("theatre") String theatre, @RequestBody Device[] devices) {
+        Theatre thea = theatreRepository.findByTheatreName(theatre);
+        DeviceGroup newGroup = new DeviceGroup(groupName, thea);
+        for(int i = 0; i< devices.length; i++){
+            newGroup.addDevice(deviceRepository.findById(devices[i].getId()).get());
+        }
+        return new ResponseEntity<>(deviceGroupRepository.save(newGroup)
                 , HttpStatus.OK);
     }
 
