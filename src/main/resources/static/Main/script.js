@@ -1,5 +1,5 @@
 var timeout;
-
+var theatreMap = [];
 
 getDevices().then(r => buildList(r))
     .then(setDefault)
@@ -232,9 +232,9 @@ function populateTheatre() {
         for (let i = 0; i < devices.length; i++) {
             devices[i].checkbox.checked = false;
         }
-        for (let i = 0; i < optionMap.length; i++) {
-            if (optionMap[i].option.selected) {
-                let optionDevices = optionMap[i].deviceGroup.devices;
+        for (let i = 0; i < theatreMap.length; i++) {
+            if (theatreMap[i].option.selected) {
+                let optionDevices = theatreMap[i].deviceGroup.devices;
                 buildList(optionDevices);
 
             }
@@ -268,7 +268,7 @@ function updateTheatre(index) {
                     let x = new DeviceGroup(e[i].id, e[i].theatreName, e[i].devices);
                     let option = document.createElement("option");
                     option.text = x.groupName;
-                    optionMap.push(new OptionMap(option, x));
+                    theatreMap.push(new OptionMap(option, x));
                     dropdown.add(option, 99);
                 }
                 if (index) {
