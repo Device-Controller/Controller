@@ -49,9 +49,10 @@ public class DeviceController {
     }
 
     @RequestMapping("/types")
-    public ResponseEntity<List<DeviceType>> getTypes(){
+    public ResponseEntity<List<DeviceType>> getTypes() {
         return new ResponseEntity<>(deviceTypeRepository.findAll(), HttpStatus.OK);
     }
+
     @RequestMapping(value = "/getone"
             , method = RequestMethod.GET)
     public ResponseEntity<Device> getOne(@RequestParam("id") Optional<Integer> id
@@ -72,38 +73,8 @@ public class DeviceController {
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<Device> addOne(ServletRequest request) {
-        String manufacturer = request.getParameter("manufacturer");
-        String model = request.getParameter("model");
-        String ipAddress = request.getParameter("ipAddress");
-        int port;
-        try {
-            port = Integer.parseInt(request.getParameter("port"));
-            InetAddress.getByName(ipAddress);
-        } catch (UnknownHostException | NumberFormatException ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        int xPos;
-        try {
-            xPos = Integer.parseInt(request.getParameter("xPos"));
-        } catch (NumberFormatException ex) {
-            xPos = -1;
-        }
-        int yPos;
-        try {
-            yPos = Integer.parseInt(request.getParameter("yPos"));
-        } catch (NumberFormatException ex) {
-            yPos = -1;
-        }
-        int rotation;
-        try {
-            rotation = Integer.parseInt(request.getParameter("rotation"));
-        } catch (NumberFormatException ex) {
-            rotation = -1;
-        }
-        DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
-        DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
-        if(type != null && info != null) {
-            Device device = new Device(info, ipAddress, port, xPos, yPos, rotation);
+        Device device = parseRequest(request);
+        if (device != null) {
             return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -117,23 +88,18 @@ public class DeviceController {
         int id = Integer.parseInt(request.getParameter("id"));
         if (deviceRepository.findById(id).isPresent()) {
             Device device = deviceRepository.findById(id).get();
-            String manufacturer = request.getParameter("manufacturer");
-            String model = request.getParameter("model");
-            String ipAddress = request.getParameter("ipAddress");
-            String type = request.getParameter("type");
-            int port = Integer.parseInt(request.getParameter("port"));
-            int xPos = Integer.parseInt(request.getParameter("xPos"));
-            int yPos = Integer.parseInt(request.getParameter("yPos"));
-            int rotation = Integer.parseInt(request.getParameter("rotation"));
-            device.setIpAddress(ipAddress);
-            device.getDeviceInfo().setManufacturer(manufacturer);
-            device.getDeviceInfo().setModel(model);
-            device.getDeviceInfo().getDeviceType().setType(type);
-            device.setPort(port);
-            device.setxPos(xPos);
-            device.setyPos(yPos);
-            device.setRotation(rotation);
-            return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
+            Device newDevice = parseRequest(request);
+            if (newDevice != null) {
+                device.setIpAddress(newDevice.getIpAddress());
+                device.getDeviceInfo().setManufacturer(newDevice.getDeviceInfo().getManufacturer());
+                device.getDeviceInfo().setModel(newDevice.getDeviceInfo().getModel());
+                device.getDeviceInfo().getDeviceType().setType(newDevice.getDeviceInfo().getDeviceType().getType());
+                device.setPort(newDevice.getPort());
+                device.setxPos(newDevice.getxPos());
+                device.setyPos(newDevice.getyPos());
+                device.setRotation(newDevice.getRotation());
+                return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -142,7 +108,7 @@ public class DeviceController {
     @RequestMapping(value = "/remove"
             , method = RequestMethod.DELETE
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOne(@RequestParam ("id") int id) {
+    public ResponseEntity<String> removeOne(@RequestParam("id") int id) {
         try {
             if (deviceRepository.findById(id).isPresent()) {
                 Device device = deviceRepository.findById(id).get();
@@ -164,5 +130,45 @@ public class DeviceController {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         deviceRepository.deleteAll(devices);
         return new ResponseEntity<>("Removed devices", HttpStatus.OK);
+    }
+
+    private Device parseRequest(ServletRequest request) {
+        String manufacturer = request.getParameter("manufacturer");
+        String model = request.getParameter("model");
+        DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
+        if (type == null) {
+            return null;
+        }
+        DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
+        if (info == null) {
+            return null;
+        }
+        String ipAddress = request.getParameter("ipAddress");
+        int port;
+        try {
+            port = Integer.parseInt(request.getParameter("port"));
+            InetAddress.getByName(ipAddress);
+        } catch (UnknownHostException | NumberFormatException ex) {
+            return null;
+        }
+        int xPos;
+        try {
+            xPos = Integer.parseInt(request.getParameter("xPos"));
+        } catch (NumberFormatException ex) {
+            xPos = -1;
+        }
+        int yPos;
+        try {
+            yPos = Integer.parseInt(request.getParameter("yPos"));
+        } catch (NumberFormatException ex) {
+            yPos = -1;
+        }
+        int rotation;
+        try {
+            rotation = Integer.parseInt(request.getParameter("rotation"));
+        } catch (NumberFormatException ex) {
+            rotation = -1;
+        }
+        return new Device(info, ipAddress, port, xPos, yPos, rotation);
     }
 }

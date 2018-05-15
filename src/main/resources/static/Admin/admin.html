@@ -43,13 +43,13 @@
                 <form action="/api/device/add" method="post" class="management-forms">
                     <div class="form-group">
                         <label for="addDeviceManufacturer">Device Manufacturer</label>
-                        <input type="text" class="form-control" id="addDeviceManufacturer"
-                               name="manufacturer" placeholder="Device Manufacturer" required>
+                        <select class="form-control" id="addDeviceManufacturer"
+                                name="manufacturer" required></select>
                     </div>
                     <div class="form-group">
                         <label for="addDeviceModel">Device Model</label>
-                        <input type="text" class="form-control" id="addDeviceModel" name="model"
-                               placeholder="Device Model" required>
+                        <select  class="form-control" id="addDeviceModel" name="model"
+                                 required></select>
                     </div>
                     <div class="form-group">
                         <label for="addDeviceType">Device Type</label>
@@ -164,6 +164,37 @@
             </div>
             <div id="manage-theatre" class="manage-forms">
                 <form action="/api/theatre/update" method="post" class="management-forms">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="add-devicegroup" class="manage-forms">
+                <form action="/api/devicegroup/add" method="post" class="management-forms">
+                    <div class="form-group">
+                        <label for="deviceGroupName">Device Group Name</label>
+                        <input type="text" class="form-control" id="addDeviceGroupName"
+                               name="groupName" placeholder="Group Name">
+                    </div>
+                    <div class="form-group">
+                        <div id="add-device-group-devices"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="manage-devicegroup" class="manage-forms">
+                <form action="/api/devicegroup/update" method="post" class="management-forms">
+                    <div class="form-group">
+                        <label for="deviceId">Group Id</label>
+                        <input type="number" class="form-control" id="deviceGroupId" name="id"
+                               placeholder="Group ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceGroupName">Device Group Name</label>
+                        <input type="text" class="form-control" id="deviceGroupName"
+                               name="groupName" placeholder="Group Name">
+                    </div>
+                    <div class="form-group">
+                        <div id="device-group-devices"></div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

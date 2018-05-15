@@ -21,7 +21,7 @@ function powerOn() {
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/powerOn?id=' + pID).then(response => {
+            fetch('api/main/powerOn?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -35,7 +35,7 @@ function powerOff() {
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/powerOff?id=' + pID).then(response => {
+            fetch('api/main/powerOff?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -48,7 +48,7 @@ function mute() {
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/mute?id=' + pID).then(response => {
+            fetch('api/main/mute?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -61,7 +61,7 @@ function unMute() {
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/unMute?id=' + pID).then(response => {
+            fetch('api/main/unMute?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -84,7 +84,7 @@ function powerIcon(index, color) {
 }
 
 function getPowerState(id, n) {
-    fetch('MainController/powerState?id=' + id).then(response => {
+    fetch('api/main/powerState?id=' + id).then(response => {
         if (response.ok) {
             response.json().then(p => {
                 switch (p) {
