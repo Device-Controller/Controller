@@ -101,6 +101,7 @@ public class ProjectorController extends DeviceManager {
             if (device != null) {
                 device.setIpAddress(entDevice.getIpAddress());
                 device.setPort(entDevice.getPort());
+                device.initialize();
             }
         }
         return device;

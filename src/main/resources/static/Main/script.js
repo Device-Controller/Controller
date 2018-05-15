@@ -1,5 +1,4 @@
 var timeout;
-console.log("init");
 
 
 //getDevices().then(r => buildList(r));
