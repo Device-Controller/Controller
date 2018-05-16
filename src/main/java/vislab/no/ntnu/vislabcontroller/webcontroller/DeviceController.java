@@ -64,7 +64,7 @@ public class DeviceController {
             }
         } else if (ipAddress.isPresent()) {
             d = deviceRepository.findByIpAddress(ipAddress.get());
-        } //TODO throw exception here?
+        }
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
 

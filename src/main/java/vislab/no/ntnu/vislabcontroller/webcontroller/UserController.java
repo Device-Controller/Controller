@@ -55,7 +55,7 @@ public class UserController {
             u = userRepository.findByUsername(username.get());
         } else if (email.isPresent()) {
             u = userRepository.findByEmail(email.get());
-        } //TODO throw exception here?
+        }
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
