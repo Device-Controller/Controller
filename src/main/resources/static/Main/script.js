@@ -1,6 +1,7 @@
 var timeout;
 var theatreMap = [];
 let theatres = [];
+var globalIndex = 0;
 
 
 getDevices().then(r => buildList(r))
@@ -34,7 +35,6 @@ function buildList(deviceList) {
 
 
 function powerOn() {
-    console.log("CLICKED POWER ON");
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
@@ -48,7 +48,6 @@ function powerOn() {
 }
 
 function powerOff() {
-    console.log("CLICKED POWER OFF");
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
@@ -135,6 +134,8 @@ function getPowerState(id, n) {
                         break;
                 }
             });
+        } else {
+            console.log("An error occured.");
         }
     }).catch(error => {
         console.log("Failed to get power state.");
@@ -161,7 +162,7 @@ function createGroup() {
     if (name === "" || name == null || name === " " || group.length < 1) {
         alert("Please type in a group name and select one device or more.");
     } else {
-        fetch("/api/devicegroup/add?groupname=" + name + "&theatre=" + document.getElementById("theatre-select").value, {
+        fetch("/api/devicegroup/add?groupname=" + name + "&theatrename=" + document.getElementById("theatre-select").value, {
             method: "POST",
             body: JSON.stringify(group),
             headers: {"Content-Type": "application/json"}
@@ -170,7 +171,7 @@ function createGroup() {
             if (response.ok) {
 
                 response.json().then(response_group => {
-                    updateDropdown(true);
+                    updateDropdown(globalIndex);
                     let dropdown = document.getElementById("group-select");
                 });
             } else {
@@ -238,7 +239,7 @@ function getDeviceSelectionBox(id) {
 function populateTheatre() {
     let dropdown = document.getElementById("theatre-select");
     dropdown.onchange = e => {
-        document.getElementById('selected-list').innerHTML = '';;
+        document.getElementById('selected-list').innerHTML = '';
         for (let i = 0; i < devices.length; i++) {
             devices[i].checkbox.checked = false;
         }
@@ -246,6 +247,7 @@ function populateTheatre() {
             if (theatreMap[i].option.selected) {
                 let optionDevices = theatreMap[i].deviceGroup.devices;
                 buildList(optionDevices);
+                globalIndex = i;
                 populateDropdown(i);
             }
         }
@@ -259,11 +261,10 @@ function setUp(object) {
         let d = new Theatre(object[i]);
         theatres.push(d);
     }
-    console.log(theatres);
     document.getElementById('selected-list').innerHTML = '';
     buildList(theatres[0].devices);
     populateTheatre();
-    updateDropdown(0);
+    populateDropdown(0);
 }
 
 
@@ -314,13 +315,20 @@ function updateDropdown(index) {
     }
     for (let i = 0; i < theatres.length; i++) {
         if (i == index) {
-            for (let j = 0; j < theatres[i].deviceGroups.length; j++) {
-                let x = new DeviceGroup(theatres[i].deviceGroups[j].id, theatres[i].deviceGroups[j].groupName, theatres[i].deviceGroups[j].devices);
-                let option = document.createElement("option");
-                option.text = x.groupName;
-                optionMap.push(new OptionMap(option, x));
-                dropdown.add(option, 99);
-            }
+            fetch("/api/theatre/getgroups?theatrename=" + theatres[i].theatreName).then(response => {
+                if (response.ok) {
+                    response.json().then(e => {
+                        for (let j = 0; j < e.length; j++) {
+                            let x = new DeviceGroup(e[j].id, e[j].groupName, e[j].devices);
+                            let option = document.createElement("option");
+                            option.text = x.groupName;
+                            optionMap.push(new OptionMap(option, x));
+                            dropdown.add(option, 99);
+                        }
+                    })
+                }
+            })
+
         }
     }
 }
