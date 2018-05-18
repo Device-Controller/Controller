@@ -61,6 +61,12 @@ public class MainController extends DeviceManager {
         return new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
+    @RequestMapping("/powerState")
+    public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
+        Device device = getOneDevice(id);
+        return (device != null) ? new ResponseEntity<>((device).getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
+    }
+
     @RequestMapping("/supported")
     public ResponseEntity<List<WrapperType>> getSupportedTypes() {
         List<WrapperType> types = new ArrayList<>();
@@ -78,12 +84,6 @@ public class MainController extends DeviceManager {
             }
         });
         return new ResponseEntity<>(types, HttpStatus.OK);
-    }
-
-    @RequestMapping("/powerState")
-    public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
-        Device device = getOneDevice(id);
-        return (device != null) ? new ResponseEntity<>((device).getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
     private vislab.no.ntnu.providers.Device getOneDevice(int id) {

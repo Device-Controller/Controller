@@ -48,7 +48,9 @@ public class TheatreController {
     public ResponseEntity<Theatre> add(ServletRequest form) {
         Theatre theatre = parseServletRequest(form);
         if (theatre != null) {
-            return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
+            if(theatreRepository.findByTheatreName(theatre.getTheatreName()) == null) {
+                return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

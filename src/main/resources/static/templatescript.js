@@ -19,7 +19,7 @@ fetch = function (dest, obj) {
 
 function getDevices() {
     devices = [];
-    return fetch('test/db', {
+    return fetch('api/device/getall', {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -124,5 +124,15 @@ class User {
         this.roleName = jsonObject.role.roleName;
         this.username = jsonObject.username;
         this.email = jsonObject.email;
+    }
+}
+
+class Theatre {
+    constructor(jsonObject) {
+        this.id = jsonObject.id;
+        this.theatreName = jsonObject.theatreName;
+        this.devices = jsonObject.devices;
+        this.deviceGroups = jsonObject.deviceGroups;
+
     }
 }

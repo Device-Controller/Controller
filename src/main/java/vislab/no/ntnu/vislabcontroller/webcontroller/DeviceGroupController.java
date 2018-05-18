@@ -102,7 +102,7 @@ public class DeviceGroupController {
     @RequestMapping(value = "/remove"
             , method = RequestMethod.DELETE
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeList(@RequestParam ("id") int id) {
+    public ResponseEntity<String> remove(@RequestParam ("id") int id) {
         if(deviceGroupRepository.findById(id).isPresent()){
             DeviceGroup dg = deviceGroupRepository.findById(id).get();
             deviceGroupRepository.delete(dg);
