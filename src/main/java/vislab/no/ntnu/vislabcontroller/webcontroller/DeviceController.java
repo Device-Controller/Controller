@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +48,11 @@ public class DeviceController {
         return new ResponseEntity<>(deviceRepository.findAll(), HttpStatus.OK);
     }
 
+    @RequestMapping("/types")
+    public ResponseEntity<List<DeviceType>> getTypes() {
+        return new ResponseEntity<>(deviceTypeRepository.findAll(), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/getone"
             , method = RequestMethod.GET)
     public ResponseEntity<Device> getOne(@RequestParam("id") Optional<Integer> id
@@ -56,70 +64,95 @@ public class DeviceController {
             }
         } else if (ipAddress.isPresent()) {
             d = deviceRepository.findByIpAddress(ipAddress.get());
-        } //TODO throw exception here?
+        }
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Device> addOne(ServletRequest request) {
-        String manufacturer = request.getParameter("manufacturer");
-        String model = request.getParameter("model");
-        String ipAddress = request.getParameter("ipAddress");
-        int port = Integer.parseInt(request.getParameter("port"));
-        int xPos = Integer.parseInt(request.getParameter("xPos"));
-        int yPos = Integer.parseInt(request.getParameter("yPos"));
-        int rotation = Integer.parseInt(request.getParameter("rotation"));
-        DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
-        DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
-        Device device = new Device(info, ipAddress,port,xPos,yPos,rotation);
-        return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/update"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Device> update(ServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
-        if(deviceRepository.findById(id).isPresent()) {
-            Device device = deviceRepository.findById(id).get();
-            String manufacturer = request.getParameter("manufacturer");
-            String model = request.getParameter("model");
-            String ipAddress = request.getParameter("ipAddress");
-            String type = request.getParameter("type");
-            int port = Integer.parseInt(request.getParameter("port"));
-            int xPos = Integer.parseInt(request.getParameter("xPos"));
-            int yPos = Integer.parseInt(request.getParameter("yPos"));
-            int rotation = Integer.parseInt(request.getParameter("rotation"));
-            device.setIpAddress(ipAddress);
-            device.getDeviceInfo().setManufacturer(manufacturer);
-            device.getDeviceInfo().setModel(model);
-            device.getDeviceInfo().getDeviceType().setType(type);
-            device.setPort(port);
-            device.setxPos(xPos);
-            device.setyPos(yPos);
-            device.setRotation(rotation);
+    public ResponseEntity<Device> add(ServletRequest request) {
+        Device device = parseRequest(request);
+        if (device != null) {
             return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/update"
+            , method = RequestMethod.PUT
+            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Device> update(ServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        if (deviceRepository.findById(id).isPresent()) {
+            Device device = deviceRepository.findById(id).get();
+            Device newDevice = parseRequest(request);
+            if (newDevice != null) {
+                device.setDefaultName(newDevice.getDefaultName());
+                device.setIpAddress(newDevice.getIpAddress());
+                device.getDeviceInfo().setManufacturer(newDevice.getDeviceInfo().getManufacturer());
+                device.getDeviceInfo().setModel(newDevice.getDeviceInfo().getModel());
+                device.getDeviceInfo().getDeviceType().setType(newDevice.getDeviceInfo().getDeviceType().getType());
+                device.setPort(newDevice.getPort());
+                device.setxPos(newDevice.getxPos());
+                device.setyPos(newDevice.getyPos());
+                device.setRotation(newDevice.getRotation());
+                return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOne(@RequestBody Device device) {
-        deviceRepository.delete(device);
-        return new ResponseEntity<>("Removed device: "
-                + device.getId(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/removelist"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeList(@RequestBody Device[] deviceArray) {
+    public ResponseEntity<String> remove(@RequestBody Device[] deviceArray) {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         deviceRepository.deleteAll(devices);
         return new ResponseEntity<>("Removed devices", HttpStatus.OK);
+    }
+
+    private Device parseRequest(ServletRequest request) {
+        String manufacturer = request.getParameter("manufacturer");
+        String model = request.getParameter("model");
+        String name = request.getParameter("name");
+        DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
+        if (type == null) {
+            return null;
+        }
+        DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
+        if (info == null) {
+            return null;
+        }
+        String ipAddress = request.getParameter("ipAddress");
+        int port;
+        try {
+            port = Integer.parseInt(request.getParameter("port"));
+            InetAddress.getByName(ipAddress);
+        } catch (UnknownHostException | NumberFormatException ex) {
+            return null;
+        }
+        int xPos;
+        try {
+            xPos = Integer.parseInt(request.getParameter("xPos"));
+        } catch (NumberFormatException ex) {
+            xPos = -1;
+        }
+        int yPos;
+        try {
+            yPos = Integer.parseInt(request.getParameter("yPos"));
+        } catch (NumberFormatException ex) {
+            yPos = -1;
+        }
+        int rotation;
+        try {
+            rotation = Integer.parseInt(request.getParameter("rotation"));
+        } catch (NumberFormatException ex) {
+            rotation = -1;
+        }
+        return new Device(name, info, ipAddress, port, xPos, yPos, rotation);
     }
 }

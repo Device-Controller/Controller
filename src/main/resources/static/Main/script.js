@@ -1,12 +1,26 @@
 var timeout;
-console.log("init");
+var theatreMap = [];
+let theatres = [];
+var globalIndex = 0;
 
 
 getDevices().then(r => buildList(r))
-    .then(setDefault)
     .catch(e => {
         console.log(e);
     });
+
+
+function getTheatres() {
+    theatres = [];
+    return fetch('/api/theatre/getall', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then((response) => response.json())
+};
+
+getTheatres().then(r => setUp(r));
 
 function buildList(deviceList) {
     devices = [];
@@ -16,16 +30,15 @@ function buildList(deviceList) {
         addListElements(d);
     }
     updateState();
-    projectorViewBuild();
+    deviceViewBuild(deviceList);
 }
 
 
 function powerOn() {
-    console.log("CLICKED POWER ON");
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/powerOn?id=' + pID).then(response => {
+            fetch('api/main/powerOn?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -35,11 +48,10 @@ function powerOn() {
 }
 
 function powerOff() {
-    console.log("CLICKED POWER OFF");
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/powerOff?id=' + pID).then(response => {
+            fetch('api/main/powerOff?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -52,7 +64,7 @@ function mute() {
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/mute?id=' + pID).then(response => {
+            fetch('api/main/mute?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -65,7 +77,7 @@ function unMute() {
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
             let pID = devices[i].id;
-            fetch('MainController/unMute?id=' + pID).then(response => {
+            fetch('api/main/unMute?id=' + pID).then(response => {
                 if (response.ok) {
                     response.json().then(p => console.log(p));
                 }
@@ -86,13 +98,13 @@ function powerIcon(index, color) {
             statusIcon.style.backgroundColor = color;
             discoIcon.style.display = "none";
         }
-    } catch(e) {
+    } catch (e) {
 
     }
 }
 
 function getPowerState(id, n) {
-    fetch('MainController/powerState?id=' + id).then(response => {
+    fetch('api/main/powerState?id=' + id).then(response => {
         if (response.ok) {
             response.json().then(p => {
                 switch (p) {
@@ -122,6 +134,8 @@ function getPowerState(id, n) {
                         break;
                 }
             });
+        } else {
+            console.log("An error occured.");
         }
     }).catch(error => {
         console.log("Failed to get power state.");
@@ -148,7 +162,7 @@ function createGroup() {
     if (name === "" || name == null || name === " " || group.length < 1) {
         alert("Please type in a group name and select one device or more.");
     } else {
-        fetch("/api/devicegroup/add?groupname=" + name, {
+        fetch("/api/devicegroup/add?groupname=" + name + "&theatrename=" + document.getElementById("theatre-select").value, {
             method: "POST",
             body: JSON.stringify(group),
             headers: {"Content-Type": "application/json"}
@@ -157,7 +171,7 @@ function createGroup() {
             if (response.ok) {
 
                 response.json().then(response_group => {
-                    updateDropdown(true);
+                    updateDropdown(globalIndex);
                     let dropdown = document.getElementById("group-select");
                 });
             } else {
@@ -186,10 +200,10 @@ function addListElements(device) {
     let imageCard;
     switch (device.type) {
         case "Projector":
-            imageCard = "<image src='Images/projector_icon_simple.png' alt='projector-image' class='list-icon'></image>";
+            imageCard = "<image src='Images/projector.png' alt='projector-image' class='list-icon'></image>";
             break;
         case "Sound System":
-            imageCard = "<image src='Images/soundsystem_icon_simple.png' alt='soundsystem-image' class='list-icon'></image>";
+            imageCard = "<image src='Images/sound_system.png' alt='soundsystem-image' class='list-icon'></image>";
             break;
     }
 
@@ -212,9 +226,6 @@ function addListElements(device) {
     document.getElementsByClassName('pro-checkbox');
 }
 
-function whatIsThis(unknownEntity) {
-    console.log(unknownEntity);
-}
 
 function getDeviceSelectionBox(id) {
     for (let i = 0; i < devices.length; i++) {
@@ -229,30 +240,31 @@ function populateTheatre() {
     let dropdown = document.getElementById("theatre-select");
     dropdown.onchange = e => {
         document.getElementById('selected-list').innerHTML = '';
-
         for (let i = 0; i < devices.length; i++) {
             devices[i].checkbox.checked = false;
         }
-        for (let i = 0; i < optionMap.length; i++) {
-            if (optionMap[i].option.selected) {
-                let optionDevices = optionMap[i].deviceGroup.devices;
+        for (let i = 0; i < theatreMap.length; i++) {
+            if (theatreMap[i].option.selected) {
+                let optionDevices = theatreMap[i].deviceGroup.devices;
                 buildList(optionDevices);
-
+                globalIndex = i;
+                populateDropdown(i);
             }
         }
+
     };
     updateTheatre();
 }
 
-function setDefault() {
-    fetch("/api/theatre/getall").then(r => {
-        if (r.ok) {
-            r.json().then(e => {
-                document.getElementById('selected-list').innerHTML = '';
-                buildList(e[0].devices);
-            });
-        }
-    })
+function setUp(object) {
+    for (let i = 0; i < object.length; i++) {
+        let d = new Theatre(object[i]);
+        theatres.push(d);
+    }
+    document.getElementById('selected-list').innerHTML = '';
+    buildList(theatres[0].devices);
+    populateTheatre();
+    populateDropdown(0);
 }
 
 
@@ -261,28 +273,21 @@ function updateTheatre(index) {
     for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
-    fetch("/api/theatre/getall").then(r => {
-        if (r.ok) {
-            document.getElementById('selected-list');
-            r.json().then(e => {
-                for (let i = 0; i < e.length; i++) {
-                    let x = new DeviceGroup(e[i].id, e[i].theatreName, e[i].devices);
-                    let option = document.createElement("option");
-                    option.text = x.groupName;
-                    optionMap.push(new OptionMap(option, x));
-                    dropdown.add(option, 99);
-                }
-                if (index) {
-                    dropdown.selectedIndex = dropdown.length - 1;
-                }
-            });
-        }
-    })
+    for (let i = 0; i < theatres.length; i++) {
+        let x = new DeviceGroup(theatres[i].id, theatres[i].theatreName, theatres[i].devices);
+        let option = document.createElement("option");
+        option.text = x.groupName;
+        theatreMap.push(new OptionMap(option, x));
+        dropdown.add(option, 99);
+    }
+    if (index) {
+        dropdown.selectedIndex = dropdown.length - 1;
+    }
+
 }
 
-populateTheatre();
 
-function populateDropdown() {
+function populateDropdown(index) {
 
     let dropdown = document.getElementById("group-select");
     dropdown.onchange = e => {
@@ -299,33 +304,36 @@ function populateDropdown() {
             }
         }
     };
-    updateDropdown();
+    updateDropdown(index);
 }
 
 function updateDropdown(index) {
+    optionMap = [];
     let dropdown = document.getElementById("group-select");
     for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
-    fetch("/api/devicegroup/getall").then(r => {
-        if (r.ok) {
-            r.json().then(e => {
-                for (let i = 0; i < e.length; i++) {
-                    let x = new DeviceGroup(e[i].id, e[i].groupName, e[i].devices);
-                    let option = document.createElement("option");
-                    option.text = x.groupName;
-                    optionMap.push(new OptionMap(option, x));
-                    dropdown.add(option, 99);
+    for (let i = 0; i < theatres.length; i++) {
+        if (i == index) {
+            fetch("/api/theatre/getgroups?theatrename=" + theatres[i].theatreName).then(response => {
+                if (response.ok) {
+                    response.json().then(e => {
+                        for (let j = 0; j < e.length; j++) {
+                            let x = new DeviceGroup(e[j].id, e[j].groupName, e[j].devices);
+                            let option = document.createElement("option");
+                            option.text = x.groupName;
+                            optionMap.push(new OptionMap(option, x));
+                            dropdown.add(option, 99);
+                        }
+                    })
                 }
-                if (index) {
-                    dropdown.selectedIndex = dropdown.length - 1;
-                }
-            });
+            })
+
         }
-    })
+    }
 }
 
-populateDropdown();
+
 
 
 

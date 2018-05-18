@@ -1,12 +1,22 @@
 package vislab.no.ntnu.vislabcontroller.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -22,7 +32,7 @@ public class DeviceGroup implements Serializable {
     @NotNull
     private String groupName;
 
-    @JsonManagedReference("user_devicegroup")
+    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "junction_devicegroup_user"
             , joinColumns = @JoinColumn(name = "devicegroup_id")
@@ -36,6 +46,7 @@ public class DeviceGroup implements Serializable {
             , inverseJoinColumns = @JoinColumn(name = "device_id")) //this creates the junction in a table named "junction_devicegroup_device"
     private List<Device> devices;
 
+    @JsonManagedReference("theatre_devicegroup")
     @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Theatre theatre;

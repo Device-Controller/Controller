@@ -4,20 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.ServletRequest;
+
 import vislab.no.ntnu.vislabcontroller.entity.Role;
 import vislab.no.ntnu.vislabcontroller.entity.User;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.RoleRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.UserRepository;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import vislab.no.ntnu.vislabcontroller.services.UserService;
 
 /**
  * @author ThomasSTodal
@@ -27,10 +32,17 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
+
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @RequestMapping("/getall")
     public ResponseEntity<List<User>> getAll() {
@@ -55,77 +67,87 @@ public class UserController {
             u = userRepository.findByUsername(username.get());
         } else if (email.isPresent()) {
             u = userRepository.findByEmail(email.get());
-        } //TODO throw exception here?
+        }
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
+    @RequestMapping("/getroles")
+    public ResponseEntity<List<Role>> getRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return new ResponseEntity<>(roles, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> addOne(@RequestBody User[] user) {
-        List<DeviceGroup> dgs = deviceGroupRepository.findAll();
-        for(DeviceGroup dg : dgs) {
-            if(!dg.isDefaultDGroup())
-                dgs.remove(dg);
+            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<User> add(ServletRequest form) {
+        User user = parseServletRequest(form);
+        if(user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        List<User> users = Arrays.asList(user);
-        users.forEach(u -> u.addDeviceGroups(dgs));
-        return new ResponseEntity<>(userRepository.saveAll(users), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
-    @RequestMapping(value = "/updateusername"
-            , method = RequestMethod.GET
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateUsername(@RequestParam("id") Integer id
-            , @RequestParam("username") String username) {
-        User u = userRepository.findById(id).get();
-        u.setUsername(username);
-        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/update"
+            , method = RequestMethod.PUT
+            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<User> update(ServletRequest form){
+        User user = parseServletRequest(form);
+        if(user != null) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/updateemail"
-            , method = RequestMethod.GET
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateEmail(@RequestParam("id") Integer id
-            , @RequestParam("email") String email) {
-        User u = userRepository.findById(id).get();
-        u.setEmail(email);
-        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/updaterole"
-            , method = RequestMethod.GET
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateRole(@RequestParam("id") Integer id
-            , @RequestParam("rolename") String roleName) {
-        User u = userRepository.findById(id).get();
-        Role r = roleRepository.findByRoleName(roleName);
-        u.setRole(r);
-        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/addgroups"
-            , method = RequestMethod.POST
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addGroup(@RequestParam("id") Integer id
-            , @RequestBody DeviceGroup[] deviceGroupArray) {
-        User u = userRepository.findById(id).get();
-        u.addDeviceGroups(Arrays.asList(deviceGroupArray));
-        return new ResponseEntity<>(userRepository.save(u), HttpStatus.OK);
-    }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/remove"
-            , method = RequestMethod.POST
+            , method = RequestMethod.DELETE
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> remove(@RequestBody User[] userArray) {
-        List<User> users = new ArrayList<>(Arrays.asList(userArray));
-        userRepository.deleteAll(users);
-        return new ResponseEntity<>("Removed users", HttpStatus.OK);
+    public ResponseEntity<String> remove(@RequestParam("id") int id) {
+        if(userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            userRepository.delete(user);
+            return new ResponseEntity<>("Removed user", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    private User parseServletRequest(ServletRequest form) {
+        String id_string = form.getParameter("id");
+        String username = form.getParameter("username");
+        if((id_string == null || id_string.isEmpty()) && userRepository.findByUsername(username) != null){
+            return null;
+        }
+        String password = form.getParameter("password");
+        String email = form.getParameter("email");
+        String role_string = form.getParameter("role");
+        Role role = roleRepository.findByRoleName(role_string);
+        if(role == null){
+            role = roleRepository.findByRoleName("USER");
+        }
+        User user = null;
+        if (id_string != null && !id_string.isEmpty()) {
+            try {
+                int id = Integer.parseInt(id_string);
+                if(userRepository.findById(id).isPresent()){
+                    user = userRepository.findById(id).get();
+                }
+            } catch (NumberFormatException e){
+                return null;
+            }
+        } else {
+            user = new User(username, password, email, role);
+        }
+        user.setUsername(username);
+        user.setRole(role);
+        if(password != null && !password.isEmpty()) {
+            user.setPassword(encoder.encode(password));
+        }
+        user.setEmail(email);
+        userService.save(user);
+        return user;
     }
 
-    @RequestMapping("/removeall")
-    public ResponseEntity<String> removeAll() {
-        userRepository.deleteAll();
-        return new ResponseEntity<>("Removed all users", HttpStatus.OK);
-    }
 }
