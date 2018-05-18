@@ -1,6 +1,6 @@
 function login() {
     let username = document.getElementById("username").value;
-    let password = document.getElementById("pass").value;
+    let password = document.getElementById("password").value;
     console.log(username);
     console.log(password);
     fetch('login', {
@@ -9,6 +9,7 @@ function login() {
         headers: {'Content-Type': 'application/json;charset=UTF-8'}
     }).then(r => {
         if (r.ok) {
+            console.log(r);
             r.json().then(e => window.location.replace(window.location.origin + e.link));
         }
     });

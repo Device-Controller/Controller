@@ -1,7 +1,6 @@
 package vislab.no.ntnu.vislabcontroller.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vislab.no.ntnu.vislabcontroller.entity.User;
@@ -14,6 +13,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void save(User user) {
+
         userRepository.save(user);
     }
 
