@@ -126,3 +126,13 @@ class User {
         this.email = jsonObject.email;
     }
 }
+
+class Theatre {
+    constructor(jsonObject) {
+        this.id = jsonObject.id;
+        this.theatreName = jsonObject.theatreName;
+        this.devices = jsonObject.devices;
+        this.deviceGroups = jsonObject.deviceGroups;
+
+    }
+}
