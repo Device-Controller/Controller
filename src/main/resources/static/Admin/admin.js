@@ -1,7 +1,11 @@
 var elementList = [];
+var lastForm;
 
-function hideAll() {
+function hideAll(form) {
     var list = document.getElementsByClassName("manage-forms");
+    if (form) {
+        lastForm = form;
+    }
     for (let i = 0; i < list.length; i++) {
         list[i].style.display = "none";
     }
@@ -35,7 +39,7 @@ function initial() {
             req.onreadystatechange = e => {
                 if (req.readyState === 4 && req.status === 200) {
                     alert("Success");
-                    showManageDevices();
+                    updateList();
                 } else if (req.readyState === 4) {
                     alert("Could not perform action.\nError: " + req.status);
                 }
@@ -47,4 +51,10 @@ function initial() {
         };
     }
 }
+
 initial();
+function updateList() {
+    if(lastForm){
+        lastForm();
+    }
+}

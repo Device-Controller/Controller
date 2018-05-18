@@ -34,7 +34,7 @@ function deviceDisplay(deviceEntity) {
         li.innerHTML =
             "<div class='card-body btn btn-primary'>" +
             "<h5 class='card-title'>" + deviceEntity[i].deviceInfo.deviceType.type + "</h5>" +
-            "<p class='card-text'>" + deviceEntity[i].deviceInfo.manufacturer + "</p>" +
+            "<p class='card-text'>" + ((deviceEntity[i].defaultName) ? deviceEntity[i].defaultName: deviceEntity[i].deviceInfo.manufacturer) + "</p>" +
             "<a list-index='" + i + "'/>" +
             "</div>";
         li.onclick = e => {
@@ -81,12 +81,11 @@ fetch("/api/device/types").then(r => {
     }
 });
 function showManageDevices() {
-    hideAll();
+    hideAll(showManageDevices);
     fetch("api/device/getall").then(r => {
         if (r.ok) {
             r.json().then(j => {
                 deviceDisplay(j);
-
             })
         }
     });

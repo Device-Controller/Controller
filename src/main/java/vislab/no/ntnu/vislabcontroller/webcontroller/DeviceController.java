@@ -90,6 +90,7 @@ public class DeviceController {
             Device device = deviceRepository.findById(id).get();
             Device newDevice = parseRequest(request);
             if (newDevice != null) {
+                device.setDefaultName(newDevice.getDefaultName());
                 device.setIpAddress(newDevice.getIpAddress());
                 device.getDeviceInfo().setManufacturer(newDevice.getDeviceInfo().getManufacturer());
                 device.getDeviceInfo().setModel(newDevice.getDeviceInfo().getModel());
@@ -135,6 +136,7 @@ public class DeviceController {
     private Device parseRequest(ServletRequest request) {
         String manufacturer = request.getParameter("manufacturer");
         String model = request.getParameter("model");
+        String name = request.getParameter("name");
         DeviceType type = deviceTypeRepository.findByType(request.getParameter("type"));
         if (type == null) {
             return null;
@@ -169,6 +171,6 @@ public class DeviceController {
         } catch (NumberFormatException ex) {
             rotation = -1;
         }
-        return new Device(info, ipAddress, port, xPos, yPos, rotation);
+        return new Device(name, info, ipAddress, port, xPos, yPos, rotation);
     }
 }

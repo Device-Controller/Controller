@@ -28,7 +28,7 @@ function userDisplay(userEntities) {
         li.innerHTML =
             "<div class='card-body btn btn-primary'>" +
             "<h5 class='card-title'>" + userEntities[i].username + "</h5>" +
-            "<p class='card-text'>" + userEntities[i].roleName + " roles</p>" +
+            "<p class='card-text'>" + userEntities[i].role.roleName + " roles</p>" +
             "<a list-index='" + i + "'/>" +
             "</div>";
         li.onclick = e => {
@@ -40,7 +40,7 @@ function userDisplay(userEntities) {
 }
 
 function showManageUsers() {
-    hideAll();
+    hideAll(showManageUsers);
     fetch("api/user/getall").then(r => {
         if (r.ok) {
             r.json().then(j => {
