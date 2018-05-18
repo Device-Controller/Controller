@@ -27,8 +27,10 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
+
     @Autowired
     RoleRepository roleRepository;
 
@@ -62,7 +64,7 @@ public class UserController {
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> addOne(@RequestBody User[] user) {
+    public ResponseEntity<List<User>> add(@RequestBody User[] user) {
         List<DeviceGroup> dgs = deviceGroupRepository.findAll();
         for(DeviceGroup dg : dgs) {
             if(!dg.isDefaultDGroup())
@@ -121,11 +123,5 @@ public class UserController {
         List<User> users = new ArrayList<>(Arrays.asList(userArray));
         userRepository.deleteAll(users);
         return new ResponseEntity<>("Removed users", HttpStatus.OK);
-    }
-
-    @RequestMapping("/removeall")
-    public ResponseEntity<String> removeAll() {
-        userRepository.deleteAll();
-        return new ResponseEntity<>("Removed all users", HttpStatus.OK);
     }
 }

@@ -26,6 +26,7 @@ public class LoginController {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserValidator validator;
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -34,7 +35,7 @@ public class LoginController {
         validator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "fuckoff";
+            return "fuckoff (politely)";
         }
 
         userService.save(userForm);

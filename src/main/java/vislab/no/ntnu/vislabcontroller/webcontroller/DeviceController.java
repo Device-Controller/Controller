@@ -72,7 +72,7 @@ public class DeviceController {
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Device> addOne(ServletRequest request) {
+    public ResponseEntity<Device> add(ServletRequest request) {
         Device device = parseRequest(request);
         if (device != null) {
             return new ResponseEntity<>(deviceRepository.save(device), HttpStatus.OK);
@@ -106,27 +106,9 @@ public class DeviceController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/remove"
-            , method = RequestMethod.DELETE
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOne(@RequestParam("id") int id) {
-        try {
-            if (deviceRepository.findById(id).isPresent()) {
-                Device device = deviceRepository.findById(id).get();
-
-                deviceRepository.delete(device);
-                return new ResponseEntity<>("Removed device: "
-                        + device.getId(), HttpStatus.OK);
-            }
-        } catch (NumberFormatException ex) {
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/removelist"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeList(@RequestBody Device[] deviceArray) {
+    public ResponseEntity<String> remove(@RequestBody Device[] deviceArray) {
         List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
         deviceRepository.deleteAll(devices);
         return new ResponseEntity<>("Removed devices", HttpStatus.OK);

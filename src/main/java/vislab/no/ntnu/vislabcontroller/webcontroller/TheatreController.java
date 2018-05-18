@@ -48,7 +48,7 @@ public class TheatreController {
 
     @RequestMapping(value = "/update",
     method = RequestMethod.PUT,
-    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE) // TODO: this shit
     public ResponseEntity<Theatre> update(ServletRequest request){
         return null;
     }
