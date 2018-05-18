@@ -1,11 +1,25 @@
 var timeout;
 var theatreMap = [];
+let theatres = [];
+
 
 getDevices().then(r => buildList(r))
-    .then(setDefault)
     .catch(e => {
         console.log(e);
     });
+
+
+function getTheatres() {
+    theatres = [];
+    return fetch('/api/theatre/getall', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then((response) => response.json())
+};
+
+getTheatres().then(r => setUp(r));
 
 function buildList(deviceList) {
     devices = [];
@@ -85,7 +99,7 @@ function powerIcon(index, color) {
             statusIcon.style.backgroundColor = color;
             discoIcon.style.display = "none";
         }
-    } catch(e) {
+    } catch (e) {
 
     }
 }
@@ -211,9 +225,6 @@ function addListElements(device) {
     document.getElementsByClassName('pro-checkbox');
 }
 
-function whatIsThis(unknownEntity) {
-    console.log(unknownEntity);
-}
 
 function getDeviceSelectionBox(id) {
     for (let i = 0; i < devices.length; i++) {
@@ -227,8 +238,7 @@ function getDeviceSelectionBox(id) {
 function populateTheatre() {
     let dropdown = document.getElementById("theatre-select");
     dropdown.onchange = e => {
-        document.getElementById('selected-list').innerHTML = '';
-
+        document.getElementById('selected-list').innerHTML = '';;
         for (let i = 0; i < devices.length; i++) {
             devices[i].checkbox.checked = false;
         }
@@ -236,22 +246,24 @@ function populateTheatre() {
             if (theatreMap[i].option.selected) {
                 let optionDevices = theatreMap[i].deviceGroup.devices;
                 buildList(optionDevices);
-
+                populateDropdown(i);
             }
         }
+
     };
     updateTheatre();
 }
 
-function setDefault() {
-    fetch("/api/theatre/getall").then(r => {
-        if (r.ok) {
-            r.json().then(e => {
-                document.getElementById('selected-list').innerHTML = '';
-                buildList(e[0].devices);
-            });
-        }
-    })
+function setUp(object) {
+    for (let i = 0; i < object.length; i++) {
+        let d = new Theatre(object[i]);
+        theatres.push(d);
+    }
+    console.log(theatres);
+    document.getElementById('selected-list').innerHTML = '';
+    buildList(theatres[0].devices);
+    populateTheatre();
+    updateDropdown(0);
 }
 
 
@@ -260,28 +272,21 @@ function updateTheatre(index) {
     for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
-    fetch("/api/theatre/getall").then(r => {
-        if (r.ok) {
-            document.getElementById('selected-list');
-            r.json().then(e => {
-                for (let i = 0; i < e.length; i++) {
-                    let x = new DeviceGroup(e[i].id, e[i].theatreName, e[i].devices);
-                    let option = document.createElement("option");
-                    option.text = x.groupName;
-                    theatreMap.push(new OptionMap(option, x));
-                    dropdown.add(option, 99);
-                }
-                if (index) {
-                    dropdown.selectedIndex = dropdown.length - 1;
-                }
-            });
-        }
-    })
+    for (let i = 0; i < theatres.length; i++) {
+        let x = new DeviceGroup(theatres[i].id, theatres[i].theatreName, theatres[i].devices);
+        let option = document.createElement("option");
+        option.text = x.groupName;
+        theatreMap.push(new OptionMap(option, x));
+        dropdown.add(option, 99);
+    }
+    if (index) {
+        dropdown.selectedIndex = dropdown.length - 1;
+    }
+
 }
 
-populateTheatre();
 
-function populateDropdown() {
+function populateDropdown(index) {
 
     let dropdown = document.getElementById("group-select");
     dropdown.onchange = e => {
@@ -298,33 +303,29 @@ function populateDropdown() {
             }
         }
     };
-    updateDropdown();
+    updateDropdown(index);
 }
 
 function updateDropdown(index) {
+    optionMap = [];
     let dropdown = document.getElementById("group-select");
     for (let i = dropdown.children.length - 1; i > 1; i--) {
         dropdown.children[i].remove();
     }
-    fetch("/api/devicegroup/getall").then(r => {
-        if (r.ok) {
-            r.json().then(e => {
-                for (let i = 0; i < e.length; i++) {
-                    let x = new DeviceGroup(e[i].id, e[i].groupName, e[i].devices);
-                    let option = document.createElement("option");
-                    option.text = x.groupName;
-                    optionMap.push(new OptionMap(option, x));
-                    dropdown.add(option, 99);
-                }
-                if (index) {
-                    dropdown.selectedIndex = dropdown.length - 1;
-                }
-            });
+    for (let i = 0; i < theatres.length; i++) {
+        if (i == index) {
+            for (let j = 0; j < theatres[i].deviceGroups.length; j++) {
+                let x = new DeviceGroup(theatres[i].deviceGroups[j].id, theatres[i].deviceGroups[j].groupName, theatres[i].deviceGroups[j].devices);
+                let option = document.createElement("option");
+                option.text = x.groupName;
+                optionMap.push(new OptionMap(option, x));
+                dropdown.add(option, 99);
+            }
         }
-    })
+    }
 }
 
-populateDropdown();
+
 
 
 
