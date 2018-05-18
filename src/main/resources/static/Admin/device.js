@@ -1,4 +1,4 @@
-
+var supportedDevices = [];
 
 function deleteDevice() {
     let req = new XMLHttpRequest();
