@@ -13,28 +13,20 @@
 <div include-html="template.html"></div>
 <div class="container">
     <div class="row">
-        <div class="col-sm-2">
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageDevices()">Manage Devices</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageTheatres()">Manage Theatres</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageGroups()">Manage Groups</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageUsers()">Manage Users</button>
-                </div>
-            </div>
+        <div class="col-sm-3">
+            <button onclick="showManageDevices()">Manage Devices</button>
         </div>
+        <div class="col-sm-3">
+            <button onclick="showManageTheatres()">Manage Theatres</button>
+        </div>
+        <div class="col-sm-3">
+            <button onclick="showManageGroups()">Manage Groups</button>
+        </div>
+        <div class="col-sm-3">
+            <button onclick="showManageUsers()">Manage Users</button>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-4">
             <ul id="list"></ul>
         </div>
@@ -43,8 +35,9 @@
             <div id="add-device" class="manage-forms">
                 <form action="/api/device/add" method="post" class="management-forms">
                     <div class="form-group">
-                        <label for="addDeviceId">Device Id</label>
-                        <input type="number" class="form-control" id="addDeviceId" name="id" value="-" readonly>
+                        <label for="addDeviceId">Device ID</label>
+                        <input type="number" class="form-control" id="addDeviceId" name="id"
+                               value="-" readonly>
                     </div>
                     <div class="form-group">
                         <label for="addDeviceManufacturer">Device Manufacturer</label>
@@ -53,13 +46,19 @@
                     </div>
                     <div class="form-group">
                         <label for="addDeviceModel">Device Model</label>
-                        <select  class="form-control" id="addDeviceModel" name="model"
-                                 required></select>
+                        <select class="form-control" id="addDeviceModel" name="model"
+                                required></select>
                     </div>
                     <div class="form-group">
                         <label for="addDeviceType">Device Type</label>
                         <select class="form-control" id="addDeviceType" name="type"
-                              required>
+                                required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceName">Device Name</label>
+                        <select class="form-control" id="addDeviceName" name="type"
+                                required>
                         </select>
                     </div>
                     <div class="form-group">
@@ -104,24 +103,30 @@
             <div id="manage-devices" class="manage-forms">
                 <form action="/api/device/update" method="put" class="management-forms">
                     <div class="form-group">
-                        <label for="deviceId">Device Id</label>
+                        <label for="deviceId">Device ID</label>
                         <input type="number" class="form-control" id="deviceId" name="id"
                                placeholder="Device ID" readonly>
                     </div>
                     <div class="form-group">
                         <label for="deviceManufacturer">Device Manufacturer</label>
-                        <select  class="form-control" id="deviceManufacturer" required
-                               name="manufacturer"></select>
+                        <select class="form-control" id="deviceManufacturer" required
+                                name="manufacturer"></select>
                     </div>
                     <div class="form-group">
                         <label for="deviceModel">Device Model</label>
-                        <select  class="form-control" id="deviceModel" name="model" required
-                               ></select>
+                        <select class="form-control" id="deviceModel" name="model" required
+                        ></select>
                     </div>
                     <div class="form-group">
                         <label for="deviceType">Device Type</label>
                         <select class="form-control" id="deviceType" name="type" required
-                               ></select>
+                        ></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceName">Device Name</label>
+                        <select class="form-control" id="deviceName" name="type"
+                                required>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="deviceIpAddress">Device IpAddress</label>
@@ -130,7 +135,8 @@
                     </div>
                     <div class="form-group">
                         <label for="devicePort">Device Port</label>
-                        <input type="number" class="form-control" id="devicePort" name="port" required
+                        <input type="number" class="form-control" id="devicePort" name="port"
+                               required
                                placeholder="Device Port">
                     </div>
                     <div class="form-group">
@@ -159,14 +165,16 @@
                         </small>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-primary" onclick="deleteDevice()" onsubmit="">Delete</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteDevice()"
+                            onsubmit="">Delete
+                    </button>
                 </form>
             </div>
             <!-- Theatre -->
             <div id="add-theatre" class="manage-forms">
                 <form action="/api/theatre/add" method="post" class="management-forms">
                     <div class="form-group">
-                        <label for="addTheatreId">Device Id</label>
+                        <label for="addTheatreId">Device ID</label>
                         <input type="number" class="form-control" id="addTheatreId" name="id"
                                placeholder="Theatre ID" readonly>
                     </div>
@@ -179,17 +187,13 @@
                         <label for="devices-in-theatre">Devices</label>
                         <div id="add-devices-in-theatre"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="devices-in-theatre">Groups</label>
-                        <div id="add-devicegroups-in-theatre"></div>
-                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
             <div id="manage-theatre" class="manage-forms">
                 <form action="/api/theatre/update" method="post" class="management-forms">
                     <div class="form-group">
-                        <label for="theatreId">Device Id</label>
+                        <label for="theatreId">Theatre ID</label>
                         <input type="number" class="form-control" id="theatreId" name="id"
                                placeholder="Theatre ID" readonly>
                     </div>
@@ -202,10 +206,6 @@
                         <label for="devices-in-theatre">Devices</label>
                         <div id="devices-in-theatre"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="devices-in-theatre">Groups</label>
-                        <div id="devicegroups-in-theatre"></div>
-                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -213,9 +213,19 @@
             <div id="add-devicegroup" class="manage-forms">
                 <form action="/api/devicegroup/add" method="post" class="management-forms">
                     <div class="form-group">
+                        <label for="addDeviceId">Group ID</label>
+                        <input type="number" class="form-control" id="addDeviceGroupId" name="id"
+                               placeholder="Group ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="addTheatre">Theatre</label>
+                        <input type="number" class="form-control" id="addTheatre" name="id"
+                               placeholder="Theatre" readonly>
+                    </div>
+                    <div class="form-group">
                         <label for="addDeviceGroupName">Device Group Name</label>
                         <input type="text" class="form-control" id="addDeviceGroupName"
-                               name="groupName" placeholder="Group Name">
+                               name="groupName" placeholder="Group Name" required>
                     </div>
                     <div class="form-group">
                         <div id="add-device-group-devices"></div>
@@ -226,14 +236,14 @@
             <div id="manage-devicegroup" class="manage-forms">
                 <form action="/api/devicegroup/update" method="post" class="management-forms">
                     <div class="form-group">
-                        <label for="deviceId">Group Id</label>
+                        <label for="deviceId">Group ID</label>
                         <input type="number" class="form-control" id="deviceGroupId" name="id"
                                placeholder="Group ID" readonly>
                     </div>
                     <div class="form-group">
                         <label for="deviceGroupName">Device Group Name</label>
                         <input type="text" class="form-control" id="deviceGroupName"
-                               name="groupName" placeholder="Group Name">
+                               name="groupName" placeholder="Group Name" required>
                     </div>
                     <div class="form-group">
                         <div id="device-group-devices"></div>
@@ -245,7 +255,7 @@
             <div id="add-user" class="manage-forms">
                 <form action="/api/user/add" method="post" class="management-forms">
                     <div class="form-group">
-                        <label for="addUserId">User Id</label>
+                        <label for="addUserId">User ID</label>
                         <input type="number" class="form-control" id="addUserId" name="id"
                                placeholder="User ID" readonly>
                     </div>
@@ -281,7 +291,7 @@
             <div id="manage-user" class="manage-forms">
                 <form action="/api/user/update" method="post" class="management-forms">
                     <div class="form-group">
-                        <label for="userId">User Id</label>
+                        <label for="userId">User ID</label>
                         <input type="number" class="form-control" id="userId" name="id"
                                placeholder="User ID" readonly>
                     </div>
@@ -291,19 +301,19 @@
                                name="username" placeholder="Username" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password">New Password</label>
                         <input type="password" class="form-control" id="password"
-                               name="password" placeholder="Enter Password" required>
+                               name="password" placeholder="New Password" required>
                     </div>
                     <div class="form-group">
                         <label for="repeatPassword">Repeat Password</label>
                         <input type="password" class="form-control" id="repeatPassword"
-                               name="repeatPassword" placeholder="Repeat Password"required>
+                               name="repeatPassword" placeholder="Repeat Password" required>
                     </div>
                     <div class="form-group">
                         <label for="email">E-Mail</label>
                         <input type="email" class="form-control" id="email"
-                               name="email" placeholder="name@example.org"required>
+                               name="email" placeholder="name@example.org" required>
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>

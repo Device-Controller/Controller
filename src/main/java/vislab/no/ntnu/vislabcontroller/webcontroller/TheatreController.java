@@ -71,10 +71,4 @@ public class TheatreController {
         theatreRepository.deleteAll(theatres);
         return new ResponseEntity<>("Removed theatres", HttpStatus.OK);
     }
-
-    @RequestMapping("/removeall")
-    public ResponseEntity<String> removeAll() {
-        theatreRepository.deleteAll();
-        return new ResponseEntity<>("Removed all theatres", HttpStatus.OK);
-    }
 }

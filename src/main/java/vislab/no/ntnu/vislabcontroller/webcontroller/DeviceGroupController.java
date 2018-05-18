@@ -43,8 +43,10 @@ public class DeviceGroupController {
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody public ResponseEntity<DeviceGroup> addList(@RequestParam ("groupname") String groupName, @RequestParam("theatre") String theatre, @RequestBody Device[] devices) {
-        Theatre thea = theatreRepository.findByTheatreName(theatre);
+    @ResponseBody public ResponseEntity<DeviceGroup> addList(@RequestParam ("groupname") String groupName
+            , @RequestParam("theatrename") String theatreName
+            , @RequestBody Device[] devices) {
+        Theatre thea = theatreRepository.findByTheatreName(theatreName);
         DeviceGroup newGroup = new DeviceGroup(groupName, thea);
         for(int i = 0; i< devices.length; i++){
             newGroup.addDevice(deviceRepository.findById(devices[i].getId()).get());
@@ -90,11 +92,5 @@ public class DeviceGroupController {
         List<DeviceGroup> deviceGroups = new ArrayList<>(Arrays.asList(deviceGroupArray));
         deviceGroupRepository.deleteAll(deviceGroups);
         return new ResponseEntity<>("Removed device groups", HttpStatus.OK);
-    }
-
-    @RequestMapping("/removeall")
-    public ResponseEntity<String> removeall() {
-        deviceGroupRepository.deleteAll();
-        return new ResponseEntity<>("Removed all device groups", HttpStatus.OK);
     }
 }

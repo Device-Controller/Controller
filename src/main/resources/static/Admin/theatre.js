@@ -1,4 +1,3 @@
-
 function showManageTheatres() {
     hideAll();
     fetch("api/theatre/getall").then(r => {
@@ -18,19 +17,23 @@ function createDeviceCheckBox(device) {
     checkbox.type = "checkbox";
     checkbox.setAttribute("id", "deviceCheckBox" + device.id);
     checkbox.setAttribute("name", "deviceCheckBox" + device.id);
-    label.setAttribute("for", "deviceCheckBox" +device.id);
-    label.innerHTML = device.defaultName +"," + device.deviceInfo.manufacturer + " " + device.deviceInfo.model;
+    checkbox.setAttribute("device-id", device.id);
+    label.setAttribute("for", "deviceCheckBox" + device.id);
+    if (device.defaultName) {
+        label.innerHTML = device.defaultName
+    } else {
+        label.innerHTML = device.deviceInfo.manufacturer + " " + device.deviceInfo.model + ", " + device.ipAddress;
+    }
     div.appendChild(checkbox);
     div.appendChild(label);
     return div;
-
 }
 
 function fillTheatreDevices(parent) {
-    fetch("/api/device/getall").then(r=>{
-        if(r.ok){
-            r.json().then(j=>{
-                for(let i = 0; i< j.length; i++){
+    fetch("/api/device/getall").then(r => {
+        if (r.ok) {
+            r.json().then(j => {
+                for (let i = 0; i < j.length; i++) {
                     let checkbox = createDeviceCheckBox(j[i]);
                     parent.appendChild(checkbox);
                 }
