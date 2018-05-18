@@ -13,28 +13,20 @@
 <div include-html="template.html"></div>
 <div class="container">
     <div class="row">
-        <div class="col-sm-2">
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageDevices()">Manage Devices</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageTheatres()">Manage Theatres</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageGroups()">Manage Groups</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <button onclick="showManageUsers()">Manage Users</button>
-                </div>
-            </div>
+        <div class="col-sm-3">
+            <button onclick="showManageDevices()">Manage Devices</button>
         </div>
+        <div class="col-sm-3">
+            <button onclick="showManageTheatres()">Manage Theatres</button>
+        </div>
+        <div class="col-sm-3">
+            <button onclick="showManageGroups()">Manage Groups</button>
+        </div>
+        <div class="col-sm-3">
+            <button onclick="showManageUsers()">Manage Users</button>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-4">
             <ul id="list"></ul>
         </div>
@@ -44,7 +36,8 @@
                 <form action="/api/device/add" method="post" class="management-forms">
                     <div class="form-group">
                         <label for="addDeviceId">Device ID</label>
-                        <input type="number" class="form-control" id="addDeviceId" name="id" value="-" readonly>
+                        <input type="number" class="form-control" id="addDeviceId" name="id"
+                               value="-" readonly>
                     </div>
                     <div class="form-group">
                         <label for="addDeviceManufacturer">Device Manufacturer</label>
@@ -53,13 +46,13 @@
                     </div>
                     <div class="form-group">
                         <label for="addDeviceModel">Device Model</label>
-                        <select  class="form-control" id="addDeviceModel" name="model"
-                                 required></select>
+                        <select class="form-control" id="addDeviceModel" name="model"
+                                required></select>
                     </div>
                     <div class="form-group">
                         <label for="addDeviceType">Device Type</label>
                         <select class="form-control" id="addDeviceType" name="type"
-                              required>
+                                required>
                         </select>
                     </div>
                     <div class="form-group">
@@ -116,18 +109,18 @@
                     </div>
                     <div class="form-group">
                         <label for="deviceManufacturer">Device Manufacturer</label>
-                        <select  class="form-control" id="deviceManufacturer" required
-                               name="manufacturer"></select>
+                        <select class="form-control" id="deviceManufacturer" required
+                                name="manufacturer"></select>
                     </div>
                     <div class="form-group">
                         <label for="deviceModel">Device Model</label>
-                        <select  class="form-control" id="deviceModel" name="model" required
-                               ></select>
+                        <select class="form-control" id="deviceModel" name="model" required
+                        ></select>
                     </div>
                     <div class="form-group">
                         <label for="deviceType">Device Type</label>
                         <select class="form-control" id="deviceType" name="type" required
-                               ></select>
+                        ></select>
                     </div>
                     <div class="form-group">
                         <label for="deviceName">Device Name</label>
@@ -142,7 +135,8 @@
                     </div>
                     <div class="form-group">
                         <label for="devicePort">Device Port</label>
-                        <input type="number" class="form-control" id="devicePort" name="port" required
+                        <input type="number" class="form-control" id="devicePort" name="port"
+                               required
                                placeholder="Device Port">
                     </div>
                     <div class="form-group">
@@ -171,7 +165,9 @@
                         </small>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-primary" onclick="deleteDevice()" onsubmit="">Delete</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteDevice()"
+                            onsubmit="">Delete
+                    </button>
                 </form>
             </div>
             <!-- Theatre -->
@@ -191,10 +187,6 @@
                         <label for="devices-in-theatre">Devices</label>
                         <div id="add-devices-in-theatre"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="devices-in-theatre">Groups</label>
-                        <div id="add-devicegroups-in-theatre"></div>
-                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -213,10 +205,6 @@
                     <div class="form-group">
                         <label for="devices-in-theatre">Devices</label>
                         <div id="devices-in-theatre"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="devices-in-theatre">Groups</label>
-                        <div id="devicegroups-in-theatre"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -251,11 +239,6 @@
                         <label for="deviceId">Group ID</label>
                         <input type="number" class="form-control" id="deviceGroupId" name="id"
                                placeholder="Group ID" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="addTheatre">Theatre</label>
-                        <input type="number" class="form-control" id="addTheatre" name="id"
-                               placeholder="Theatre" readonly>
                     </div>
                     <div class="form-group">
                         <label for="deviceGroupName">Device Group Name</label>
@@ -351,5 +334,6 @@
 <script src="Admin/admin.js"></script>
 <script src="Admin/device.js"></script>
 <script src="Admin/group.js"></script>
+<script src="Admin/user.js"></script>
 <script src="Admin/theatre.js"></script>
 </html>

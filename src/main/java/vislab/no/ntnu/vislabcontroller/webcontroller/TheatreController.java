@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,9 @@ import java.util.List;
 
 import javax.servlet.ServletRequest;
 
+import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
 import vislab.no.ntnu.vislabcontroller.entity.Theatre;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
 /**
@@ -26,6 +29,9 @@ import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 public class TheatreController {
     @Autowired
     TheatreRepository theatreRepository;
+
+    @Autowired
+    DeviceGroupRepository deviceGroupRepository;
 
     @RequestMapping("/getall")
     public ResponseEntity<List<Theatre>> getAll() {
@@ -47,6 +53,16 @@ public class TheatreController {
         return null;
     }
 
+    @RequestMapping(value = "/getgroups")
+    public ResponseEntity<List<DeviceGroup>> getGroups(@RequestParam ("theatrename") String theatreName){
+        Theatre theatre = theatreRepository.findByTheatreName(theatreName);
+        if(theatre!= null){
+            List<DeviceGroup> groups = deviceGroupRepository.findAllByTheatre(theatre);
+            return new ResponseEntity<>(groups, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
     @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)

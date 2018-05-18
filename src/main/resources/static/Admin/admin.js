@@ -1,119 +1,4 @@
-var supportedDevices = [];
-
-function showManageGroups() {
-    hideAll();
-    fetch("api/devicegroup/getall").then(r => {
-        if (r.ok) {
-            r.json().then(j => {
-                groupDisplay(j);
-            })
-        }
-    })
-}
-
-function fillUserForm(userListElement) {
-    hideAll();
-    if (userListElement) {
-        document.getElementById("manage-user").style.display = "block";
-    } else {
-        document.getElementById("add-user").style.display = "block";
-    }
-}
-
-function userDisplay(userEntities) {
-    let ul = prepDisplay();
-    while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-    }
-    let newLi = document.createElement("li");
-    newLi.innerHTML =
-        "<div class='card-body btn btn-primary'>" +
-        "<h5 class='card-title'>Add new</h5>" +
-        "<p class='card-text'>Add a new user</p>" +
-        "</div>";
-    newLi.onclick = e => {
-        fillUserForm();
-    };
-    ul.appendChild(newLi);
-    for (let i = 0; i < userEntities.length; i++) {
-        let li = document.createElement("li");
-        li.innerHTML =
-            "<div class='card-body btn btn-primary'>" +
-            "<h5 class='card-title'>" + userEntities[i].username + "</h5>" +
-            "<p class='card-text'>" + userEntities[i].roleName + " roles</p>" +
-            "<a list-index='" + i + "'/>" +
-            "</div>";
-        li.onclick = e => {
-            fillUserForm(elementList[li.getElementsByTagName("a")[0].getAttribute("list-index")]);
-        };
-        ul.appendChild(li);
-        elementList[i] = userEntities[i];
-    }
-}
-
-function showManageUsers() {
-    hideAll();
-    fetch("api/user/getall").then(r => {
-        if (r.ok) {
-        r.json().then(j => {
-            userDisplay(j);
-    })
-    }
-})
-}
-
-
-function fillTheatreForm(theatreListElement) {
-    hideAll();
-    if (theatreListElement) {
-        document.getElementById("manage-theatre").style.display = "block";
-    } else {
-        document.getElementById("add-theatre").style.display = "block";
-    }
-}
-
-function theatreDisplay(theatreEntities) {
-    let ul = prepDisplay();
-    while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-    }
-    let newLi = document.createElement("li");
-    newLi.innerHTML =
-        "<div class='card-body btn btn-primary'>" +
-        "<h5 class='card-title'>Add new</h5>" +
-        "<p class='card-text'>Add a new theatre</p>" +
-        "</div>";
-    newLi.onclick = e => {
-        fillTheatreForm();
-    };
-    ul.appendChild(newLi);
-    for (let i = 0; i < theatreEntities.length; i++) {
-        let li = document.createElement("li");
-        li.innerHTML =
-            "<div class='card-body btn btn-primary'>" +
-            "<h5 class='card-title'>" + theatreEntities[i].theatreName + "</h5>" +
-            "<p class='card-text'>" + theatreEntities[i].devices.length + " devices</p>" +
-            "<a list-index='" + i + "'/>" +
-            "</div>";
-        li.onclick = e => {
-            fillTheatreForm(elementList[li.getElementsByTagName("a")[0].getAttribute("list-index")]);
-        };
-        ul.appendChild(li);
-        elementList[i] = theatreEntities[i];
-    }
-}
-
-function showManageTheatres() {
-    hideAll();
-    fetch("api/theatre/getall").then(r => {
-        if (r.ok) {
-            r.json().then(j => {
-                theatreDisplay(j);
-
-            })
-        }
-    });
-}
+var elementList = [];
 
 function hideAll() {
     var list = document.getElementsByClassName("manage-forms");
@@ -121,9 +6,6 @@ function hideAll() {
         list[i].style.display = "none";
     }
 }
-
-
-var elementList = [];
 
 function prepDisplay() {
     let ul = document.getElementById("list");
@@ -165,5 +47,4 @@ function initial() {
         };
     }
 }
-
 initial();

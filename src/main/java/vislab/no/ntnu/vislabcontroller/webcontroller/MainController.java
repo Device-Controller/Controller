@@ -46,8 +46,8 @@ public class MainController extends DeviceManager {
     @RequestMapping("/mute")
     public ResponseEntity<Integer> muteImage(@RequestParam(value = "id") int id) throws IOException {
         Device device = getOneDevice(id);
-        if(device instanceof Projector) {
-            return new ResponseEntity<>(((Projector)device).mute(), HttpStatus.OK);
+        if (device instanceof Projector) {
+            return new ResponseEntity<>(((Projector) device).mute(), HttpStatus.OK);
         }
         return new ResponseEntity<>(-1, HttpStatus.OK);
     }
@@ -55,8 +55,8 @@ public class MainController extends DeviceManager {
     @RequestMapping("/unMute")
     public ResponseEntity<Integer> unMuteImage(@RequestParam(value = "id") int id) throws IOException {
         Device device = getOneDevice(id);
-        if(device instanceof Projector) {
-        return new ResponseEntity<>(((Projector)device).unMute(), HttpStatus.OK);
+        if (device instanceof Projector) {
+            return new ResponseEntity<>(((Projector) device).unMute(), HttpStatus.OK);
         }
         return new ResponseEntity<>(-1, HttpStatus.OK);
     }
@@ -65,11 +65,11 @@ public class MainController extends DeviceManager {
     public ResponseEntity<List<WrapperType>> getSupportedTypes() {
         List<WrapperType> types = new ArrayList<>();
         getActiveDevices().values().forEach(device -> {
-            if(!types.contains(new WrapperType(device.getMake()))){
+            if (!types.contains(new WrapperType(device.getMake()))) {
                 WrapperType wt = new WrapperType(device.getMake());
                 wt.getModels().add(device.getModel());
                 types.add(wt);
-            }else {
+            } else {
                 types.forEach(t -> {
                     if (!t.getModels().contains(device.getModel())) {
                         t.getModels().add(device.getModel());
@@ -83,10 +83,7 @@ public class MainController extends DeviceManager {
     @RequestMapping("/powerState")
     public ResponseEntity<Integer> powerState(@RequestParam(value = "id") int id) throws IOException {
         Device device = getOneDevice(id);
-        if(device instanceof Projector) {
-            return (device != null) ? new ResponseEntity<>(((Projector)device).getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(-1, HttpStatus.OK);
+        return (device != null) ? new ResponseEntity<>((device).getPowerState(), HttpStatus.OK) : new ResponseEntity<>(-1, HttpStatus.OK);
     }
 
     private vislab.no.ntnu.providers.Device getOneDevice(int id) {
@@ -106,10 +103,12 @@ public class MainController extends DeviceManager {
         }
         return device;
     }
-    private class WrapperType{
+
+    private class WrapperType {
         private String manufacturer;
         private List<String> models = new ArrayList<>();
-        public WrapperType(String manufacturer){
+
+        public WrapperType(String manufacturer) {
             this.manufacturer = manufacturer;
         }
 

@@ -1,6 +1,6 @@
 package vislab.no.ntnu.vislabcontroller.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class Theatre implements Serializable {
             , inverseJoinColumns = @JoinColumn(name = "device_id"))
     private List<Device> devices;
 
-    @JsonManagedReference("devicegroup_theatre")
+    @JsonBackReference("devicegroup_theatre")
     @OneToMany(mappedBy = "theatre")
     private List<DeviceGroup> deviceGroups;
 

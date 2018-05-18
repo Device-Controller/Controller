@@ -29,7 +29,7 @@ function buildList(deviceList) {
         addListElements(d);
     }
     updateState();
-    projectorViewBuild(deviceList);
+    deviceViewBuild(deviceList);
 }
 
 
@@ -199,10 +199,10 @@ function addListElements(device) {
     let imageCard;
     switch (device.type) {
         case "Projector":
-            imageCard = "<image src='Images/projector_icon_simple.png' alt='projector-image' class='list-icon'></image>";
+            imageCard = "<image src='Images/projector.png' alt='projector-image' class='list-icon'></image>";
             break;
         case "Sound System":
-            imageCard = "<image src='Images/soundsystem_icon_simple.png' alt='soundsystem-image' class='list-icon'></image>";
+            imageCard = "<image src='Images/sound_system.png' alt='soundsystem-image' class='list-icon'></image>";
             break;
     }
 

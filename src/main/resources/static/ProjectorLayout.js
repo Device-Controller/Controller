@@ -2,7 +2,7 @@ let list = [];
 let imgRatio = 1;
 
 let width = 64;
-let canvas = document.getElementById('projector-layout');
+let canvas = document.getElementById('device-layout');
 let drawSurface = canvas.getContext('2d');
 var baseDrawing = document.createElement('canvas');
 let lastMouseX;
@@ -10,7 +10,7 @@ let lastMouseY;
 baseDrawing.width = 500;
 baseDrawing.height = 700;
 
-function projectorViewBuild(deviceList) {
+function deviceViewBuild(deviceList) {
     clearAll();
     list = [];
     for (let i = 0; i < deviceList.length; i++) {
@@ -19,10 +19,7 @@ function projectorViewBuild(deviceList) {
         }
     }
     list.forEach(p => {
-        let x = p.xPos;
-        let y = p.yPos;
-        let rot = p.rotation;
-        drawProjector(x, y, rot);
+        drawDevice(p);
     });
 }
 
@@ -86,11 +83,14 @@ function isWithinAny(x, y) {
     return changed;
 }
 
-function drawProjectorCircle(p) {
+function drawDeviceCircle(p) {
     drawSelectorCircle(p.xPos, p.yPos);
 }
 
-function drawProjector(x, y, rot) {
+function drawDevice(device) {
+    let x = device.xPos;
+    let y = device.yPos;
+    let rot = device.rotation;
     let img = new Image;
     img.onload = function () {
         let w = img.naturalWidth;
@@ -104,8 +104,8 @@ function drawProjector(x, y, rot) {
         drawSurface.drawImage(img, -(width / 2), -(height / 2), width, height);
         drawSurface.restore();
         baseDrawing.getContext('2d').drawImage(canvas, 0, 0);
-    }
-    img.src = "/Images/projector.png";
+    };
+    img.src = "/Images/"+device.deviceInfo.deviceType.type.toLowerCase().replace(" ", "_")+".png";
 }
 
 
@@ -126,7 +126,7 @@ function checkChecked() {
     checkMouseHover();
     for (let i = 0; i < devices.length; i++) {
         if (devices[i].checkbox.checked) {
-            drawProjectorCircle(devices[i].device);
+            drawDeviceCircle(devices[i].device);
         }
     }
     circleTimeout = setTimeout(checkChecked, 200);

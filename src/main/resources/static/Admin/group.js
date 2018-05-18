@@ -1,6 +1,17 @@
 
 
 
+function showManageGroups() {
+    hideAll();
+    fetch("api/devicegroup/getall").then(r => {
+        if (r.ok) {
+            r.json().then(j => {
+                groupDisplay(j);
+            })
+        }
+    })
+}
+
 function groupDisplay(groupEntities) {
     let ul = prepDisplay();
     let newLi = document.createElement("li");
