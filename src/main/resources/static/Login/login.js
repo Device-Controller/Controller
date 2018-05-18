@@ -10,6 +10,7 @@ function login() {
     }).then(r => {
         if (r.ok) {
             console.log(r);
+            r.text().then(t=>console.log(t));
             r.json().then(e => window.location.replace(window.location.origin + e.link));
         }
     });
