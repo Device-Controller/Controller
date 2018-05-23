@@ -6,6 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author KristofferRogne
+ *
+ * Represents a DeviceType entity with a type name (eg. "Projector", "Sound System", "Computer" etc.)
+ */
 @Entity
 public class DeviceType {
     @Id

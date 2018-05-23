@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+/**
+ * This is a Spring Service, it is responsible for the user sign in process.
+ */
 @Service
 public class SecurityServiceImpl implements SecurityService {
     @Autowired
@@ -17,6 +20,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
+
     @Override
     public String findLoggedInUsername() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -34,7 +38,6 @@ public class SecurityServiceImpl implements SecurityService {
         authenticationManager.authenticate(token);
         if(token.isAuthenticated()){
             SecurityContextHolder.getContext().setAuthentication(token);
-            System.out.println("Auto login success!");
         }
     }
 }

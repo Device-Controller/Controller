@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author ThomasSTodal
+ *
+ * Represents a DeviceInfo entity with a manufacturer name, model name, and a reference to a DeviceType.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

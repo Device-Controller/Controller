@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vislab.no.ntnu.vislabcontroller.webcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +19,8 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 
 /**
  * @author Erik
+ *
+ * Handles Power on/off, mute/unmute and state of power for all Devices
  */
 @Controller
 @RequestMapping("/api/main")

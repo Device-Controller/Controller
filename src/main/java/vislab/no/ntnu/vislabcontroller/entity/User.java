@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
+ *
+ * Represents a User entity with it's username, password, email, s user role, a list of device groups for this user,
+ * and a default theatre assigned to this user.
  */
 @Entity
 public class User {

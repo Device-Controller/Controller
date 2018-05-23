@@ -24,6 +24,8 @@ import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
 /**
  * @author ThomasSTodal
+ *
+ * This is a Spring Controller, it is responsible for fetching, adding, updating and removing Theatres.
  */
 @Controller
 @RequestMapping("/api/theatre")
@@ -33,20 +35,30 @@ public class TheatreController {
 
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
+
     @Autowired
     DeviceRepository deviceRepository;
 
+    /**
+     *
+     * @return List containing all Theatres in the database.
+     */
     @RequestMapping("/getall")
     public ResponseEntity<List<Theatre>> getAll() {
         return new ResponseEntity<>(theatreRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Converts form data to a Theatre object and stores it in a TheatreRepository
+     * @param form Form data
+     * @return REsponseEntity with the stored Theatre, or BAD_REQUEST if invalid form data
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<Theatre> add(ServletRequest form) {
-        Theatre theatre = parseServletRequest(form);
+        Theatre theatre = parseRequest(form);
         if (theatre != null) {
             if(theatreRepository.findByTheatreName(theatre.getTheatreName()) == null) {
                 return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
@@ -55,21 +67,78 @@ public class TheatreController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Updates a Theatre object with the provided form data
+     * @param request Form data
+     * @return ResponseEntity with the updated Theatre, or BAD_REQUEST if invalid form data
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<Theatre> update(ServletRequest request) {
-        Theatre theatre = parseServletRequest(request);
+        Theatre theatre = parseRequest(request);
         if (theatre != null) {
             return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    private Theatre parseServletRequest(ServletRequest form) {
-        String id = form.getParameter("id");
-        String theatreName = form.getParameter("name");
+    /**
+     *
+     * @param theatreName Name of Theatre
+     * @return ResponseEntity with all groups associated with the given Theatre, or BAD_REQUEST if invalid TheatreName
+     */
+    @RequestMapping(value = "/getgroups")
+    public ResponseEntity<List<DeviceGroup>> getGroups(@RequestParam("theatrename") String theatreName) {
+        Theatre theatre = theatreRepository.findByTheatreName(theatreName);
+        if (theatre != null) {
+            List<DeviceGroup> groups = deviceGroupRepository.findAllByTheatre(theatre);
+            return new ResponseEntity<>(groups, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     *
+     * @param theatreName Name of Theatre
+     * @return ResponseEntity with all devices associated with the given Theatre, or BAD_REQUEST if invalid TheatreName
+     */
+    @RequestMapping(value = "/getdevices")
+    public ResponseEntity<List<Device>> getDevices(@RequestParam("theatrename") String theatreName) {
+        Theatre theatre = theatreRepository.findByTheatreName(theatreName);
+        if (theatre != null) {
+            return new ResponseEntity<>(theatre.getDevices(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Removes the Theatre matching the given id
+     * @param id Theatre id
+     * @return ResponseEntity conforming that the Theatre has been removed, or BAD_REQUEST if invalid id
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/remove"
+            , method = RequestMethod.DELETE
+            , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> remove(@RequestParam("id") int id) {
+        Theatre theatre = null;
+        if (theatreRepository.findById(id).isPresent()) {
+            theatre = theatreRepository.findById(id).get();
+            theatreRepository.delete(theatre);
+            return new ResponseEntity<>("Removed Theatre:" + theatre.getId(), HttpStatus.OK);
+        } return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Attempts to parse the given form data into a Theatre object
+     * @param request Form data
+     * @return The new Theatre object, or null if invalid form data
+     */
+    private Theatre parseRequest(ServletRequest request) {
+        String id = request.getParameter("id");
+        String theatreName = request.getParameter("name");
         Theatre theatre = null;
         if (id != null && !id.isEmpty()) {
             try {
@@ -84,7 +153,7 @@ public class TheatreController {
         } else {
             theatre = new Theatre(theatreName);
         }
-        String[] deviceIds = form.getParameterValues("device-id");
+        String[] deviceIds = request.getParameterValues("device-id");
         List<Device> devices = new ArrayList<>();
         try {
             for (int i = 0; i < deviceIds.length; i++) {
@@ -99,40 +168,5 @@ public class TheatreController {
         } catch (NumberFormatException e) {
             return null;
         }
-    }
-
-    @RequestMapping(value = "/getgroups")
-    public ResponseEntity<List<DeviceGroup>> getGroups(@RequestParam("theatrename") String
-                                                               theatreName) {
-        Theatre theatre = theatreRepository.findByTheatreName(theatreName);
-        if (theatre != null) {
-            List<DeviceGroup> groups = deviceGroupRepository.findAllByTheatre(theatre);
-            return new ResponseEntity<>(groups, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-    }
-    @RequestMapping(value = "/getdevices")
-    public ResponseEntity<List<Device>> getDevices(@RequestParam("theatrename") String
-                                                               theatreName) {
-        Theatre theatre = theatreRepository.findByTheatreName(theatreName);
-        if (theatre != null) {
-            return new ResponseEntity<>(theatre.getDevices(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/remove"
-            , method = RequestMethod.DELETE
-            , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> remove(@RequestParam("id") int id) {
-        Theatre theatre = null;
-        if (theatreRepository.findById(id).isPresent()) {
-            theatre = theatreRepository.findById(id).get();
-            theatreRepository.delete(theatre);
-            return new ResponseEntity<>("Removed Theatre:" + theatre.getId(), HttpStatus.OK);
-        } return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
