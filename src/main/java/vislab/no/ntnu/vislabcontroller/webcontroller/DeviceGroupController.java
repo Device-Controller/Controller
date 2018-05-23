@@ -26,7 +26,7 @@ import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 /**
  * @author ThomasSTodal
  *
- * This is a Spring Controller, it is responsible for fetching, adding, updating and removing DeviceGroups.
+ * Controller for managing the DeviceGroup entity. Supports CRUD to a database through form submissions.
  */
 @Controller
 @RequestMapping("/api/devicegroup")
@@ -66,8 +66,7 @@ public class DeviceGroupController {
         for (int i = 0; i < devices.length; i++) {
             newGroup.addDevice(deviceRepository.findById(devices[i].getId()).get());
         }
-        return new ResponseEntity<>(deviceGroupRepository.save(newGroup)
-                , HttpStatus.OK);
+        return new ResponseEntity<>(deviceGroupRepository.save(newGroup), HttpStatus.OK);
     }
 
     /**
@@ -130,8 +129,8 @@ public class DeviceGroupController {
     public ResponseEntity<DeviceGroup> update(ServletRequest request){
         DeviceGroup dg = parseRequest(request);
         if(dg != null){
-        return new ResponseEntity<>(deviceGroupRepository.save(dg), HttpStatus.OK);
-    }
+            return new ResponseEntity<>(deviceGroupRepository.save(dg), HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
@@ -191,5 +190,4 @@ public class DeviceGroupController {
             return null;
         }
     }
-
 }

@@ -25,17 +25,15 @@ import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 /**
  * @author ThomasSTodal
  *
- * This is a Spring Controller, it is responsible for fetching, adding, updating and removing Theatres.
+ * Controller for managing the Theatre entity. Supports CRUD to a database through form submissions.
  */
 @Controller
 @RequestMapping("/api/theatre")
 public class TheatreController {
     @Autowired
     TheatreRepository theatreRepository;
-
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
-
     @Autowired
     DeviceRepository deviceRepository;
 

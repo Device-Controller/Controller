@@ -20,7 +20,7 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 /**
  * @author Erik
  *
- * Handles Power on/off, mute/unmute and state of power for all Devices
+ * This is a Spring Controller. Handles Power on/off, mute/unmute and state of power for all Devices
  */
 @Controller
 @RequestMapping("/api/main")

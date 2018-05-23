@@ -27,23 +27,19 @@ import vislab.no.ntnu.vislabcontroller.services.UserService;
 /**
  * @author ThomasSTodal
  *
- * This is a Spring Controller, it is responsible for fetching, adding, updating and removing Users
+ * Controller for managing the User entity. Supports CRUD to a database through form submissions.
  */
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
-
     @Autowired
     RoleRepository roleRepository;
-
     @Autowired
     UserService userService;
-
     @Autowired
     private BCryptPasswordEncoder encoder;
 
@@ -131,8 +127,8 @@ public class UserController {
     public ResponseEntity<User> update(ServletRequest request){
         User user = parseRequest(request);
         if(user != null) {
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
@@ -194,5 +190,4 @@ public class UserController {
         userService.save(user);
         return user;
     }
-
 }
