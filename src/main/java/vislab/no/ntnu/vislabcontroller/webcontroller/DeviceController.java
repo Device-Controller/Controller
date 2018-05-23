@@ -6,15 +6,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +26,8 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceTypeRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
 /**
+ * Controller for managing the Device entity. Supports CRUD to a database through form submissions.
  * @author ThomasSTodal
- *
- * This is a Spring Controller, it is responsible for fetching, adding, updating and removing Devices.
  */
 @Controller
 @RequestMapping("/api/device")
@@ -134,17 +130,18 @@ public class DeviceController {
 
     /**
      * Removes the given devices from the deviceRepository
-     * @param deviceArray An array of devices
+     * @param id Device id
      * @return ResponseEntity confirming that the devices have been removed.
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> remove(@RequestBody Device[] deviceArray) {
-        List<Device> devices = new ArrayList<>(Arrays.asList(deviceArray));
-        deviceRepository.deleteAll(devices);
-        return new ResponseEntity<>("Removed devices", HttpStatus.OK);
+    public ResponseEntity<String> remove(@RequestParam ("id") int id) {
+        if(deviceRepository.findById(id).isPresent()){
+            deviceRepository.delete(deviceRepository.findById(id).get());
+        }
+        return new ResponseEntity<>("Removed device", HttpStatus.OK);
     }
 
     /**
@@ -162,7 +159,7 @@ public class DeviceController {
         }
         DeviceInfo info = deviceInfoRepository.findByManufacturerAndModelAndDeviceType(manufacturer, model, type);
         if (info == null) {
-            return null;
+            info = deviceInfoRepository.save(new DeviceInfo(manufacturer,model,type));
         }
         String ipAddress = request.getParameter("ipAddress");
         int port;

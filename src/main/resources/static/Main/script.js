@@ -197,15 +197,12 @@ function updateCount() {
 
 function addListElements(device) {
     let ul = document.getElementById("selected-list");
-    let imageCard;
-    switch (device.type) {
-        case "Projector":
-            imageCard = "<image src='Images/projector.png' alt='projector-image' class='list-icon'></image>";
-            break;
-        case "Sound System":
-            imageCard = "<image src='Images/sound_system.png' alt='soundsystem-image' class='list-icon'></image>";
-            break;
+    while(ul.lastChild){
+        ul.removeChild(ul.lastChild);
     }
+    let imageCard;
+    let name = device.type.toLowerCase().replace(" ", "_");
+    imageCard = "<image src='Images/" + name + ".png' alt='" + name +"-image' class='list-icon'></image>";
 
     var li = document.createElement('li');
 
@@ -216,7 +213,8 @@ function addListElements(device) {
         + "</div>"
         + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox' onclick='updateCount()'>"
         + "<label for='pro" + counter + "'" + " class='check-label' onclick='updateCount()'></label>"
-        + "<label for='pro" + counter + "'" + " class='text-label' onclick='updateCount()'>" + device.manufacturer + "<br>" + device.model + "</label>"
+        + "<label for='pro" + counter + "'" + " class='text-label' onclick='updateCount()'>" + device.manufacturer + "<br>" + device.model
+        + "<br>" + device.type + "</label>"
         + "<span class='state-icon'></span>"
         + "<span class='disconnect-icon'>"
         + "<image src='../Images/disconnect.png' alt='disconnected' class='disconnect-image'></image></span>";

@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+     - "8080:8080"
+  sql:
+    image: "MySql:latest"
+    ports:
+     - "6603:3306"
+  environment:
+    MYSQL_DATABASE: "VisualizationLab"
+    MYSQL_USER: "SpringUser"
+    MYSQL_PASSWORD: "CHANGEME!"
+    MYSQL_ROOT_PASSWORD: "root"
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"

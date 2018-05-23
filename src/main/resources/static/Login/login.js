@@ -10,7 +10,7 @@ function login() {
     }).then(r => {
         if (r.ok) {
             console.log(r);
-            r.text().then(t=>console.log(t));
+            r.text().then(t => console.log(t));
             r.json().then(e => window.location.replace(window.location.origin + e.link));
         }
     });
@@ -19,6 +19,11 @@ function login() {
 let form = document.getElementById("loginForm");
 form.addEventListener("submit", e => {
     e.preventDefault();
+});
+fetch("/api/user/getall").then(r => {
+    if (r.ok) {
+        r.json().then(j => console.log(j));
+    }
 });
 
 class User {

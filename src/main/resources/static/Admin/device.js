@@ -53,6 +53,7 @@ function fillDeviceForm(device) {
         document.getElementById("deviceManufacturer").value = device.deviceInfo.manufacturer;
         document.getElementById("deviceManufacturer").onchange();
         document.getElementById("deviceModel").value = device.deviceInfo.model;
+        document.getElementById("deviceName").value = device.defaultName;
         document.getElementById("deviceType").value = device.deviceInfo.deviceType.type;
         document.getElementById("deviceIpAddress").value = device.ipAddress;
         document.getElementById("devicePort").value = device.port;

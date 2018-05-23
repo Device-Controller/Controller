@@ -24,6 +24,7 @@ function createDeviceCheckBox(device, prefix) {
     } else {
         label.innerHTML = device.deviceInfo.manufacturer + " " + device.deviceInfo.model + ", " + device.ipAddress;
     }
+    label.innerHTML += "<br>"+device.deviceInfo.deviceType.type;
     div.appendChild(checkbox);
     div.appendChild(label);
     return div;
