@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.AntPathMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -29,13 +28,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
+//                .sessionManagement().sessionFixation().none().and()
                 .authorizeRequests()
                 .antMatchers("/**/*.js").permitAll()
                 .antMatchers("/**/*.css").permitAll()
                 .antMatchers("/**/logo-v2.png").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/test").hasRole("DEV")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().defaultSuccessUrl("/", true)
@@ -43,14 +43,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll();
         http.csrf().disable();
-        AntPathMatcher pathMatcher = new AntPathMatcher("**/*.js");
-        System.out.println(pathMatcher.toString());
+        http.requiresChannel().anyRequest().requiresSecure().and().headers().httpStrictTransportSecurity();
     }
 
+
     @Override
-    public void configure(WebSecurity web){
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/resources/**/*.js");
-        web.ignoring().antMatchers( "/resources/**/*.css");
+        web.ignoring().antMatchers("/resources/**/*.css");
     }
 
     @Autowired

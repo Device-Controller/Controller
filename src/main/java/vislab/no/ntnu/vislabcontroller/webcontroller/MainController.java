@@ -70,7 +70,7 @@ public class MainController extends DeviceManager {
     @RequestMapping("/supported")
     public ResponseEntity<List<WrapperType>> getSupportedTypes() {
         List<WrapperType> types = new ArrayList<>();
-        getActiveDevices().values().forEach(device -> {
+        getSupportedDevices().forEach(device -> {
             if (!types.contains(new WrapperType(device.getMake()))) {
                 WrapperType wt = new WrapperType(device.getMake());
                 wt.getModels().add(device.getModel());
