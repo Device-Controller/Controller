@@ -42,19 +42,30 @@ public class DeviceController {
     TheatreRepository theatreRepository;
 
     /**
-     * Returns a list of all devices available.
-     * @return
+     *
+     * @return List containing all Devices found in the database.
      */
     @RequestMapping("/getall")
     public ResponseEntity<List<Device>> getAll() {
         return new ResponseEntity<>(deviceRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     *
+     * @return List containing all DeviceTypes found in the database.
+     */
     @RequestMapping("/types")
     public ResponseEntity<List<DeviceType>> getTypes() {
         return new ResponseEntity<>(deviceTypeRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Looks up a single device based on the provided parameter, always searches by id if it is present
+     * only looks of ipAddress if no id is provided.
+     * @param id unique id for one device.
+     * @param ipAddress ip address, usually unique for one device.
+     * @return ResponseEntity with the found device, null if none is found or both parameters are missing.
+     */
     @RequestMapping(value = "/getone"
             , method = RequestMethod.GET)
     public ResponseEntity<Device> getOne(@RequestParam("id") Optional<Integer> id
@@ -70,6 +81,11 @@ public class DeviceController {
         return new ResponseEntity<>(d, HttpStatus.OK);
     }
 
+    /**
+     * Converts form data to a Device object and saves it to a deviceRepository
+     * @param request Form data
+     * @return ResponseEntity with the stored object, or BAD_REQUEST if invalid form data.
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
@@ -82,6 +98,11 @@ public class DeviceController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Updates a Device object with the given form data
+     * @param request Form data
+     * @return ResponseEntity with the updated object, or BAD_REQUEST if invalid form data.
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update"
             , method = RequestMethod.PUT
@@ -107,6 +128,11 @@ public class DeviceController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Removes the given devices from the deviceRepository
+     * @param id Device id
+     * @return ResponseEntity confirming that the devices have been removed.
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/remove"
             , method = RequestMethod.POST
@@ -118,6 +144,11 @@ public class DeviceController {
         return new ResponseEntity<>("Removed device", HttpStatus.OK);
     }
 
+    /**
+     * Attempts to parse the given form data into a Device object
+     * @param request Form data
+     * @return the new Device, null if invalid form data.
+     */
     private Device parseRequest(ServletRequest request) {
         String manufacturer = request.getParameter("manufacturer");
         String model = request.getParameter("model");

@@ -17,6 +17,9 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
+ *
+ * Represents a Device entity with an IP-address, port, and optional name, position,
+ * and links to two types of groupings, Theatre and DeviceGroup
  */
 @Entity
 public class Device implements Serializable {
@@ -26,7 +29,7 @@ public class Device implements Serializable {
 
     private String defaultName;
 
-    //private Map<Theatre, String> deviceName; //TODO should be a separate table
+    //private Map<Theatre, String> deviceName; //TODO should be a separate entity
 
     @JsonIgnore
     @ManyToMany(mappedBy = "devices")

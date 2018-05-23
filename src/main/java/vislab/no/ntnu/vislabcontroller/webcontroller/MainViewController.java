@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import vislab.no.ntnu.DeviceManager;
 
+/**
+ *
+ * This is a Spring controller, it is responsible for serving the corresponding webpages to each query
+ */
 @Controller
 public class MainViewController extends DeviceManager{
     @RequestMapping("/")
@@ -19,7 +23,9 @@ public class MainViewController extends DeviceManager{
     }
 
     @RequestMapping("/admin")
-    public String admin(){return "forward:/Admin/admin.html";}
+    public String admin(){
+        return "forward:/Admin/admin.html";
+    }
 
     @RequestMapping("/login")
     public String login(){

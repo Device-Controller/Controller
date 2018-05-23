@@ -9,5 +9,4 @@ import vislab.no.ntnu.vislabcontroller.entity.Theatre;
 
 public interface DeviceGroupRepository extends JpaRepository<DeviceGroup, Integer> {
     List<DeviceGroup> findAllByTheatre(Theatre theatre);
-    //List<DeviceGroup> findByDefaultDGroup(boolean isDefaultDGroup);
 }

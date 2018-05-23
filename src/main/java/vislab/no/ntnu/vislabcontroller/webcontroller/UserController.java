@@ -26,34 +26,50 @@ import vislab.no.ntnu.vislabcontroller.services.UserService;
 
 /**
  * @author ThomasSTodal
+ *
+ * Controller for managing the User entity. Supports CRUD to a database through form submissions.
  */
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     DeviceGroupRepository deviceGroupRepository;
-
     @Autowired
     RoleRepository roleRepository;
-
     @Autowired
     UserService userService;
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    /**
+     *
+     * @return List of all Users in the database
+     */
     @RequestMapping("/getall")
     public ResponseEntity<List<User>> getAll() {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Looks up and returns the User object
+     * @param principal Currently signed in user
+     * @return The User object for the currently signed in user.
+     */
     @RequestMapping("/getcurrent")
     public ResponseEntity<User> getCurrent(Principal principal) {
         return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
     }
 
+    /**
+     * Looks up a user according to one of the Parameters defined below. Always looks up by id if id is provided,
+     * if no id it looks up by username, if no username it looks up by email.
+     * @param id User id
+     * @param username Username
+     * @param email User email
+     * @return The found User, null if invalid parameter or no parameter
+     */
     @RequestMapping(value = "/getone"
             , method = RequestMethod.GET)
     public ResponseEntity<User> getOne(@RequestParam("id") Optional<Integer> id
@@ -71,18 +87,27 @@ public class UserController {
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
+    /**
+     *
+     * @return ResponseEntity with all Roles stored in roleRepository
+     */
     @RequestMapping("/getroles")
     public ResponseEntity<List<Role>> getRoles() {
         List<Role> roles = roleRepository.findAll();
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
+    /**
+     * Converts form data to a User object
+     * @param request Form data
+     * @return ResponseEntity with the created user, or BAD_REQUEST if invalid form data
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<User> add(ServletRequest form) {
-        User user = parseServletRequest(form);
+    public ResponseEntity<User> add(ServletRequest request) {
+        User user = parseRequest(request);
         if(user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
@@ -90,18 +115,28 @@ public class UserController {
 
     }
 
+    /**
+     * Updates a User object with the provided form data
+     * @param request Form data
+     * @return ResponseEntity with the updated user, or BAD_REQUEST if invalid form data
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update"
             , method = RequestMethod.PUT
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<User> update(ServletRequest form){
-        User user = parseServletRequest(form);
+    public ResponseEntity<User> update(ServletRequest request){
+        User user = parseRequest(request);
         if(user != null) {
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Removes a user according to the given id
+     * @param id User id
+     * @return ResponseEntity with confirmation that a user has been removed, or BAD_REQUEST if invalid id
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/remove"
             , method = RequestMethod.DELETE
@@ -114,15 +149,21 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    private User parseServletRequest(ServletRequest form) {
-        String id_string = form.getParameter("id");
-        String username = form.getParameter("username");
+
+    /**
+     * Attempts to parse form data into a User object
+     * @param request Form data
+     * @return The new User object, or null if invalid form data
+     */
+    private User parseRequest(ServletRequest request) {
+        String id_string = request.getParameter("id");
+        String username = request.getParameter("username");
         if((id_string == null || id_string.isEmpty()) && userRepository.findByUsername(username) != null){
             return null;
         }
-        String password = form.getParameter("password");
-        String email = form.getParameter("email");
-        String role_string = form.getParameter("role");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String role_string = request.getParameter("role");
         Role role = roleRepository.findByRoleName(role_string);
         if(role == null){
             role = roleRepository.findByRoleName("USER");
@@ -149,5 +190,4 @@ public class UserController {
         userService.save(user);
         return user;
     }
-
 }

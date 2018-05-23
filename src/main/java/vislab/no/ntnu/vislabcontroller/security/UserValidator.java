@@ -9,6 +9,9 @@ import org.springframework.validation.Validator;
 import vislab.no.ntnu.vislabcontroller.entity.User;
 import vislab.no.ntnu.vislabcontroller.services.UserService;
 
+/**
+ * This is a Spring Component, it can validate length of usernames and passwords.
+ */
 @Component
 public class UserValidator implements Validator {
 

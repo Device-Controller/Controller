@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
+ *
+ * Represents a Role entity with the name of the role.
  */
 @Entity
 public class Role implements Serializable {

@@ -21,6 +21,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
+ * Represents a DeviceGroup entity with a name, list of users, list of devices, a reference to a Theatre
+ * and whether of not it is default; it should be assigned for all users.
  */
 @Entity
 @Table(name="devicegroup")

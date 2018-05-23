@@ -20,6 +20,9 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author ThomasSTodal
+ *
+ * Represents a Theatre entity with a theatre name, list of devices in this theatre,
+ * and list of device groups also in this theatre.
  */
 @Entity
 @Table(name = "theatre")
@@ -59,11 +62,19 @@ public class Theatre implements Serializable {
         return devices;
     }
 
+    /**
+     * Adds the given device to this theatre and then adds a reference back to this theatre in said device.
+     * @param device the device that will be added to this theatre
+     */
     public void addDevice(Device device) {
         this.devices.add(device);
         device.addTheatre(this);
     }
 
+    /**
+     * Removes the given device from this theatre and then removes the reference to this theatre from said device.
+     * @param device the device that will be removed from this theatre
+     */
     public void removeDevice(Device device) {
         this.devices.remove(device);
         device.removeTheatre(this);
@@ -80,6 +91,10 @@ public class Theatre implements Serializable {
         return this.deviceGroups;
     }
 
+    /**
+     * Adds the given device group to this theatre and then adds a reference back to this theatre in said device group.
+     * @param deviceGroup the device group that wll be added to this theatre
+     */
     public void addDeviceGroup(DeviceGroup deviceGroup) {
         this.deviceGroups.add(deviceGroup);
         deviceGroup.setTheatre(this);
