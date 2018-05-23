@@ -15,6 +15,7 @@ function deviceViewBuild(deviceList) {
     list = [];
     for (let i = 0; i < deviceList.length; i++) {
         if (isNumber(deviceList[i].xPos) && isNumber(deviceList[i].yPos) && isNumber(deviceList[i].rotation)) {
+            if(deviceList[i].xPos !== -1 || deviceList[i].yPos !== -1 || deviceList[i].rotation !== -1)
             list.push(deviceList[i]);
         }
     }
