@@ -85,11 +85,11 @@ function updateDevices(value, group) {
                     selection2.removeChild(selection2.lastChild);
                 }
                 for (let i = 0; i < j.length; i++) {
-                    let checkbox = createDeviceCheckBox(j[i], "add");
+                    let checkbox = createDeviceCheckBox(j[i], "add-group-");
                     selection.appendChild(checkbox);
                 }
                 for (let i = 0; i < j.length; i++) {
-                    let checkbox = createDeviceCheckBox(j[i], "");
+                    let checkbox = createDeviceCheckBox(j[i], "group-");
                     selection2.appendChild(checkbox);
                 }
                 if (group && group.devices) {
