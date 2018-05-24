@@ -24,6 +24,10 @@ getTheatres().then(r => setUp(r));
 
 function buildList(deviceList) {
     devices = [];
+    let ul = document.getElementById("selected-list");
+    while(ul.lastChild){
+        ul.removeChild(ul.lastChild);
+    }
     for (let i = 0; i < deviceList.length; i++) {
         let f = deviceList[i];
         let d = new Device(f);
@@ -197,9 +201,6 @@ function updateCount() {
 
 function addListElements(device) {
     let ul = document.getElementById("selected-list");
-    while(ul.lastChild){
-        ul.removeChild(ul.lastChild);
-    }
     let imageCard;
     let name = device.type.toLowerCase().replace(" ", "_");
     imageCard = "<image src='Images/" + name + ".png' alt='" + name +"-image' class='list-icon'></image>";
