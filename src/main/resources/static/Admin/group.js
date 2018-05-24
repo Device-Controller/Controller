@@ -49,7 +49,6 @@ function fillTheatreDropdown(select, group) {
                     let option = document.createElement("option");
                     option.text = j[i].theatreName;
                     select.add(option);
-                    console.log(select);
                 }
                 if(group){
                     select.value = group.theatre.theatreName;
@@ -121,9 +120,9 @@ function deleteGroup() {
     req.onreadystatechange = e => {
         if (req.readyState === 4 && req.status === 200) {
             showManageGroups();
-            alert("Delete Success");
+            alert(req.response, 2000);
         } else if (req.readyState === 4) {
-            alert("Could not delete device with id = " + id + ".\nError: " + req.status);
+            alert(req.response, 4000);
         }
     };
     req.send();

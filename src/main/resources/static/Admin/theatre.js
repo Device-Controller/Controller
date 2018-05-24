@@ -116,9 +116,9 @@ function deleteTheatre() {
     req.onreadystatechange = e => {
         if (req.readyState === 4 && req.status === 200) {
             showManageTheatres();
-            alert("Delete Success");
+            alert(req.response, 2000);
         } else if (req.readyState === 4) {
-            alert("Could not delete device with id = " + id + ".\nError: " + req.status);
+            alert(req.response, 4000);
         }
     };
     req.send();

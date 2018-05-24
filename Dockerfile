@@ -1,8 +1,8 @@
 FROM java:8
 COPY VislabController.jar /vislab/VislabController.jar
-COPY /lib /vislab/lib
+COPY application.properties /vislab/application.properties
 COPY /plugins /vislab/plugins
 
 WORKDIR /vislab/
 
-CMD ["java", "-cp", "lib/*:plugins/*:VislabController.jar", "Application"]
+CMD ["java", "-jar", "VislabController.jar"]

@@ -18,6 +18,7 @@ import javax.servlet.ServletRequest;
 import vislab.no.ntnu.vislabcontroller.entity.Device;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
 import vislab.no.ntnu.vislabcontroller.entity.Theatre;
+import vislab.no.ntnu.vislabcontroller.exception.InvalidEntityConfigException;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
@@ -48,21 +49,15 @@ public class TheatreController {
 
     /**
      * Converts form data to a Theatre object and stores it in a TheatreRepository
-     * @param form Form data
+     * @param request Form data
      * @return REsponseEntity with the stored Theatre, or BAD_REQUEST if invalid form data
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Theatre> add(ServletRequest form) {
-        Theatre theatre = parseRequest(form);
-        if (theatre != null) {
-            if(theatreRepository.findByTheatreName(theatre.getTheatreName()) == null) {
-                return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> add(ServletRequest request) {
+        return handleRequest(request);
     }
 
     /**
@@ -74,12 +69,23 @@ public class TheatreController {
     @RequestMapping(value = "/update",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Theatre> update(ServletRequest request) {
-        Theatre theatre = parseRequest(request);
-        if (theatre != null) {
-            return new ResponseEntity<>(theatreRepository.save(theatre), HttpStatus.OK);
+    public ResponseEntity<String> update(ServletRequest request) {
+        return handleRequest(request);
+    }
+
+    private ResponseEntity<String> handleRequest(ServletRequest request) {
+        Theatre theatre = null;
+        try {
+            theatre = parseRequest(request);
+            theatreRepository.save(theatre);
+            StringBuilder str = new StringBuilder();
+            str.append("Theatre ");
+            str.append(theatre.getTheatreName());
+            str.append(" was added");
+            return new ResponseEntity<>(str.toString(), HttpStatus.OK);
+        } catch (InvalidEntityConfigException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -126,7 +132,8 @@ public class TheatreController {
             theatre = theatreRepository.findById(id).get();
             theatreRepository.delete(theatre);
             return new ResponseEntity<>("Removed Theatre:" + theatre.getId(), HttpStatus.OK);
-        } return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Could not remove Theatre with ID: " + id, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -134,7 +141,7 @@ public class TheatreController {
      * @param request Form data
      * @return The new Theatre object, or null if invalid form data
      */
-    private Theatre parseRequest(ServletRequest request) {
+    private Theatre parseRequest(ServletRequest request) throws InvalidEntityConfigException {
         String id = request.getParameter("id");
         String theatreName = request.getParameter("name");
         Theatre theatre = null;
@@ -146,15 +153,17 @@ public class TheatreController {
                     theatre.setTheatreName(theatreName);
                 }
             } catch (NumberFormatException e) {
-                return null;
+                throw new InvalidEntityConfigException("ID was not a number, ID: " + id);
             }
         } else {
             theatre = new Theatre(theatreName);
         }
         String[] deviceIds = request.getParameterValues("device-id");
         List<Device> devices = new ArrayList<>();
+        String currentNum = "";
         try {
             for (int i = 0; i < deviceIds.length; i++) {
+                currentNum = deviceIds[i];
                 int anInt = Integer.parseInt(deviceIds[i]);
                 if (deviceRepository.findById(anInt).isPresent()) {
                     devices.add(deviceRepository.findById(anInt).get());
@@ -164,7 +173,7 @@ public class TheatreController {
             theatre.getDevices().addAll(devices);
             return theatre;
         } catch (NumberFormatException e) {
-            return null;
+            throw new InvalidEntityConfigException("Device with ID: " + currentNum + " not found");
         }
     }
 }

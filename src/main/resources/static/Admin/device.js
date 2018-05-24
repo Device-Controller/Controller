@@ -8,9 +8,9 @@ function deleteDevice() {
     req.onreadystatechange = e => {
         if (req.readyState === 4 && req.status === 200) {
             showManageDevices();
-            alert("Delete Success");
+            alert(req.response, 2000);
         } else if (req.readyState === 4) {
-            alert("Could not delete device with id = " + id + ".\nError: " + req.status);
+            alert(req.response, 4000);
         }
     };
     req.send();
@@ -128,7 +128,6 @@ document.getElementById("deviceManufacturer").onchange = e => {
 fetch("api/main/supported").then(r => {
     if (r.ok) {
         r.json().then(j => {
-            console.log(j);
             let addMake = document.getElementById("addDeviceManufacturer");
             let addMake2 = document.getElementById("deviceManufacturer");
             let baseOption = document.createElement("option");

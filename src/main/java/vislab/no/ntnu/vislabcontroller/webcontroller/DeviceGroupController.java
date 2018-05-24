@@ -19,6 +19,7 @@ import javax.servlet.ServletRequest;
 import vislab.no.ntnu.vislabcontroller.entity.Device;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceGroup;
 import vislab.no.ntnu.vislabcontroller.entity.Theatre;
+import vislab.no.ntnu.vislabcontroller.exception.InvalidEntityConfigException;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
@@ -78,12 +79,21 @@ public class DeviceGroupController {
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
-    public ResponseEntity<DeviceGroup> add(ServletRequest request) {
-        DeviceGroup dg = parseRequest(request);
-        if(dg != null){
-            return new ResponseEntity<>(deviceGroupRepository.save(dg), HttpStatus.OK);
+    public ResponseEntity<String> add(ServletRequest request) {
+        return handleRequest(request);
+    }
+
+    private ResponseEntity<String> handleRequest(ServletRequest request) {
+
+        DeviceGroup dg = null;
+        try {
+            dg = parseRequest(request);
+            deviceGroupRepository.save(dg);
+            String str = "Group: " + dg.getGroupName() + " for theatre: " + dg.getTheatre().getTheatreName() + "added";
+            return new ResponseEntity<>(str, HttpStatus.OK);
+        } catch (InvalidEntityConfigException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -126,12 +136,8 @@ public class DeviceGroupController {
     @RequestMapping(value = "/update"
             , method = RequestMethod.PUT
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<DeviceGroup> update(ServletRequest request){
-        DeviceGroup dg = parseRequest(request);
-        if(dg != null){
-            return new ResponseEntity<>(deviceGroupRepository.save(dg), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> update(ServletRequest request){
+        return handleRequest(request);
     }
 
     /**
@@ -146,9 +152,9 @@ public class DeviceGroupController {
         if(deviceGroupRepository.findById(id).isPresent()){
             DeviceGroup dg = deviceGroupRepository.findById(id).get();
             deviceGroupRepository.delete(dg);
-            return new ResponseEntity<>("Removed device group", HttpStatus.OK);
+            return new ResponseEntity<>("Removed device group with ID: " + id, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Could not remove group with ID: " + id, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -156,7 +162,7 @@ public class DeviceGroupController {
      * @param request Form data
      * @return the new DeviceGroup, null if invalid form data.
      */
-    private DeviceGroup parseRequest(ServletRequest request) {
+    private DeviceGroup parseRequest(ServletRequest request) throws InvalidEntityConfigException {
         String id_string = request.getParameter("id");
         String name = request.getParameter("groupName");
         String[] devices = request.getParameterValues("device-id");
@@ -170,13 +176,21 @@ public class DeviceGroupController {
                 int id = Integer.parseInt(id_string);
                 if (deviceGroupRepository.findById(id).isPresent()) {
                     dg = deviceGroupRepository.findById(id).get();
+                } else {
+                    throw new InvalidEntityConfigException("Group not found");
                 }
                 dg.setGroupName(name);
                 dg.setTheatre(theatre);
             }
+        } catch (NumberFormatException e) {
+            throw new InvalidEntityConfigException("ID was not a number, ID: " + id_string);
+        }
+        String currentId = "";
+        try {
             dg.getDevices().clear();
             if(devices != null) {
                 for (int i = 0; i < devices.length; i++) {
+                    currentId = devices[i];
                     int deviceId = Integer.parseInt(devices[i]);
                     if (deviceRepository.findById(deviceId).isPresent()) {
                         Device device = deviceRepository.findById(deviceId).get();
@@ -187,7 +201,7 @@ public class DeviceGroupController {
             }
             return dg;
         } catch (NumberFormatException e) {
-            return null;
+            throw new InvalidEntityConfigException("Device with ID " + currentId + "was not found");
         }
     }
 }
