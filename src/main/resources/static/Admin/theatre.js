@@ -11,22 +11,30 @@ function showManageTheatres() {
 
 
 function createDeviceCheckBox(device, prefix) {
+    let container = document.createElement("label");
     let checkbox = document.createElement("input");
     let div = document.createElement("div");
     let label = document.createElement("label");
+    let checkmark = document.createElement("span");
+    div.setAttribute("class", "cb-background");
+    container.setAttribute("class", "container-cb");
     checkbox.type = "checkbox";
     checkbox.setAttribute("id", prefix + "device-" + device.id);
     checkbox.setAttribute("name", "device-id");
     checkbox.setAttribute("value", device.id);
     label.setAttribute("for", prefix + "device-" + device.id);
+    label.setAttribute("class", "cb-text");
+    checkmark.setAttribute("class", "checkmark");
     if (device.defaultName) {
         label.innerHTML = device.defaultName
     } else {
         label.innerHTML = device.deviceInfo.manufacturer + " " + device.deviceInfo.model + ", " + device.ipAddress;
     }
     label.innerHTML += "<br>"+device.deviceInfo.deviceType.type;
-    div.appendChild(checkbox);
-    div.appendChild(label);
+    container.appendChild(checkbox);
+    container.appendChild(label);
+    container.appendChild(checkmark);
+    div.appendChild(container);
     return div;
 }
 

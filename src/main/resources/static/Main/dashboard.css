@@ -44,14 +44,6 @@ button:hover {
 
 }
 
-#powerimg {
-    filter: invert(100%);
-}
-
-#poweroffimg {
-    filter: invert(100%);
-}
-
 #buttonpower, #buttonmute, #buttonunmute, #buttonpoweroff, #settings-group {
     display: block;
     width: 100px;
