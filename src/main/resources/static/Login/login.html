@@ -16,29 +16,31 @@ and open the template in the editor.
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row justify-content-center">
+<div class="container">
+    <div class="row">
         <div tiles:fragment="content">
             <form name="f" th:action="@{/login}" method="post" id="loginForm">
                 <div th:if="${param.error}" class="alert alert-error" style="display:none;">
                 </div>
                 <div th:if="${param.logout}" class="alert alert-success" style="display:none;">
                 </div>
-                <div class="form-group row">
-                    <label for="username">Username</label>
-                    <div class="col-sm-10">
-                        <input type="text" id="username" name="username" class="form-element" onclick="this.select()"/>
+                <div>
+                    <div>
+                        <label for="username">Username</label>
+                        <div>
+                            <input type="text" id="username" name="username" class="form-element"/>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="password">Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" id="password" name="password" class="form-element onclick="this.select()"/>
+                    <div>
+                        <label for="password">Password</label>
+                        <div>
+                            <input type="password" id="password" name="password" class="form-element"/>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-actions">
-                        <button type="submit" class="form-button">Login</button>
+                    <div>
+                        <div class="form-actions">
+                            <button type="submit" class="form-button">Login</button>
+                        </div>
                     </div>
                 </div>
             </form>
