@@ -12,6 +12,7 @@
 
 form {
     width: 15%;
+    margin-left: 45%;
 }
 
 .row {
@@ -27,5 +28,4 @@ form {
 }
 
 .form-actions {
-    margin-left: 200%;
 }
