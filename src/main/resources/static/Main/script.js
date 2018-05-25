@@ -209,7 +209,7 @@ function addListElements(device) {
 
     let counter = devices.length + 1;
     li.innerHTML =
-        "<div class='image-card'>"
+        "<div class='image-card' style='cursor: pointer' onclick='window.location.href=\"/device?id=" + device.id + "\"'>"
         + imageCard
         + "</div>"
         + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox' onclick='updateCount()'>"

@@ -12,27 +12,43 @@ function showManageGroups() {
 function groupDisplay(groupEntities) {
     let ul = prepDisplay();
     let newLi = document.createElement("li");
-    newLi.innerHTML =
-        "<div class='card-body btn btn-primary'>" +
-        "<h5 class='card-title'>Add new</h5>" +
-        "<p class='card-text'>Add a new device group</p>" +
-        "</div>";
-    newLi.onclick = e => {
+    let div = document.createElement("div");
+    let h5 = document.createElement("h5");
+    let p = document.createElement("p");
+    div.classList.add("card-body", "btn","btn-primary");
+    h5.classList.add("card-title");
+    p.classList.add("card-text");
+    h5.innerHTML = "Add new";
+    p.innerHTML = "Add new device group";
+    div.appendChild(h5);
+    div.appendChild(p);
+    div.onclick = e => {
         fillGroupForm();
     };
+    newLi.appendChild(div);
     ul.appendChild(newLi);
     for (let i = 0; i < groupEntities.length; i++) {
         let li = document.createElement("li");
-        li.innerHTML =
-            "<div class='card-body btn btn-primary'>" +
-            "<h5 class='card-title'>" + groupEntities[i].groupName + "</h5>" +
-            "<p class='card-text'>Number of devices: " + groupEntities[i].devices.length + "</p>" +
-            // "<p class='card-text'>" + groupEntities[i].theatre.theatreName + "</p>" +
-            "<a list-index='" + i + "'/>" +
-            "</div>";
-        li.onclick = e => {
+        let div = document.createElement("div");
+        let h5 = document.createElement("h5");
+        let p = document.createElement("p");
+        let p2 = document.createElement("p");
+        let a = document.createElement("a");
+        div.classList.add("card-body", "btn","btn-primary");
+        h5.classList.add("card-title");
+        p.classList.add("card-text");
+        h5.innerHTML = groupEntities[i].groupName;
+        p.innerHTML = "Number of devices: " + groupEntities[i].devices.length;
+        p2.innerHTML = groupEntities[i].theatre.theatreName;
+        a.setAttribute("list-index", "" + i);
+        div.appendChild(h5);
+        div.appendChild(p);
+        div.appendChild(p2);
+        div.appendChild(a);
+        div.onclick = e => {
             fillGroupForm(elementList[li.getElementsByTagName("a")[0].getAttribute("list-index")]);
         };
+        li.appendChild(div);
         ul.appendChild(li);
         elementList[i] = groupEntities[i];
     }
@@ -71,7 +87,7 @@ function fillGroupForm(group) {
     }
 }
 
-function updateDevices(value, group) {
+function updateDevices(value,form, group) {
     fetch("api/theatre/getdevices?theatrename=" + value).then(r => {
         if (r.ok) {
             r.json().then(j => {
@@ -93,22 +109,23 @@ function updateDevices(value, group) {
                 }
                 if (group && group.devices) {
                     for (let i = 0; i < group.devices.length; i++) {
-                        let elm = document.getElementById("device-" + group.devices[i].id);
+                        let elm = document.getElementById("group-device-" + group.devices[i].id);
                         if (elm) {
                             elm.checked = true;
                         }
                     }
                 }
+                form.scrollIntoView();
             })
         }
     })
 }
 
 document.getElementById("addTheatre").onchange = function () {
-    updateDevices(document.getElementById("addTheatre").value);
+    updateDevices(document.getElementById("addTheatre").value, document.getElementById("add-devicegroup"));
 };
 document.getElementById("theatre-device-group").onchange = function (group) {
-    updateDevices(document.getElementById("theatre-device-group").value, group);
+    updateDevices(document.getElementById("theatre-device-group").value, document.getElementById("manage-devicegroup"), group);
 };
 
 function deleteGroup() {

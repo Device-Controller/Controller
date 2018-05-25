@@ -38,7 +38,7 @@ function createDeviceCheckBox(device, prefix) {
     return div;
 }
 
-function fillTheatreDevices(parent, theatre, prefix) {
+function fillTheatreDevices(form, parent, theatre, prefix) {
     fetch("/api/device/getall").then(r => {
         if (r.ok) {
             r.json().then(j => {
@@ -54,6 +54,7 @@ function fillTheatreDevices(parent, theatre, prefix) {
                             }
                         }
                     }
+                    form.scrollIntoView();
                 }
             )
         }
@@ -74,43 +75,54 @@ function clearDevices() {
 function fillTheatreForm(theatreListElement) {
     hideAll();
     clearDevices();
-    fillTheatreDevices(document.getElementById("add-devices-in-theatre"), theatreListElement, "add");
-    fillTheatreDevices(document.getElementById("devices-in-theatre"), theatreListElement, "");
     if (theatreListElement) {
+        fillTheatreDevices(document.getElementById("manage-theatre"), document.getElementById("devices-in-theatre"), theatreListElement, "");
         document.getElementById("manage-theatre").style.display = "block";
         document.getElementById("theatreName").value = theatreListElement.theatreName;
         document.getElementById("theatreId").value = theatreListElement.id;
     } else {
+        fillTheatreDevices(document.getElementById("add-theatre"), document.getElementById("add-devices-in-theatre"), theatreListElement, "add");
         document.getElementById("add-theatre").style.display = "block";
     }
 }
 
 function theatreDisplay(theatreEntities) {
     let ul = prepDisplay();
-    while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-    }
     let newLi = document.createElement("li");
-    newLi.innerHTML =
-        "<div class='card-body btn btn-primary'>" +
-        "<h5 class='card-title'>Add new</h5>" +
-        "<p class='card-text'>Add a new theatre</p>" +
-        "</div>";
-    newLi.onclick = e => {
+    let div = document.createElement("div");
+    let h5 = document.createElement("h5");
+    let p = document.createElement("p");
+    div.classList.add("card-body", "btn","btn-primary");
+    h5.classList.add("card-title");
+    p.classList.add("card-text");
+    h5.innerHTML = "Add new";
+    p.innerHTML = "Add new theatre";
+    div.appendChild(h5);
+    div.appendChild(p);
+    div.onclick = e => {
         fillTheatreForm();
     };
+    newLi.appendChild(div);
     ul.appendChild(newLi);
     for (let i = 0; i < theatreEntities.length; i++) {
         let li = document.createElement("li");
-        li.innerHTML =
-            "<div class='card-body btn btn-primary'>" +
-            "<h5 class='card-title'>" + theatreEntities[i].theatreName + "</h5>" +
-            "<p class='card-text'>" + theatreEntities[i].devices.length + " devices</p>" +
-            "<a list-index='" + i + "'/>" +
-            "</div>";
-        li.onclick = e => {
+        let div = document.createElement("div");
+        let h5 = document.createElement("h5");
+        let p = document.createElement("p");
+        let a = document.createElement("a");
+        div.classList.add("card-body", "btn","btn-primary");
+        h5.classList.add("card-title");
+        p.classList.add("card-text");
+        h5.innerHTML = theatreEntities[i].theatreName;
+        p.innerHTML = theatreEntities[i].devices.length + " devices";
+        a.setAttribute("list-index", "" + i);
+        div.onclick = e => {
             fillTheatreForm(elementList[li.getElementsByTagName("a")[0].getAttribute("list-index")]);
         };
+        div.appendChild(h5);
+        div.appendChild(p);
+        div.appendChild(a);
+        li.appendChild(div);
         ul.appendChild(li);
         elementList[i] = theatreEntities[i];
     }

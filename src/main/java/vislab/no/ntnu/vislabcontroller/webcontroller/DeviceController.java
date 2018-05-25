@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ import vislab.no.ntnu.vislabcontroller.entity.Device;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceInfo;
 import vislab.no.ntnu.vislabcontroller.entity.DeviceType;
 import vislab.no.ntnu.vislabcontroller.exception.InvalidEntityConfigException;
+import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceInfoRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceTypeRepository;
@@ -42,6 +44,8 @@ public class DeviceController {
     DeviceTypeRepository deviceTypeRepository;
     @Autowired
     TheatreRepository theatreRepository;
+    @Autowired
+    DeviceGroupRepository deviceGroupRepository;
 
     /**
      * @return List containing all Devices found in the database.
@@ -146,9 +150,19 @@ public class DeviceController {
             , method = RequestMethod.DELETE
             , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> remove(@RequestParam("id") int id) {
+        Device device = null;
         if (deviceRepository.findById(id).isPresent()) {
-            deviceRepository.delete(deviceRepository.findById(id).get());
-            return new ResponseEntity<>("Removed device with ID: " + id, HttpStatus.OK);
+            device = deviceRepository.findById(id).get();
+            int numGroups = deviceGroupRepository.findAllByDevices(Collections.singletonList(device)).size();
+            int numTheatre = theatreRepository.findAllByDevices(Collections.singletonList(device)).size();
+            if(numGroups == 0 && numTheatre == 0) {
+                deviceRepository.delete(deviceRepository.findById(id).get());
+                return new ResponseEntity<>("Removed device with ID: " + id, HttpStatus.OK);
+            }
+            String group = (numGroups > 0) ? numGroups + " groups" : "";
+            String theatre = (numTheatre > 0) ? numTheatre + " theatres" : "";
+            String finalString = !(group.isEmpty() || theatre.isEmpty()) ? group + " and "+ theatre : group + theatre;
+            return new ResponseEntity<>("Device: " + id + " belongs to " + finalString, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Could not remove device with ID: "  + id, HttpStatus.OK);
     }

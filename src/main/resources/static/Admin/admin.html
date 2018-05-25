@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="addDeviceId">Device ID</label>
                         <input type="number" class="form-control" id="addDeviceId" name="id"
-                               value="-" readonly>
+                               placeholder="-" readonly>
                     </div>
                     <div class="form-group">
                         <label for="addDeviceManufacturer">Device Manufacturer</label>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="addDeviceModel">Device Model</label>
-                        <select class="form-control" id="addDeviceModel" name="model"
+                        <select class="form-control" id="addDeviceModel" name="model" disabled
                                 required></select>
                     </div>
                     <div class="form-group">
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <label for="addDeviceIpAddress">Device IpAddress</label>
                         <input type="text" class="form-control" id="addDeviceIpAddress"
-                               name="ipAddress" placeholder="Device IpAddress" required>
+                               name="ipAddress" placeholder="123.12.3.123" required>
                     </div>
                     <div class="form-group">
                         <label for="addDevicePort">Device Port</label>
@@ -115,7 +115,7 @@
                     </div>
                     <div class="form-group">
                         <label for="deviceModel">Device Model</label>
-                        <select class="form-control" id="deviceModel" name="model" required
+                        <select class="form-control" id="deviceModel" name="model" required disabled
                         ></select>
                     </div>
                     <div class="form-group">
@@ -132,7 +132,7 @@
                     <div class="form-group">
                         <label for="deviceIpAddress">Device IpAddress</label>
                         <input type="text" class="form-control" id="deviceIpAddress" required
-                               name="ipAddress" placeholder="Device IpAddress">
+                               name="ipAddress" placeholder="123.12.3.123">
                     </div>
                     <div class="form-group">
                         <label for="devicePort">Device Port</label>
@@ -186,7 +186,7 @@
                     </div>
                     <div class="form-group">
                         <label for="devices-in-theatre">Devices</label>
-                        <div id="add-devices-in-theatre"></div>
+                        <div id="add-devices-in-theatre"class="device-select-list"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -205,7 +205,7 @@
                     </div>
                     <div class="form-group">
                         <label for="devices-in-theatre">Devices</label>
-                        <div id="devices-in-theatre"></div>
+                        <div id="devices-in-theatre"class="device-select-list"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                     <button type="button" class="btn btn-primary" onclick="deleteTheatre()"
@@ -233,7 +233,7 @@
                     </div>
                     <div class="form-group">
                         <label for="add-device-group-devices">Devices</label>
-                        <div id="add-device-group-devices"></div>
+                        <div id="add-device-group-devices" class="device-select-list"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -257,7 +257,7 @@
                     </div>
                     <div class="form-group">
                         <label for="device-group-devices">Devices</label>
-                        <div id="device-group-devices"></div>
+                        <div id="device-group-devices" class="device-select-list"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                     <button type="button" class="btn btn-primary" onclick="deleteGroup()"

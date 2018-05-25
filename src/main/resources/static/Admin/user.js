@@ -3,42 +3,55 @@ function fillUserForm(userListElement) {
     hideAll();
     if (userListElement) {
         document.getElementById("manage-user").style.display = "block";
+        document.getElementById("manage-user").scrollIntoView();
         document.getElementById("userId").value = userListElement.id;
         document.getElementById("username").value = userListElement.username;
         document.getElementById("email").value = userListElement.email;
         populateRoles(document.getElementById("role"), userListElement.role.roleName);
     } else {
         document.getElementById("add-user").style.display = "block";
+        document.getElementById("add-user").scrollIntoView();
         populateRoles(document.getElementById("addRole"));
     }
 }
 
 function userDisplay(userEntities) {
     let ul = prepDisplay();
-    while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-    }
     let newLi = document.createElement("li");
-    newLi.innerHTML =
-        "<div class='card-body btn btn-primary'>" +
-        "<h5 class='card-title'>Add new</h5>" +
-        "<p class='card-text'>Add a new user</p>" +
-        "</div>";
-    newLi.onclick = e => {
+    let div = document.createElement("div");
+    let h5 = document.createElement("h5");
+    let p = document.createElement("p");
+    div.classList.add("card-body", "btn","btn-primary");
+    h5.classList.add("card-title");
+    p.classList.add("card-text");
+    h5.innerHTML = "Add new";
+    p.innerHTML = "Add new user";
+    div.appendChild(h5);
+    div.appendChild(p);
+    div.onclick = e => {
         fillUserForm();
     };
+    newLi.appendChild(div);
     ul.appendChild(newLi);
     for (let i = 0; i < userEntities.length; i++) {
         let li = document.createElement("li");
-        li.innerHTML =
-            "<div class='card-body btn btn-primary'>" +
-            "<h5 class='card-title'>" + userEntities[i].username + "</h5>" +
-            "<p class='card-text'>" + userEntities[i].role.roleName.substring(0,1) + userEntities[i].role.roleName.substring(1).toLowerCase() + "</p>" +
-            "<a list-index='" + i + "'/>" +
-            "</div>";
-        li.onclick = e => {
+        let div = document.createElement("div");
+        let h5 = document.createElement("h5");
+        let p = document.createElement("p");
+        let a = document.createElement("a");
+        div.classList.add("card-body", "btn","btn-primary");
+        h5.classList.add("card-title");
+        p.classList.add("card-text");
+        h5.innerHTML = userEntities[i].username;
+        p.innerHTML = userEntities[i].role.roleName.substring(0,1) + userEntities[i].role.roleName.substring(1).toLowerCase();
+        a.setAttribute("list-index", "" + i);
+        div.appendChild(h5);
+        div.appendChild(p);
+        div.appendChild(a);
+        div.onclick = e => {
             fillUserForm(elementList[li.getElementsByTagName("a")[0].getAttribute("list-index")]);
         };
+        li.appendChild(div);
         ul.appendChild(li);
         elementList[i] = userEntities[i];
     }

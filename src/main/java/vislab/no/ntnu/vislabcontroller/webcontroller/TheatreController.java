@@ -25,7 +25,7 @@ import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
 
 /**
  * @author ThomasSTodal
- *
+ * <p>
  * Controller for managing the Theatre entity. Supports CRUD to a database through form submissions.
  */
 @Controller
@@ -39,7 +39,6 @@ public class TheatreController {
     DeviceRepository deviceRepository;
 
     /**
-     *
      * @return List containing all Theatres in the database.
      */
     @RequestMapping("/getall")
@@ -49,6 +48,7 @@ public class TheatreController {
 
     /**
      * Converts form data to a Theatre object and stores it in a TheatreRepository
+     *
      * @param request Form data
      * @return REsponseEntity with the stored Theatre, or BAD_REQUEST if invalid form data
      */
@@ -62,6 +62,7 @@ public class TheatreController {
 
     /**
      * Updates a Theatre object with the provided form data
+     *
      * @param request Form data
      * @return ResponseEntity with the updated Theatre, or BAD_REQUEST if invalid form data
      */
@@ -89,7 +90,6 @@ public class TheatreController {
     }
 
     /**
-     *
      * @param theatreName Name of Theatre
      * @return ResponseEntity with all groups associated with the given Theatre, or BAD_REQUEST if invalid TheatreName
      */
@@ -104,7 +104,6 @@ public class TheatreController {
     }
 
     /**
-     *
      * @param theatreName Name of Theatre
      * @return ResponseEntity with all devices associated with the given Theatre, or BAD_REQUEST if invalid TheatreName
      */
@@ -119,6 +118,7 @@ public class TheatreController {
 
     /**
      * Removes the Theatre matching the given id
+     *
      * @param id Theatre id
      * @return ResponseEntity conforming that the Theatre has been removed, or BAD_REQUEST if invalid id
      */
@@ -130,6 +130,8 @@ public class TheatreController {
         Theatre theatre = null;
         if (theatreRepository.findById(id).isPresent()) {
             theatre = theatreRepository.findById(id).get();
+            List<DeviceGroup> groups = deviceGroupRepository.findAllByTheatre(theatre);
+            deviceGroupRepository.deleteAll(groups);
             theatreRepository.delete(theatre);
             return new ResponseEntity<>("Removed Theatre:" + theatre.getId(), HttpStatus.OK);
         }
@@ -138,6 +140,7 @@ public class TheatreController {
 
     /**
      * Attempts to parse the given form data into a Theatre object
+     *
      * @param request Form data
      * @return The new Theatre object, or null if invalid form data
      */

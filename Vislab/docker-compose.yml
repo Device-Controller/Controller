@@ -1,0 +1,23 @@
+version: '2.0'
+services:
+  sql:
+    image: mysql:5.7
+    ports:
+     - "6603:3306"
+    env_file:
+     - application.properties
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./data:/docker-entrypoint-initdb.d
+    restart: always
+  web:
+    build: .
+    depends_on:
+     - sql
+    ports:
+     - "8080:8080"
+     - "1025:1025"
+     - "23:23"
+     - "8443:8443"
+volumes:
+    db_data:

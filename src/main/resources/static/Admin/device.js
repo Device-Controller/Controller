@@ -20,26 +20,40 @@ function deleteDevice() {
 function deviceDisplay(deviceEntity) {
     let ul = prepDisplay();
     let newLi = document.createElement("li");
-    newLi.innerHTML =
-        "<div class='card-body btn btn-primary'>" +
-        "<h5 class='card-title'>Add new</h5>" +
-        "<p class='card-text'>Add a new device</p>" +
-        "</div>";
-    newLi.onclick = e => {
+    let div = document.createElement("div");
+    let h5 = document.createElement("h5");
+    let p = document.createElement("p");
+    div.classList.add("card-body", "btn","btn-primary");
+    h5.classList.add("card-title");
+    p.classList.add("card-text");
+    h5.innerHTML = "Add new";
+    p.innerHTML = "Add new device";
+    div.appendChild(h5);
+    div.appendChild(p);
+    div.onclick = e => {
         fillDeviceForm();
     };
+    newLi.appendChild(div);
     ul.appendChild(newLi);
     for (let i = 0; i < deviceEntity.length; i++) {
         let li = document.createElement("li");
-        li.innerHTML =
-            "<div class='card-body btn btn-primary'>" +
-            "<h5 class='card-title'>" + deviceEntity[i].deviceInfo.deviceType.type + "</h5>" +
-            "<p class='card-text'>" + ((deviceEntity[i].defaultName) ? deviceEntity[i].defaultName: deviceEntity[i].deviceInfo.manufacturer) + "</p>" +
-            "<a list-index='" + i + "'/>" +
-            "</div>";
-        li.onclick = e => {
+        let div = document.createElement("div");
+        let h5 = document.createElement("h5");
+        let p = document.createElement("p");
+        let a = document.createElement("a");
+        div.classList.add("card-body", "btn","btn-primary");
+        h5.classList.add("card-title");
+        h5.innerHTML = deviceEntity[i].deviceInfo.deviceType.type;
+        p.classList.add("card-text");
+        p.innerHTML = ((deviceEntity[i].defaultName) ? deviceEntity[i].defaultName: deviceEntity[i].deviceInfo.manufacturer);
+        a.setAttribute("list-index", "" + i);
+        div.appendChild(h5);
+        div.appendChild(p);
+        div.appendChild(a);
+        div.onclick = e => {
             fillDeviceForm(elementList[li.getElementsByTagName("a")[0].getAttribute("list-index")]);
         };
+        li.appendChild(div);
         ul.appendChild(li);
         elementList[i] = deviceEntity[i];
     }
@@ -49,6 +63,7 @@ function fillDeviceForm(device) {
     hideAll();
     if (device) {
         document.getElementById("manage-devices").style.display = "block";
+        document.getElementById("manage-devices").scrollIntoView();
         document.getElementById("deviceId").value = device.id;
         document.getElementById("deviceManufacturer").value = device.deviceInfo.manufacturer;
         document.getElementById("deviceManufacturer").onchange();
@@ -62,6 +77,7 @@ function fillDeviceForm(device) {
         document.getElementById("deviceRotation").value = device.rotation;
     } else {
         document.getElementById("add-device").style.display = "block";
+        document.getElementById("add-device").scrollIntoView();
     }
 }
 
@@ -93,6 +109,7 @@ function showManageDevices() {
 }
 document.getElementById("addDeviceManufacturer").onchange = e => {
     let addMake = document.getElementById("addDeviceModel");
+    addMake.disabled = false;
     while (addMake.lastChild) {
         addMake.removeChild(addMake.lastChild);
     }
@@ -109,6 +126,7 @@ document.getElementById("addDeviceManufacturer").onchange = e => {
 };
 document.getElementById("deviceManufacturer").onchange = e => {
     let addMake = document.getElementById("deviceModel");
+    addMake.disabled = false;
     while (addMake.lastChild) {
         addMake.removeChild(addMake.lastChild);
     }
@@ -133,6 +151,8 @@ fetch("api/main/supported").then(r => {
             let baseOption = document.createElement("option");
             let baseOption2 = document.createElement("option");
             baseOption.text = "--Select Manufacturer--";
+            baseOption.style.display = "none";
+            baseOption2.style.display = "none";
             baseOption2.text = "--Select Manufacturer--";
             addMake.add(baseOption);
             addMake2.add(baseOption2);

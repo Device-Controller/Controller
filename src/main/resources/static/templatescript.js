@@ -16,7 +16,6 @@ fetch = function (dest, obj) {
     obj.credentials = 'include';
     return orgFetch(dest, obj);
 };
-
 function getDevices() {
     devices = [];
     return fetch('api/device/getall', {
@@ -68,9 +67,7 @@ function displayRole() {
         if (response.ok) {
             response.json().then(e => {
                 var user = new User(e);
-                if (user.roleName === "ADMIN") {
-                    document.getElementById("admin-link").style.display = "block";
-                } else {
+                if (user.roleName !== "ADMIN") {
                     document.getElementById("admin-link").style.display = "none";
                 }
             })

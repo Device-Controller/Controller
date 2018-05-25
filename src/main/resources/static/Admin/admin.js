@@ -20,6 +20,17 @@ function prepDisplay() {
     return ul;
 }
 
+//Edge fix for input fields
+let inputs = document.getElementsByTagName("input");
+for(let i = 0; i< inputs.length; i++){
+    let inp = inputs[i];
+    let atr = inp.getAttribute("type");
+    if(atr === "number" || atr === "password" || atr === "text"){
+        inp.onclick = function () {
+            inp.select();
+        }
+    }
+}
 
 function initial() {
     var list = document.getElementsByClassName("management-forms");
@@ -59,14 +70,14 @@ function updateList() {
 var alertTimeout = 4000;
 alert = function (text, time) {
     alertText.innerHTML = text;
-    alertText.onchange();
     alertTimeout = time;
+    alertText.onchange();
 
 };
 
 function alertShow(){
     let alert = document.getElementById("alert");
-    alert.style.display = "fixed";
+    alert.style.display = "block";
     function clearAlert() {
         alert.innerHTML = "";
         alert.style.display= "none";
