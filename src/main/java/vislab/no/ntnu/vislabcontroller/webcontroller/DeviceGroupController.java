@@ -89,7 +89,12 @@ public class DeviceGroupController {
         try {
             dg = parseRequest(request);
             deviceGroupRepository.save(dg);
-            String str = "Group: " + dg.getGroupName() + " for theatre: " + dg.getTheatre().getTheatreName() + "added";
+            String str = "Group: " + dg.getGroupName() + " for theatre: " + dg.getTheatre().getTheatreName();
+            if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+                str += "added";
+            } else {
+                str += "updated";
+            }
             return new ResponseEntity<>(str, HttpStatus.OK);
         } catch (InvalidEntityConfigException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

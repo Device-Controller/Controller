@@ -119,13 +119,13 @@ public class DeviceController {
         try {
             device = parseRequest(request);
             deviceRepository.save(device);
-            String returnString = generateString(device);
+            String returnString = generateString(device, ((request.getParameter("id") == null || request.getParameter("id").isEmpty())));
             return new ResponseEntity<>(returnString, HttpStatus.OK);
         } catch (InvalidEntityConfigException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-    private String generateString(Device device) {
+    private String generateString(Device device, boolean add) {
         StringBuilder str = new StringBuilder();
         str.append("Device ");
         if(device.getDefaultName() != null){
@@ -135,7 +135,11 @@ public class DeviceController {
             str.append(", ");
             str.append(device.getDeviceInfo().getModel());
         }
-        str.append(" was added");
+        if(add) {
+            str.append(" was added");
+        } else {
+            str.append(" was updated");
+        }
         return str.toString();
     }
 

@@ -82,7 +82,11 @@ public class TheatreController {
             StringBuilder str = new StringBuilder();
             str.append("Theatre ");
             str.append(theatre.getTheatreName());
-            str.append(" was added");
+            if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+                str.append(" was added");
+            } else {
+                str.append(" was updated");
+            }
             return new ResponseEntity<>(str.toString(), HttpStatus.OK);
         } catch (InvalidEntityConfigException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -19,6 +19,7 @@ import javax.servlet.ServletRequest;
 
 import vislab.no.ntnu.vislabcontroller.entity.Role;
 import vislab.no.ntnu.vislabcontroller.entity.User;
+import vislab.no.ntnu.vislabcontroller.exception.InvalidEntityConfigException;
 import vislab.no.ntnu.vislabcontroller.repositories.DeviceGroupRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.RoleRepository;
 import vislab.no.ntnu.vislabcontroller.repositories.UserRepository;
@@ -106,12 +107,14 @@ public class UserController {
     @RequestMapping(value = "/add"
             , method = RequestMethod.POST
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<User> add(ServletRequest request) {
-        User user = parseRequest(request);
-        if(user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<String> add(ServletRequest request) {
+        User user = null;
+        try {
+            user = parseRequest(request);
+            return new ResponseEntity<>("Added user: " + user.getUsername(), HttpStatus.OK);
+        } catch (InvalidEntityConfigException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 
@@ -124,12 +127,14 @@ public class UserController {
     @RequestMapping(value = "/update"
             , method = RequestMethod.PUT
             , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<User> update(ServletRequest request){
-        User user = parseRequest(request);
-        if(user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<String> update(ServletRequest request){
+        User user = null;
+        try {
+            user = parseRequest(request);
+            return new ResponseEntity<>("Updated user: " + user.getUsername(), HttpStatus.OK);
+        } catch (InvalidEntityConfigException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -155,11 +160,11 @@ public class UserController {
      * @param request Form data
      * @return The new User object, or null if invalid form data
      */
-    private User parseRequest(ServletRequest request) {
+    private User parseRequest(ServletRequest request) throws InvalidEntityConfigException {
         String id_string = request.getParameter("id");
         String username = request.getParameter("username");
         if((id_string == null || id_string.isEmpty()) && userRepository.findByUsername(username) != null){
-            return null;
+            throw new InvalidEntityConfigException("Username already exists");
         }
         String password = request.getParameter("password");
         String email = request.getParameter("email");
@@ -174,9 +179,11 @@ public class UserController {
                 int id = Integer.parseInt(id_string);
                 if(userRepository.findById(id).isPresent()){
                     user = userRepository.findById(id).get();
+                } else {
+                    throw new InvalidEntityConfigException("User with id: " + id_string + " not found");
                 }
             } catch (NumberFormatException e){
-                return null;
+                throw new InvalidEntityConfigException("User with id: " + id_string + " not found");
             }
         } else {
             user = new User(username, password, email, role);
