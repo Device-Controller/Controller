@@ -96,3 +96,15 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+.admin-tab {
+    background-color: #737373;
+    border: 1px solid black;
+    border-bottom: none;
+}
+.admin-tab:hover {
+    box-shadow: none;
+}
+.admin-tab:active {
+    border-color: black !important;
+}
