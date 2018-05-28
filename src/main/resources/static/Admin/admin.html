@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TODO supply a title</title>
+    <title>Admin Control Panel</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.ico"/>
@@ -13,18 +13,18 @@
 <a class="justify-content-center" id="alert" onchange="alertShow()"></a>
 <div include-html="template.html"></div>
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top: 1%;">
         <div class="col-sm-3">
-            <button onclick="showManageDevices()">Manage Devices</button>
+            <button onclick="showManageDevices()" class="admin-tab">Manage Devices</button>
         </div>
         <div class="col-sm-3">
-            <button onclick="showManageTheatres()">Manage Theatres</button>
+            <button onclick="showManageTheatres()" class="admin-tab">Manage Theatres</button>
         </div>
         <div class="col-sm-3">
-            <button onclick="showManageGroups()">Manage Groups</button>
+            <button onclick="showManageGroups()" class="admin-tab">Manage Groups</button>
         </div>
         <div class="col-sm-3">
-            <button onclick="showManageUsers()">Manage Users</button>
+            <button onclick="showManageUsers()" class="admin-tab">Manage Users</button>
         </div>
     </div>
     <div class="row">

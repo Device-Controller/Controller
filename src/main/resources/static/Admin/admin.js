@@ -84,3 +84,10 @@ function alertShow(){
     }
     let timeout = setTimeout(clearAlert, alertTimeout);
 }
+
+function tabbing(tab) {
+    let tabs = document.getElementsByClassName("admin-tab");
+    for (let i = 0; i < tabs.length; i++) {
+        console.log(tabs[i]);
+    }
+}
