@@ -88,6 +88,12 @@ function fillTheatreForm(theatreListElement) {
 
 function theatreDisplay(theatreEntities) {
     let ul = prepDisplay();
+    let divider = document.createElement("li");
+    divider.innerHTML = "Create";
+    divider.classList.add("card-body", "btn-primary", "divider");
+    let divider_bottom = document.createElement("li");
+    divider_bottom.innerHTML = "Edit";
+    divider_bottom.classList.add("card-body", "btn-primary", "divider");
     let newLi = document.createElement("li");
     let div = document.createElement("div");
     let h5 = document.createElement("h5");
@@ -103,7 +109,9 @@ function theatreDisplay(theatreEntities) {
         fillTheatreForm();
     };
     newLi.appendChild(div);
+    ul.appendChild(divider);
     ul.appendChild(newLi);
+    ul.appendChild(divider_bottom);
     for (let i = 0; i < theatreEntities.length; i++) {
         let li = document.createElement("li");
         let div = document.createElement("div");

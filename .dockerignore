@@ -1,4 +1,0 @@
-/src/main/java*
-/src/test*
-.dockerignore
-Dockerfile

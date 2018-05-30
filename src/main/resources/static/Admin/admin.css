@@ -40,6 +40,10 @@
     cursor: pointer;
 
 }
+.divider {
+    background-color: #2d3544 !important;
+    text-align: center;
+}
 .cb-text {
     cursor: pointer;
     margin: 0;

@@ -19,7 +19,7 @@ import vislab.no.ntnu.vislabcontroller.repositories.DeviceRepository;
 
 /**
  * @author Erik
- *
+ * <p>
  * This is a Spring Controller. Handles Power on/off, mute/unmute and state of power for all Devices
  */
 @Controller
@@ -84,21 +84,25 @@ public class MainController extends DeviceManager {
     }
 
     private vislab.no.ntnu.providers.Device getOneDevice(int id) {
-        vislab.no.ntnu.vislabcontroller.entity.Device entDevice = deviceRepository.findById(id).get();
-        Device device = getDevice(id);
-        if (device == null) {
-            if (entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("projector")) {
-                device = createNewProjector(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
-            } else if (entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("sound system")) {
-                device = createNewDevice(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
+        if (deviceRepository.findById(id).isPresent()) {
+            vislab.no.ntnu.vislabcontroller.entity.Device entDevice = deviceRepository.findById(id).get();
+            Device device = getDevice(id);
+            if (device == null) {
+                if (entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("projector")) {
+                    device = createNewProjector(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
+                } else if (entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("sound system")) {
+                    device = createNewDevice(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
+                }
+                if (device != null) {
+                    device.setIpAddress(entDevice.getIpAddress());
+                    device.setPort(entDevice.getPort());
+                    device.initialize();
+                }
             }
-            if (device != null) {
-                device.setIpAddress(entDevice.getIpAddress());
-                device.setPort(entDevice.getPort());
-                device.initialize();
-            }
+
+            return device;
         }
-        return device;
+        return null;
     }
 
     private class WrapperType {

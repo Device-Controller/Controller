@@ -35,7 +35,7 @@ import vislab.no.ntnu.vislabcontroller.repositories.TheatreRepository;
  */
 @Controller
 @RequestMapping("/api/device")
-public class DeviceController {
+public class DeviceController{
     @Autowired
     DeviceRepository deviceRepository;
     @Autowired

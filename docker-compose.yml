@@ -2,8 +2,6 @@ version: '2.0'
 services:
   sql:
     image: mysql:5.7
-    ports:
-     - "6603:3306"
     env_file:
      - application.properties
     volumes:
@@ -15,9 +13,7 @@ services:
     depends_on:
      - sql
     ports:
-     - "8080:8080"
-     - "1025:1025"
-     - "23:23"
-     - "8443:8443"
+     - "80:80"
+     - "443:443"
 volumes:
     db_data:

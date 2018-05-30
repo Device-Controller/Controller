@@ -209,7 +209,7 @@ function addListElements(device) {
 
     let counter = devices.length + 1;
     li.innerHTML =
-        "<div class='image-card' style='cursor: pointer' onclick='window.location.href=\"/device?id=" + device.id + "\"'>"
+        "<div class='image-card' style='cursor: pointer' onclick='moveToDevicePage(\"" + device.id + "\")'>"
         + imageCard
         + "</div>"
         + "<input id='pro" + counter + "'" + " class='pro-checkbox' type='checkbox' onclick='updateCount()'>"
@@ -223,6 +223,21 @@ function addListElements(device) {
     devices.push(new DeviceMap(device, li, document.getElementById("pro" + counter)));
 
     document.getElementsByClassName('pro-checkbox');
+}
+
+function moveToDevicePage(id){
+
+    fetch("device?id=" + id).then(r =>{
+        if(r.ok){
+            r.text().then(t=> {
+                if(t.includes(document.getElementsByTagName("title")[0].innerHTML)){
+                    alert("Device page unavailable");
+                } else {
+                    window.location = "device?id=" + id;
+                }
+            })
+        }
+    })
 }
 
 

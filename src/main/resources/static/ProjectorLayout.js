@@ -68,7 +68,7 @@ canvas.onclick = event => {
     let i;
     for (i = 0; i < list.length; i++) {
         if (isWithin(x, y, list[i].xPos, list[i].yPos)) {
-            window.location.href = "device?id=" + list[i].id;
+            moveToDevicePage(list[i].id);
         }
     }
 };
