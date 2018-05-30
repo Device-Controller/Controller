@@ -90,7 +90,7 @@ public class MainController extends DeviceManager {
             if (device == null) {
                 if (entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("projector")) {
                     device = createNewProjector(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
-                } else if (entDevice.getDeviceInfo().getDeviceType().getType().equalsIgnoreCase("sound system")) {
+                } else {
                     device = createNewDevice(id, entDevice.getDeviceInfo().getManufacturer(), entDevice.getDeviceInfo().getModel());
                 }
                 if (device != null) {
