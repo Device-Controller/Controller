@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Admin Control Panel</title>
     <meta charset="UTF-8">
@@ -58,9 +58,7 @@
                     </div>
                     <div class="form-group">
                         <label for="addDeviceName">Device Name</label>
-                        <input type="text" class="form-control" id="addDeviceName" name="name"
-                                >
-                        </input>
+                        <input type="text" class="form-control" id="addDeviceName" name="name">
                     </div>
                     <div class="form-group">
                         <label for="addDeviceIpAddress">Device IpAddress</label>
@@ -125,9 +123,7 @@
                     </div>
                     <div class="form-group">
                         <label for="deviceName">Device Name</label>
-                        <input type="text" class="form-control" id="deviceName" name="name"
-                                >
-                        </input>
+                        <input type="text" class="form-control" id="deviceName" name="name">
                     </div>
                     <div class="form-group">
                         <label for="deviceIpAddress">Device IpAddress</label>
@@ -185,8 +181,8 @@
                                name="name" placeholder="Theatre Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="devices-in-theatre">Devices</label>
-                        <div id="add-devices-in-theatre"class="device-select-list"></div>
+                        <label for="add-devices-in-theatre">Devices</label>
+                        <div id="add-devices-in-theatre" class="device-select-list"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -205,7 +201,7 @@
                     </div>
                     <div class="form-group">
                         <label for="devices-in-theatre">Devices</label>
-                        <div id="devices-in-theatre"class="device-select-list"></div>
+                        <div id="devices-in-theatre" class="device-select-list"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                     <button type="button" class="btn btn-primary" onclick="deleteTheatre()"
@@ -252,23 +248,7 @@
                     </div>
                     <div class="form-group">
                         <label for="theatre-device-group">Theatre</label>
-                        <select class="form-control" id="theatre-device-group" name="theatreName"
-                        ></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="device-group-devices">Devices</label>
-                        <div id="device-group-devices" class="device-select-list"></div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-primary" onclick="deleteGroup()"
-                            onsubmit="">Delete
-                    </button>
-                </form>
-            </div>
-            <!-- User -->
-            <div id="add-user" class="manage-forms">
-                <form action="/api/user/add" method="post" class="management-forms">
-                    <div class="form-group">
+                        <select class="form-control" id="theatre-device-group"
                         <label for="addUserId">User ID</label>
                         <input type="number" class="form-control" id="addUserId" name="id"
                                placeholder="User ID" readonly>
@@ -303,7 +283,7 @@
                 </form>
             </div>
             <div id="manage-user" class="manage-forms">
-                <form action="/api/user/update" method="PUT" class="management-forms">
+                <form action="/api/user/update" method="put" class="management-forms">
                     <div class="form-group">
                         <label for="userId">User ID</label>
                         <input type="number" class="form-control" id="userId" name="id"
@@ -322,7 +302,7 @@
                     <div class="form-group">
                         <label for="repeatPassword">Repeat Password</label>
                         <input type="password" class="form-control" id="repeatPassword"
-                               oninput="check(this)"placeholder="Repeat Password">
+                               oninput="check(this)" placeholder="Repeat Password">
                     </div>
                     <div class="form-group">
                         <label for="email">E-Mail</label>
@@ -347,10 +327,10 @@
 <script>
     includeHTML();
 </script>
-</body>
 <script src="Admin/admin.js"></script>
 <script src="Admin/device.js"></script>
 <script src="Admin/group.js"></script>
 <script src="Admin/user.js"></script>
 <script src="Admin/theatre.js"></script>
+</body>
 </html>
