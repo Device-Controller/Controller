@@ -1,23 +1,336 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>TODO supply a title</title>
+    <title>Admin Control Panel</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.ico"/>
     <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="Admin/admin.css">
     <script src="../templatescript.js"></script>
 </head>
 <body>
+<a class="justify-content-center" id="alert" onchange="alertShow()"></a>
 <div include-html="template.html"></div>
-<table>
-    <tr class="admin-action">
-        <td>Add new Role</td>
-        <td>Add new thingy</td>
-    </tr>
-</table>
+<div class="container">
+    <div class="row" style="margin-top: 1%;">
+        <div class="col-sm-3">
+            <button onclick="showManageDevices()" class="admin-tab">Manage Devices</button>
+        </div>
+        <div class="col-sm-3">
+            <button onclick="showManageTheatres()" class="admin-tab">Manage Theatres</button>
+        </div>
+        <div class="col-sm-3">
+            <button onclick="showManageGroups()" class="admin-tab">Manage Groups</button>
+        </div>
+        <div class="col-sm-3">
+            <button onclick="showManageUsers()" class="admin-tab">Manage Users</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <ul id="list"></ul>
+        </div>
+        <div class="col-sm-4">
+            <!-- Device -->
+            <div id="add-device" class="manage-forms">
+                <form action="/api/device/add" method="post" class="management-forms">
+                    <div class="form-group">
+                        <label for="addDeviceId">Device ID</label>
+                        <input type="number" class="form-control" id="addDeviceId" name="id"
+                               placeholder="-" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceManufacturer">Device Manufacturer</label>
+                        <select class="form-control" id="addDeviceManufacturer"
+                                name="manufacturer" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceModel">Device Model</label>
+                        <select class="form-control" id="addDeviceModel" name="model" disabled
+                                required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceType">Device Type</label>
+                        <select class="form-control" id="addDeviceType" name="type"
+                                required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceName">Device Name</label>
+                        <input type="text" class="form-control" id="addDeviceName" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceIpAddress">Device IpAddress</label>
+                        <input type="text" class="form-control" id="addDeviceIpAddress"
+                               name="ipAddress" placeholder="123.12.3.123" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDevicePort">Device Port</label>
+                        <input type="number" class="form-control" id="addDevicePort" name="port"
+                               placeholder="Device Port" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDevicexPos">Device xPos</label>
+                        <input type="number" class="form-control" id="addDevicexPos" name="xPos"
+                               aria-describedby="addDeviceXPosHelp"
+                               placeholder="Device xPos">
+                        <small id="addDeviceXPosHelp" class="form-text">(Optional)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceyPos">Device yPos</label>
+                        <input type="number" class="form-control" id="addDeviceyPos" name="yPos"
+                               aria-describedby="addDeviceYPosHelp"
+                               placeholder="Device yPos">
+                        <small id="addDeviceYPosHelp" class="form-text">(Optional)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceRotation">Device Rotation</label>
+                        <input type="number" class="form-control" id="addDeviceRotation"
+                               name="rotation"
+                               aria-describedby="addDeviceRotationHelp"
+                               placeholder="Device Rotation">
+                        <small id="addDeviceRotationHelp" class="form-text">Values from 0 to 360
+                            degrees (Optional)
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="manage-devices" class="manage-forms">
+                <form action="/api/device/update" method="put" class="management-forms">
+                    <div class="form-group">
+                        <label for="deviceId">Device ID</label>
+                        <input type="number" class="form-control" id="deviceId" name="id"
+                               placeholder="Device ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceManufacturer">Device Manufacturer</label>
+                        <select class="form-control" id="deviceManufacturer" required
+                                name="manufacturer"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceModel">Device Model</label>
+                        <select class="form-control" id="deviceModel" name="model" required disabled
+                        ></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceType">Device Type</label>
+                        <select class="form-control" id="deviceType" name="type" required
+                        ></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceName">Device Name</label>
+                        <input type="text" class="form-control" id="deviceName" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceIpAddress">Device IpAddress</label>
+                        <input type="text" class="form-control" id="deviceIpAddress" required
+                               name="ipAddress" placeholder="123.12.3.123">
+                    </div>
+                    <div class="form-group">
+                        <label for="devicePort">Device Port</label>
+                        <input type="number" class="form-control" id="devicePort" name="port"
+                               required
+                               placeholder="Device Port">
+                    </div>
+                    <div class="form-group">
+                        <label for="devicexPos">Device xPos</label>
+                        <input type="number" class="form-control" id="devicexPos" name="xPos"
+                               aria-describedby="deviceXPosHelp"
+                               placeholder="Device xPos">
+                        <small id="deviceXPosHelp" class="form-text">(Optional)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceyPos">Device yPos</label>
+                        <input type="number" class="form-control" id="deviceyPos" name="yPos"
+                               aria-describedby="deviceYPosHelp"
+                               placeholder="Device yPos">
+                        <small id="deviceYPosHelp" class="form-text">(Optional)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceRotation">Device Rotation</label>
+                        <input type="number" class="form-control" id="deviceRotation"
+                               name="rotation"
+                               aria-describedby="deviceRotationHelp" placeholder="Device Rotation">
+                        <small id="deviceRotationHelp" class="form-text">Values from 0 to 360
+                            degrees (Optional)
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteDevice()"
+                            onsubmit="">Delete
+                    </button>
+                </form>
+            </div>
+            <!-- Theatre -->
+            <div id="add-theatre" class="manage-forms">
+                <form action="/api/theatre/add" method="post" class="management-forms">
+                    <div class="form-group">
+                        <label for="addTheatreId">Device ID</label>
+                        <input type="number" class="form-control" id="addTheatreId" name="id"
+                               placeholder="Theatre ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="theatreName">Theatre Name</label>
+                        <input type="text" class="form-control" id="addTheatreName"
+                               name="name" placeholder="Theatre Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-devices-in-theatre">Devices</label>
+                        <div id="add-devices-in-theatre" class="device-select-list"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="manage-theatre" class="manage-forms">
+                <form action="/api/theatre/update" method="put" class="management-forms">
+                    <div class="form-group">
+                        <label for="theatreId">Theatre ID</label>
+                        <input type="number" class="form-control" id="theatreId" name="id"
+                               placeholder="Theatre ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="theatreName">Theatre Name</label>
+                        <input type="text" class="form-control" id="theatreName"
+                               name="name" placeholder="Theatre Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="devices-in-theatre">Devices</label>
+                        <div id="devices-in-theatre" class="device-select-list"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteTheatre()"
+                            onsubmit="">Delete
+                    </button>
+                </form>
+            </div>
+            <!-- Devicegroup -->
+            <div id="add-devicegroup" class="manage-forms">
+                <form action="/api/devicegroup/add" method="post" class="management-forms">
+                    <div class="form-group">
+                        <label for="addDeviceGroupId">Group ID</label>
+                        <input type="number" class="form-control" id="addDeviceGroupId" name="id"
+                               placeholder="Group ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDeviceGroupName">Device Group Name</label>
+                        <input type="text" class="form-control" id="addDeviceGroupName"
+                               name="groupName" placeholder="Group Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addTheatre">Theatre</label>
+                        <select class="form-control" id="addTheatre" name="theatreName"
+                        ></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-device-group-devices">Devices</label>
+                        <div id="add-device-group-devices" class="device-select-list"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="manage-devicegroup" class="manage-forms">
+                <form action="/api/devicegroup/update" method="PUT" class="management-forms">
+                    <div class="form-group">
+                        <label for="deviceId">Group ID</label>
+                        <input type="number" class="form-control" id="deviceGroupId" name="id"
+                               placeholder="Group ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceGroupName">Device Group Name</label>
+                        <input type="text" class="form-control" id="deviceGroupName"
+                               name="groupName" placeholder="Group Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="theatre-device-group">Theatre</label>
+                        <select class="form-control" id="theatre-device-group"
+                        <label for="addUserId">User ID</label>
+                        <input type="number" class="form-control" id="addUserId" name="id"
+                               placeholder="User ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="addUsername">Username</label>
+                        <input type="text" class="form-control" id="addUsername"
+                               name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addPassword">Password</label>
+                        <input type="password" class="form-control" id="addPassword"
+                               name="password" placeholder="Enter Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addRepeatPassword">Repeat Password</label>
+                        <input type="password" class="form-control" id="addRepeatPassword"
+                               oninput="addCheck(this)" placeholder="Repeat Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addEmail">E-Mail</label>
+                        <input type="email" class="form-control" id="addEmail"
+                               name="email" placeholder="name@example.org" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addRole">Role</label>
+                        <select class="form-control" id="addRole" name="role"
+                                required>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="manage-user" class="manage-forms">
+                <form action="/api/user/update" method="put" class="management-forms">
+                    <div class="form-group">
+                        <label for="userId">User ID</label>
+                        <input type="number" class="form-control" id="userId" name="id"
+                               placeholder="User ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username"
+                               name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input type="password" class="form-control" id="password"
+                               name="password" placeholder="New Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="repeatPassword">Repeat Password</label>
+                        <input type="password" class="form-control" id="repeatPassword"
+                               oninput="check(this)" placeholder="Repeat Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-Mail</label>
+                        <input type="email" class="form-control" id="email"
+                               name="email" placeholder="name@example.org" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select class="form-control" id="role" name="role"
+                                required>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteUser()"
+                            onsubmit="">Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     includeHTML();
 </script>
+<script src="Admin/admin.js"></script>
+<script src="Admin/device.js"></script>
+<script src="Admin/group.js"></script>
+<script src="Admin/user.js"></script>
+<script src="Admin/theatre.js"></script>
 </body>
 </html>

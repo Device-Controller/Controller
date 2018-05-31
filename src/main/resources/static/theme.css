@@ -15,9 +15,10 @@ html {
 body {
     font-family: 'Open Sans', 'Arial', sans-serif;
     font-size: 14px;
-    background-color: #737373;
+    background-color: #737373 !important;
     height: 100%;
     margin: 0;
+    color: white !important;
 }
 
 * {
@@ -45,6 +46,10 @@ button:hover {
 
 ul {
     list-style: none;
+}
+
+.user-links {
+    float: right;
 }
 
 .tooltiptext {
@@ -84,7 +89,7 @@ nav {
 }
 
 .active {
-    background-color: #ff1801;
+    background-color: #000033;
     color: white;
 }
 
@@ -92,7 +97,7 @@ nav {
     display: none;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 821px) {
     .nav-mob a:not(:first-child) {
         display: none;
     }
@@ -103,7 +108,7 @@ nav {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 821px) {
     .nav-mob.responsive {
         position: relative;
     }
@@ -119,7 +124,9 @@ nav {
         display: block;
         text-align: left;
     }
+
 }
+
 
 @media only screen and (min-width: 768px) {
     .tooltip {

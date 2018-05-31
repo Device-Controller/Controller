@@ -6,7 +6,7 @@
 
     <groupId>org.springframework</groupId>
     <artifactId>VislabController</artifactId>
-    <version>0.2.0</version>
+    <version>1.0.0</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -39,6 +39,15 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>vislab.no.ntnu</groupId>
+            <artifactId>Vislab-Devices</artifactId>
+            <version>0.9.0</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -48,43 +57,90 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.5.1</version>
                 <configuration>
+                    <compilerArgument>
+                        -proc:none
+                    </compilerArgument>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
                 <executions>
                     <execution>
-                        <id>default-compile</id>
-                        <phase>compile</phase>
+                        <id>copy-resource-one</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+
                         <configuration>
-                            <compilerArgument>-proc:none</compilerArgument>
-                            <includes>
-                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
-                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
-                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.AnnotationProccesor</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default-test-compile</id>
-                        <phase>test-compile</phase>
-                        <configuration>
-                            <compilerArgument>-proc:none</compilerArgument>
-                            <includes>
-                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.AnnotationProccesor</include>
-                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.ProjectorAnnotationProcessor.java</include>
-                                <include>no.ntnu.vislab.vislabcontroller.annotations.processors.DeviceAnnotationProcessor.java</include>
-                            </includes>
+                            <outputDirectory>${basedir}/Vislab</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}</directory>
+                                    <includes>
+                                        <include>Dockerfile</include>
+                                        <include>docker-compose.yml</include>
+                                        <include>application.properties</include>
+                                        <include>ssl-server.jks</include>
+                                        <include>README.txt</include>
+                                        <include>data/</include>
+                                    </includes>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin><plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.7</version>
+            <executions>
+                <execution>
+                    <phase>install</phase>
+
+                    <configuration>
+                        <target>
+                            <copy file="${project.build.directory}/${project.artifactId}-${project.version}.jar" tofile="${basedir}/Vislab/${project.artifactId}.jar" />
+                        </target>
+                    </configuration>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.0.1.RELEASE</version>
+                <configuration>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Loader-Path>plugins</Loader-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

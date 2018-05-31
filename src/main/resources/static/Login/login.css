@@ -1,0 +1,31 @@
+
+
+.login {
+    height: 20%;
+    color: white;
+    margin-top: -9.5%;
+}
+
+.image-container {
+    margin-top: 7%;
+}
+
+form {
+    width: 15%;
+    margin-left: 45%;
+}
+
+.row {
+    margin-top: 10%;
+}
+.form-element {
+    border-radius: 5px;
+
+}
+
+.form-button {
+    border-radius: 10px;
+}
+
+.form-actions {
+}
