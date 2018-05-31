@@ -248,7 +248,23 @@
                     </div>
                     <div class="form-group">
                         <label for="theatre-device-group">Theatre</label>
-                        <select class="form-control" id="theatre-device-group"
+                        <select class="form-control" id="theatre-device-group" name="theatreName"
+                        ></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="device-group-devices">Devices</label>
+                        <div id="device-group-devices" class="device-select-list"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteGroup()"
+                            onsubmit="">Delete
+                    </button>
+                </form>
+            </div>
+            <!-- User -->
+            <div id="add-user" class="manage-forms">
+                <form action="/api/user/add" method="post" class="management-forms">
+                    <div class="form-group">
                         <label for="addUserId">User ID</label>
                         <input type="number" class="form-control" id="addUserId" name="id"
                                placeholder="User ID" readonly>
