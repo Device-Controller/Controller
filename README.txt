@@ -1,5 +1,7 @@
+Ready to deploy structure can be found in the "Vislab" sub-directory
+
 Launching the Vislab java program:
-                                                                                                                                    All commands assume that your location is the folder where VislabController and this readme are.
+                                                                                                                                    All commands assume that your location is the folder where VislabController.jar is.
 
 
 
