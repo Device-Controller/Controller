@@ -25,8 +25,13 @@ Launching the Vislab java program:
 
                                                                                                                                     STARTING
                                                                                                                                     Docker compose is configured  to work out-of-the-box, but changes are HIGHLY recommended, as username, passwords and databasename are weak and non descriptive.
-                                                                                                                                    The first startup will use the config file to define what should be used later on.
-                                                                                                                                    The MySql database conatiner and the java program is on a private network that can only be accessed through the open ports the docker-compose.yml,
+                                                                                                                                    The first startup will use the config file to define what should be used later on. 
+                                                                                                                                    The defualt start user for the website is: 
+                                                                                                                                    Username: admin
+                                                                                                                                    password: admin 
+        
+        
+The MySql database conatiner and the java program is on a private network that can only be accessed through the open ports the docker-compose.yml,
                                                                                                                                     the containers can use this network to communicate and thus dont need to open the database to external access.
 
 
